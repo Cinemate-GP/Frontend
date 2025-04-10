@@ -5,8 +5,8 @@ import Image from "next/image";
 import NotificationDropdown from "./Dropdown";
 const Navbar = () => {
   return (
-      <div className="absolute z-30 w-full pr-2">
-        <div className="ml-[10px] md:ml-48 flex items-center py-2 md:p-4">
+      <div className="absolute z-30 w-full pr-2 top-0">
+        <div className="flex items-center py-2 md:p-4">
           <div className="block md:hidden w-[60px] h-[60px] sm:w-[100px] sm:h-[100px]">
             <Image
                 src="/logo.png"

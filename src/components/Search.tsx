@@ -4,7 +4,7 @@ import { CiSearch } from "react-icons/ci";
 
 const NavbarSearch = () => {
   return (
-    <div className="bg-[#1e2526] rounded-3xl flex items-center ml-0 lg:ml-[2rem] p-3 bg-opacity-80">
+    <div className="bg-[#1e2526] rounded-3xl flex items-center ml-[2rem] p-3 bg-opacity-80">
       <CiSearch />
       <input
         type="text"

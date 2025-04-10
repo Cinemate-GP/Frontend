@@ -8,7 +8,6 @@ const ActorImage = ({
   profilePath: string;
   name: string;
 }) => {
-console.log(profilePath ? profilePath : '/user-placeholder.jpg')
   return (
     <div className="relative w-14 h-16 rounded-lg overflow-hidden">
       <img
