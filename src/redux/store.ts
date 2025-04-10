@@ -5,6 +5,7 @@ import likedReducer from "./slices/liked";
 import reviewsReducer from "./slices/reviews";
 import recommendedReducer from "./slices/recommended";
 import ActivityReducer from "./slices/recentActivity";
+import SideNaveReducer from "./slices/sidebarSlice";
 
 export const store = configureStore({
   reducer: {
@@ -13,7 +14,9 @@ export const store = configureStore({
     liked:likedReducer,
     reviews:reviewsReducer,
     recommended:recommendedReducer,
-    recentActivities:ActivityReducer
+    recentActivities:ActivityReducer,
+    sideNave:SideNaveReducer
+
   },
 });
 export type RootState = ReturnType<typeof store.getState>;
