@@ -20,7 +20,7 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
         <div className="w-full">
           <Link href={"/"}>
             <Image
-              src="/logo.svg"
+              src="/logo.png"
               width={100}
               height={100}
               priority
