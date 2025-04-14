@@ -19,14 +19,18 @@ interface MovieInfoProps {
 
 
 const MovieInfo: React.FC<MovieInfoProps> = ({ info, loading }) => {
+  // Rated movie modal state
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [rated, setRated] = useState(false);
+
+  // Movie actions
   const { liked,watched,onWatched,backdropImage, toggleLike, addToWatchlist } = useMovieInfo(info);
   const setIsRated = useCallback((rated: boolean) => setRated(rated), []);
   
-
+  // render selecton during waiting for data comming form backend
   if (loading) return <SkeletonMovieInfo />;
 
+  // condition for background image
   const backgroundImage = backdropImage || (info.poster_path ? `${IMAGEPOSTER}${info.poster_path}` : "");
 
   return (
@@ -37,15 +41,20 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ info, loading }) => {
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/80 via-10% to-black/40">
         <div className="absolute w-full flex flex-col lg:flex-row justify-around items-center top-[50%] -translate-y-1/2 px-5 xl:px-16">
           <MoviePoster poster_path={info.poster_path!} title={info.title} />
+
+          {/* movie details */}
           <div className="flex flex-col items-center text-center gap-6 max-w-3xl">
+            {/* title */}
             <h2 className="tracking-widest text-4xl xl:text-5xl font-bold">
               {info.title || "Untitled"}
             </h2>
+            {/* meta info */}
             <div className="flex flex-wrap justify-center gap-4 text-lg">
               {info.release_date && <span className="flex items-center gap-1"><LuCalendarClock />{info.release_date}</span>}
               <span className="flex items-center gap-1"><GoStarFill color="gold" />3.5</span>
               {info.runtime && <span>{formatDuration(info.runtime)}</span>}
             </div>
+
             <MovieGenres genres={info.genresDetails || []} />
             {info.overview && <p className="w-full md:max-w-[60%]">{info.overview}</p>}
             <MovieActions
@@ -60,6 +69,8 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ info, loading }) => {
           </div>
         </div>
       </div>
+
+      {/* Rated movie modal */}
       {isModalOpen && (
         <RatingModal
           tmdbId={info.tmdbId!}
