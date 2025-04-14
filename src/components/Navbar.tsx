@@ -16,7 +16,7 @@ const Navbar = () => {
                 className="object-contain w-full h-full"
             />
           </div>
-          <div className="hidden md:block w-[62%] sm:w-1/2">
+          <div className="hidden md:block md:ml-10 w-[62%] sm:w-1/2">
             <NavbarSearch />
           </div>
           <div className="ml-auto flex items-center gap-3 relative">

@@ -6,9 +6,10 @@ interface ModalProps {
   title: string;
   poster_path: string;
   onclose: () => void;
+  onRate: (rated: boolean) => void;
 }
 
-const RatingModal = ({ tmdbId, title, poster_path, onclose }: ModalProps) => {
+const RatingModal = ({ tmdbId, title, poster_path, onRate,onclose }: ModalProps) => {
   return (
     // Modal background
     <div
@@ -30,6 +31,7 @@ const RatingModal = ({ tmdbId, title, poster_path, onclose }: ModalProps) => {
             title={title!}
             poster_path={poster_path!}
             onclose={onclose}
+            setRated={onRate}
           />
         </div>
       </div>

@@ -11,9 +11,10 @@ interface Props {
     title: string;
     poster_path: string;
     onclose: () => void
+    setRated: (rated:boolean) => void
 }
 
-const MovieReviewForm = ({tmdbId, title, poster_path,onclose}: Props) => {
+const MovieReviewForm = ({tmdbId, title, poster_path,onclose,setRated}: Props) => {
     const [rating, setRating] = useState(0);
     const [message, setMessage] = useState("");
     
@@ -60,6 +61,7 @@ const MovieReviewForm = ({tmdbId, title, poster_path,onclose}: Props) => {
       });
       setRating(0);
       setMessage("");
+      setRated(true)
       onclose();
     }
   };
