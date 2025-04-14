@@ -37,7 +37,7 @@ const MovieDetails = () => {
       {/*Actors*/}
       <Actors actors={data?.actors} loading={loading}/>
       {/*Reviews*/}
-      <Reviews tmdbId={data?.tmdbId} title={data?.title} poster_path={data?.poster_path}/>
+      <Reviews />
       {/*Similar Movies*/}
       <SimilarMovies />
       <ToastContainer />
