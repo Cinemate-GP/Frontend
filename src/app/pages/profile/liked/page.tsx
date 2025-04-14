@@ -4,13 +4,13 @@ import SectionTitle from "@/components/SectionTitle";
 import { RootState } from "@/redux/store";
 import { useSelector } from "react-redux";
 const Likes = () => {
-  const { liked:likedMovies } = useSelector((state: RootState) => state.liked);
+  const { liked: likedMovies } = useSelector((state: RootState) => state.liked);
 
   return (
     <div className="mt-5">
       <SectionTitle title="Liked Movies" />
+      {likedMovies?.length === 0 && <p>There is no Liked Movies yet</p>}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 p-6 rounded-lg">
-        {likedMovies?.length === 0 && <p>There is no Liked Movies yet</p>}
         {likedMovies?.map((movie) => (
           <MovieCard
             key={movie.tmdbId}

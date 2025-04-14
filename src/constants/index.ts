@@ -103,7 +103,7 @@ export const mainLinks: NavLink[] = [
   { name: "Home", href: "/pages", icon: "Home" },
   { name: "Movies", href: "/pages/movies", icon: "Movies" },
   { name: "Watchlist", href: "/pages/profile/watchlist", icon: "Watchlist" },
-  { name: "Likes", href: "/pages/profile/likes", icon: "Likes" },
+  { name: "Liked", href: "/pages/profile/liked", icon: "Likes" },
 ];
 
 export const userLinks: NavLink[] = [

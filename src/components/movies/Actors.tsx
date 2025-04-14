@@ -18,9 +18,9 @@ export default function Actors({
 }) {
   if (loading) return <SkeletonActors />;
   return (
-    <div className="bg-black mb-[4rem] mt-32 section max-h-[600px] overflow-auto custom-scrollbar">
+    <div className="bg-black mb-[4rem] mt-32 section">
       <SectionTitle title="Actors" />
-      <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 bg-secondaryBg p-[1rem] rounded-xl">
+      <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 bg-secondaryBg p-[1rem] rounded-xl max-h-[600px] overflow-auto custom-scrollbar">
         {actors?.length === 0 && <p>No Actors Found</p>}
         {actors?.map((actor) => (
           <Link

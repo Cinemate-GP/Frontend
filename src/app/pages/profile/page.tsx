@@ -38,10 +38,8 @@ export default function RecentActivitySection() {
   return (
     <div className="mt-5">
       <SectionTitle title="Recent Activity" />
-
+      {recentActivities?.length === 0 && <p>No activities yet</p>}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 p-0 sm:p-6 rounded-lg">
-        {recentActivities?.length === 0 && <p>No activities yet</p>}
-
         {recentActivities?.map((activity) => (
           <div
             key={activity.tmdbId}

@@ -135,8 +135,10 @@ export const SkeletonMovieInfo = () => {
 
         {/* Buttons */}
         <div className="flex gap-4">
-          <div className="h-10 w-12 md:w-24 bg-gray-700 rounded-xl animate-pulse"></div>
-          <div className="h-10 w-32 md:w-40 bg-gray-700 rounded-xl animate-pulse"></div>
+          <div className="h-10 w-16 bg-gray-700 rounded-xl animate-pulse"></div>
+          <div className="h-10 w-16 bg-gray-700 rounded-xl animate-pulse"></div>
+          <div className="h-10 w-16 bg-gray-700 rounded-xl animate-pulse"></div>
+          <div className="h-10 w-16 bg-gray-700 rounded-xl animate-pulse"></div>
         </div>
       </div>
     </div>

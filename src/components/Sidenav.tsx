@@ -9,6 +9,8 @@ import HorizontalNav from "./HorizontalNav";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
 import { toggleSidenave } from "@/redux/slices/sidebarSlice";
+import { RiMenuUnfold2Line, RiMenuFold2Line } from "react-icons/ri";
+
 export default function Sidenav() {
   const pathname = usePathname();
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -66,10 +68,11 @@ export default function Sidenav() {
     <>
       <div
         className={`h-screen text-gray-300 bg-black border-r fixed z-50 border-gray-600 flex flex-col ${
-          isCollapsed ? "w-[4rem]" : "w-[13rem]"
+          isCollapsed ? "w-[4rem] transition-all duration-200" : "w-[13rem]"
         } hidden md:flex`}
       >
-        <div className="flex items-center justify-between px-4 py-5 border-b border-gray-600">
+        {/* logo */}
+        <div className="relative flex items-center justify-between px-4 py-5 border-b border-gray-600">
           <Link
             href={"/pages"}
             className={`flex items-center ${
@@ -78,11 +81,11 @@ export default function Sidenav() {
           >
             <Image
               src="/logo.png"
-              width={isCollapsed ? 40 : 50}
-              height={isCollapsed ? 40 : 50}
+              width={50}
+              height={50}
               priority
               alt="logo"
-              className="object-contain"
+              className="object-contain max-w-16"
             />
             {!isCollapsed && (
               <span className="ml-2 font-bold text-lg">
@@ -91,23 +94,13 @@ export default function Sidenav() {
             )}
           </Link>
 
+          {/* toggle sidenave  */}
           <button
+            className="absolute -right-6 top-6  bg-gray-700 p-1 rounded"
             onClick={toggleSidebar}
-            className={`text-gray-500 hover:text-gray-300 focus:outline-none transition-all duration-200 ${
-              isCollapsed ? "hidden" : "block"
-            }`}
           >
-            {<span>←</span>}
+            {isCollapsed ? <RiMenuFold2Line/> : <RiMenuUnfold2Line/>}
           </button>
-
-          {isCollapsed && (
-            <button
-              onClick={toggleSidebar}
-              className="absolute -right-3 top-10 bg-black border border-gray-600 rounded-full p-1 text-gray-500 hover:text-gray-300 focus:outline-none"
-            >
-              {<span>→</span>}
-            </button>
-          )}
         </div>
 
         <div className="flex-1 py-4 px-3 w-full">
@@ -153,7 +146,7 @@ export default function Sidenav() {
 
             <Link
               href="/pages/settings"
-              className="flex items-center justify-center p-2 rounded-lg hover:bg-gray-700 transition-all duration-200 group"
+              className={`flex items-center justify-center p-2 rounded-lg hover:bg-gray-700 transition-all duration-200 group`}
             >
               {icons["Settings"] ? (
                 React.createElement(icons["Settings"], {

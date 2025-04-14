@@ -10,9 +10,10 @@ interface Props {
     tmdbId: number;
     title: string;
     poster_path: string;
+    onclose: () => void
 }
 
-const MovieReviewForm = ({tmdbId, title, poster_path}: Props) => {
+const MovieReviewForm = ({tmdbId, title, poster_path,onclose}: Props) => {
     const [rating, setRating] = useState(0);
     const [message, setMessage] = useState("");
     
@@ -59,13 +60,14 @@ const MovieReviewForm = ({tmdbId, title, poster_path}: Props) => {
       });
       setRating(0);
       setMessage("");
+      onclose();
     }
   };
   
   return (
     <div className="flex-1 bg-secondaryBg p-6 rounded-lg">
       <h3 className="text-white text-lg font-bold">
-        Review &quot;{title || "Unknown Title"}&quot;
+        Rate &quot;{title}&quot;
       </h3>
       <p className="text-gray-400 text-sm mt-3">
         Write a review for this movie. It will be posted on this page.
