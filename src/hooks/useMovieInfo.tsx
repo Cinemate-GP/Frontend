@@ -16,12 +16,16 @@ interface MovieInfoProps {
 }
 
 export const useMovieInfo = (info: MovieInfoProps["info"]) => {
+  // states
   const [liked, setLiked] = useState(false);
   const [watched, setWatched] = useState(false);
   const [backdropImage, setBackdropImage] = useState<string | null>(null);
+
+  // redux
   const dispatch = useDispatch();
   const { watchlist } = useSelector((state: RootState) => state.watchlist);
 
+  // actions function
   const toggleLike = () => setLiked((prev) => !prev);
   const toggleWatched = () => setWatched((prev) => !prev);
 
@@ -65,6 +69,7 @@ export const useMovieInfo = (info: MovieInfoProps["info"]) => {
       : null;
   }, []);
 
+  // backdrop image
   useEffect(() => {
     if (info.tmdbId && !backdropImage) {
       fetchBackdropImage(info.tmdbId).then(setBackdropImage);
