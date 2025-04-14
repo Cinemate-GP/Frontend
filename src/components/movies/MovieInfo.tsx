@@ -9,11 +9,19 @@ import { GoStarFill } from "react-icons/go";
 import { LuCalendarClock } from "react-icons/lu";
 import { IMAGEPOSTER } from "@/constants";
 import { SkeletonMovieInfo } from "../skeletons";
-import { Movie } from "@/lib/types";
 import { useCallback, useState } from "react";
 
 interface MovieInfoProps {
-  info: Movie;
+  info: {
+    movieId?: number  | undefined,
+    tmdbId: number | undefined,
+    title: string  | undefined,
+    poster_path: string  | undefined,
+    date?: string | undefined,
+    time?: number | undefined,
+    overview?: string | undefined,
+    geners?: {name: string,id:number}[] | undefined,
+  };
   loading: boolean;
 }
 
@@ -50,12 +58,12 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ info, loading }) => {
             </h2>
             {/* meta info */}
             <div className="flex flex-wrap justify-center gap-4 text-lg">
-              {info.release_date && <span className="flex items-center gap-1"><LuCalendarClock />{info.release_date}</span>}
+              {info.date && <span className="flex items-center gap-1"><LuCalendarClock />{info.date}</span>}
               <span className="flex items-center gap-1"><GoStarFill color="gold" />3.5</span>
-              {info.runtime && <span>{formatDuration(info.runtime)}</span>}
+              {info.time && <span>{formatDuration(info.time)}</span>}
             </div>
 
-            <MovieGenres genres={info.genresDetails || []} />
+            <MovieGenres genres={info.geners || []} />
             {info.overview && <p className="w-full md:max-w-[60%]">{info.overview}</p>}
             <MovieActions
               liked={liked}

@@ -9,9 +9,9 @@ import { toast } from "react-toastify";
 
 interface MovieInfoProps {
   info: {
-    tmdbId: number;
-    title: string;
-    poster_path: string;
+    tmdbId: number | undefined;
+    title: string | undefined;
+    poster_path: string | undefined;
   };
 }
 
