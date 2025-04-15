@@ -25,7 +25,7 @@ const MovieReviewForm = ({
   const [rating, setRating] = useState(0);
   const [message, setMessage] = useState("");
 
-  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  const {user} = JSON.parse(localStorage.getItem("user") || "{}");
   const token = document.cookie.split("=")[1];
 
   // handle rating
@@ -52,7 +52,7 @@ const MovieReviewForm = ({
           },
           body: JSON.stringify({
             movieId,
-            userId: user.userId,
+            userId: user.id,
             reviewBody: message,
           }),
         });
