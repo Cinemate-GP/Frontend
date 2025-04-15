@@ -96,7 +96,7 @@ export default function Sidenav() {
 
           {/* toggle sidenave  */}
           <button
-            className="absolute -right-10 top-7  bg-gray-700 p-1 rounded"
+            className="absolute -right-10 top-7s  bg-gray-700 p-1 rounded"
             onClick={toggleSidebar}
           >
             {isCollapsed ? <RiMenuFold2Line/> : <RiMenuUnfold2Line/>}

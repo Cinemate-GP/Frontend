@@ -1,15 +1,15 @@
 /* eslint-disable @next/next/no-img-element */
 import SectionTitle from "../SectionTitle";
 import { IMAGEPOSTER } from "@/constants";
+import { FormateDate } from "@/lib/utils";
 import { FaStar } from "react-icons/fa6";
 
 interface cardProps {
   tmdbId: number;
   title: string;
   poster_path: string;
-  message: string;
-  rating?: number;
-  createdAt: string;
+  reviewBody: string;
+  createdAt: Date;
 }
 
 const ReviewCard = (item: cardProps) => {
@@ -42,15 +42,15 @@ const ReviewCard = (item: cardProps) => {
                   key={i}
                   size={14}
                   className={
-                    i < item.rating! ? "text-red-500" : "text-zinc-600"
+                    i < 3 ? "text-red-500" : "text-zinc-600"
                   }
                 />
               ))}
             </div>
-            <p className="text-white mt-2 text-sm sm:text-lg">{item.message}</p>
+            <p className="text-white mt-2 text-sm sm:text-lg">{item.reviewBody}</p>
             <span className="text-white text-sm mt-3 flex items-center gap-1">
               <span className="w-1 h-4 rounded-xl bg-primary block"></span>
-              <span>{item.createdAt}</span>
+              <span>{FormateDate(item.createdAt)}</span>
             </span>
           </div>
         </div>

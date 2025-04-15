@@ -9,7 +9,7 @@ import { RegisterSchema } from "@/lib/validation";
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { FormatDate } from "@/lib/utils";
+import {FormateBirthDate } from "@/lib/utils";
 interface SignupFormData {
   fullName: string;
   email: string;
@@ -40,8 +40,7 @@ const SignupForm = () => {
   } = methods;
   const onSubmit = async (data: SignupFormData) => {
     try {
-      const formattedData = { ...data, birthDay:FormatDate(data.birthDay) };
-      console.log(FormatDate(data.birthDay));
+      const formattedData = { ...data, birthDay:FormateBirthDate(data.birthDay) };
       const response = await fetch(`/api/Auth/register`, {
         method: "POST",
         headers: {

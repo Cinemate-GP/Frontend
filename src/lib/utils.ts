@@ -3,38 +3,54 @@ export const capitalizeString = (str: string) => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
 
-
 export const getProgress = (ratedCount: number, totalMovies: number) => {
   return (ratedCount / totalMovies) * 100;
 };
 
-export const isRatingComplete = (ratedMovies: {label: string,movieId:number}[], minRatings: number) => {
+export const isRatingComplete = (
+  ratedMovies: { label: string; movieId: number }[],
+  minRatings: number
+) => {
   return ratedMovies.length >= minRatings;
 };
 
-
-export const FormatDate = (date: Date) => {
+export const FormateBirthDate = (date: Date) => {
   return date.toISOString().split("T")[0];
 };
 
-export const truncateText = (str: string,isExpanded:boolean, maxLength:number) => {
+export const FormateDate = (date: Date) => {
+  const isoDate = new Date(date);
+  const formatted = isoDate
+    .toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    })
+  return formatted;
+};
+
+export const truncateText = (
+  str: string,
+  isExpanded: boolean,
+  maxLength: number
+) => {
   if (str.length > maxLength) {
     return isExpanded ? str : `${str.substring(0, maxLength)}...`;
   }
   return str;
-}
+};
 
-export function formatDuration(minutes:number | undefined) {
-  if(!minutes) return "";
+export function formatDuration(minutes: number | undefined) {
+  if (!minutes) return "";
   const hours = Math.floor(minutes / 60);
   const mins = minutes % 60;
   return `${hours}h ${mins}m`;
 }
 
 export const formatTimestamp = (timestamp: string) => {
-  const date = new Date(timestamp); 
+  const date = new Date(timestamp);
   if (isNaN(date.getTime())) {
-    return "Invalid date"; 
+    return "Invalid date";
   }
 
   const now = new Date();
@@ -42,8 +58,10 @@ export const formatTimestamp = (timestamp: string) => {
 
   if (diffInSeconds < 60) return "Just now";
   if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} min ago`;
-  if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)} hours ago`;
-  if (diffInSeconds < 7 * 86400) return `${Math.floor(diffInSeconds / 86400)} days ago`;
+  if (diffInSeconds < 86400)
+    return `${Math.floor(diffInSeconds / 3600)} hours ago`;
+  if (diffInSeconds < 7 * 86400)
+    return `${Math.floor(diffInSeconds / 86400)} days ago`;
 
   return date.toLocaleDateString("en-US", {
     month: "short",
@@ -54,5 +72,3 @@ export const formatTimestamp = (timestamp: string) => {
     hour12: true,
   });
 };
-
-

@@ -1,32 +1,60 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { FiUploadCloud } from "react-icons/fi";
 import { IoClose } from "react-icons/io5";
-import { useDispatch } from "react-redux";
-import { setUser } from "@/redux/slices/userSlice";
+
+interface User {
+  fullName: string;
+  email: string;
+  profileImage?: File | string; // file or URL
+}
 
 export default function EditProfileModal({ onClose }: { onClose: () => void }) {
-  const [name, setName] = useState(JSON.parse(localStorage.getItem("user") || "{}").name);
+  const [storedUser, setStoredUser] = useState<User>({
+    fullName: "",
+    email: "",
+    profileImage: "",
+  });
   const [file, setFile] = useState<File | null>(null);
-  const [newEmail, setNewEmail] = useState("");
-  const dispatch = useDispatch();
+
+  // Load user from localStorage on mount
+  useEffect(() => {
+    const localUser = localStorage.getItem("user");
+    if (localUser) {
+      const parsed = JSON.parse(localUser);
+      setStoredUser(parsed.user || {});
+    }
+  }, []);
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files.length > 0) {
-      setFile(event.target.files[0]);
+    const selectedFile = event.target.files?.[0];
+    if (selectedFile) {
+      setFile(selectedFile);
+      setStoredUser((prev) => ({
+        ...prev,
+        profileImage: selectedFile,
+      }));
     }
-  };    
+  };
 
-  const handleUpdate = () => {
-    if (!file) return; 
+  const handleChangeUser = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setStoredUser((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
 
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      dispatch(setUser({ name, profileImage: reader.result }));
+  const handleUpdate = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("fullName", storedUser.fullName);
+    formData.append("email", storedUser.email);
+    if (file) formData.append("profileImage", file);
+    console.log(storedUser);
       onClose();
-    };
-    reader.readAsDataURL(file);
+    
   };
 
   return (
@@ -43,7 +71,7 @@ export default function EditProfileModal({ onClose }: { onClose: () => void }) {
         </div>
 
         {/* Form */}
-        <div className="space-y-4">
+        <form className="space-y-4" onSubmit={handleUpdate}>
           <div>
             <label className="block text-gray-300 mb-2">Upload Image</label>
             <div className="flex gap-4 items-center">
@@ -66,44 +94,55 @@ export default function EditProfileModal({ onClose }: { onClose: () => void }) {
 
               <div className="flex items-center justify-center">
                 <Image
-                  src={file ? URL.createObjectURL(file) : "/image-placeholder.png"}
+                  src={
+                    file
+                      ? URL.createObjectURL(file)
+                      : typeof storedUser.profileImage === "string" &&
+                        storedUser.profileImage
+                      ? storedUser.profileImage
+                      : "/image-placeholder.png"
+                  }
                   alt="Preview"
                   width={100}
                   height={100}
+                  priority
                   className="w-32 h-32 rounded-lg object-cover"
                 />
               </div>
             </div>
+
             <div className="flex flex-col gap-1 mt-5">
               <label className="block text-gray-300">Full Name</label>
               <input
+                name="fullName"
                 type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value={storedUser.fullName}
+                onChange={handleChangeUser}
                 className="w-full p-4 rounded bg-background text-white outline-none focus:ring-2 focus:ring-red-600"
-                placeholder="Enter cast name"
+                placeholder="Enter full name"
               />
             </div>
+
             <div className="flex flex-col gap-1 mt-5">
               <label className="block text-gray-300">Email</label>
               <input
-                type="text"
-                value={newEmail}// التأكد من اختيار ملف قبل الرفع
-                onChange={(e) => setNewEmail(e.target.value)}
+                name="email"
+                type="email"
+                value={storedUser.email}
+                onChange={handleChangeUser}
                 className="w-full p-4 rounded bg-background text-white outline-none focus:ring-2 focus:ring-red-600"
-                placeholder="johndoe@example"
+                placeholder="johndoe@example.com"
               />
             </div>
           </div>
-        </div>
 
-        {/* Button */}
-        <button
-          onClick={handleUpdate}
-          className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-4 px-4 rounded mt-6"
-        >
-          Update
-        </button>
+          <button
+            type="submit"
+            className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-4 px-4 rounded mt-6"
+          >
+            Update
+          </button>
+        </form>
       </div>
     </div>
   );

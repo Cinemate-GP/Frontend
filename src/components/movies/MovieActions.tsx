@@ -10,6 +10,7 @@ interface MovieActionsProps {
   onWatchlist: () => void;
   onRate: () => void;
 }
+
 export const MovieActions = ({
   liked,
   watched,
@@ -27,32 +28,58 @@ export const MovieActions = ({
         <FiHeart className="group-hover:text-red-500 transition-all duration-200" />
       ),
       onClick: onLikeToggle,
+      label: "Like",
     },
     {
-      icon: <FaRegEye color={watched ? "red" : "white"} className={`group-hover:text-red-500 transition-all duration-200 animate-heart`} />,
-
+      icon: (
+        <FaRegEye
+          color={watched ? "red" : "white"}
+          className="group-hover:!text-red-500 transition-all duration-200 animate-heart"
+        />
+      ),
       onClick: onWatched,
+      label: "Watched",
     },
     {
-      icon: <FiPlus />,
+      icon: (
+        <FiPlus className="group-hover:text-red-500 transition-all duration-200" />
+      ),
       onClick: onWatchlist,
+      label: "Watchlist",
     },
     {
-      icon: <FaRegStar color={rated ? "red": "white"} className={`group-hover:text-red-500 transition-all duration-200 animate-heart`} />,
+      icon: (
+        <FaRegStar
+          color={rated ? "red" : "white"}
+          className="group-hover:!text-red-500 transition-all duration-200 animate-heart"
+        />
+      ),
       onClick: onRate,
+      label: "Rate",
     },
   ];
 
   return (
-    <div className="flex items-center gap-6">
+    <div className="flex items-center gap-6 mt-4">
       {buttons.map((btn, index) => (
-        <button
-          key={index}
-          className="text-xl group transition-all duration-200 border border-gray-600 rounded p-2 px-3"
-          onClick={btn.onClick}
-        >
-          {btn.icon}
-        </button>
+        <div key={index} className="relative group flex flex-col items-center">
+          {/* Tooltip */}
+          <div className="absolute -top-8 mb-3 opacity-0 group-hover:opacity-100 transition-all duration-200 z-10 flex flex-col items-center">
+            <div className="text-xs border text-white px-2 py-1 rounded bg-black">
+              {btn.label}
+            </div>
+            {/* Downward arrow */}
+            <div className="w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent border-t-white-500"></div>
+          </div>
+
+          {/* Button */}
+          <button
+            className="text-xl transition-all duration-200 border border-gray-600 rounded p-2 px-3"
+            onClick={btn.onClick}
+          >
+            {btn.icon}
+          </button>
+        </div>
       ))}
     </div>
   );

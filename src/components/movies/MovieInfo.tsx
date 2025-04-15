@@ -2,7 +2,7 @@
 import {MoviePoster} from "./MoviePoster";
 import {MovieGenres} from "./MovieGeners";
 import {MovieActions} from "./MovieActions";
-import { useMovieInfo } from "@/hooks/useMovieInfo";
+import { useMovieInfo } from "@/hooks/useMovieActions";
 import RatingModal from "../modals/RatingModal";
 import { formatDuration } from "@/lib/utils";
 import { GoStarFill } from "react-icons/go";
@@ -13,7 +13,7 @@ import { useCallback, useState } from "react";
 
 interface MovieInfoProps {
   info: {
-    movieId?: number  | undefined,
+    movieId: number  | undefined,
     tmdbId: number | undefined,
     title: string  | undefined,
     poster_path: string  | undefined,
@@ -66,8 +66,8 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ info, loading }) => {
             <MovieGenres genres={info.geners || []} />
             {info.overview && <p className="w-full md:max-w-[60%]">{info.overview}</p>}
             <MovieActions
-              liked={liked}
-              watched={watched}
+              liked={liked!}
+              watched={watched!}
               rated={rated}
               onWatched={onWatched}
               onLikeToggle={toggleLike}
@@ -81,6 +81,7 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ info, loading }) => {
       {/* Rated movie modal */}
       {isModalOpen && (
         <RatingModal
+          movieId={info.movieId!}
           tmdbId={info.tmdbId!}
           title={info.title!}
           poster_path={info.poster_path!}
