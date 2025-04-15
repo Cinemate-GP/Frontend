@@ -94,7 +94,7 @@ const MovieReviewForm = ({
           },
           body: JSON.stringify({
             movieId,
-            userId: user.userId,
+            userId: user.id,
             starts: rating,
           }),
         });
