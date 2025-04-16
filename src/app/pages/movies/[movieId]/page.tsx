@@ -31,13 +31,13 @@ const MovieDetails = () => {
     <div>
       {/* Movie Info */}
       
-      <MovieInfo info={info} loading={loading}/>
+      <MovieInfo info={info!} loading={loading}/>
       {/* Trailer */}
       <Trailer trailer={data?.trailer_path} image={data?.poster_path} loading={loading} />
       {/*Actors*/}
       <Actors actors={data?.actors} loading={loading}/>
       {/*Reviews*/}
-      <Reviews tmdbId={data?.tmdbId} title={data?.title} poster_path={data?.poster_path}/>
+      <Reviews />
       {/*Similar Movies*/}
       <SimilarMovies />
       <ToastContainer />

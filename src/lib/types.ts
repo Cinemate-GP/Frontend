@@ -26,3 +26,11 @@ export type Movie = {
       name:string
     }[] ; // Change to `Genre[]` if you define a Genre type
   };
+
+  export interface ProfileCard {
+    id?: number;
+    movieId: number;
+    tmdbId: number;
+    title: string;
+    poster_path: string;
+  }

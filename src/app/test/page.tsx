@@ -7,7 +7,7 @@ import MovieCard from "@/components/test/MovieCard";
 import RatingButtons from "@/components/test/RatingButtons";
 import FinishTest from "@/components/test/FinishTest";
 import { useRouter } from "next/navigation";
-import withAuth from "@/hoc/WithAuth";
+import withAuth from "@/hoc/withAuth";
 
 interface Result {
   label: string;

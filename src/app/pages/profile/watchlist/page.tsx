@@ -1,21 +1,32 @@
 "use client";
-import MovieCard from "@/components/MovieCard";
+import Card from "@/components/profile/Card";
 import SectionTitle from "@/components/SectionTitle";
-import { RootState } from "@/redux/store";
-import { useSelector } from "react-redux";
+import { CardSkeleton } from "@/components/skeletons";
+import { withProfileContainer } from "@/hoc/withProfileContainer";
+import { ProfileCard } from "@/lib/types";
 
-const UserWatchList = () => {
-  const { watchlist: wathlistMovies } = useSelector((state: RootState) => state.watchlist);
+interface ComponentProps {
+  resources: ProfileCard[] | null;
+  loading: boolean;
+  onDelete: (movieId: number) => void;
+}
+
+const UserWatchList = ({resources,loading,onDelete}:ComponentProps) => {
+ 
   return (
     <div className="mt-5">
       <SectionTitle title="Watchlist Movies" />
-      {wathlistMovies?.length === 0 && <p>Thre is no wathlist movies yet</p>}
+      {loading && <CardSkeleton />}
+      {resources?.length === 0 && <p>Thre is no wathlist movies yet</p>}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 p-6 rounded-lg">
-        {wathlistMovies?.map((movie) => (
-          <MovieCard
+        {resources?.map((movie) => (
+          <Card
             key={movie.tmdbId}
+            movieId={movie.movieId}
             tmdbid={movie.tmdbId}
+            type="Watchlist"
             title={movie.title}
+            onDelete={onDelete}
             image={`https://image.tmdb.org/t/p/original//${movie.poster_path}`}
           />
         ))}
@@ -24,4 +35,7 @@ const UserWatchList = () => {
   );
 };
 
-export default UserWatchList;
+export default withProfileContainer<ProfileCard>(
+  UserWatchList,
+  "/api/Profile/WatchlistMovies"
+);

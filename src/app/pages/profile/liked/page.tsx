@@ -1,22 +1,33 @@
 "use client";
-import MovieCard from "@/components/MovieCard";
+import Card from "@/components/profile/Card";
 import SectionTitle from "@/components/SectionTitle";
-import { RootState } from "@/redux/store";
-import { useSelector } from "react-redux";
-const Likes = () => {
-  const { liked: likedMovies } = useSelector((state: RootState) => state.liked);
+import { CardSkeleton } from "@/components/skeletons";
+import { withProfileContainer } from "@/hoc/withProfileContainer";
+import { ProfileCard } from "@/lib/types";
 
+
+interface ComponentProps {
+  resources: ProfileCard[] | null;
+  loading: boolean;
+  onDelete: (movieId: number) => void;
+}
+
+const Liked = ({ resources, loading, onDelete }: ComponentProps) => {
   return (
     <div className="mt-5">
       <SectionTitle title="Liked Movies" />
-      {likedMovies?.length === 0 && <p>There is no Liked Movies yet</p>}
+      {loading && <CardSkeleton />}
+      {!loading && resources?.length === 0 && <p>There are no Liked Movies</p>}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 p-6 rounded-lg">
-        {likedMovies?.map((movie) => (
-          <MovieCard
+        {resources?.map((movie) => (
+          <Card
             key={movie.tmdbId}
+            movieId={movie.movieId}
             tmdbid={movie.tmdbId}
             title={movie.title}
-            image={`https://image.tmdb.org/t/p/original//${movie.poster_path}`}
+            image={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}
+            type="Like"
+            onDelete={onDelete}
           />
         ))}
       </div>
@@ -24,4 +35,7 @@ const Likes = () => {
   );
 };
 
-export default Likes;
+export default withProfileContainer<ProfileCard>(
+  Liked,
+  "/api/Profile/LikedMovies"
+);

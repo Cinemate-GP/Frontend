@@ -51,10 +51,7 @@ const LoginForm = () => {
       }
       const user = await response.json();
       dispatch(
-        setUser({
-          name: user.fullName,
-          profileImage: null,
-        })
+        setUser({user})
       );
       document.cookie = `token=${user.token}; path=/;`;
       router.push("/pages");

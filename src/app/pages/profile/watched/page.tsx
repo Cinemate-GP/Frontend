@@ -1,23 +1,32 @@
 "use client";
-import MovieCard from "@/components/MovieCard";
+import Card from "@/components/profile/Card";
 import SectionTitle from "@/components/SectionTitle";
+import { CardSkeleton } from "@/components/skeletons";
 import { IMAGEPOSTER } from "@/constants";
-import { RootState } from "@/redux/store";
-import { useSelector } from "react-redux";
-const Watched = () => {
-  const { liked:likedMovies } = useSelector((state: RootState) => state.liked);
+import { withProfileContainer } from "@/hoc/withProfileContainer";
+import { ProfileCard } from "@/lib/types";
 
+interface ComponentProps {
+  resources: ProfileCard[] | null;
+  loading: boolean;
+  onDelete: (movieId: number) => void;
+}
+const Watched = ({ resources, loading, onDelete }: ComponentProps) => {
   return (
     <div className="mt-5">
       <SectionTitle title="Watched Movies" />
+      {loading && <CardSkeleton />}
+      {resources?.length === 0 && <p>There is no Watched Movies yet</p>}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 p-6 rounded-lg">
-        {likedMovies?.length === 0 && <p>There is no Watched Movies yet</p>}
-        {likedMovies?.map((movie) => (
-          <MovieCard
+        {resources?.map((movie) => (
+          <Card
             key={movie.tmdbId}
+            movieId={movie.movieId}
             tmdbid={movie.tmdbId}
             title={movie.title}
+            type="Watched"
             image={`${IMAGEPOSTER}${movie.poster_path}`}
+            onDelete={onDelete}
           />
         ))}
       </div>
@@ -25,4 +34,7 @@ const Watched = () => {
   );
 };
 
-export default Watched;
+export default withProfileContainer<ProfileCard>(
+  Watched,
+  "/api/Profile/WatchedMovies"
+);

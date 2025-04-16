@@ -1,28 +1,41 @@
-'use client'
-import { FormatDate } from "@/lib/utils";
+"use client";
 import { addToRecentActivities } from "@/redux/slices/recentActivity";
-import { addToReviews } from "@/redux/slices/reviews";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { FaRegStar, FaStar } from "react-icons/fa6";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 interface Props {
-    tmdbId: number;
-    title: string;
-    poster_path: string;
-    onclose: () => void
+  movieId: number;
+  tmdbId: number;
+  title: string;
+  poster_path: string;
+  onclose: () => void;
+  setRated: (rated: boolean) => void;
 }
 
-const MovieReviewForm = ({tmdbId, title, poster_path,onclose}: Props) => {
-    const [rating, setRating] = useState(0);
-    const [message, setMessage] = useState("");
-    
-    const dispatch = useDispatch();
-  const handleRating = (i: number) => {
-    setRating(i);
-  };
+const MovieReviewForm = ({
+  movieId,
+  tmdbId,
+  title,
+  poster_path,
+  onclose,
+  setRated,
+}: Props) => {
 
-  const HandleSubmitReview = () => {
+  const [rating, setRating] = useState(0);
+  const [message, setMessage] = useState("");
+
+  const {user} = JSON.parse(localStorage.getItem("user") || "{}");
+  const token = document.cookie.split("=")[1];
+
+  // handle rating
+  const dispatch = useDispatch();
+  const handleRating = useCallback(async (i: number) => {
+    setRating(i);
+  }, []);
+
+  // handle review
+  const HandleSubmitReview = async () => {
     if (message.length < 10) {
       toast.error("Please enter a message with at least 10 characters", {
         position: "top-center",
@@ -30,45 +43,73 @@ const MovieReviewForm = ({tmdbId, title, poster_path,onclose}: Props) => {
         theme: "dark",
       });
     } else {
-      const date = new Date();
-      dispatch(
-        addToReviews({
-          tmdbId,
-          title,
-          poster_path,
-          message,
-          rating,
-          createdAt: FormatDate(date),
-        })
-      );
-      dispatch(
-        addToRecentActivities({
-          tmdbId,
-          movieTitle: title,
-          title: "reviewed",
-          poster_path,
-          type: "reviewed",
-          rating,
-          reviewMessage: message,
-          createdAt: new Date().toISOString(),
-        })
-      );
-      toast.success("Review added successfully!", {
-        position: "top-center",
-        autoClose: 2000,
-        theme: "dark",
-      });
-      setRating(0);
-      setMessage("");
-      onclose();
+      try {
+        const res = await fetch("/api/UserReviewMovie/Add", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            movieId,
+            userId: user.id,
+            reviewBody: message,
+          }),
+        });
+        if (!res.ok) {
+          throw new Error("Failed to add review");
+        }
+
+        dispatch(
+          addToRecentActivities({
+            tmdbId,
+            movieTitle: title,
+            title: "reviewed",
+            poster_path,
+            type: "reviewed",
+            rating,
+            reviewMessage: message,
+            createdAt: new Date().toISOString(),
+          })
+        );
+        toast.success("Review added successfully!", {
+          position: "top-center",
+          autoClose: 2000,
+          theme: "dark",
+        });
+        setRating(0);
+        setMessage("");
+        setRated(true);
+        onclose();
+      } catch (error) {
+        console.log(error);
+      }
+
+      try {
+        const res = await fetch(`/api/UserRateMovie/Add`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            movieId,
+            userId: user.id,
+            starts: rating,
+          }),
+        });
+        if (!res.ok) {
+          throw new Error("Failed to add rating");
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
-  
+
   return (
     <div className="flex-1 bg-secondaryBg p-6 rounded-lg">
-      <h3 className="text-white text-lg font-bold">
-        Rate &quot;{title}&quot;
-      </h3>
+      <h3 className="text-white text-lg font-bold">Rate &quot;{title}&quot;</h3>
       <p className="text-gray-400 text-sm mt-3">
         Write a review for this movie. It will be posted on this page.
       </p>
