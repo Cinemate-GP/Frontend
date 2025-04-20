@@ -7,20 +7,19 @@ import { FaStar } from "react-icons/fa6";
 
 interface cardProps {
   tmdbId: number;
-  movieId: number;
   title: string;
   poster_path: string;
   reviewBody: string;
+  rating: string;
   createdAt: Date;
   type: string;
   onDelete: (movieId: number) => void;
 }
 
 const ReviewCard = (item: cardProps) => {
-
   // delet on client side
   const handleDelete = async () => {
-    item.onDelete(item.movieId);
+    item.onDelete(item.tmdbId);
 
     // delete on server
     try {
@@ -31,7 +30,7 @@ const ReviewCard = (item: cardProps) => {
           Authorization: `Bearer ${document.cookie.split("=")[1]}`,
         },
         body: JSON.stringify({
-          movieId: item.movieId,
+          tmdbId: item.tmdbId,
           userId: getUserId(),
         }),
       });

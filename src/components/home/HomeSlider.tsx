@@ -14,54 +14,41 @@ import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import Link from "next/link";
 import { useState } from "react";
 import TrailerModal from "../modals/TrailerModal";
-import { toast } from "react-toastify";
 import useFetch from "@/hooks/useFetch";
 import { Movie } from "@/lib/types";
 import { HomeSliderSkeleton } from "../skeletons";
-import { useDispatch, useSelector } from "react-redux";
-import { addMovieToWatchlist } from "@/redux/slices/watchlist";
-import { RootState } from "@/redux/store";
+import { useDispatch } from "react-redux";
 import { IMAGEPOSTER } from "@/constants";
 import { addToRecentActivities } from "@/redux/slices/recentActivity";
+import { toast } from "react-toastify";
 
 const HomeSlider = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [trailer, setTrailer] = useState("");
-  const { watchlist } = useSelector((state: RootState) => state.watchlist);
   const dispatch = useDispatch();
   const { data: movies, loading } = useFetch<Movie[]>(
     "/api/Movie/random-movie"
   );
-
   const addToWatchlist = (movie: {
     tmdbId: number;
     title: string;
-    poster_path: string;
+    posterPath: string;
   }) => {
-    const isExistMovie = watchlist?.find((m) => m.tmdbId === movie.tmdbId);
-    if (!isExistMovie) {
-      toast.success("Added to watchlist successfully!", {
-        position: "bottom-right",
-        autoClose: 2000,
-        theme: "dark",
-      });
-      dispatch(addMovieToWatchlist(movie));
-    } else {
-      toast.warning("Already in your watchlist", {
-        position: "bottom-right",
-        autoClose: 2000,
-        theme: "dark",
-      });
-    }
-    const date = new Date();
+    toast.success("Added to watchlist", {
+      theme: "dark",
+    });
     dispatch(
       addToRecentActivities({
         tmdbId: movie.tmdbId,
-        title: "added To watchlist",
         movieTitle: movie.title,
-        poster_path: movie.poster_path,
-        type: "watchlist",
-        createdAt: date,
+        poster_path: movie.posterPath,
+        activities: [
+          {
+            type: "watchlist",
+            title: "added to watchlist",
+            createdAt: new Date().toISOString(),
+          },
+        ],
       })
     );
   };
@@ -81,25 +68,25 @@ const HomeSlider = () => {
         {loading && HomeSliderSkeleton()}
         {movies?.map((slid) => {
           return (
-            <SwiperSlide key={slid.movieId}>
+            <SwiperSlide key={slid.tmdbId}>
               <div
                 className="w-full relative bg-cover bg-center h-[700px]"
                 style={{
-                  backgroundImage: `url(${IMAGEPOSTER + slid.poster_path})`,
+                  backgroundImage: `url(${IMAGEPOSTER + slid.backdropPath})`,
                 }}
               >
                 <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-[rgba(0,0,0,0.4)] to-black/90 flex items-start md:items-center pt-28 md:pt-64 lg:pt-0">
                   <div className="ml-2 md:ml-12 p-3 md-p-0 flex flex-col gap-3 max-w-xl text-center sm:text-left">
                     <h2 className="text-2xl sm:text-6xl mb-4">{slid.title}</h2>
                     <div className="flex gap-3 justify-center sm:justify-start">
-                      <span className="flex basis-auto items-center bg-primary rounded-xl text-xs font-semibold text-black px-3">
-                        HD
+                      <span className="flex basis-auto capitalize items-center bg-primary rounded-xl text-xs font-semibold text-white px-3">
+                        {slid.language}
                       </span>
                       <div className="flex basis-auto items-center">
                         <AiFillStar className="text-primary" />
-                        <span>{3}</span>
+                        <span>{slid.imdbRating.split("/")[0]}</span>
                       </div>
-                      <span>{slid.release_date}</span>
+                      <span>{slid.releaseDate}</span>
                     </div>
 
                     {/* genres */}
@@ -114,13 +101,13 @@ const HomeSlider = () => {
                       ))}
                     </div>
                     <p className="text-sm sm:text-lg text-center sm:text-start">
-                      {slid.overview}
+                      {slid.tagline}
                     </p>
 
                     <div className="flex gap-3 mt-3 justify-center sm:justify-start">
                       <button
                         onClick={() => {
-                          setTrailer(slid.trailer_path);
+                          setTrailer(slid.trailer);
                           setIsOpen(true);
                         }}
                         aria-label="Watch Trailer"
@@ -148,7 +135,7 @@ const HomeSlider = () => {
                           addToWatchlist({
                             tmdbId: slid.tmdbId,
                             title: slid.title,
-                            poster_path: slid.poster_path,
+                            posterPath: slid.posterPath,
                           })
                         }
                         aria-label="Add to Watchlist"

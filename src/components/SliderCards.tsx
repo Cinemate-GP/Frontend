@@ -11,10 +11,10 @@ interface SliderProps {
   movieList:
     {
         id?: number;
-        movieId: number;
+        imdbRating: string;
         tmdbId: number;
         title: string;
-        poster_path: string;
+        posterPath: string;
       }[]
     | null;
   sliderType: string;
@@ -47,8 +47,9 @@ export default function MovieSlider(props: SliderProps) {
                 id={i+1}
                 tmdbid={movie.tmdbId}
                 title={movie.title}
-                image={`https://image.tmdb.org/t/p/original//${movie.poster_path}`}
+                image={`https://image.tmdb.org/t/p/original//${movie.posterPath}`}
                 cardType={props.sliderType}
+                imdbRating={movie.imdbRating}
               />
             </SwiperSlide>
           ))}

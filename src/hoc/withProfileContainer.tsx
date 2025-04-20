@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-export function withProfileContainer<T extends { movieId: number }>(
+export function withProfileContainer<T extends { tmdbId: number }>(
   WrappedComponent: React.ComponentType<{
     resources: T[] | null;
     loading: boolean;
@@ -22,6 +22,7 @@ export function withProfileContainer<T extends { movieId: number }>(
               Authorization: `Bearer ${document.cookie.split("=")[1]}`,
             },
           });
+          if (!res.ok) throw new Error("Failed to fetch profile data");
           const data = await res.json();
           setResources(data);
         } catch (error) {
@@ -34,9 +35,9 @@ export function withProfileContainer<T extends { movieId: number }>(
       fetchData();
     }, []);
 
-    const handleDelete = (movieId: number) => {
+    const handleDelete = (tmdbId: number) => {
       setResources(
-        (prev) => prev?.filter((item) => item.movieId !== movieId) ?? null
+        (prev) => prev?.filter((item) => item.tmdbId !== tmdbId) ?? null
       );
     };
 

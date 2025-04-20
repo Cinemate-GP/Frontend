@@ -6,23 +6,16 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { IMAGEPOSTER } from "@/constants";
 import { ActorMoviesSkeleton } from "../skeletons";
+import { Actor } from "@/lib/types";
+import { truncateText } from "@/lib/utils";
+
 export default function SingleActor() {
-  type Actor = {
-    id: number;
-    name: string;
-    profilePath: string;
-    movies: {
-      id: number;
-      movieId: number;
-      tmdbId: number;
-      title: string;
-      poster_path: string;
-    }[];
-  };
   const pathname = usePathname();
   const actorId = pathname.split("/")[3];
   const [loading, setLoading] = useState<boolean>(true);
   const [actorData, setActorData] = useState<Actor | null>(null);
+  const [isExpanded,setIsExpanded]=useState(false);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -52,10 +45,11 @@ export default function SingleActor() {
             <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 p-[2rem] overflow-y-auto custom-scrollbar">
               {actorData?.movies.map((movie) => (
                 <MovieCard
-                  key={movie.movieId}
+                  key={movie.tmdbId}
                   tmdbid={movie.tmdbId}
+                  imdbRating={movie.imdbRating}
                   title={movie.title}
-                  image={IMAGEPOSTER + movie.poster_path}
+                  image={IMAGEPOSTER + movie.posterPath}
                 />
               ))}
             </div>
@@ -68,14 +62,12 @@ export default function SingleActor() {
                 width={400}
                 height={500}
                 className={`w-80 h-68 rounded-lg object-cover transition-opacity duration-500`}
-                loading="lazy" 
+                loading="lazy"
               />
               <h3>{actorData?.name}</h3>
-              <p className="text-sm text-gray-300">
-                Christopher Michael Pratt (born 21 June 1979) is an American
-                actor,known for starring in both television and action films. He
-                rose to prominence for his television roles, particularly in the
-                NBC sitcom…
+              <p className="text-gray-400 text-sm mt-1 overflow-auto">
+                {truncateText(actorData!.biography.slice(0,400), isExpanded, 200)}
+                {" "}<button className="font-bold text-white" onClick={() => setIsExpanded(!isExpanded)}>{isExpanded ? " Show Less" : " Show More"}</button>
               </p>
             </aside>
           </div>
@@ -96,8 +88,7 @@ export default function SingleActor() {
               />
               <h2 className="mt-2 text-lg font-bold">Chris Pratt</h2>
               <p className="text-sm text-gray-300 text-center px-4">
-                Christopher Michael Pratt (born 21 June 1979) is an American
-                actor, known for starring in both television and action films...
+                {actorData?.biography}
               </p>
             </div>
 
@@ -106,10 +97,11 @@ export default function SingleActor() {
               {actorData?.movies.map((movie) => (
                 <div key={movie.title} className="">
                   <MovieCard
-                    key={movie.movieId}
+                    key={movie.tmdbId}
                     tmdbid={movie.tmdbId}
+                    imdbRating={movie.imdbRating}
                     title={movie.title}
-                    image={`https://image.tmdb.org/t/p/original//${movie.poster_path}`}
+                    image={`https://image.tmdb.org/t/p/original//${movie.posterPath}`}
                   />
                 </div>
               ))}

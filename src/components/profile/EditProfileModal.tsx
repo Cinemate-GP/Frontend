@@ -3,19 +3,21 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { FiUploadCloud } from "react-icons/fi";
 import { IoClose } from "react-icons/io5";
+import { useUser } from "@/context/UserContext";
 
 interface User {
   fullName: string;
   email: string;
-  profile_Image?: File | string; // file or URL
+  profilePic?: File | string; // file or URL
 }
 
 export default function EditProfileModal({ onClose }: { onClose: () => void }) {
   const [storedUser, setStoredUser] = useState<User>({
     fullName: "",
     email: "",
-    profile_Image: "",
+    profilePic: "",
   });
+  const { setUser } = useUser();
   const [file, setFile] = useState<File | null>(null);
 
   // Load user from localStorage on mount
@@ -33,7 +35,7 @@ export default function EditProfileModal({ onClose }: { onClose: () => void }) {
       setFile(selectedFile);
       setStoredUser((prev) => ({
         ...prev,
-        profile_Image: selectedFile,
+        profilePic: selectedFile,
       }));
     }
   };
@@ -47,12 +49,10 @@ export default function EditProfileModal({ onClose }: { onClose: () => void }) {
 
   const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(storedUser.profile_Image, file);
     const formDate = new FormData();
     formDate.append("fullName", storedUser.fullName);
     formDate.append("email", storedUser.email);
     if (file) formDate.append("profile_Image", file);
-
     try {
       const res = await fetch("/api/Profile/UpdateAccount", {
         method: "PUT",
@@ -62,7 +62,28 @@ export default function EditProfileModal({ onClose }: { onClose: () => void }) {
         body: formDate,
       });
       if (!res.ok) throw new Error("Failed to update profile");
-      console.log("Profile updated successfully");
+      const data = await res.json();
+      setStoredUser({
+        fullName: data.fullName,
+        email: data.email,
+        profilePic: data.profile_Image,
+      });
+      setUser({
+        fullName: data.fullName,
+        email: data.email,
+        profilePic: data.profile_Image,
+      });
+
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          user: {
+            fullName: data.fullName,
+            email: data.email,
+            profilePic: data.profile_Image,
+          },
+        })
+      );
     } catch (error) {
       console.log(error);
     }
@@ -109,9 +130,9 @@ export default function EditProfileModal({ onClose }: { onClose: () => void }) {
                   src={
                     file
                       ? URL.createObjectURL(file)
-                      : typeof storedUser.profile_Image === "string" &&
-                        storedUser.profile_Image
-                      ? storedUser.profile_Image
+                      : typeof storedUser.profilePic === "string" &&
+                        storedUser.profilePic
+                      ? storedUser.profilePic
                       : "/image-placeholder.png"
                   }
                   alt="Preview"

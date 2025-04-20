@@ -8,7 +8,7 @@ interface MovieCardProps {
   tmdbid: number;
   title: string;
   image: string;
-  rating?: number;
+  imdbRating: string;
   cardType?: string;
 }
 
@@ -55,11 +55,13 @@ const MovieCard = (movie: MovieCardProps) => {
           />
           <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-black/40 to-black/90 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
             <div className="flex flex-col justify-end h-full p-4 relative group-hover:top-0 top-[3rem] transition-all duration-500">
-              <h4>{movie.title}</h4>
-              <span className="flex items-center gap-2 font-light">
-                <FaStar className="text-primary" />
-                {movie.rating ? "0.0" : "6.6"}
-              </span>
+              <div className="flex items-center justify-between flex-wrap">
+                <h4>{movie.title}</h4>
+                <span className="flex items-center gap-2 font-light">
+                  <FaStar className="text-primary" />
+                  {movie.imdbRating?.split("/")[0]}
+                </span>
+              </div>
             </div>
           </div>
         </div>

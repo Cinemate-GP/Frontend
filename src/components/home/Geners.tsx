@@ -6,10 +6,10 @@ import MovieSlider from "../SliderCards";
 import { Geners as geners } from "@/constants";
 interface Movie {
   id: number;
-  movieId: number;
   tmdbId: number;
+  imdbRating: string;
   title: string;
-  poster_path: string;
+  posterPath: string;
 }
 const Geners = () => {
   const [selected, setSelected] = React.useState("Geners");

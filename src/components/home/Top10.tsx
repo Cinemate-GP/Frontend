@@ -6,9 +6,10 @@ import MovieSlider from "../SliderCards";
 interface Movie {
   id: number;
   movieId: number;
+  imdbRating: string;
   tmdbId: number;
   title: string;
-  poster_path: string;
+  posterPath: string;
 }
 const Top10 = () => {
   const { data , loading } = useFetch<Movie[]>("/api/Movie/top-ten");

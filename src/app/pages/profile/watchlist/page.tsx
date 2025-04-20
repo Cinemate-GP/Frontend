@@ -22,7 +22,6 @@ const UserWatchList = ({resources,loading,onDelete}:ComponentProps) => {
         {resources?.map((movie) => (
           <Card
             key={movie.tmdbId}
-            movieId={movie.movieId}
             tmdbid={movie.tmdbId}
             type="Watchlist"
             title={movie.title}

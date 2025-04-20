@@ -14,6 +14,7 @@ const MoviesPage = () => {
     popularity: "",
     rating: "",
     genre: "",
+    mpa:""
   });
   const [pageNumber, setPageNumber] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
@@ -39,6 +40,7 @@ const MoviesPage = () => {
         if (filters.popularity) query.append("SortDirection", filters.popularity);
         if (filters.rating) query.append("rating", filters.rating);
         if (filters.genre) query.append("Gener", filters.genre);
+        if (filters.mpa) query.append("MPA", filters.mpa);
         query.set("pageNumber", pageNumber.toString());
         const queryString = query.toString();
         const url = queryString

@@ -1,28 +1,27 @@
 "use client";
 import Image from "next/image";
-import { useState } from "react";
+import {useState } from "react";
 import EditProfileModal from "./EditProfileModal";
+import { useGetUser } from "@/hooks/useGetUser";
+
 const ProfileHeader = () => {
-  const {user } = JSON.parse(
-    localStorage.getItem("user") || "{}"
-  );
+  const user = useGetUser();
   const [isOpen, setIsOpen] = useState(false);
-  
   return (
     <>
       <header className="flex flex-col sm:flex-row justify-between items-center gap-8">
         <div className="flex gap-4 items-center flex-wrap">
           <div className="border-2 border-primary p-1 rounded-full mx-auto sm:mx-0">
-            {user.profileImage && (
+            {user?.profilePic && (
               <Image
-                src={user.profileImage}
+                src={user.profilePic}
                 alt="user profile"
                 width={100}
                 height={100}
                 className="w-16 h-16 sm:w-32 sm:h-32 rounded-full object-cover"
               />
             )}
-            {!user.profileImage && (
+            {!user.profilePic && (
               <Image
                 src="/ueser-placeholder.jpg"
                 alt="user profile"
@@ -34,7 +33,9 @@ const ProfileHeader = () => {
           </div>
           <div className="flex items-center mx-auto sm:mx-0">
             <span className="block w-[6px] h-6 rounded-xl bg-primary mr-2"></span>
-            <h2 className="text-lg sm:text-3xl">{user.fullName ? user.fullName : "User Name"}</h2>
+            <h2 className="text-lg sm:text-3xl">
+              {user.fullName ? user.fullName : "User Name"}
+            </h2>
             <button
               onClick={() => setIsOpen(true)}
               className="bg-primary rounded-3xl px-4 py-2 text-xs sm:text-sm ml-3 mt-1"

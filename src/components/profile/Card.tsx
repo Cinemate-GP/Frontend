@@ -8,18 +8,17 @@ import { FaStar } from "react-icons/fa6";
 interface MoveProps {
   image: string;
   title: string;
-  rating?: number;
+  imdbRating?: string;
   tmdbid: number;
-  movieId: number;
   type: string;
-  onDelete: (movieId: number) => void;
+  onDelete: (id: number) => void;
 }
 
 const Card = (movie: MoveProps) => {
   const token = document.cookie.split("=")[1];
 
   const handleDelete = async () => {
-    movie?.onDelete(movie.movieId)
+    movie?.onDelete(movie.tmdbid);
     try {
       const res = await fetch(`/api/User${movie.type}Movie/Delete`, {
         method: "DELETE",
@@ -28,7 +27,7 @@ const Card = (movie: MoveProps) => {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          movieId: movie.movieId,
+          tmdbId: movie.tmdbid,
           userId: getUserId(),
         }),
       });
@@ -54,7 +53,7 @@ const Card = (movie: MoveProps) => {
             <div className="flex justify-between mt-3">
               <span className="flex items-center gap-2 font-light">
                 <FaStar className="text-primary" />
-                {movie.rating ? movie.rating.toFixed(1) : "6.6"}
+                {movie.imdbRating?.split("/")[0]}
               </span>
               <button
                 onClick={(e) => {

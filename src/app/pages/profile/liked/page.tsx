@@ -22,7 +22,6 @@ const Liked = ({ resources, loading, onDelete }: ComponentProps) => {
         {resources?.map((movie) => (
           <Card
             key={movie.tmdbId}
-            movieId={movie.movieId}
             tmdbid={movie.tmdbId}
             title={movie.title}
             image={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}

@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState: { name: string | null; profileImage: string | null } = {
+const initialState: { name: string | null; profilePic: string | null } = {
   name: null,
-  profileImage: null,
+  profilePic: null,
 };
 
 const userSlice = createSlice({
@@ -11,14 +11,15 @@ const userSlice = createSlice({
   reducers: {
     setUser: (state, action) => {
       state.name = action.payload.name;
-      state.profileImage = action.payload.profileImage;
+      state.profilePic = action.payload.profilePic;
       if (typeof window !== "undefined") {
         localStorage.setItem("user", JSON.stringify(action.payload));
+        setUser(JSON.parse(localStorage.getItem("user") || "{}"))
       }
     },
     clearUser: (state) => {
       state.name = null;
-      state.profileImage = null;
+      state.profilePic = null;
       if (typeof window !== "undefined") {
         localStorage.removeItem("user");
       }

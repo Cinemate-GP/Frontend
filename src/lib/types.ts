@@ -7,14 +7,20 @@ export type movieType = {
 
 
 export type Movie = {
-    movieId: number;
+   backdropPath:string
+    language:string
+    imdbRating:string
     tmdbId: number;
     title: string;
+    tagline: string;
     overview: string;
-    poster_path: string;
+    posterPath: string;
     runtime: number;
-    release_date: string;
-    trailer_path: string;
+    rottenTomatoesRating:string,
+    metacriticRating:string,
+    mpa:string,
+    releaseDate: string;
+    trailer: string;
     actors?: {
       id: number;
       name: string;
@@ -26,11 +32,21 @@ export type Movie = {
       name:string
     }[] ; // Change to `Genre[]` if you define a Genre type
   };
+  export type Actor = {
+    id: number,
+    name:string,
+    biography:string,
+    birthday:string,
+    popularity:string,
+    profilePath:string,
+    movies:Movie[]
+    
+  }
 
   export interface ProfileCard {
     id?: number;
-    movieId: number;
     tmdbId: number;
+    imdbRating: string;
     title: string;
     poster_path: string;
   }

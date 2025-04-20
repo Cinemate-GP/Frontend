@@ -1,6 +1,6 @@
 import React from "react";
 import SearchComponent from "./MovieSearch";
-import { Geners, Years } from "@/constants";
+import { Geners, MPA, Years } from "@/constants";
 interface Props {
   handleFilterValue: (tye: string, value: string) => void;
 }
@@ -38,6 +38,17 @@ const MoviesFilter = ({ handleFilterValue }: Props) => {
         <option value={""}>Popular</option>
         <option value={"1"}>Most Popular</option>
         <option value={"0"}>Less Popular</option>
+      </select>
+      <select
+        className="border border-gray-500 bg-black text-white px-4 py-2 rounded-md"
+        onChange={(e) => handleFilterValue("mpa", e.target.value)}
+      >
+        <option value={""}>MPA</option>
+        {MPA.map((mpa) => (
+          <option key={mpa} value={mpa}>
+            {mpa}
+          </option>
+        ))}
       </select>
       <select
         className="border border-gray-500 bg-black text-white px-4 py-2 rounded-md"

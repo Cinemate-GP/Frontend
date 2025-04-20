@@ -67,7 +67,7 @@ export default function Sidenav() {
   return (
     <>
       <div
-        className={`h-screen text-gray-300 bg-black border-r fixed z-50 border-gray-600 flex flex-col ${
+        className={`h-screen text-gray-300 bg-black border-r fixed z-30 border-gray-600 flex flex-col ${
           isCollapsed ? "w-[4rem] transition-all duration-200" : "w-[13rem]"
         } hidden md:flex`}
       >
@@ -96,7 +96,7 @@ export default function Sidenav() {
 
           {/* toggle sidenave  */}
           <button
-            className="absolute -right-10 top-7s  bg-gray-700 p-1 rounded"
+            className="-mr-3 bg-gray-700 p-1 rounded"
             onClick={toggleSidebar}
           >
             {isCollapsed ? <RiMenuFold2Line/> : <RiMenuUnfold2Line/>}

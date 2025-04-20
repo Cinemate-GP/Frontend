@@ -21,11 +21,11 @@ const Watched = ({ resources, loading, onDelete }: ComponentProps) => {
         {resources?.map((movie) => (
           <Card
             key={movie.tmdbId}
-            movieId={movie.movieId}
             tmdbid={movie.tmdbId}
             title={movie.title}
             type="Watched"
             image={`${IMAGEPOSTER}${movie.poster_path}`}
+            imdbRating={movie.imdbRating}
             onDelete={onDelete}
           />
         ))}

@@ -6,11 +6,12 @@ import { CiSearch } from "react-icons/ci";
 
 import { BsGrid } from "react-icons/bs";
 import Menu from "./Menu";
-import { SearchModal } from "./Search";
+import { SearchModal } from "./ui/Modals";
 
 const HorizontalNav = ({ pathname }: { pathname: string }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState<boolean>(false);
+  
   const toggleMenu = () => {
     setIsOpen((prev: boolean) => !prev);
   };
@@ -30,7 +31,7 @@ const HorizontalNav = ({ pathname }: { pathname: string }) => {
   }, [isSearchModalOpen]);
   return (
     <>
-      <div className="w-full h-[60px] bg-opacity-15 fixed z-50 left-0 bottom-0 p-4 pt-0 block md:hidden backdrop-blur-md shadow-lg">
+      <div className="w-full h-[60px] bg-opacity-15 fixed z-[100] left-0 bottom-0 p-4 pt-0 block md:hidden backdrop-blur-md shadow-lg">
         <ul className="flex items-center justify-between px-3 bg-opacity-30 sm:px-5">
           <li className="text-lg">
             <Link
@@ -66,7 +67,7 @@ const HorizontalNav = ({ pathname }: { pathname: string }) => {
         </ul>
         {isOpen && <Menu setIsOpen={setIsOpen} />}
       </div>
-      {isSearchModalOpen && <SearchModal />}
+      {isSearchModalOpen && <SearchModal onclose={() => setIsSearchModalOpen(false)} />}
     </>
   );
 };
