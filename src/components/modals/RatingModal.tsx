@@ -2,7 +2,6 @@ import React from "react";
 import MovieReviewForm from "../movies/MovieReviewForm";
 
 interface ModalProps {
-  movieId: number;
   tmdbId: number;
   title: string;
   poster_path: string;
@@ -10,7 +9,7 @@ interface ModalProps {
   onRate: (rated: boolean) => void;
 }
 
-const RatingModal = ({ movieId,tmdbId, title, poster_path, onRate,onclose }: ModalProps) => {
+const RatingModal = ({tmdbId, title, poster_path, onRate,onclose }: ModalProps) => {
   return (
     // Modal background
     <div
@@ -28,7 +27,6 @@ const RatingModal = ({ movieId,tmdbId, title, poster_path, onRate,onclose }: Mod
         {/* Review Form */}
         <div onClick={(e) => e.stopPropagation()}>
           <MovieReviewForm
-            movieId={movieId}
             tmdbId={tmdbId!}
             title={title!}
             poster_path={poster_path!}

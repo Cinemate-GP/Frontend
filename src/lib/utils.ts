@@ -72,3 +72,12 @@ export const formatTimestamp = (timestamp: string) => {
     hour12: true,
   });
 };
+
+
+export const getUserId = () => {
+  const {user} = JSON.parse(localStorage.getItem("user") || "{}");
+  if (user) {
+    return user.id
+  }
+  return null;
+}

@@ -5,10 +5,10 @@ import MovieSlider from "../SliderCards";
 import SliderWrapper from "../SliderWrapper";
 interface Movie {
   id: number;
-  movieId: number;
   tmdbId: number;
+  imdbRating: string;
   title: string;
-  poster_path: string;
+  posterPath: string;
 }
 const Recommended = () => {
   const { data , loading} = useFetch<Movie[]>("/api/Movie/top-ten");

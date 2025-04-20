@@ -224,3 +224,16 @@ export const ReviewSkeletonCard = () => {
     </div>
   );
 };
+
+export const SearchResultSkeleton = () => {
+  return (
+    <div className="flex flex-1 gap-4 min-w-[140px] bg-gray-700 p-2 rounded-md">
+      <div
+        className={`w-20 h-20 rounded bg-gray-500 animate-pulse`}
+      />
+      <div className="flex-1 flex items-center">
+        <div className="h-8 bg-gray-800 rounded w-1/3 animate-pulse"/>
+      </div>
+    </div>
+  );
+};

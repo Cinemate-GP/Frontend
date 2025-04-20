@@ -5,7 +5,6 @@ import { FaRegStar, FaStar } from "react-icons/fa6";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 interface Props {
-  movieId: number;
   tmdbId: number;
   title: string;
   poster_path: string;
@@ -14,18 +13,16 @@ interface Props {
 }
 
 const MovieReviewForm = ({
-  movieId,
   tmdbId,
   title,
   poster_path,
   onclose,
   setRated,
 }: Props) => {
-
   const [rating, setRating] = useState(0);
   const [message, setMessage] = useState("");
 
-  const {user} = JSON.parse(localStorage.getItem("user") || "{}");
+  const { user } = JSON.parse(localStorage.getItem("user") || "{}");
   const token = document.cookie.split("=")[1];
 
   // handle rating
@@ -51,7 +48,7 @@ const MovieReviewForm = ({
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
-            movieId,
+            tmdbId,
             userId: user.id,
             reviewBody: message,
           }),
@@ -64,12 +61,16 @@ const MovieReviewForm = ({
           addToRecentActivities({
             tmdbId,
             movieTitle: title,
-            title: "reviewed",
             poster_path,
-            type: "reviewed",
-            rating,
-            reviewMessage: message,
-            createdAt: new Date().toISOString(),
+            activities: [
+              {
+                title: "review",
+                type:'reviewed',
+                rating,
+                review: message,
+                createdAt: new Date().toISOString(),
+              },
+            ],
           })
         );
         toast.success("Review added successfully!", {
@@ -93,7 +94,7 @@ const MovieReviewForm = ({
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
-            movieId,
+            tmdbId,
             userId: user.id,
             starts: rating,
           }),

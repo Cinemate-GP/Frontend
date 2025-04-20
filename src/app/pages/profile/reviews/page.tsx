@@ -2,54 +2,38 @@
 import ReviewCard from "@/components/profile/ReviewCard";
 import SectionTitle from "@/components/SectionTitle";
 import { ReviewSkeletonCard } from "@/components/skeletons";
-import React, { useEffect, useState } from "react";
+import { withProfileContainer } from "@/hoc/withProfileContainer";
+import { ProfileCard } from "@/lib/types";
+import React from "react";
 
-interface Review {
-  movieId: number;
-  tmdbId: number;
-  title: string;
-  poster_path: string;
+interface Review extends ProfileCard {
+  rating: string;
   reviewBody: string;
   createdAt:Date
 }
+interface ComponentProps {
+  resources: Review[] | null;
+  loading: boolean;
+  onDelete: (movieId: number) => void;
+}
  
-const UserReviews = () => {
-  const [reviews,setReviews]= useState<Review[] | null>(null)
-  const [loading,setLoading] = useState(false)
-  const token = document.cookie.split("=")[1];  
-  useEffect(()=> {
-    (async function() {
-      setLoading(true)
-      try {
-        const res = await fetch("/api/Profile/ReviewedMovies", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        if(!res.ok) throw new Error("Failed to fetch reviews");
-        const data = await res.json();
-        setReviews(data)
-      } catch (error) {
-        console.log(error)
-      }finally {
-        setLoading(false)
-      }
-    })()
-  },[token])
+const UserReviews = ({resources,loading,onDelete}:ComponentProps) => {
+  
   return (
     <div className="mt-5">
       <SectionTitle title="Reviews" />
       {loading && <ReviewSkeletonCard />}
       <div className="flex flex-col gap-4">
-        {reviews?.length === 0 && <p>No Reveis Added</p>}
-        {reviews?.map((item) => (
-          <ReviewCard key={item.tmdbId} {...item} />
+        {resources?.length === 0 && <p>No Reveis Added</p>}
+        {resources?.map((item) => (
+          <ReviewCard key={item.tmdbId} {...item} onDelete={onDelete} type="Review" />
         ))}
       </div>
     </div>
   );
 };
 
-export default UserReviews;
+export default withProfileContainer<Review>(
+  UserReviews,
+  "/api/Profile/ReviewedMovies"
+);

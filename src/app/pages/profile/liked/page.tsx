@@ -1,48 +1,32 @@
 "use client";
-import MovieCard from "@/components/MovieCard";
+import Card from "@/components/profile/Card";
 import SectionTitle from "@/components/SectionTitle";
-import { useEffect, useState } from "react";
+import { CardSkeleton } from "@/components/skeletons";
+import { withProfileContainer } from "@/hoc/withProfileContainer";
+import { ProfileCard } from "@/lib/types";
 
-interface Liked {
-  movieId:number
-  poster_path:number
-  title:string 
-  tmdbId:number
+
+interface ComponentProps {
+  resources: ProfileCard[] | null;
+  loading: boolean;
+  onDelete: (movieId: number) => void;
 }
-const Liked = () => {
-const [likedMovies, setLikedMovies] = useState<Liked[] | null>(null);
-const token = document.cookie.split("=")[1];
-  
-  useEffect(()=> {
-    (async function (){
-      try {
-        const res = await fetch("/api/Profile/LikedMovies",{
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        const data = await res.json();
-        setLikedMovies(data);
-        console.log(data);
-      } catch (error) {
-        console.log(error);
-      }
-      
-    })()
-  },[token])
 
+const Liked = ({ resources, loading, onDelete }: ComponentProps) => {
   return (
     <div className="mt-5">
       <SectionTitle title="Liked Movies" />
-      {likedMovies?.length === 0 && <p>There is no Liked Movies yet</p>}
+      {loading && <CardSkeleton />}
+      {!loading && resources?.length === 0 && <p>There are no Liked Movies</p>}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 p-6 rounded-lg">
-        {likedMovies?.map((movie) => (
-          <MovieCard
+        {resources?.map((movie) => (
+          <Card
             key={movie.tmdbId}
             tmdbid={movie.tmdbId}
             title={movie.title}
-            image={`https://image.tmdb.org/t/p/original//${movie.poster_path}`}
+            image={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}
+            type="Like"
+            onDelete={onDelete}
           />
         ))}
       </div>
@@ -50,4 +34,7 @@ const token = document.cookie.split("=")[1];
   );
 };
 
-export default Liked;
+export default withProfileContainer<ProfileCard>(
+  Liked,
+  "/api/Profile/LikedMovies"
+);

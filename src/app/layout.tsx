@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import "./globals.css";
 import { ReduxProvider } from "@/providers/ReduxProvider";
+import { UserProvider } from "@/context/UserContext";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -21,7 +22,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} antialiased custom-scrollbar`}>
         <main>
-          <ReduxProvider>{children}</ReduxProvider>
+          <ReduxProvider>
+            <UserProvider>{children}</UserProvider>
+          </ReduxProvider>
         </main>
       </body>
     </html>

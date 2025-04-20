@@ -11,8 +11,11 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "image.tmdb.org",
       },
+      {
+        protocol: "http",
+        hostname: "cinemate.runasp.net",
+      },
     ],
-    domains: ['res.cloudinary.com']
   },
   async rewrites() {
     return [

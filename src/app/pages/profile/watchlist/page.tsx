@@ -1,51 +1,31 @@
 "use client";
-import MovieCard from "@/components/MovieCard";
+import Card from "@/components/profile/Card";
 import SectionTitle from "@/components/SectionTitle";
 import { CardSkeleton } from "@/components/skeletons";
-import { useEffect, useState } from "react";
+import { withProfileContainer } from "@/hoc/withProfileContainer";
+import { ProfileCard } from "@/lib/types";
 
-interface Watched {
-  movieId: number;
-  poster_path: number;
-  title: string;
-  tmdbId: number;
+interface ComponentProps {
+  resources: ProfileCard[] | null;
+  loading: boolean;
+  onDelete: (movieId: number) => void;
 }
 
-const UserWatchList = () => {
- const [wathlistMovies,setWatchlistMovies] = useState<Watched[] | null>(null)
- const [loading , setLoading] = useState(true)
- const token = document.cookie.split("=")[1];
- useEffect(() => {
-  (async function () {
-    try {
-      setLoading(true);
-      const res = await fetch("/api/Profile/WatchlistMovies", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        }
-      });
-      if (!res.ok) throw new Error("Failed to fetch data");
-      const json = await res.json();
-      setWatchlistMovies(json);
-    } catch (error) {
-      console.log(error);
-    }finally {
-      setLoading(false);
-    }
-  })();
- },[token])
+const UserWatchList = ({resources,loading,onDelete}:ComponentProps) => {
+ 
   return (
     <div className="mt-5">
       <SectionTitle title="Watchlist Movies" />
       {loading && <CardSkeleton />}
-      {wathlistMovies?.length === 0 && <p>Thre is no wathlist movies yet</p>}
+      {resources?.length === 0 && <p>Thre is no wathlist movies yet</p>}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 p-6 rounded-lg">
-        {wathlistMovies?.map((movie) => (
-          <MovieCard
+        {resources?.map((movie) => (
+          <Card
             key={movie.tmdbId}
             tmdbid={movie.tmdbId}
+            type="Watchlist"
             title={movie.title}
+            onDelete={onDelete}
             image={`https://image.tmdb.org/t/p/original//${movie.poster_path}`}
           />
         ))}
@@ -54,4 +34,7 @@ const UserWatchList = () => {
   );
 };
 
-export default UserWatchList;
+export default withProfileContainer<ProfileCard>(
+  UserWatchList,
+  "/api/Profile/WatchlistMovies"
+);

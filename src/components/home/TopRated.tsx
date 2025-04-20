@@ -6,14 +6,14 @@ import SliderWrapper from "../SliderWrapper";
 
 interface Movie {
   id:number;
-  movieId: number;
   tmdbId: number;
   title: string;
-  poster_path: string;
+  imdbRating: string;
+  posterPath: string;
 }
 
 const TopRated = () => {
-  const {data,loading} = useFetch<Movie[]>('/api/Movie/top-ten')
+  const {data,loading} = useFetch<Movie[]>('/api/Movie/top-rated')
   return (
     <div className="">
       <SectionTitle title="Top Rated" />

@@ -5,8 +5,8 @@ import { CardSkeleton } from "@/components/skeletons";
 import useFetch from "@/hooks/useFetch";
 interface Movie {
   id: number;
-  movieId: number;
   tmdbId: number;
+  imdbRating: string;
   title: string;
   poster_path: number;
 }
@@ -23,6 +23,7 @@ const UserWatchList = () => {
         {data?.map((movie) => (
           <MovieCard
             key={movie.id}
+            imdbRating={movie.imdbRating}
             tmdbid={movie.tmdbId}
             title={movie.title}
             image={`https://image.tmdb.org/t/p/original//${movie.poster_path}`}

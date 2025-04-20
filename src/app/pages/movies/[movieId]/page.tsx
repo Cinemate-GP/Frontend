@@ -16,12 +16,17 @@ const MovieDetails = () => {
   const tmdbid = pathname.split("/")[3];
   const { data,loading } = useFetch<Movie>(`/api/Movie/` + tmdbid);
   const info = {
-    movieId: data?.movieId,
     tmdbId: data?.tmdbId,
     id: data?.tmdbId,
     title: data?.title,
-    poster_path: data?.poster_path,
-    date: data?.release_date,
+    tagline: data?.tagline,
+    posterPath: data?.posterPath,
+    imdbRating: data?.imdbRating,
+    rottenTomatoesRating: data?.rottenTomatoesRating,
+    metacriticRating: data?.metacriticRating,
+    mpa: data?.mpa,
+    backdropPath: data?.backdropPath,
+    date: data?.releaseDate,
     time: data?.runtime,
     overview: data?.overview,
     geners: data?.genresDetails,
@@ -33,7 +38,7 @@ const MovieDetails = () => {
       
       <MovieInfo info={info!} loading={loading}/>
       {/* Trailer */}
-      <Trailer trailer={data?.trailer_path} image={data?.poster_path} loading={loading} />
+      <Trailer trailer={data?.trailer} image={data?.backdropPath} loading={loading} />
       {/*Actors*/}
       <Actors actors={data?.actors} loading={loading}/>
       {/*Reviews*/}

@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
+import { getUserId } from "@/lib/utils";
 import { addToRecentActivities } from "@/redux/slices/recentActivity";
 import { RootState } from "@/redux/store";
 import { useCallback, useEffect, useState } from "react";
@@ -8,10 +9,10 @@ import { toast } from "react-toastify";
 
 interface MovieInfoProps {
   info: {
-    movieId: number | undefined;
     tmdbId: number | undefined;
     title: string | undefined;
-    poster_path: string | undefined;
+    backdropPath: string | undefined;
+    posterPath: string | undefined;
   };
 }
 
@@ -19,20 +20,19 @@ export const useMovieInfo = (info: MovieInfoProps["info"]) => {
   // states
   const [liked, setLiked] = useState<boolean | null>(null);
   const [watched, setWatched] = useState<boolean | null>(null);
-  const [backdropImage, setBackdropImage] = useState<string | null>(null);
-
-  const {user} = JSON.parse(localStorage.getItem("user") || "{}");
-  console.log(user.id)
-  const token = document.cookie.split("=")[1];
-
-  const postedData = {
-    movieId: info.movieId,
-    userId: user.id,
-  };
 
   // redux
   const dispatch = useDispatch();
   const { watchlist } = useSelector((state: RootState) => state.watchlist);
+
+  // localstorage and cookies
+  const token = document.cookie.split("=")[1];
+
+  // post data
+  const postedData = {
+    tmdbId: info.tmdbId,
+    userId: getUserId(),
+  };
 
   // toggle like function
   const toggleLike = useCallback(() => {
@@ -63,35 +63,25 @@ export const useMovieInfo = (info: MovieInfoProps["info"]) => {
     } catch (error) {
       console.log(error);
     }
+    dispatch(addToRecentActivities({
+      tmdbId: info.tmdbId,
+      movieTitle: info.title,
+      poster_path: info.posterPath,
+      activities: [
+        {
+          type: 'watchlist',
+          title: "added to watchlist",
+          createdAt: new Date().toISOString(),
+        },
+      ],
+    }))
 
-    // if (isInWatchlist) {
-    //   toast.warning("Already in your watchlist", { position: "bottom-right" });
-    //   return;
-    // }
-
-  
+    
   }, [info, , watchlist]);
-
-  const fetchBackdropImage = useCallback(async (id: number) => {
-    const res = await fetch(
-      `https://api.themoviedb.org/3/movie/${id}?api_key=196fb13a1f9bda525f29ed4e3543de8c`
-    );
-    const data = await res.json();
-    return data.backdrop_path
-      ? `https://image.tmdb.org/t/p/w780${data.backdrop_path}`
-      : null;
-  }, []);
-
-  // backdrop image
-  useEffect(() => {
-    if (info.tmdbId && !backdropImage) {
-      fetchBackdropImage(info.tmdbId).then(setBackdropImage);
-    }
-  }, [info.tmdbId, backdropImage, fetchBackdropImage]);
 
   // liked effect
   useEffect(() => {
-    if (liked && info.movieId) {
+    if (liked && info.tmdbId) {
       (async function () {
         try {
           const res = await fetch("/api/UserLikeMovie/Add", {
@@ -103,6 +93,20 @@ export const useMovieInfo = (info: MovieInfoProps["info"]) => {
             body: JSON.stringify(postedData),
           });
           if (!res.ok) throw new Error("Failed to add movie to liked");
+          dispatch(
+            addToRecentActivities({
+              tmdbId: info.tmdbId,
+              movieTitle: info.title,
+              poster_path: info.posterPath,
+              activities: [
+                {
+                  id: 1,
+                  title: "added to liked",
+                  createdAt: new Date().toISOString(),
+                },
+              ],
+            })
+          );
         } catch (error) {
           console.log(error);
         }
@@ -110,14 +114,18 @@ export const useMovieInfo = (info: MovieInfoProps["info"]) => {
       dispatch(
         addToRecentActivities({
           tmdbId: info.tmdbId,
-          title: "added to liked",
           movieTitle: info.title,
-          poster_path: info.poster_path,
-          type: "liked",
-          createdAt: new Date().toISOString(),
+          poster_path: info.posterPath,
+          activities: [
+            {
+              type: "liked",
+              title: "added to liked",
+              createdAt: new Date().toISOString(),
+            },
+          ],
         })
       );
-    } else if (liked === false && info.movieId) {
+    } else if (liked === false && info.tmdbId) {
       (async function () {
         try {
           const res = await fetch("/api/UserLikeMovie/Delete", {
@@ -157,11 +165,15 @@ export const useMovieInfo = (info: MovieInfoProps["info"]) => {
       dispatch(
         addToRecentActivities({
           tmdbId: info.tmdbId,
-          title: "added to liked",
           movieTitle: info.title,
-          poster_path: info.poster_path,
-          type: "liked",
-          createdAt: new Date().toISOString(),
+          poster_path: info.posterPath,
+          activities: [
+            {
+              type: "watched",
+              title: "added to watched",
+              createdAt: new Date().toISOString(),
+            },
+          ],
         })
       );
     } else if (watched === false && info.tmdbId) {
@@ -187,7 +199,6 @@ export const useMovieInfo = (info: MovieInfoProps["info"]) => {
     liked,
     watched,
     onWatched: toggleWatched,
-    backdropImage,
     toggleLike,
     addToWatchlist,
   };

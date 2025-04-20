@@ -1,4 +1,4 @@
-import { FaHeart, FaRegEye, FaRegStar } from "react-icons/fa6";
+import { FaHeart, FaRegEye, FaStar } from "react-icons/fa6";
 import { FiHeart, FiPlus } from "react-icons/fi";
 
 interface MovieActionsProps {
@@ -49,10 +49,13 @@ export const MovieActions = ({
     },
     {
       icon: (
-        <FaRegStar
-          color={rated ? "red" : "white"}
-          className="group-hover:!text-red-500 transition-all duration-200 animate-heart"
-        />
+        <>
+          {rated ? (
+            <FaStar color="red" className="animate-heart" />
+          ) : (
+            <FiHeart className="group-hover:text-red-500 transition-all duration-200" />
+          )}
+        </>
       ),
       onClick: onRate,
       label: "Rate",
