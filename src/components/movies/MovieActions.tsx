@@ -1,5 +1,5 @@
 import { FaHeart, FaRegEye, FaStar } from "react-icons/fa6";
-import { FiHeart, FiPlus } from "react-icons/fi";
+import { FiHeart, FiPlus, FiStar } from "react-icons/fi";
 
 interface MovieActionsProps {
   liked: boolean;
@@ -53,7 +53,7 @@ export const MovieActions = ({
           {rated ? (
             <FaStar color="red" className="animate-heart" />
           ) : (
-            <FiHeart className="group-hover:text-red-500 transition-all duration-200" />
+            <FiStar className="group-hover:text-red-500 transition-all duration-200" />
           )}
         </>
       ),
