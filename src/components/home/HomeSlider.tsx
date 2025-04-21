@@ -70,7 +70,7 @@ const HomeSlider = () => {
           return (
             <SwiperSlide key={slid.tmdbId}>
               <div
-                className="w-full relative bg-cover bg-center h-[700px]"
+                className="w-full relative bg-cover bg-center h-[800px]"
                 style={{
                   backgroundImage: `url(${IMAGEPOSTER + slid.backdropPath})`,
                 }}
