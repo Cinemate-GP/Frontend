@@ -13,7 +13,7 @@ interface Result {
   label: string;
   movieId: number;
 }
-
+// movie rating
 const MovieRating = () => {
   const [loading, setLoading] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
