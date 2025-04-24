@@ -14,7 +14,7 @@ export default function SingleActor() {
   const actorId = pathname.split("/")[3];
   const [loading, setLoading] = useState<boolean>(true);
   const [actorData, setActorData] = useState<Actor | null>(null);
-  const [isExpanded,setIsExpanded]=useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -66,11 +66,21 @@ export default function SingleActor() {
               />
               <h3>{actorData?.name}</h3>
               <p className="text-gray-400 text-sm mt-1 overflow-auto">
-                {truncateText(actorData!.biography.slice(0,400), isExpanded, 200)}
-                {" "}<button className="font-bold text-white" onClick={() => setIsExpanded(!isExpanded)}>{isExpanded ? " Show Less" : " Show More"}</button>
+                {truncateText(
+                  actorData!.biography.slice(0, 400),
+                  isExpanded,
+                  200
+                )}{" "}
+                <button
+                  className="font-bold text-white"
+                  onClick={() => setIsExpanded(!isExpanded)}
+                >
+                  {isExpanded ? " Show Less" : " Show More"}
+                </button>
               </p>
             </aside>
           </div>
+
           {/* for mobile */}
           <div className="h-screen bg-black text-white sm:hidden flex flex-col">
             {/* Actor Info Section */}
@@ -87,8 +97,18 @@ export default function SingleActor() {
                 className="w-32 h-32 rounded-full object-cover"
               />
               <h2 className="mt-2 text-lg font-bold">Chris Pratt</h2>
-              <p className="text-sm text-gray-300 text-center px-4">
-                {actorData?.biography}
+              <p className="text-gray-400 text-sm mt-1 overflow-auto">
+                {truncateText(
+                  actorData!.biography.slice(0, 400),
+                  isExpanded,
+                  200
+                )}{" "}
+                <button
+                  className="font-bold text-white"
+                  onClick={() => setIsExpanded(!isExpanded)}
+                >
+                  {isExpanded ? " Show Less" : " Show More"}
+                </button>
               </p>
             </div>
 

@@ -17,7 +17,6 @@ const MovieDetails = () => {
   const { data,loading } = useFetch<Movie>(`/api/Movie/` + tmdbid);
   const info = {
     tmdbId: data?.tmdbId,
-    id: data?.tmdbId,
     title: data?.title,
     tagline: data?.tagline,
     posterPath: data?.posterPath,
