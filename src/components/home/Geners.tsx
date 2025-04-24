@@ -13,22 +13,24 @@ interface Movie {
 }
 const Geners = () => {
   const [selected, setSelected] = React.useState("Geners");
-  const [loading,setLoading] = React.useState(true)
+  const [loading, setLoading] = React.useState(true);
   const [filteredData, setFilteredData] = React.useState<Movie[] | null>(null);
   useEffect(() => {
     const fetchData = async () => {
-      const url = selected === "Geners" ? `/api/Movie/genres` : `/api/Movie/genres?Genere=${selected}`
+      const url =
+        selected === "Geners"
+          ? `/api/Movie/genres`
+          : `/api/Movie/genres?Genere=${selected}`;
       try {
-        setLoading(true)
+        setLoading(true);
         const response = await fetch(url);
         if (!response.ok) throw new Error("Failed to fetch data");
         const json = await response.json();
         setFilteredData(json);
-        
       } catch (err) {
         console.log(err);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
     };
     fetchData();
@@ -38,7 +40,7 @@ const Geners = () => {
       <div className="flex justify-between items-center pr-1 sm:pr-4">
         <SectionTitle title="Descover By Geners" />
         <select
-          className="border border-gray-500 bg-black text-white px-4 py-1 rounded-md mb-4 w-[100px] sm:w-[200px]"
+          className="border border-gray-500 bg-black text-white px-4 py-1 rounded-md mb-4 w-[100px] sm:w-[200px] overflow-auto max-h-60"
           onChange={(e) => setSelected(e.target.value)}
         >
           <option value="">Genres</option>

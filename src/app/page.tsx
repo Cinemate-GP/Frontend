@@ -1,8 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { CiSearch } from "react-icons/ci";
-import { IoIosNotificationsOutline } from "react-icons/io";
 
 const page = () => {
   return (
@@ -11,22 +9,8 @@ const page = () => {
         <div className="container mx-auto !px-2 xl:!px-[6rem] !py-2 md:px-24 !md:py-4">
           {/* Navebar */}
           <div className="flex items-center justify-between gap-4">
-            <Link href="/pages">
-              <Image src="/logo.svg" width={100} height={100} alt="logo" />
-            </Link>
-            <div className="bg-[#2d3638] rounded-3xl flex items-center ml-0 lg:ml-[2rem] p-3 bg-opacity-80 w-full lg:w-3/6">
-              <CiSearch />
-              <input
-                type="text"
-                placeholder="Search.."
-                className="ml-2 bg-transparent outline-none w-full h-full"
-              />
-            </div>
+            <Image src="/logo.svg" width={100} height={100} alt="logo" />
             <div className="flex gap-4 items-center">
-              <button className="relative">
-                <span className="text-white bg-primary w-[5px] h-[5px] rounded-full absolute top-0 right-2"></span>
-                <IoIosNotificationsOutline size={24} />
-              </button>
               <Link
                 href={"/auth/login"}
                 className="text-xs md:text-sm bg-primary block w-[5rem] py-2 text-center rounded-3xl border border-transparent hover:border-white hover:bg-transparent transition-all duration-00"
@@ -45,7 +29,8 @@ const page = () => {
                   🎬
                 </h1>
                 <p className="text-lg md:text-xl mt-5 text-gray-300">
-                  Can’t decide between thousands of streaming movies? let Us do the work!
+                  Can’t decide between thousands of streaming movies? let Us do
+                  the work!
                 </p>
                 <Link
                   href="/auth/signup"

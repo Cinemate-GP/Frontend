@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import MainContent from "@/components/MainContent";
+import SearchProvider from "@/context/SearchContext";
 
 export default async function RootLayout({
   children,
@@ -17,10 +18,12 @@ export default async function RootLayout({
   return (
     <>
       <Sidenav />
-      <MainContent>
-        <Navbar />
-        {children}
-      </MainContent>
+      <SearchProvider>
+        <MainContent>
+          <Navbar />
+          {children}
+        </MainContent>
+      </SearchProvider>
     </>
   );
 }

@@ -39,13 +39,13 @@ const Menu = ({
         <li
           onClick={() => setIsOpen(false)}
           key={item.name}
-          className="size-full bg-white/10 rounded-lg"
+          className="w-16 h-full  bg-white/10 rounded-lg"
         >
           <Link
             href={item.href}
-            className="p-4 flex flex-col items-center font-medium text-sm"
+            className="p-4 flex flex-col items-center font-medium text-xs"
           >
-            <item.icon className="w-6 h-6" />
+            <item.icon className="w-5 h-5" />
             {item.name}
           </Link>
         </li>
