@@ -33,9 +33,8 @@ const SearchPage = () => {
         );
         if (!res.ok) throw new Error("Failed to fetch data");
         const json = await res.json();
-        if (selectedValue === "all") {
-          setSearchResult(json.value);
-        } else {
+        if (selectedValue === "all") setSearchResult(json.value);
+        else {
           setSearchResult(
             json.value.filter((item: Result) => item.type === selectedValue)
           );
@@ -83,17 +82,7 @@ const SearchPage = () => {
                 key={item.id}
                 tmdbid={item.id}
                 title={item.name}
-                image={
-                  item.type === "User"
-                    ? item.poster
-                      ? item.poster
-                        ? IMAGEPOSTER + item.poster
-                        : "/ueser-placeholder.jpg"
-                      : "/ueser-placeholder.jpg"
-                    : item.poster
-                    ? IMAGEPOSTER + item.poster
-                    : "/ueser-placeholder.jpg"
-                }
+                image={item.poster ? item.type === 'User' ? item.poster : IMAGEPOSTER + item.poster : "/ueser-placeholder.jpg"}
               />
             );
           } else if (selectedValue === "Actor") {
@@ -115,17 +104,20 @@ const SearchPage = () => {
             );
           } else {
             return (
-              <div
-                key={item.id}
-                className="text-center cursor-pointer hover:opacity-80 transition"
-              >
-                <img
-                  src={item.poster ? item.poster : "/ueser-placeholder.jpg"}
-                  alt={item.name}
-                  className="rounded-md w-full h-[250px] object-cover"
-                />
-                <p className="mt-2 text-white">{item.name}</p>
-              </div>
+              <Link href={`/pages/users/${item.id}`} key={item.id}>
+                <div className="text-center cursor-pointer hover:opacity-80 transition">
+                  <img
+                    src={
+                      item.poster
+                        ? item.poster
+                        : "/ueser-placeholder.jpg"
+                    }
+                    alt={item.name}
+                    className="rounded-md w-full h-[250px] object-cover"
+                  />
+                  <p className="mt-2 text-white">{item.name}</p>
+                </div>
+              </Link>
             );
           }
         })}
