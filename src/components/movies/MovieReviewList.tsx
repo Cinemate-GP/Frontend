@@ -1,9 +1,10 @@
-import { truncateText } from "@/lib/utils";
+import { Review } from "@/lib/types";
+import { FormatDate, truncateText } from "@/lib/utils";
 import Image from "next/image";
 import { useState } from "react";
 import { FaStar } from "react-icons/fa6";
 
-const MovieReviewList = () => {
+const MovieReviewList = ({movieReviews}:{movieReviews:Review[] | undefined}) => {
   const [expandedReviews, setExpandedReviews] = useState<{
     [key: string]: boolean;
   }>({});
@@ -13,69 +14,24 @@ const MovieReviewList = () => {
       [name]: !prev[name],
     }));
   };
-  const reviews = [
-    {
-      name: "Juanpa Zurita",
-      date: "Jun 15, 2024",
-      rating: 5,
-      message:
-        "This film captures the essence of three different movies but never feels disconnected or disjoint. It transforms into characters as effortlessly.",
-      avatar:
-        "https://image.tmdb.org/t/p/original//jPsLqiYGSofU4s6BjrxnefMfabb.jpg",
-    },
-    {
-      name: "Agustín Arana",
-      date: "Jun 15, 2024",
-      rating: 5,
-      message:
-        "Stunning performance and direction. Every frame was packed with emotion and subtlety. Brilliant!",
-      avatar:
-        "https://image.tmdb.org/t/p/original//jPsLqiYGSofU4s6BjrxnefMfabb.jpg",
-    },
-    {
-      name: "Camila Rojas",
-      date: "Mar 12, 2025",
-      rating: 4,
-      message:
-        "A very engaging story with stunning visuals. Some parts felt rushed, but overall a great experience!",
-      avatar:
-        "https://image.tmdb.org/t/p/original//jPsLqiYGSofU4s6BjrxnefMfabb.jpg",
-    },
-    {
-      name: "Diego Herrera",
-      date: "Feb 28, 2025",
-      rating: 3,
-      message:
-        "The performances were solid, but the storyline lacked depth in certain scenes. Still worth a watch.",
-      avatar:
-        "https://image.tmdb.org/t/p/original//jPsLqiYGSofU4s6BjrxnefMfabb.jpg",
-    },
-    {
-      name: "Luciana Torres",
-      date: "Jan 17, 2025",
-      rating: 5,
-      message:
-        "Absolutely loved it! The character arcs were beautifully developed and the music was phenomenal.",
-      avatar:
-        "https://image.tmdb.org/t/p/original//jPsLqiYGSofU4s6BjrxnefMfabb.jpg",
-    },
-  ];
+  
   return (
     <div className="flex-1 bg-secondaryBg p-6 rounded-lg mt-6 lg:mt-0">
       <h3 className="text-white text-lg font-bold">
-        Reviews ({reviews.length})
+        Reviews ({movieReviews?.length})
       </h3>
-      <div className="mt-4 space-y-4 h-96 overflow-y-auto custom-scrollbar">
-        {reviews.map((review) => {
-          const isExpanded = expandedReviews[review.name] || false;
+      {movieReviews?.length === 0 && <p className="text-gray-400 mt-3">No Reviews Found for this Movie</p>}
+      <div className="mt-4 space-y-4 max-h-[400px] overflow-y-auto custom-scrollbar">
+        {movieReviews?.map((review) => {
+          const isExpanded = expandedReviews[review.reviewId] || false;
           return (
             <div
-              key={review.name + review.date}
+              key={review.reviewId}
               className="grid grid-cols-6 bg-background p-2 md:p-4 rounded-lg gap-4"
             >
               <div className="col-span-6 sm:col-span-1 lg:col-span-1">
                 <Image
-                  src={review.avatar}
+                  src={review.profilePic ? review.profilePic : "/ueser-placeholder.jpg"}
                   alt="User"
                   width={50}
                   height={50}
@@ -85,31 +41,31 @@ const MovieReviewList = () => {
               </div>
               <div className="col-span-6 sm:col-span-5 md:col-span-5">
                 <div className="flex gap-3 items-center flex-wrap">
-                  <h4 className="text-white font-bold">{review.name}</h4>
+                  <h4 className="text-white font-bold">{review.fullName}</h4>
                   <div className="flex items-center space-x-1 mb-1">
                     {[...Array(5)].map((_, i) => (
                       <FaStar
                         key={i}
                         size={14}
                         className={
-                          i < review.rating ? "text-red-500" : "text-zinc-600"
+                          i < review.stars ? "text-red-500" : "text-zinc-600"
                         }
                       />
                     ))}
                   </div>
                 </div>
                 <p className="text-gray-400 text-sm mt-1">
-                  {truncateText(review.message, isExpanded, 80)}
-                  {review.message.length > 80 && (
+                  {truncateText(review.reviewBody, isExpanded, 80)}
+                  {review.reviewBody.length > 80 && (
                     <button
                       className="text-white text-sm ml-2"
-                      onClick={() => toggleExpand(review.name)}
+                      onClick={() => toggleExpand(review.reviewId)}
                     >
                       {isExpanded ? "Read Less" : "Read More"}
                     </button>
                   )}
                 </p>
-                <p className="text-gray-500 text-xs mt-1">{review.date}</p>
+                <p className="text-gray-500 text-xs mt-1">{FormatDate(review.reviewedOn)}</p>
               </div>
             </div>
           );

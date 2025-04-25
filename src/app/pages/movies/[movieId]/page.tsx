@@ -29,6 +29,7 @@ const MovieDetails = () => {
     time: data?.runtime,
     overview: data?.overview,
     geners: data?.genresDetails,
+    movieReviews: data?.movieReviews
   };
 
   return (
@@ -41,7 +42,7 @@ const MovieDetails = () => {
       {/*Actors*/}
       <Actors actors={data?.actors} loading={loading}/>
       {/*Reviews*/}
-      <Reviews />
+      <Reviews movieReviews={data?.movieReviews}/>
       {/*Similar Movies*/}
       <SimilarMovies />
       <ToastContainer />

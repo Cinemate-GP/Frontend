@@ -18,16 +18,15 @@ export const FormateBirthDate = (date: Date) => {
   return date.toISOString().split("T")[0];
 };
 
-export const FormateDate = (date: Date) => {
+export const FormatDate = (date: string | Date) => {
   const isoDate = new Date(date);
-  const formatted = isoDate
-    .toLocaleDateString("en-GB", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-    })
-  return formatted;
+  return isoDate.toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
 };
+
 
 export const truncateText = (
   str: string,

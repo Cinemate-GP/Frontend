@@ -65,7 +65,7 @@ export default function SingleActor() {
                 loading="lazy"
               />
               <h3>{actorData?.name}</h3>
-              <p className="text-gray-400 text-sm mt-1 overflow-auto">
+              <p className="text-gray-400 text-sm mt-1 overflow-auto custom-scrollbar">
                 {truncateText(
                   actorData!.biography.slice(0, 400),
                   isExpanded,

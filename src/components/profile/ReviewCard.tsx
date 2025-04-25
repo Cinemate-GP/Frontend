@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import SectionTitle from "../SectionTitle";
 import { IMAGEPOSTER } from "@/constants";
-import { FormateDate, getUserId } from "@/lib/utils";
+import {FormatDate,getUserId } from "@/lib/utils";
 import Link from "next/link";
 import { FaStar } from "react-icons/fa6";
 
@@ -78,7 +78,7 @@ const ReviewCard = (item: cardProps) => {
             </p>
             <span className="text-white text-sm mt-3 flex items-center gap-1">
               <span className="w-1 h-4 rounded-xl bg-primary block"></span>
-              <span>{FormateDate(item.createdAt)}</span>
+              <span>{FormatDate(item.createdAt)}</span>
             </span>
           </div>
           <button

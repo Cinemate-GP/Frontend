@@ -12,7 +12,7 @@ export const MovieGenres = ({ genres }: GenerProps) => {
         {genres.map((genre) => (
           <li
             key={genre.id}
-            className="bg-[#AE251C] text-white px-3 py-1 italic rounded-md"
+            className="bg-[#AE251C] text-white px-3 py-1 italic rounded-md text-[14] sm:text-[16]"
           >
             {genre.name}
           </li>

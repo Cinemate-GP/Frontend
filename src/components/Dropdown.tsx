@@ -64,7 +64,7 @@ export default function NotificationDropdown() {
 
       {/* Dropdown */}
       <div
-        className={`absolute -right-6 p-3 mt-3 w-80 bg-black border border-red-500 rounded-lg shadow-xl text-white transform ${
+        className={`absolute -right-14 p-3 mt-3 w-80 bg-black border border-red-500 rounded-lg shadow-xl text-white transform max-w-[300px] ${
           isOpen
             ? "opacity-100 scale-100"
             : "opacity-0 scale-95 pointer-events-none"

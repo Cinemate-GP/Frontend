@@ -24,14 +24,26 @@ export type Movie = {
     actors?: {
       id: number;
       name: string;
-      character: string;
+      role: string;
+      extra: string;
       profilePath: string;
     }[]
     genresDetails?: {
       id:number,
       name:string
-    }[] ; // Change to `Genre[]` if you define a Genre type
+    }[] ;
+    movieReviews?:Review[]
   };
+  export type Review = {
+    userId:number,
+    tmdbId:number,
+    fullName:string,
+    profilePic:string,
+    stars:number,
+    reviewId:string,
+    reviewBody:string
+    reviewedOn:string
+  }
   export type Actor = {
     id: number,
     name:string,

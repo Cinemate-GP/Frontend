@@ -1,11 +1,12 @@
 "use client";
 
+import { Review } from "@/lib/types";
 import SectionTitle from "../SectionTitle";
 import MovieReviewList from "./MovieReviewList";
 
 
 
-export default function Reviews() {
+export default function Reviews({movieReviews}:{movieReviews:Review[] | undefined}) {
   
   
 
@@ -15,7 +16,7 @@ export default function Reviews() {
 
       <div className="mt-4 flex flex-col lg:flex-row">
         {/* Reviews List */}
-        <MovieReviewList/>
+        <MovieReviewList movieReviews={movieReviews}/>
       </div>
     </div>
   );

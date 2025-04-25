@@ -96,7 +96,7 @@ const MovieReviewForm = ({
           body: JSON.stringify({
             tmdbId,
             userId: user.id,
-            starts: rating,
+            stars: rating,
           }),
         });
         if (!res.ok) {
@@ -109,7 +109,7 @@ const MovieReviewForm = ({
   };
 
   return (
-    <div className="flex-1 bg-secondaryBg p-6 rounded-lg">
+    <div className="flex-1 bg-secondaryBg rounded-lg">
       <h3 className="text-white text-lg font-bold">Rate &quot;{title}&quot;</h3>
       <p className="text-gray-400 text-sm mt-3">
         Write a review for this movie. It will be posted on this page.
