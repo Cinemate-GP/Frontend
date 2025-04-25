@@ -112,7 +112,7 @@ const SearchPage = () => {
                 <img
                   src={
                     item.poster
-                      ? IMAGEPOSTER + item.poster
+                      ? item.poster
                       : "/ueser-placeholder.jpg"
                   }
                   alt={item.name}
