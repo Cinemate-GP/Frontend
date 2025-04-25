@@ -7,6 +7,7 @@ import { MovieGridSkeleton } from "@/components/skeletons";
 import { IMAGEPOSTER } from "@/constants";
 import { useSearch } from "@/context/SearchContext";
 import { useDebounce } from "@/hooks/useDebounce";
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -82,14 +83,22 @@ const SearchPage = () => {
                 key={item.id}
                 tmdbid={item.id}
                 title={item.name}
-                image={item.poster ? item.type === 'User' ? item.poster : IMAGEPOSTER + item.poster : "/ueser-placeholder.jpg"}
+                image={
+                  item.poster
+                    ? item.type === "User"
+                      ? item.poster
+                      : IMAGEPOSTER + item.poster
+                    : "/ueser-placeholder.jpg"
+                }
               />
             );
           } else if (selectedValue === "Actor") {
             return (
               <Link href={`/pages/actors/${item.id}`} key={item.id}>
                 <div className="text-center cursor-pointer hover:opacity-80 transition">
-                  <img
+                  <Image
+                    width={300}
+                    height={300}
                     src={
                       item.poster
                         ? IMAGEPOSTER + item.poster
@@ -107,11 +116,7 @@ const SearchPage = () => {
               <Link href={`/pages/users/${item.id}`} key={item.id}>
                 <div className="text-center cursor-pointer hover:opacity-80 transition">
                   <img
-                    src={
-                      item.poster
-                        ? item.poster
-                        : "/ueser-placeholder.jpg"
-                    }
+                    src={item.poster ? item.poster : "/ueser-placeholder.jpg"}
                     alt={item.name}
                     className="rounded-md w-full h-[250px] object-cover"
                   />
