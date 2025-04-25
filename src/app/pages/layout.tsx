@@ -17,8 +17,8 @@ export default async function RootLayout({
 
   return (
     <>
-      <Sidenav />
       <SearchProvider>
+        <Sidenav />
         <MainContent>
           <Navbar />
           {children}

@@ -62,25 +62,41 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ info, loading }) => {
             </h2>
             <p>{info.tagline}</p>
             {/* meta info */}
-            <div className="flex flex-wrap justify-center gap-2 md:gap-4 text-lg">
-              <span className="flex items-center gap-1 text-xs sm:text-[16px]">
+            <div className="flex flex-wrap justify-center gap-4 text-lg">
+              <span className="flex items-center gap-1 text-[16px]">
                 <LuCalendarClock />
                 {info.date}
               </span>
-              <span className="text-xs md:text-[16px]">{info.mpa}</span>
-              <span className="flex items-center gap-1 text-xs sm:text-[16px]">
+              <span className="text-[16px]">{info.mpa}</span>
+              <span className="flex items-center gap-1 text-[16px]">
                 <GoStarFill color="gold" />
                 {info.imdbRating}
               </span>
-              <span className="flex items-center gap-1 text-xs sm:text-[16px]">
-                <Image src="/rotten-tomato.webp" width={14} height={14} alt="tomato rating" />
-                {info.rottenTomatoesRating}
-              </span>
-              <span className="flex items-center gap-1 text-xs sm:text-[16px]">
-                <Image src="/rating.webp" width={14} height={14} alt="metacritic rating" />
-                {info.metacriticRating}
-              </span>
-              <span className="flex items-center gap-1 text-xs sm:text-[16px]">
+              {info.rottenTomatoesRating && (
+                <span className="flex items-center gap-1 text-[16px]">
+                  <Image
+                    src="/rotten-tomato.webp"
+                    width={14}
+                    height={14}
+                    alt="tomato rating"
+                  />
+                  {info.rottenTomatoesRating}
+                </span>
+              )}
+
+              {info.metacriticRating && (
+                <span className="flex items-center gap-1 text-[16px]">
+                  <Image
+                    src="/rating.webp"
+                    width={14}
+                    height={14}
+                    alt="metacritic rating"
+                    className="w-[14px] md:h-[14px]"
+                  />
+                  {info.metacriticRating}
+                </span>
+              )}
+              <span className="flex items-center gap-1 text-[16px]">
                 <FaClock size={14} />
                 {formatDuration(info.time)}
               </span>
@@ -88,7 +104,9 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ info, loading }) => {
 
             <MovieGenres genres={info.geners || []} />
             {info.overview && (
-              <p className="w-full md:max-w-[60%] text-[14px] sm:text-[16px]">{info.overview}</p>
+              <p className="w-full md:max-w-[60%] text-[14px] sm:text-[16px]">
+                {info.overview}
+              </p>
             )}
             <MovieActions
               liked={liked!}

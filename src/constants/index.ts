@@ -7,6 +7,7 @@ import {
 import { MdAddToQueue } from "react-icons/md";
 import { MdOutlineSubscriptions } from "react-icons/md";
 import { PiSignInBold } from "react-icons/pi";
+import { MdOutlineFeed } from "react-icons/md";
 
 export interface NavLink {
   name: string;
@@ -128,6 +129,7 @@ const icons = {
   Profile: AiOutlineUser,
   Settings: AiOutlineSetting,
   Signin: PiSignInBold,
+  Feeds: MdOutlineFeed
 };
 
 export const mainLinks: NavLink[] = [
@@ -135,6 +137,7 @@ export const mainLinks: NavLink[] = [
   { name: "Movies", href: "/pages/movies", icon: "Movies" },
   { name: "Watchlist", href: "/pages/profile/watchlist", icon: "Watchlist" },
   { name: "Liked", href: "/pages/profile/liked", icon: "Likes" },
+  { name: "Feed", href: "/pages/profile/feed", icon: "Feeds" },
 ];
 
 export const userLinks: NavLink[] = [

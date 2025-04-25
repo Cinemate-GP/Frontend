@@ -4,12 +4,13 @@ import { useRouter } from "next/navigation";
 import { CiSearch } from "react-icons/ci";
 
 export const Search = ({ border }: { border?: boolean }) => {
-  const { setSearch } = useSearch();
+  const { setSearch , search } = useSearch();
   const router = useRouter();
   return (
     <>
      {!border && <CiSearch />}
       <input
+        value={search}
         onFocus={() => router.push("/pages/search")}
         onChange={(e) => setSearch(e.target.value)}
         type="text"

@@ -10,10 +10,12 @@ import Image from "next/image";
 import { useDispatch } from "react-redux";
 import { toggleSidenave } from "@/redux/slices/sidebarSlice";
 import { RiMenuUnfold2Line, RiMenuFold2Line } from "react-icons/ri";
+import { useSearch } from "@/context/SearchContext";
 
 export default function Sidenav() {
   const pathname = usePathname();
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const { setSearch } = useSearch();
   const dispatch = useDispatch();
 
   const toggleSidebar = () => {
@@ -67,8 +69,9 @@ export default function Sidenav() {
   return (
     <>
       <div
-        className={`h-screen text-gray-300 bg-black border-r fixed z-30 border-gray-600 flex flex-col ${
-          isCollapsed ? "w-[4rem] transition-all duration-200" : "w-[13rem]"
+        onClick={() => setSearch("")}
+        className={`h-screen text-gray-300 bg-black border-r fixed z-50 border-gray-600 flex flex-col transition-all duration-200 ${
+          isCollapsed ? "w-[4rem]" : "w-[13rem]"
         } hidden md:flex`}
       >
         {/* logo */}
@@ -96,10 +99,10 @@ export default function Sidenav() {
 
           {/* toggle sidenave  */}
           <button
-            className="-mr-3 bg-gray-700 p-1 rounded"
+            className={`${isCollapsed ? "-mr-[2.75rem]":"-mr-3"} bg-gray-700 p-1 rounded`}
             onClick={toggleSidebar}
           >
-            {isCollapsed ? <RiMenuFold2Line/> : <RiMenuUnfold2Line/>}
+            {isCollapsed ? <RiMenuFold2Line /> : <RiMenuUnfold2Line />}
           </button>
         </div>
 
@@ -121,15 +124,15 @@ export default function Sidenav() {
           >
             <Link
               href="/pages/profile"
-              className="flex items-center justify-center p-2 rounded-lg hover:bg-gray-700 transition-all duration-200 group"
+              className={`${pathname === "/pages/profile" ? "bg-gray-700" : ""} flex items-center justify-center p-2 rounded-lg hover:bg-gray-700 transition-all duration-200 group`}
             >
               <div className="relative">
                 {icons["Profile"] ? (
                   React.createElement(icons["Profile"], {
-                    className: "w-6 h-6 text-gray-400",
+                    className: "w-5 h-5 text-gray-400",
                   })
                 ) : (
-                  <div className="w-6 h-6 flex items-center justify-center text-gray-400">
+                  <div className="w-5 h-5 flex items-center justify-center text-gray-400">
                     👤
                   </div>
                 )}
@@ -146,14 +149,14 @@ export default function Sidenav() {
 
             <Link
               href="/pages/settings"
-              className={`flex items-center justify-center p-2 rounded-lg hover:bg-gray-700 transition-all duration-200 group`}
+              className={`${pathname === "/pages/settings" ? "bg-gray-700" : ""} flex items-center justify-center p-2 rounded-lg hover:bg-gray-700 transition-all duration-200 group`}
             >
               {icons["Settings"] ? (
                 React.createElement(icons["Settings"], {
-                  className: "w-6 h-6 text-gray-400",
+                  className: "w-5 h-5 text-gray-400",
                 })
               ) : (
-                <div className="w-6 h-6 flex items-center justify-center text-gray-400">
+                <div className="w-5 h-5 flex items-center justify-center text-gray-400">
                   ⚙️
                 </div>
               )}
