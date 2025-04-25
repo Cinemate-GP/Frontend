@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import MovieCard from "@/components/MovieCard";
@@ -115,7 +114,9 @@ const SearchPage = () => {
             return (
               <Link href={`/pages/users/${item.id}`} key={item.id}>
                 <div className="text-center cursor-pointer hover:opacity-80 transition">
-                  <img
+                  <Image
+                    width={300}
+                    height={300}
                     src={item.poster ? item.poster : "/ueser-placeholder.jpg"}
                     alt={item.name}
                     className="rounded-md w-full h-[250px] object-cover"
