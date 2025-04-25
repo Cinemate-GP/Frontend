@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -44,13 +43,11 @@ const MovieCard = (movie: MovieCardProps) => {
     return (
       <Link href={`/pages/movies/${movie.tmdbid}`}>
         <div className="relative group overflow-hidden rounded-lg">
-          <img
+          <Image
             src={movie.image}
             alt={movie.title}
             width={300}
             height={450}
-            loading="lazy"
-            decoding="async"
             className="group-hover:scale-110 transition-all duration-500 ease-in-out h-auto w-[300px] max-h-[450px] object-cover rounded"
           />
           <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-black/40 to-black/90 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
