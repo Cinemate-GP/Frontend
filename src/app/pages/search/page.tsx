@@ -97,7 +97,7 @@ const SearchPage = () => {
                 <div className="text-center cursor-pointer hover:opacity-80 transition">
                   <Image
                     width={300}
-                    height={300}
+                    height={450}
                     src={
                       item.poster
                         ? IMAGEPOSTER + item.poster
@@ -116,7 +116,7 @@ const SearchPage = () => {
                 <div className="text-center cursor-pointer hover:opacity-80 transition">
                   <Image
                     width={300}
-                    height={300}
+                    height={450}
                     src={item.poster ? item.poster : "/ueser-placeholder.jpg"}
                     alt={item.name}
                     className="rounded-md w-full h-[250px] object-cover"
