@@ -7,9 +7,10 @@ import { ProfileCard } from "@/lib/types";
 import React from "react";
 
 interface Review extends ProfileCard {
-  rating: string;
   reviewBody: string;
   createdAt:Date
+  stars:number
+  reviewId:number
 }
 interface ComponentProps {
   resources: Review[] | null;

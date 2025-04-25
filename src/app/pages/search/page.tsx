@@ -83,7 +83,17 @@ const SearchPage = () => {
                 key={item.id}
                 tmdbid={item.id}
                 title={item.name}
-                image={item.poster ? IMAGEPOSTER + item.poster : "/ueser-placeholder.jpg"}
+                image={
+                  item.type === "User"
+                    ? item.poster
+                      ? item.poster
+                        ? IMAGEPOSTER + item.poster
+                        : "/ueser-placeholder.jpg"
+                      : "/ueser-placeholder.jpg"
+                    : item.poster
+                    ? IMAGEPOSTER + item.poster
+                    : "/ueser-placeholder.jpg"
+                }
               />
             );
           } else if (selectedValue === "Actor") {
@@ -110,11 +120,7 @@ const SearchPage = () => {
                 className="text-center cursor-pointer hover:opacity-80 transition"
               >
                 <img
-                  src={
-                    item.poster
-                      ? item.poster
-                      : "/ueser-placeholder.jpg"
-                  }
+                  src={item.poster ? item.poster : "/ueser-placeholder.jpg"}
                   alt={item.name}
                   className="rounded-md w-full h-[250px] object-cover"
                 />

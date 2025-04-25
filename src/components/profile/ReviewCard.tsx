@@ -10,7 +10,8 @@ interface cardProps {
   title: string;
   poster_path: string;
   reviewBody: string;
-  rating: string;
+  stars: number;
+  reviewId:number
   createdAt: Date;
   type: string;
   onDelete: (movieId: number) => void;
@@ -32,6 +33,7 @@ const ReviewCard = (item: cardProps) => {
         body: JSON.stringify({
           tmdbId: item.tmdbId,
           userId: getUserId(),
+          reviewId:item.reviewId
         }),
       });
       if (!res.ok) throw new Error("Failed to delete movie");
@@ -64,12 +66,13 @@ const ReviewCard = (item: cardProps) => {
 
           {/* Review */}
           <div className="bg-background p-3 rounded-lg mt-3">
+            {/* rating if exits */}
             <div className="flex items-center space-x-1 mb-1">
               {[...Array(5)].map((_, i) => (
                 <FaStar
                   key={i}
                   size={14}
-                  className={i < 3 ? "text-red-500" : "text-zinc-600"}
+                  className={i < item.stars ? "text-red-500" : "text-zinc-600"}
                 />
               ))}
             </div>
