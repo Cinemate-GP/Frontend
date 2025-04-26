@@ -91,10 +91,10 @@ const LoginForm = () => {
         >
           Forgot Password?
         </Link>
-        <div className="flex gap-6 items-center justify-center">
+        <div className="flex gap-4 sm:gap-6 items-center justify-center">
           <button
             type="submit"
-            className="bg-[linear-gradient(90deg,#ff0000,#800000)] hover:scale-105 transition-all duration-150 rounded-full px-12 py-2 sm:text-sm"
+            className="bg-[linear-gradient(90deg,#ff0000,#800000)] hover:scale-105 transition-all duration-150 rounded-full px-8 sm:px-12 py-2 sm:text-sm"
           >
             {isSubmitting ? (
               <span className="flex items-center">
@@ -110,7 +110,7 @@ const LoginForm = () => {
           </button>
           <Link
             href="/"
-            className="bg-transparent rounded-full px-12 py-2 sm:text-sm border border-white hover:scale-105 transition-all duration-150"
+            className="bg-transparent rounded-full px-8 sm:px-12 py-2 sm:text-sm border border-white hover:scale-105 transition-all duration-150"
           >
             Cancel
           </Link>

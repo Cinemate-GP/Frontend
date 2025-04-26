@@ -107,12 +107,12 @@ export default function RecentActivitySection() {
               alt={item.name}
               width={250}
               height={190}
-              className="max-w-[100px] max-h-[160px] sm:max-w-[150px] lg:max-w-[200px] sm:max-h-[250px] object-cover"
+              className="max-w-[90px] max-h-[120px] sm:max-w-[150px] lg:max-w-[200px] sm:max-h-[250px] object-cover"
               loading="lazy"
             />
 
             <div className="p-4 flex-1 flex flex-col gap-3">
-              <h3 className="text-lg font-bold text-white">{item.name}</h3>
+              <h3 className="text-sm sm:text-lg font-bold text-white">{item.name}</h3>
 
               <div className="flex flex-col gap-6">
                 {/* title & icons */}

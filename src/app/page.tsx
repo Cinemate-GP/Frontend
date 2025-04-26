@@ -20,7 +20,7 @@ const page = () => {
             </div>
           </div>
           {/* Content */}
-          <div className="w-full mt-12 sm:mt-20 md:mt-32 lg:mt-20 pl-0 2xl:pl-24 mb-8 md:mb-0 relative">
+          <div className="w-full mt-20 md:mt-32 lg:mt-20 pl-0 2xl:pl-24 mb-8 md:mb-0 relative">
             <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-12 w-full relative z-10">
               {/* Text Section */}
               <div className="text-center md:text-start pr-0 lg:pr-5">
