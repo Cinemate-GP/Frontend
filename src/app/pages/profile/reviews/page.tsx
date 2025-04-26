@@ -15,7 +15,7 @@ interface Review extends ProfileCard {
 interface ComponentProps {
   resources: Review[] | null;
   loading: boolean;
-  onDelete: (movieId: number) => void;
+  onDelete: (tmdbId: number) => void;
 }
  
 const UserReviews = ({resources,loading,onDelete}:ComponentProps) => {

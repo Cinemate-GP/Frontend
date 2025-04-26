@@ -14,7 +14,7 @@ interface cardProps {
   reviewId:number
   createdAt: Date;
   type: string;
-  onDelete: (movieId: number) => void;
+  onDelete: (tmdbId: number) => void;
 }
 
 const ReviewCard = (item: cardProps) => {
