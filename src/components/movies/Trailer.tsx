@@ -10,10 +10,12 @@ export default function Trailer({
   trailer,
   image,
   loading,
+  id,
 }: {
   trailer: string | undefined;
   image: string | undefined;
   loading: boolean;
+  id: string | undefined;
 }) {
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -25,7 +27,8 @@ export default function Trailer({
         {isPlaying ? (
           <iframe
             className="w-full h-full rounded-lg"
-            src={`https://www.youtube.com/embed/${trailer}?si=Jcm0QOB1ZJxU8RVS&&autoplay=1`}
+            // src={`https://www.youtube.com/embed/${trailer}?si=Jcm0QOB1ZJxU8RVS&&autoplay=1`}
+            src={`https://vidsrc.xyz/embed/movie?tmdb=${id}`}
             allowFullScreen
             allow="autoplay; encrypted-media"
           />

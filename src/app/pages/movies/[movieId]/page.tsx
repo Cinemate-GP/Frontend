@@ -38,7 +38,7 @@ const MovieDetails = () => {
       
       <MovieInfo info={info!} loading={loading}/>
       {/* Trailer */}
-      <Trailer trailer={data?.trailer} image={data?.backdropPath} loading={loading} />
+      <Trailer trailer={data?.trailer} image={data?.backdropPath} loading={loading} id={data?.tmdbId.toString()} />
       {/*Actors*/}
       <Actors actors={data?.actors} loading={loading}/>
       {/*Reviews*/}
