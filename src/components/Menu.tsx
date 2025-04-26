@@ -14,7 +14,7 @@ const Menu = ({
     },
     {
       name: "Likes",
-      href: "/pages/profile/likes",
+      href: "/pages/profile/liked",
       icon: icons.Likes,
     },
     {
