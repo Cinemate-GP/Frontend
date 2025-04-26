@@ -1,13 +1,13 @@
 import React from "react";
-import SearchComponent from "./MovieSearch";
 import { Geners, MPA, Years } from "@/constants";
+
 interface Props {
   handleFilterValue: (tye: string, value: string) => void;
 }
 
 const MoviesFilter = ({ handleFilterValue }: Props) => {
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 bg-black p-4">
+    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4 bg-black p-4">
       <select
         className="border border-gray-500 bg-black text-white px-4 py-2 rounded-md"
         onChange={(e) => handleFilterValue("year", e.target.value)}
@@ -41,17 +41,6 @@ const MoviesFilter = ({ handleFilterValue }: Props) => {
       </select>
       <select
         className="border border-gray-500 bg-black text-white px-4 py-2 rounded-md"
-        onChange={(e) => handleFilterValue("mpa", e.target.value)}
-      >
-        <option value={""}>MPA</option>
-        {MPA.map((mpa) => (
-          <option key={mpa} value={mpa}>
-            {mpa}
-          </option>
-        ))}
-      </select>
-      <select
-        className="border border-gray-500 bg-black text-white px-4 py-2 rounded-md"
         onChange={(e) => handleFilterValue("genre", e.target.value)}
       >
         <option value={""}>Genre</option>
@@ -61,9 +50,6 @@ const MoviesFilter = ({ handleFilterValue }: Props) => {
           </option>
         ))}
       </select>
-      <SearchComponent
-        handleFilterValue={(type, value) => handleFilterValue(type, value)}
-      />
     </div>
   );
 };
