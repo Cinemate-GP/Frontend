@@ -50,7 +50,7 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ info, loading }) => {
       className="relative w-full h-screen bg-cover bg-top"
       style={{ backgroundImage: `url(${IMAGEPOSTER}${info.backdropPath})` }}
     >
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/80 via-10% to-black/40">
+      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 via-10% to-black/40">
         <div className="absolute w-full flex flex-col lg:flex-row justify-around items-center top-[50%] -translate-y-1/2 px-5 xl:px-16">
           <MoviePoster poster_path={info.posterPath!} title={info.title} />
 

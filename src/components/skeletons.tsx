@@ -147,19 +147,17 @@ export const SkeletonMovieInfo = () => {
     </div>
   );
 };
+
 import { IoPlay } from "react-icons/io5";
 
-export const SkeletonTrailer = () => {
+export const SkeletonMovieStreaming = () => {
   return (
     <div className="bg-black rounded-lg section p-4">
-      {/* Section Title Skeleton */}
-      <div className="h-8 w-32 bg-gray-700 rounded mb-4 animate-pulse"></div>
-
-      {/* Video Placeholder */}
-      <div className="relative rounded-lg overflow-hidden w-full h-[75vh] mb-[2rem] bg-gray-700 animate-pulse">
-        {/* Play Button Placeholder */}
-        <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] flex items-center justify-center bg-black bg-opacity-50 py-4 w-20 h-12 rounded-md">
-          <IoPlay className="text-gray-500 text-4xl" />
+      <div className="relative w-full max-w-[1280px] mx-auto">
+        <div className="relative rounded-lg overflow-hidden w-full aspect-video md:aspect-[16/9] max-h-[70vh] bg-gray-700 animate-pulse">
+          <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] flex items-center justify-center bg-black bg-opacity-50 py-4 w-20 h-12 rounded-md">
+            <IoPlay className="text-gray-500 text-4xl" />
+          </div>
         </div>
       </div>
     </div>

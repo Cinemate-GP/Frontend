@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { FaStar } from "react-icons/fa6";
+import { useCookie } from "@/hooks/useCookie";
 
 interface MoveProps {
   image: string;
@@ -15,7 +16,7 @@ interface MoveProps {
 }
 
 const Card = (movie: MoveProps) => {
-  const token = document.cookie.split("=")[1];
+  const token = useCookie();
 
   const handleDelete = async () => {
     movie?.onDelete(movie.tmdbid);

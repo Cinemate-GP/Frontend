@@ -6,6 +6,7 @@ import { RootState } from "@/redux/store";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { useCookie } from "./useCookie";
 
 interface MovieInfoProps {
   info: {
@@ -25,8 +26,8 @@ export const useMovieInfo = (info: MovieInfoProps["info"]) => {
   const dispatch = useDispatch();
   const { watchlist } = useSelector((state: RootState) => state.watchlist);
 
-  // localstorage and cookies
-  const token = document.cookie.split("=")[1];
+  // Get token from cookie hook
+  const token = useCookie();
 
   // post data
   const postedData = {
@@ -76,7 +77,7 @@ export const useMovieInfo = (info: MovieInfoProps["info"]) => {
       ],
     }))
 
-    
+
   }, [info, , watchlist]);
 
   // liked effect

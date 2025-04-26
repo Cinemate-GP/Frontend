@@ -61,6 +61,7 @@ const MoviesFilter = ({ handleFilterValue }: Props) => {
           </option>
         ))}
       </select>
+      {/* HEY HERE */}
       <SearchComponent
         handleFilterValue={(type, value) => handleFilterValue(type, value)}
       />

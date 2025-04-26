@@ -35,21 +35,45 @@ const Geners = () => {
     };
     fetchData();
   }, [selected]);
+  const popularGenres = geners.slice(0, 8); // Limit to 8 most popular genres
+
   return (
     <div className="mx-[1rem] sm:mx-0 mt-48 sm:mt-32">
-      <div className="flex justify-between items-center pr-1 sm:pr-4">
-        <SectionTitle title="Descover By Geners" />
-        <select
-          className="border border-gray-500 bg-black text-white px-4 py-1 rounded-md mb-4 w-[100px] sm:w-[200px] overflow-auto max-h-60"
-          onChange={(e) => setSelected(e.target.value)}
-        >
-          <option value="">Genres</option>
-          {geners.map((gen) => (
-            <option key={gen.Id} value={gen.Name}>
-              {gen.Name}
-            </option>
-          ))}
-        </select>
+      <div className="flex flex-col gap-4">
+        <SectionTitle title="Discover By Genres" />
+        <div className="w-full overflow-x-auto custom-scrollbar">
+          <div className="flex gap-4 pb-2 min-w-max">
+            <button
+              onClick={() => setSelected("Geners")}
+              className={`px-4 py-2 text-sm transition-all duration-300 relative group ${
+                selected === "Geners"
+                  ? "text-primary"
+                  : "text-gray-300 hover:text-primary"
+              }`}
+            >
+              All
+              <span className={`absolute -bottom-[2px] left-0 w-full h-[2px] transition-all duration-300 ${
+                selected === "Geners" ? "bg-primary w-full" : "bg-primary/0 w-0 group-hover:w-full"
+              }`}></span>
+            </button>
+            {popularGenres.map((gen) => (
+              <button
+                key={gen.Id}
+                onClick={() => setSelected(gen.Name)}
+                className={`px-4 py-2 text-sm transition-all duration-300 relative group ${
+                  selected === gen.Name
+                    ? "text-primary"
+                    : "text-gray-300 hover:text-primary"
+                }`}
+              >
+                {gen.Name}
+                <span className={`absolute -bottom-[2px] left-0 w-full h-[2px] transition-all duration-300 ${
+                  selected === gen.Name ? "bg-primary w-full" : "bg-primary/0 w-0 group-hover:w-full"
+                }`}></span>
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
       <SliderWrapper>
         <MovieSlider

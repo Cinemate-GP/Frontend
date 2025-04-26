@@ -4,21 +4,22 @@ import Image from "next/image";
 import { FiUploadCloud } from "react-icons/fi";
 import { IoClose } from "react-icons/io5";
 import { useUser } from "@/context/UserContext";
+import { useCookie } from "@/hooks/useCookie";
 
 interface User {
   fullName: string;
   email: string;
-  profilePic?: File | string; // file or URL
+  profilePic?: string;
 }
 
 export default function EditProfileModal({ onClose }: { onClose: () => void }) {
+  const [file, setFile] = useState<File | null>(null);
   const [storedUser, setStoredUser] = useState<User>({
     fullName: "",
     email: "",
-    profilePic: "",
   });
   const { setUser } = useUser();
-  const [file, setFile] = useState<File | null>(null);
+  const token = useCookie();
 
   // Load user from localStorage on mount
   useEffect(() => {
@@ -33,9 +34,11 @@ export default function EditProfileModal({ onClose }: { onClose: () => void }) {
     const selectedFile = event.target.files?.[0];
     if (selectedFile) {
       setFile(selectedFile);
+      // Create a temporary URL for preview
+      const previewUrl = URL.createObjectURL(selectedFile);
       setStoredUser((prev) => ({
         ...prev,
-        profilePic: selectedFile,
+        profilePic: previewUrl,
       }));
     }
   };
@@ -57,7 +60,7 @@ export default function EditProfileModal({ onClose }: { onClose: () => void }) {
       const res = await fetch("/api/Profile/UpdateAccount", {
         method: "PUT",
         headers: {
-          Authorization: `Bearer ${document.cookie.split("=")[1]}`,
+          Authorization: `Bearer ${token}`,
         },
         body: formDate,
       });

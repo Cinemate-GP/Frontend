@@ -48,7 +48,7 @@ export default function MovieSlider(props: SliderProps) {
                 tmdbid={movie.tmdbId}
                 title={movie.title}
                 image={`https://image.tmdb.org/t/p/original//${movie.posterPath}`}
-                cardType={props.sliderType}
+                cardType={props.sliderType === "top10" ? "top10" : "default"}
                 imdbRating={movie.imdbRating}
               />
             </SwiperSlide>

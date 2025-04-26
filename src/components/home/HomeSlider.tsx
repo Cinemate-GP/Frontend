@@ -70,12 +70,12 @@ const HomeSlider = () => {
           return (
             <SwiperSlide key={slid.tmdbId}>
               <div
-                className="w-full relative bg-cover bg-center h-[800px]"
+                className="w-full relative bg-cover bg-center h-screen"
                 style={{
                   backgroundImage: `url(${IMAGEPOSTER + slid.backdropPath})`,
                 }}
               >
-                <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-[rgba(0,0,0,0.4)] to-black/90 flex items-start md:items-center pt-28 md:pt-64 lg:pt-0">
+                <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-[rgba(0,0,0,0.4)] to-black flex items-start md:items-center pt-28 md:pt-64 lg:pt-0">
                   <div className="ml-2 md:ml-12 p-3 md-p-0 flex flex-col gap-3 max-w-xl text-center sm:text-left">
                     <h2 className="text-2xl sm:text-6xl mb-4">{slid.title}</h2>
                     <div className="flex gap-3 justify-center sm:justify-start">
