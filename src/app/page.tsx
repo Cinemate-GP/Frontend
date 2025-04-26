@@ -41,7 +41,7 @@ const page = () => {
               </div>
 
               {/* Movie List */}
-              <div className="text-center md:text-start max-w-[400px] w-full mx-auto md:max-w-sm">
+               <div className="hidden md:block text-center md:text-start max-w-[400px] w-full mx-auto md:max-w-sm">
                 <ul className="w-full bg-secondaryBg p-4 relative max-h-[20rem] lg:max-h-[30rem] overflow-y-scroll custom-scrollbar flex flex-col gap-6 rounded-lg">
                   {/* Movie Item */}
                   {[
