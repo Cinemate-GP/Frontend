@@ -29,13 +29,13 @@ export default function Sidenav() {
     <>
       <aside
         onClick={() => setSearch("")}
-        className={`h-screen bg-black fixed z-50
+        className={`h-screen bg-[#191919] fixed z-50
           flex flex-col transition-all duration-200 ease-in-out
           ${isCollapsed ? "w-[4.5rem]" : "w-[14rem]"} hidden md:flex
-          border-r border-gray-950`}
+          border-r border-gray-800`}
       >
         {/* Logo Section */}
-        <div className="relative flex items-center h-16 px-4 border-b border-gray-950/60">
+        <div className="relative flex items-center h-16 px-4 border-b border-gray-800/60">
           <Link
             href="/pages"
             className={`flex items-center ${isCollapsed ? "justify-center w-full" : ""}`}
@@ -81,13 +81,13 @@ export default function Sidenav() {
         </nav>
 
         {/* Footer Actions */}
-        <div className="mt-auto border-t border-gray-950/60 p-3">
+        <div className="mt-auto border-t border-gray-800/60 p-3">
           <div className={`flex ${isCollapsed ? "flex-col" : "items-center justify-between"} gap-2`}>
             <Link
               href="/pages/profile"
               className={`relative group flex items-center p-2 rounded-xl
-                ${pathname === "/pages/profile" ? "bg-red-950/30 text-red-500" : "text-gray-500"}
-                hover:bg-black/40 hover:text-gray-300 transition-all duration-200
+                ${pathname === "/pages/profile" ? "bg-red-950/30 text-red-500" : "text-gray-400"}
+                hover:bg-[#252525] hover:text-gray-200 transition-all duration-200
                 ${isCollapsed ? "justify-center w-10 mx-auto" : ""}`}
             >
               <span className={`${isCollapsed ? "" : "mr-3"}`}>
@@ -116,8 +116,8 @@ export default function Sidenav() {
             <Link
               href="/pages/settings"
               className={`relative group flex items-center p-2 rounded-xl
-                ${pathname === "/pages/settings" ? "bg-red-950/30 text-red-500" : "text-gray-500"}
-                hover:bg-black/40 hover:text-gray-300 transition-all duration-200
+                ${pathname === "/pages/settings" ? "bg-red-950/30 text-red-500" : "text-gray-400"}
+                hover:bg-[#252525] hover:text-gray-200 transition-all duration-200
                 ${isCollapsed ? "justify-center w-10 mx-auto" : ""}`}
             >
               <span className={`${isCollapsed ? "" : "mr-3"}`}>
@@ -161,7 +161,7 @@ const NavItem = ({ link, isActive, isCollapsed }: {
       <Link
         href={link.href}
         className={`flex items-center px-3 py-2.5 rounded-xl transition-all duration-200
-          ${isActive ? "bg-red-950/30 text-red-500" : "text-gray-500 hover:bg-black/40 hover:text-gray-300"}
+          ${isActive ? "bg-[#252525] text-white" : "text-gray-400 hover:bg-[#252525] hover:text-gray-200"}
           ${isCollapsed ? "justify-center w-10 mx-auto" : ""}
         `}
       >
@@ -172,15 +172,15 @@ const NavItem = ({ link, isActive, isCollapsed }: {
               "aria-hidden": "true",
             })
           ) : (
-            <div className="w-[22px] h-[22px] bg-gray-800 rounded-md" />
+            <div className="w-[22px] h-[22px] bg-[#1a1a1a] rounded-md" />
           )}
         </span>
         {!isCollapsed && <span className="text-sm font-medium">{link.name}</span>}
 
         {isCollapsed && (
-          <div className="absolute left-full ml-2 px-2.5 py-1.5 bg-gray-950 text-gray-200 text-sm rounded-lg
+          <div className="absolute left-full ml-2 px-2.5 py-1.5 bg-[#1a1a1a] text-gray-200 text-sm rounded-lg
             opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0
-            pointer-events-none group-hover:pointer-events-auto
+            pointer-events-none group-hover:pointer-events-auto border border-gray-800
             transition-all duration-200 whitespace-nowrap z-50 shadow-lg">
             {link.name}
           </div>
