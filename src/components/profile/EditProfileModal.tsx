@@ -18,7 +18,7 @@ export default function EditProfileModal({ onClose }: { onClose: () => void }) {
     fullName: "",
     email: "",
   });
-  const { user, setUser } = useUser();
+  const { setUser } = useUser();
   const token = useCookie();
 
   // Load user from localStorage on mount

@@ -5,10 +5,7 @@ import { CiSearch } from "react-icons/ci";
 import { IMAGEPOSTER } from "@/constants";
 import { useDebounce } from "@/hooks/useDebounce";
 import Link from "next/link";
-import { MovieGridSkeleton } from "./skeletons";
 import Image from "next/image";
-import { FiFilter } from "react-icons/fi";
-import { IoIosArrowDown } from "react-icons/io";
 import { createPortal } from "react-dom";
 
 interface SearchValue {
@@ -24,10 +21,8 @@ export const Search = ({ border, isMobile = false }: { border?: boolean, isMobil
   const [loading, setLoading] = useState(false);
   const [selectedVal, setSelectedVal] = useState("all");
   const [showResults, setShowResults] = useState(false);
-  const [showFilterOptions, setShowFilterOptions] = useState(false);
   const [showMobileSearch, setShowMobileSearch] = useState(false);
   const debouncedSearch = useDebounce(search, 500);
-  const filterRef = useRef<HTMLDivElement>(null);
   const searchContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -44,7 +39,6 @@ export const Search = ({ border, isMobile = false }: { border?: boolean, isMobil
         if (!res.ok) throw new Error("Failed to fetch data");
         const data = await res.json();
         
-        // Filter based on selection or show all
         if (selectedVal === "all") {
           setValues(data.value || []);
         } else {
@@ -69,7 +63,6 @@ export const Search = ({ border, isMobile = false }: { border?: boolean, isMobil
       const target = e.target as HTMLElement;
       if (searchContainerRef.current && !searchContainerRef.current.contains(target)) {
         setShowResults(false);
-        setShowFilterOptions(false);
       }
     };
 
@@ -94,13 +87,6 @@ export const Search = ({ border, isMobile = false }: { border?: boolean, isMobil
         return "#";
     }
   };
-
-  const filterOptions = [
-    { value: "all", label: "All" },
-    { value: "Movie", label: "Movies" },
-    { value: "Actor", label: "Actors" },
-    { value: "User", label: "Users" },
-  ];
 
   // Mobile search button for bottom navigation
   if (isMobile) {
@@ -135,7 +121,6 @@ export const Search = ({ border, isMobile = false }: { border?: boolean, isMobil
                 </div>
               </div>
               
-              {/* Mobile search results */}
               {search.trim().length >= 2 && (
                 <div className="bg-[#121212] rounded-xl overflow-hidden flex-1 max-h-[calc(100vh-140px)]">
                   {loading ? (
@@ -152,7 +137,7 @@ export const Search = ({ border, isMobile = false }: { border?: boolean, isMobil
                     </div>
                   ) : values.length === 0 ? (
                     <div className="p-4 text-center text-gray-400">
-                      No results found for "{search}"
+                      No results found for &quot;{search}&quot;
                     </div>
                   ) : (
                     <div className="overflow-y-auto max-h-[calc(100vh-140px)]">
@@ -205,7 +190,6 @@ export const Search = ({ border, isMobile = false }: { border?: boolean, isMobil
       className="relative w-full" 
       ref={searchContainerRef}
     >
-      {/* Search Bar with Filter Button */}
       <SearchInput 
         search={search}
         setSearch={setSearch}
@@ -216,7 +200,6 @@ export const Search = ({ border, isMobile = false }: { border?: boolean, isMobil
         showFilter={true}
       />
 
-      {/* Results Dropdown */}
       {showResults && search.trim().length >= 2 && (
         <div className="absolute top-full left-0 right-0 mt-1.5 bg-[#191919] rounded-xl shadow-2xl border border-gray-800 z-50 max-h-[calc(100vh-200px)] overflow-hidden">
           <div className="py-1">
@@ -253,7 +236,7 @@ export const Search = ({ border, isMobile = false }: { border?: boolean, isMobil
                       index < values.length - 1 ? 'border-b border-gray-800/50' : ''
                     }`}
                   >
-                    <div className="h-12 w-12 flex-shrink-0 overflow-hidden rounded bg-gray-800">
+                    <div className="h-12 w-12 flex-shrink-0 overflow-hidden rounded">
                       <Image
                         src={getImageUrl(item)}
                         alt={item.name}
@@ -290,7 +273,6 @@ export const Search = ({ border, isMobile = false }: { border?: boolean, isMobil
   );
 };
 
-// SearchInput component with fixed dropdown
 const SearchInput = ({ 
   search, 
   setSearch, 
@@ -308,20 +290,12 @@ const SearchInput = ({
   border?: boolean,
   showFilter?: boolean
 }) => {
-  const [showFilterOptions, setShowFilterOptions] = useState(false);
-  
   const filterOptions = [
     { value: "all", label: "All" },
     { value: "Movie", label: "Movies" },
     { value: "Actor", label: "Actors" },
     { value: "User", label: "Users" },
   ];
-
-  // Simple direct popup without portal
-  const selectFilter = (value: string) => {
-    setSelectedVal(value);
-    setShowFilterOptions(false);
-  };
   
   return (
     <div className={`flex items-center h-12 bg-[#1a1a1a] rounded-xl overflow-hidden border border-gray-800 focus-within:border-red-500/70 transition-colors ${
@@ -338,7 +312,6 @@ const SearchInput = ({
         className="bg-transparent outline-none flex-1 mx-3 py-2.5 text-sm text-white placeholder-gray-400"
       />
       
-      {/* Filter as a simple select element */}
       {showFilter && (
         <div className="flex-shrink-0 h-full">
           <select
