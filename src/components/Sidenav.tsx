@@ -11,137 +11,103 @@ import { useDispatch } from "react-redux";
 import { toggleSidenave } from "@/redux/slices/sidebarSlice";
 import { RiMenuUnfold2Line, RiMenuFold2Line } from "react-icons/ri";
 import { useSearch } from "@/context/SearchContext";
+import { useUser } from "@/context/UserContext";
 
 export default function Sidenav() {
   const pathname = usePathname();
   const [isCollapsed, setIsCollapsed] = useState(false);
   const { setSearch } = useSearch();
   const dispatch = useDispatch();
+  const { user } = useUser();
 
   const toggleSidebar = () => {
     setIsCollapsed(!isCollapsed);
     dispatch(toggleSidenave(isCollapsed));
   };
 
-  const renderLinks = (links: NavLink[], pathname: string) => {
-    return links.map((link) => {
-      const iconName = link.icon;
-      const isActive = pathname === link.href;
-
-      return (
-        <li key={link.name} className="relative group">
-          <Link
-            href={link.href}
-            className={`flex items-center px-4 py-3 hover:bg-gray-700 rounded-lg transition-all duration-200 ${
-              isActive ? "bg-gray-700 text-red-600" : "text-gray-400"
-            } ${isCollapsed ? "justify-center" : ""}`}
-          >
-            <span
-              className={`${
-                isCollapsed ? "" : "mr-3"
-              } transition-all duration-200`}
-            >
-              {icons[iconName] ? (
-                React.createElement(icons[iconName], {
-                  className: "w-5 h-5",
-                  "aria-hidden": "true",
-                })
-              ) : (
-                <div className="w-5 h-5 bg-gray-600 rounded-sm"></div>
-              )}
-            </span>
-            {!isCollapsed && <span>{link.name}</span>}
-
-            {isCollapsed && (
-              <div className="absolute left-full ml-2 px-2 py-1 bg-black text-gray-300 text-sm rounded opacity-0 group-hover:opacity-100 whitespace-nowrap z-50">
-                {link.name}
-              </div>
-            )}
-          </Link>
-          {isActive && !isCollapsed && (
-            <div className="absolute left-0 top-0 w-1 h-full bg-red-600 rounded-r"></div>
-          )}
-        </li>
-      );
-    });
-  };
-
   return (
     <>
-      <div
+      <aside
         onClick={() => setSearch("")}
-        className={`h-screen text-gray-300 bg-black border-r fixed z-50 border-gray-600 flex flex-col transition-all duration-200 ${
-          isCollapsed ? "w-[4rem]" : "w-[13rem]"
-        } hidden md:flex`}
+        className={`h-screen bg-black fixed z-50
+          flex flex-col transition-all duration-200 ease-in-out
+          ${isCollapsed ? "w-[4.5rem]" : "w-[14rem]"} hidden md:flex
+          border-r border-gray-950`}
       >
-        {/* logo */}
-        <div className="relative flex items-center justify-between px-4 py-5 border-b border-gray-600">
+        {/* Logo Section */}
+        <div className="relative flex items-center h-16 px-4 border-b border-gray-950/60">
           <Link
-            href={"/pages"}
-            className={`flex items-center ${
-              isCollapsed ? "justify-center w-full" : ""
-            }`}
+            href="/pages"
+            className={`flex items-center ${isCollapsed ? "justify-center w-full" : ""}`}
           >
             <Image
               src="/logo.png"
               width={50}
               height={50}
               priority
-              alt="logo"
-              className="object-contain max-w-16"
+              alt="CineMate logo"
+              className="object-contain"
             />
             {!isCollapsed && (
-              <span className="ml-2 font-bold text-lg">
-                Cine<span className="text-red-600">Mate</span>
+              <span className="ml-2 mr-5 font-semibold text-gray-200">
+                Cine<span className="text-red-500">Mate</span>
               </span>
             )}
           </Link>
 
-          {/* toggle sidenave  */}
           <button
-            className={`${isCollapsed ? "-mr-[2.75rem]":"-mr-3"} bg-gray-700 p-1 rounded`}
+            aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+            className={`${
+              isCollapsed ? "-mr-12" : "-mr-2"
+            } p-1.5 rounded-lg hover:bg-gray-900/60 text-gray-500 hover:text-gray-200 transition-colors duration-200`}
             onClick={toggleSidebar}
           >
-            {isCollapsed ? <RiMenuFold2Line /> : <RiMenuUnfold2Line />}
+            {isCollapsed ? <RiMenuFold2Line size={20} /> : <RiMenuUnfold2Line size={20} />}
           </button>
         </div>
 
-        <div className="flex-1 py-4 px-3 w-full">
-          <div className={`mb-4 ${isCollapsed ? "px-0" : "px-2"}`}>
-            <ul className="space-y-1">{renderLinks(mainLinks, pathname)}</ul>
-          </div>
-        </div>
+        {/* Navigation Links */}
+        <nav className="flex-1 py-4 px-3">
+          <ul className="space-y-1">
+            {mainLinks.map((link) => (
+              <NavItem
+                key={link.name}
+                link={link}
+                isActive={pathname === link.href}
+                isCollapsed={isCollapsed}
+              />
+            ))}
+          </ul>
+        </nav>
 
-        <div
-          className={`mt-auto border-t border-gray-600 p-3 ${
-            isCollapsed ? "flex justify-center" : ""
-          }`}
-        >
-          <div
-            className={`flex ${
-              isCollapsed ? "flex-col" : "items-center justify-between"
-            } gap-2`}
-          >
+        {/* Footer Actions */}
+        <div className="mt-auto border-t border-gray-950/60 p-3">
+          <div className={`flex ${isCollapsed ? "flex-col" : "items-center justify-between"} gap-2`}>
             <Link
               href="/pages/profile"
-              className={`${pathname === "/pages/profile" ? "bg-gray-700" : ""} flex items-center justify-center p-2 rounded-lg hover:bg-gray-700 transition-all duration-200 group`}
+              className={`relative group flex items-center p-2 rounded-xl
+                ${pathname === "/pages/profile" ? "bg-red-950/30 text-red-500" : "text-gray-500"}
+                hover:bg-black/40 hover:text-gray-300 transition-all duration-200
+                ${isCollapsed ? "justify-center w-10 mx-auto" : ""}`}
             >
-              <div className="relative">
-                {icons["Profile"] ? (
-                  React.createElement(icons["Profile"], {
-                    className: "w-5 h-5 text-gray-400",
-                  })
-                ) : (
-                  <div className="w-5 h-5 flex items-center justify-center text-gray-400">
-                    👤
-                  </div>
-                )}
-                <div className="absolute bottom-0 right-0 w-2 h-2 bg-red-600 rounded-full"></div>
-              </div>
-              {!isCollapsed && <span className="ml-2 text-sm">Profile</span>}
-
+              <span className={`${isCollapsed ? "" : "mr-3"}`}>
+                <div className="w-[28px] h-[28px] rounded-full overflow-hidden">
+                  <Image
+                    src={user?.profilePic || "/ueser-placeholder.jpg"}
+                    alt="Profile"
+                    width={28}
+                    height={28}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </span>
+              {!isCollapsed && <span className="text-sm font-medium">Profile</span>}
+              
               {isCollapsed && (
-                <div className="absolute left-full ml-2 px-2 py-1 bg-black text-gray-300 text-sm rounded opacity-0 group-hover:opacity-100 whitespace-nowrap z-50">
+                <div className="absolute left-full ml-2 px-2.5 py-1.5 bg-gray-950 text-gray-200
+                  text-sm rounded-lg opacity-0 group-hover:opacity-100 transform translate-x-2
+                  group-hover:translate-x-0 pointer-events-none group-hover:pointer-events-auto
+                  transition-all duration-200 whitespace-nowrap z-50 shadow-lg">
                   Profile
                 </div>
               )}
@@ -149,30 +115,81 @@ export default function Sidenav() {
 
             <Link
               href="/pages/settings"
-              className={`${pathname === "/pages/settings" ? "bg-gray-700" : ""} flex items-center justify-center p-2 rounded-lg hover:bg-gray-700 transition-all duration-200 group`}
+              className={`relative group flex items-center p-2 rounded-xl
+                ${pathname === "/pages/settings" ? "bg-red-950/30 text-red-500" : "text-gray-500"}
+                hover:bg-black/40 hover:text-gray-300 transition-all duration-200
+                ${isCollapsed ? "justify-center w-10 mx-auto" : ""}`}
             >
-              {icons["Settings"] ? (
-                React.createElement(icons["Settings"], {
-                  className: "w-5 h-5 text-gray-400",
-                })
-              ) : (
-                <div className="w-5 h-5 flex items-center justify-center text-gray-400">
-                  ⚙️
-                </div>
-              )}
-              {!isCollapsed && <span className="ml-2 text-sm">Settings</span>}
-
+              <span className={`${isCollapsed ? "" : "mr-3"}`}>
+                {icons["Settings"] ? (
+                  React.createElement(icons["Settings"], {
+                    className: `w-[22px] h-[22px] ${pathname === "/pages/settings" ? "text-red-500" : ""}`,
+                  })
+                ) : (
+                  <div className="w-[22px] h-[22px] flex items-center justify-center text-gray-500">⚙️</div>
+                )}
+              </span>
+              {!isCollapsed && <span className="text-sm font-medium">Settings</span>}
+              
               {isCollapsed && (
-                <div className="absolute left-full ml-2 px-2 py-1 bg-black text-gray-300 text-sm rounded opacity-0 group-hover:opacity-100 whitespace-nowrap z-50">
+                <div className="absolute left-full ml-2 px-2.5 py-1.5 bg-gray-950 text-gray-200
+                  text-sm rounded-lg opacity-0 group-hover:opacity-100 transform translate-x-2
+                  group-hover:translate-x-0 pointer-events-none group-hover:pointer-events-auto
+                  transition-all duration-200 whitespace-nowrap z-50 shadow-lg">
                   Settings
                 </div>
               )}
             </Link>
           </div>
         </div>
-      </div>
+      </aside>
 
       <HorizontalNav pathname={pathname} />
     </>
   );
 }
+
+const NavItem = ({ link, isActive, isCollapsed }: { 
+  link: NavLink; 
+  isActive: boolean; 
+  isCollapsed: boolean;
+}) => {
+  const iconName = link.icon;
+  
+  return (
+    <li className="relative group">
+      <Link
+        href={link.href}
+        className={`flex items-center px-3 py-2.5 rounded-xl transition-all duration-200
+          ${isActive ? "bg-red-950/30 text-red-500" : "text-gray-500 hover:bg-black/40 hover:text-gray-300"}
+          ${isCollapsed ? "justify-center w-10 mx-auto" : ""}
+        `}
+      >
+        <span className={`${isCollapsed ? "" : "mr-3"}`}>
+          {icons[iconName] ? (
+            React.createElement(icons[iconName], {
+              className: `w-[22px] h-[22px] transition-colors duration-200 ${isActive ? "text-red-500" : ""}`,
+              "aria-hidden": "true",
+            })
+          ) : (
+            <div className="w-[22px] h-[22px] bg-gray-800 rounded-md" />
+          )}
+        </span>
+        {!isCollapsed && <span className="text-sm font-medium">{link.name}</span>}
+
+        {isCollapsed && (
+          <div className="absolute left-full ml-2 px-2.5 py-1.5 bg-gray-950 text-gray-200 text-sm rounded-lg
+            opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0
+            pointer-events-none group-hover:pointer-events-auto
+            transition-all duration-200 whitespace-nowrap z-50 shadow-lg">
+            {link.name}
+          </div>
+        )}
+      </Link>
+      {isActive && (
+        <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1 h-4 bg-red-500 rounded-full transform origin-center
+          transition-transform duration-200" />
+      )}
+    </li>
+  );
+};
