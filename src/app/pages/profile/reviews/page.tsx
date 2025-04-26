@@ -15,7 +15,7 @@ interface Review extends ProfileCard {
 interface ComponentProps {
   resources: Review[] | null;
   loading: boolean;
-  onDelete: (movieId: number) => void;
+  onDelete: (tmdbId: number) => void;
 }
  
 const UserReviews = ({resources,loading,onDelete}:ComponentProps) => {
@@ -25,7 +25,7 @@ const UserReviews = ({resources,loading,onDelete}:ComponentProps) => {
       <SectionTitle title="Reviews" />
       {loading && <ReviewSkeletonCard />}
       <div className="flex flex-col gap-4">
-        {resources?.length === 0 && <p>No Reveis Added</p>}
+        {resources?.length === 0 && <p>No Reviews Added</p>}
         {resources?.map((item) => (
           <ReviewCard key={item.tmdbId} {...item} onDelete={onDelete} type="Review" />
         ))}

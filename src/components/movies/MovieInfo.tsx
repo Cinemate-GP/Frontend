@@ -109,13 +109,14 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ info, loading }) => {
               </p>
             )}
             <MovieActions
+              tmdbId={info.tmdbId!}
               liked={liked!}
               watched={watched!}
               rated={rated}
               onWatched={onWatched}
               onLikeToggle={toggleLike}
               onWatchlist={addToWatchlist}
-              onRate={() => setIsModalOpen(true)}
+              onReview={() => setIsModalOpen(true)}
             />
           </div>
         </div>

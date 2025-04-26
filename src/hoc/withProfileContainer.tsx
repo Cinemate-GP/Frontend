@@ -4,7 +4,7 @@ export function withProfileContainer<T extends { tmdbId: number }>(
   WrappedComponent: React.ComponentType<{
     resources: T[] | null;
     loading: boolean;
-    onDelete: (movieId: number) => void;
+    onDelete: (tmdbId: number) => void;
   }>,
   endpoint: string
 ) {

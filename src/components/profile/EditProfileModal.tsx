@@ -4,7 +4,6 @@ import Image from "next/image";
 import { FiUploadCloud } from "react-icons/fi";
 import { IoClose } from "react-icons/io5";
 import { useUser } from "@/context/UserContext";
-import { useCookie } from "@/hooks/useCookie";
 
 interface User {
   fullName: string;
@@ -19,7 +18,7 @@ export default function EditProfileModal({ onClose }: { onClose: () => void }) {
     email: "",
   });
   const { setUser } = useUser();
-  const token = useCookie();
+  const [loading, setLoading] = useState(false);
 
   // Load user from localStorage on mount
   useEffect(() => {
@@ -57,10 +56,11 @@ export default function EditProfileModal({ onClose }: { onClose: () => void }) {
     formDate.append("email", storedUser.email);
     if (file) formDate.append("profile_Image", file);
     try {
+      setLoading(true);
       const res = await fetch("/api/Profile/UpdateAccount", {
         method: "PUT",
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${document.cookie.split("=")[1]}`,
         },
         body: formDate,
       });
@@ -89,6 +89,8 @@ export default function EditProfileModal({ onClose }: { onClose: () => void }) {
       );
     } catch (error) {
       console.log(error);
+    }finally {
+      setLoading(false);
     }
     onClose();
   };
@@ -110,8 +112,8 @@ export default function EditProfileModal({ onClose }: { onClose: () => void }) {
         <form className="space-y-4" onSubmit={handleUpdate}>
           <div>
             <label className="block text-gray-300 mb-2">Upload Image</label>
-            <div className="flex gap-4 items-center">
-              <div className="border-2 border-dashed border-gray-600 p-6 text-center rounded cursor-pointer w-3/4">
+            <div className="flex gap-4 items-start sm:items-center">
+              <div className="border-2 border-dashed border-gray-600 p-4 sm:p-6 text-center rounded cursor-pointer w-2/3 sm:w-3/4 max-h-max">
                 <input
                   type="file"
                   accept=".jpg,.png"
@@ -120,7 +122,7 @@ export default function EditProfileModal({ onClose }: { onClose: () => void }) {
                   onChange={handleImageUpload}
                 />
                 <label htmlFor="fileUpload" className="cursor-pointer">
-                  <FiUploadCloud className="mx-auto text-red-500" size={40} />
+                  <FiUploadCloud className="mx-auto text-red-500 !text-sm" size={40}/>
                   <p className="text-gray-400 text-sm">Drag your image here</p>
                   <p className="text-xs text-gray-500">
                     (Only .jpg and .png files will be accepted)
@@ -142,7 +144,7 @@ export default function EditProfileModal({ onClose }: { onClose: () => void }) {
                   width={100}
                   height={100}
                   priority
-                  className="w-32 h-32 rounded-lg object-cover"
+                  className="w-20 h-20 sm:w-32 sm:h-32 rounded-lg object-cover"
                 />
               </div>
             </div>
@@ -174,9 +176,19 @@ export default function EditProfileModal({ onClose }: { onClose: () => void }) {
 
           <button
             type="submit"
-            className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-4 px-4 rounded mt-6"
+            className="bg-[linear-gradient(90deg,#ff0000,#800000)] hover:scale-105 transition-all duration-150 rounded-full px-8 sm:px-12 py-2 sm:text-sm flex justify-center mx-auto mt-3"
           >
-            Update
+            {loading ? (
+              <span className="flex items-center">
+                <svg
+                  className="animate-spin h-5 w-5 mr-2 border-t-2 border-white rounded-full"
+                  viewBox="0 0 24 24"
+                ></svg>
+                Loading...
+              </span>
+            ) : (
+              "Update"
+            )}
           </button>
         </form>
       </div>
