@@ -27,9 +27,9 @@ const MovieReviewList = ({movieReviews}:{movieReviews:Review[] | undefined}) => 
           return (
             <div
               key={review.reviewId}
-              className="grid grid-cols-6 bg-background p-2 md:p-4 rounded-lg gap-4"
+              className="grid grid-cols-10 bg-background p-2 md:p-4 rounded-lg gap-4"
             >
-              <div className="col-span-6 sm:col-span-1 lg:col-span-1">
+              <div className="col-span-10 sm:col-span-2 lg:col-span-1">
                 <Image
                   src={review.profilePic ? review.profilePic : "/ueser-placeholder.jpg"}
                   alt="User"
@@ -39,7 +39,7 @@ const MovieReviewList = ({movieReviews}:{movieReviews:Review[] | undefined}) => 
                   priority
                 />
               </div>
-              <div className="col-span-6 sm:col-span-5 md:col-span-5">
+              <div className="col-span-10 sm:col-span-8 lg:col-span-9">
                 <div className="flex gap-3 items-center flex-wrap">
                   <h4 className="text-white font-bold">{review.fullName}</h4>
                   <div className="flex items-center space-x-1 mb-1">

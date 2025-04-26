@@ -107,7 +107,7 @@ export default function RecentActivitySection() {
               alt={item.name}
               width={250}
               height={190}
-              className="w-40 md:w-56 lg:w-60 h-40 md:h-60 object-cover"
+              className="max-w-[100px] max-h-[160px] sm:max-w-[150px] lg:max-w-[200px] sm:max-h-[250px] object-cover"
               loading="lazy"
             />
 

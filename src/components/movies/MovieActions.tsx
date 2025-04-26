@@ -1,24 +1,28 @@
-import { FaHeart, FaRegEye, FaStar } from "react-icons/fa6";
-import { FiHeart, FiPlus, FiStar } from "react-icons/fi";
+import { getUserId } from "@/lib/utils";
+import { useEffect, useState } from "react";
+import { FaHeart, FaRegEye, FaRegStar, FaStar } from "react-icons/fa6";
+import { FiHeart, FiPlus } from "react-icons/fi";
+import { MdOutlineRateReview } from "react-icons/md";
 
 interface MovieActionsProps {
+  tmdbId: number;
   liked: boolean;
   watched: boolean;
   rated: boolean;
   onLikeToggle: () => void;
   onWatched: () => void;
   onWatchlist: () => void;
-  onRate: () => void;
+  onReview: () => void;
 }
 
 export const MovieActions = ({
+  tmdbId,
   liked,
   watched,
-  rated,
   onWatched,
   onLikeToggle,
   onWatchlist,
-  onRate,
+  onReview,
 }: MovieActionsProps) => {
   const buttons = [
     {
@@ -50,40 +54,81 @@ export const MovieActions = ({
     {
       icon: (
         <>
-          {rated ? (
-            <FaStar color="red" className="animate-heart" />
-          ) : (
-            <FiStar className="group-hover:text-red-500 transition-all duration-200" />
-          )}
+          <MdOutlineRateReview className="group-hover:text-red-500 transition-all duration-200" />
         </>
       ),
-      onClick: onRate,
+      onClick: onReview,
       label: "Rate",
     },
   ];
+  const [rating, setRating] = useState(0);
+
+  const handleRating = (i: number) => {
+    setRating(i);
+  };
+
+  // handle rating side effect
+  useEffect(() => {
+    (async function () {
+      try {
+        const res = await fetch("/api/UserRateMovie/Add", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${document.cookie.split("=")[1]}`,
+          },
+          body: JSON.stringify({
+            tmdbId: tmdbId,
+            userId: getUserId(),
+            stars: rating,
+          }),
+        });
+        if (!res.ok) throw new Error("Failed to add rating");
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, [rating, tmdbId]);
 
   return (
-    <div className="flex items-center gap-6 mt-4">
-      {buttons.map((btn, index) => (
-        <div key={index} className="relative group flex flex-col items-center">
-          {/* Tooltip */}
-          <div className="absolute -top-8 mb-3 opacity-0 group-hover:opacity-100 transition-all duration-200 z-10 flex flex-col items-center">
-            <div className="text-xs border text-white px-2 py-1 rounded bg-black">
-              {btn.label}
-            </div>
-            {/* Downward arrow */}
-            <div className="w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent border-t-white-500"></div>
-          </div>
-
-          {/* Button */}
-          <button
-            className="text-xl transition-all duration-200 border border-gray-600 rounded p-2 px-3"
-            onClick={btn.onClick}
+    <>
+      <div className="flex items-center gap-6 mt-4">
+        {buttons.map((btn, index) => (
+          <div
+            key={index}
+            className="relative group flex flex-col items-center"
           >
-            {btn.icon}
+            {/* Tooltip */}
+            <div className="absolute -top-8 mb-3 opacity-0 group-hover:opacity-100 transition-all duration-200 z-10 flex flex-col items-center">
+              <div className="text-xs border text-white px-2 py-1 rounded bg-black">
+                {btn.label}
+              </div>
+              {/* Downward arrow */}
+              <div className="w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent border-t-white-500"></div>
+            </div>
+
+            {/* Button */}
+            <button
+              className="text-xl transition-all duration-200 border border-gray-600 rounded p-2 px-3"
+              onClick={btn.onClick}
+            >
+              {btn.icon}
+            </button>
+          </div>
+        ))}
+      </div>
+      <div className="flex gap-2 justify-center mt-3">
+        {Array.from({ length: rating }, (_, i) => (
+          <button key={i} onClick={() => handleRating(i + 1)}>
+            <FaStar color="red" className="text-2xl" />
           </button>
-        </div>
-      ))}
-    </div>
+        ))}
+        {Array.from({ length: 5 - rating }, (_, i) => (
+          <button key={i} onClick={() => handleRating(rating + i + 1)}>
+            <FaRegStar color="red" className="text-2xl" />
+          </button>
+        ))}
+      </div>
+    </>
   );
 };
