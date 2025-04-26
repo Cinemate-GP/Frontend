@@ -1,16 +1,14 @@
 "use client";
 import Link from "next/link";
-import {useState } from "react";
+import { useState } from "react";
 import { AiOutlineHome } from "react-icons/ai";
-import { CiSearch } from "react-icons/ci";
-
 import { BsGrid } from "react-icons/bs";
 import Menu from "./Menu";
-import { useRouter } from "next/navigation";
+import { Search } from "./Search";
 
 const HorizontalNav = ({ pathname }: { pathname: string }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const router = useRouter();
+  
   const toggleMenu = () => {
     setIsOpen((prev: boolean) => !prev);
   };
@@ -30,14 +28,8 @@ const HorizontalNav = ({ pathname }: { pathname: string }) => {
               <span className="text-[12px]">Home</span>
             </Link>
           </li>
-          <li>
-            <button
-              onClick={() => router.push("/pages/search")}
-              className={`flex flex-col gap-1 items-center px-4 py-2`}
-            >
-              <CiSearch className="w-6 h-6" aria-hidden="true" />
-              <span className="text-[12px]">Search</span>
-            </button>
+          <li className="relative">
+            <Search isMobile={true} />
           </li>
           <li>
             <button
@@ -51,8 +43,8 @@ const HorizontalNav = ({ pathname }: { pathname: string }) => {
             </button>
           </li>
         </ul>
-        {isOpen && <Menu setIsOpen={setIsOpen} />}
       </div>
+      {isOpen && <Menu setIsOpen={setIsOpen} />}
     </>
   );
 };

@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import Trailer from "@/components/movies/Trailer";
+import Trailer from "@/components/movies/MovieStream";
 import Actors from "@/components/movies/Actors";
 import Reviews from "@/components/movies/Reviews";
 import SimilarMovies from "@/components/movies/SimilarMovies";

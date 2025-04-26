@@ -6,12 +6,10 @@ import { IMAGEPOSTER } from "@/constants";
 import { SkeletonTrailer } from "../skeletons";
 
 export default function Trailer({
-  trailer: videoId,
   image,
   loading,
   id,
 }: {
-  trailer: string | undefined;
   image: string | undefined;
   loading: boolean;
   id: string | undefined;
@@ -25,7 +23,6 @@ export default function Trailer({
         {isPlaying ? (
           <iframe
             className="w-full h-full rounded-lg"
-            // src={`https://www.youtube.com/embed/${videoId}?si=Jcm0QOB1ZJxU8RVS&&autoplay=1`}
             src={`https://vidsrc.xyz/embed/movie?tmdb=${id}`}
             allowFullScreen
             allow="autoplay; encrypted-media"
