@@ -22,7 +22,6 @@ export default function Trailer({
   if (loading) return <SkeletonTrailer />;
   return (
     <div className="bg-black rounded-lg section">
-      <SectionTitle title="Trailer" />
       <div className="mt-4 relative rounded-lg overflow-hidden w-full h-[75vh] mb-[2rem]">
         {isPlaying ? (
           <iframe

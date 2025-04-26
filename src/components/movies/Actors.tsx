@@ -23,7 +23,7 @@ export default function Actors({
   if (loading) return <SkeletonActors />;
   return (
     <div className="bg-black mb-[4rem] mt-32 section">
-      <SectionTitle title="Team" />
+      <SectionTitle title="Staff" />
       <div className="flex gap-3 my-3">
         <button
           onClick={() => setSelected("all")}
@@ -39,7 +39,7 @@ export default function Actors({
             selected === "cast" ? "bg-primary" : ""
           } rounded-lg px-4 py-2`}
         >
-          Catst
+          Cast
         </button>
         <button
           className={`${

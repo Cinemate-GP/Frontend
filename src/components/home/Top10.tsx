@@ -12,9 +12,9 @@ interface Movie {
   posterPath: string;
 }
 const Top10 = () => {
-  const { data , loading } = useFetch<Movie[]>("/api/Movie/top-ten");
+  const { data, loading } = useFetch<Movie[]>("/api/Movie/top-ten");
   return (
-    <div className="mx-[2rem] mt-12 sm:mt-24">
+    <div className="relative mx-[2rem] mt-[5rem] sm:mt-[12rem]">
       <div className="flex gap-4 items-center mb-5 relative z-50">
         <h1 className="ml-3">
           <span className="text-stroke-primary !text-[40px] sm:!text-[80px] lg:!text-[128px] -mr-0 sm:-mr-3">
