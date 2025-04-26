@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import Trailer from "@/components/movies/MovieStream";
+import MovieStreaming from "@/components/movies/MovieStream";
 import Actors from "@/components/movies/Actors";
 import Reviews from "@/components/movies/Reviews";
 import SimilarMovies from "@/components/movies/SimilarMovies";
@@ -35,10 +35,9 @@ const MovieDetails = () => {
   return (
     <div>
       {/* Movie Info */}
-      
       <MovieInfo info={info!} loading={loading}/>
-      {/* Trailer */}
-      <Trailer trailer={data?.trailer} image={data?.backdropPath} loading={loading} id={data?.tmdbId.toString()} />
+      {/* Movie Streaming */}
+      <MovieStreaming image={data?.backdropPath} loading={loading} id={data?.tmdbId.toString()} />
       {/*Actors*/}
       <Actors actors={data?.actors} loading={loading}/>
       {/*Reviews*/}

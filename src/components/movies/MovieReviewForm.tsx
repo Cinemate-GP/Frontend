@@ -4,6 +4,8 @@ import React, { useCallback, useState } from "react";
 import { FaRegStar, FaStar } from "react-icons/fa6";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
+import { useCookie } from "@/hooks/useCookie";
+
 interface Props {
   tmdbId: number;
   title: string;
@@ -23,7 +25,7 @@ const MovieReviewForm = ({
   const [message, setMessage] = useState("");
 
   const { user } = JSON.parse(localStorage.getItem("user") || "{}");
-  const token = document.cookie.split("=")[1];
+  const token = useCookie();
 
   // handle rating
   const dispatch = useDispatch();
