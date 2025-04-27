@@ -12,7 +12,7 @@ const page = () => {
             <Image src="/logo.svg" width={100} height={100} alt="logo" />
             <div className="flex gap-4 items-center">
               <Link
-                href={"/auth/login"}
+                href={"/login"}
                 className="text-xs md:text-sm bg-primary block w-[5rem] py-2 text-center rounded-3xl border border-transparent hover:border-white hover:bg-transparent transition-all duration-00"
               >
                 Login
@@ -33,7 +33,7 @@ const page = () => {
                   the work!
                 </p>
                 <Link
-                  href="/auth/signup"
+                  href="/signup"
                   className="flex w-fit mx-auto md:mx-0 items-center gap-5 text-xs rounded-3xl text-center md:text-lg bg-gradient-to-r from-primary to-red-500 hover:translate-y-[-3px] shadow-lg hover:shadow-red-500/50 transition-all duration-300 px-6 py-3 mt-5"
                 >
                   <span>Start Now</span> 🚀

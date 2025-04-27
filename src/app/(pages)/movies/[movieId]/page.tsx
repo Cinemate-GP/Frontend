@@ -13,7 +13,7 @@ import { Movie } from "@/lib/types";
 
 const MovieDetails = () => {
   const pathname = usePathname();
-  const tmdbid = pathname.split("/")[3];
+  const tmdbid = pathname.split("/")[2];
   const { data,loading } = useFetch<Movie>(`/api/Movie/` + tmdbid);
   const info = {
     tmdbId: data?.tmdbId,

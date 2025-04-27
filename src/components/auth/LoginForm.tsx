@@ -54,7 +54,7 @@ const LoginForm = () => {
         setUser({user})
       );
       document.cookie = `token=${user.token}; path=/;`;
-      router.push("/pages");
+      router.push("/home");
     } catch (error) {
       setError("afterSubmit", {
         type: "manual",
@@ -86,7 +86,7 @@ const LoginForm = () => {
           placeholder="********"
         />
         <Link
-          href="/auth/forgot-password"
+          href="/forgot-password"
           className="text-lg text-center font-normal duration-300 hover:text-primary w-fit mx-auto my-4"
         >
           Forgot Password?

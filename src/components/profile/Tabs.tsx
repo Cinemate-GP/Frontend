@@ -13,22 +13,22 @@ const Tabs = () => {
     setActiveTab(name);
     switch (name) {
       case "Liked":
-        router.push("/pages/profile/liked");
+        router.push("/profile/liked");
         break;
       case "Watched":
-        router.push("/pages/profile/watched");
+        router.push("/profile/watched");
         break;
       case "Watchlist":
-        router.push("/pages/profile/watchlist");
+        router.push("/profile/watchlist");
         break;
       case "Reviews":
-        router.push("/pages/profile/reviews");
+        router.push("/profile/reviews");
         break;
       case "Recommended":
-        router.push("/pages/profile/recommended");
+        router.push("/profile/recommended");
         break;
       default:
-        router.push("/pages/profile");
+        router.push("/profile");
     }
   }
   useEffect(() => {

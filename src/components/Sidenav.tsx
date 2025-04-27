@@ -37,7 +37,7 @@ export default function Sidenav() {
         {/* Logo Section */}
         <div className="relative flex items-center h-16 px-4 border-b border-gray-800/60">
           <Link
-            href="/pages"
+            href="/home"
             className={`flex items-center ${isCollapsed ? "justify-center w-full" : ""}`}
           >
             <Image
@@ -84,9 +84,9 @@ export default function Sidenav() {
         <div className="mt-auto border-t border-gray-800/60 p-3">
           <div className={`flex ${isCollapsed ? "flex-col" : "items-center justify-between"} gap-2`}>
             <Link
-              href="/pages/profile"
+              href="/profile"
               className={`relative group flex items-center p-2 rounded-xl
-                ${pathname === "/pages/profile" ? "bg-red-950/30 text-red-500" : "text-gray-400"}
+                ${pathname === "/profile" ? "bg-red-950/30 text-red-500" : "text-gray-400"}
                 hover:bg-[#252525] hover:text-gray-200 transition-all duration-200
                 ${isCollapsed ? "justify-center w-10 mx-auto" : ""}`}
             >
@@ -114,16 +114,16 @@ export default function Sidenav() {
             </Link>
 
             <Link
-              href="/pages/settings"
+              href="/settings"
               className={`relative group flex items-center p-2 rounded-xl
-                ${pathname === "/pages/settings" ? "bg-red-950/30 text-red-500" : "text-gray-400"}
+                ${pathname === "/settings" ? "bg-red-950/30 text-red-500" : "text-gray-400"}
                 hover:bg-[#252525] hover:text-gray-200 transition-all duration-200
                 ${isCollapsed ? "justify-center w-10 mx-auto" : ""}`}
             >
               <span className={`${isCollapsed ? "" : "mr-3"}`}>
                 {icons["Settings"] ? (
                   React.createElement(icons["Settings"], {
-                    className: `w-[22px] h-[22px] ${pathname === "/pages/settings" ? "text-red-500" : ""}`,
+                    className: `w-[22px] h-[22px] ${pathname === "/settings" ? "text-red-500" : ""}`,
                   })
                 ) : (
                   <div className="w-[22px] h-[22px] flex items-center justify-center text-gray-500">⚙️</div>
