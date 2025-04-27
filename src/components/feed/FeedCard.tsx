@@ -20,7 +20,7 @@ const FeedCard: React.FC<ActionCardProps> = ({
   review
 }) => {
   return (
-    <div className="flex flex-col  bg-secondaryBg p-4 rounded-lg w-full max-w-6xl">
+    <div className="flex flex-col bg-secondaryBg p-4 rounded-lg w-full max-w-6xl">
       {/* header */}
       <div className="flex items-center justify-between">
         {/* Profile */}

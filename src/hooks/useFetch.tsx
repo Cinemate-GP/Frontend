@@ -1,5 +1,5 @@
+'use client'
 import { useState, useEffect } from "react";
-
 const useFetch = <T,>(url: string) => {
   const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -10,7 +10,13 @@ const useFetch = <T,>(url: string) => {
       setLoading(true);
       setError(null);
       try {
-        const response = await fetch(url);
+        const response = await fetch(url,{
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${document.cookie.split("=")[1]}`,
+          },
+        });
         if (!response.ok) throw new Error("Failed to fetch data");
         
         const json = await response.json();

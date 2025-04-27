@@ -226,12 +226,44 @@ export const ReviewSkeletonCard = () => {
 export const SearchResultSkeleton = () => {
   return (
     <div className="flex flex-1 gap-4 min-w-[140px] bg-gray-700 p-2 rounded-md">
-      <div
-        className={`w-20 h-20 rounded bg-gray-500 animate-pulse`}
-      />
+      <div className={`w-20 h-20 rounded bg-gray-500 animate-pulse`} />
       <div className="flex-1 flex items-center">
-        <div className="h-8 bg-gray-800 rounded w-1/3 animate-pulse"/>
+        <div className="h-8 bg-gray-800 rounded w-1/3 animate-pulse" />
       </div>
     </div>
   );
 };
+
+  export default function FeedCardSkelton() {
+      return (
+        <div className="flex flex-col bg-black p-4 rounded-lg w-full max-w-6xl mt-24 mx-auto mb-12">
+          {/* Header */}
+          <div className="flex items-center justify-between">
+            {/* Profile */}
+            <div className="flex items-center gap-2">
+              <div className="w-12 h-12 animate-pulse rounded-full"></div>
+              <div>
+                <div className="h-4 animate-pulse rounded w-24"></div>
+              </div>
+            </div>
+            {/* Date Time */}
+            <div className="h-3 animate-pulse rounded w-16"></div>
+          </div>
+    
+          {/* Content */}
+          <div className="bg-[#1a1a1a] p-4 rounded-lg mt-2">
+            <div className="flex justify-between">
+              {/* Left */}
+              <div className="flex flex-col gap-2">
+                <div className="h-4 animate-pulse bg-gray-600 rounded w-40"></div>
+                <div className="h-6 animate-pulse bg-gray-600 rounded w-32"></div>
+                <div className="h-10 animate-pulse bg-gray-600 rounded-lg w-[200px] md:w-[400px]"></div>
+              </div>
+              {/* Right */}
+              <div className="ml-4 animate-pulse w-[80px] h-[80px] bg-gray-600 rounded-lg"></div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+    
