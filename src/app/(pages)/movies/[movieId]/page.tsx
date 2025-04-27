@@ -11,25 +11,36 @@ import { usePathname } from "next/navigation";
 import useFetch from "@/hooks/useFetch";
 import { Movie } from "@/lib/types";
 
+interface MovieDetails extends Movie {
+  isLiked: boolean;
+  isWatched: boolean;
+  isInWatchList: boolean;
+  stars: number;
+}
+
 const MovieDetails = () => {
   const pathname = usePathname();
   const tmdbid = pathname.split("/")[2];
-  const { data,loading } = useFetch<Movie>(`/api/Movie/` + tmdbid);
+  const { data,loading } = useFetch<MovieDetails>(`/api/Movie/` + tmdbid);
   const info = {
     tmdbId: data?.tmdbId,
     title: data?.title,
     tagline: data?.tagline,
+    releaseDate: data?.releaseDate,
     posterPath: data?.posterPath,
     imdbRating: data?.imdbRating,
     rottenTomatoesRating: data?.rottenTomatoesRating,
     metacriticRating: data?.metacriticRating,
     mpa: data?.mpa,
     backdropPath: data?.backdropPath,
-    date: data?.releaseDate,
-    time: data?.runtime,
+    runtime: data?.runtime,
     overview: data?.overview,
     geners: data?.genresDetails,
-    movieReviews: data?.movieReviews
+    movieReviews: data?.movieReviews,
+    stars: data?.stars,
+    isLiked: data?.isLiked,
+    isWatched: data?.isWatched,
+    isInWatchList: data?.isInWatchList
   };
 
   return (

@@ -1,29 +1,28 @@
+import { useMovieInfo } from "@/hooks/useMovieActions";
 import { getUserId } from "@/lib/utils";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FaHeart, FaRegEye, FaRegStar, FaStar } from "react-icons/fa6";
 import { FiHeart, FiPlus } from "react-icons/fi";
 import { MdOutlineRateReview } from "react-icons/md";
 
 interface MovieActionsProps {
   tmdbId: number;
-  liked: boolean;
-  watched: boolean;
-  rated: boolean;
-  onLikeToggle: () => void;
-  onWatched: () => void;
-  onWatchlist: () => void;
+  isLiked: boolean;
+  isWatched: boolean;
+  isInWatchList: boolean;
+  stars: number;
   onReview: () => void;
 }
 
 export const MovieActions = ({
   tmdbId,
-  liked,
-  watched,
-  onWatched,
-  onLikeToggle,
-  onWatchlist,
+  isLiked,
+  isWatched,
+  isInWatchList,
+  stars,
   onReview,
 }: MovieActionsProps) => {
+  const {liked,watched,watchlist,toggleLike,toggleWatched,toggleWatchlist} = useMovieInfo({tmdbId,isLiked,isWatched,isInWatchList})  
   const buttons = [
     {
       icon: liked ? (
@@ -31,7 +30,7 @@ export const MovieActions = ({
       ) : (
         <FiHeart className="group-hover:text-red-500 transition-all duration-200" />
       ),
-      onClick: onLikeToggle,
+      onClick: toggleLike,
       label: "Like",
     },
     {
@@ -41,14 +40,16 @@ export const MovieActions = ({
           className="group-hover:!text-red-500 transition-all duration-200 animate-heart"
         />
       ),
-      onClick: onWatched,
+      onClick: toggleWatched,
       label: "Watched",
     },
     {
       icon: (
-        <FiPlus className="group-hover:text-red-500 transition-all duration-200" />
+        <FiPlus
+          className={`group-hover:text-red-500 ${watchlist ? "text-red-500" : ""} transition-all duration-200`}
+        />
       ),
-      onClick: onWatchlist,
+      onClick: toggleWatchlist,
       label: "Watchlist",
     },
     {
@@ -61,35 +62,28 @@ export const MovieActions = ({
       label: "Rate",
     },
   ];
-  const [rating, setRating] = useState<number | null>(null);
+  const [rating, setRating] = useState<number | null>(stars);
 
-  const handleRating = (i: number) => {
+  const handleRating = async (i: number) => {
+    try {
+      const res = await fetch("/api/UserRateMovie/Add", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${document.cookie.split("=")[1]}`,
+        },
+        body: JSON.stringify({
+          tmdbId: tmdbId,
+          userId: getUserId(),
+          stars: i,
+        }),
+      });
+      if (!res.ok) throw new Error("Failed to add rating");
+    } catch (error) {
+      console.log(error);
+    }
     setRating(i);
   };
-
-  // handle rating side effect
-  useEffect(() => {
-    (async function () {
-      if (rating === null) return;
-      try {
-        const res = await fetch("/api/UserRateMovie/Add", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${document.cookie.split("=")[1]}`,
-          },
-          body: JSON.stringify({
-            tmdbId: tmdbId,
-            userId: getUserId(),
-            stars: rating,
-          }),
-        });
-        if (!res.ok) throw new Error("Failed to add rating");
-      } catch (error) {
-        console.log(error);
-      }
-    })();
-  }, [rating, tmdbId]);
 
   return (
     <>

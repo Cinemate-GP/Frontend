@@ -8,7 +8,6 @@ interface Props {
   title: string;
   poster_path: string;
   onclose: () => void;
-  setRated: (rated: boolean) => void;
 }
 
 const MovieReviewForm = ({ tmdbId, title, onclose }: Props) => {

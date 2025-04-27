@@ -6,14 +6,12 @@ interface ModalProps {
   title: string;
   poster_path: string;
   onclose: () => void;
-  onRate: (rated: boolean) => void;
 }
 
 const RatingModal = ({
   tmdbId,
   title,
   poster_path,
-  onRate,
   onclose,
 }: ModalProps) => {
   return (
@@ -37,7 +35,6 @@ const RatingModal = ({
             title={title!}
             poster_path={poster_path!}
             onclose={onclose}
-            setRated={onRate}
           />
         </div>
       </div>
