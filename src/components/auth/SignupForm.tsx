@@ -57,7 +57,7 @@ const SignupForm = () => {
         }
       }
 
-      router.push(`/auth/verifyEmail/${data.email}`);
+      router.push(`/verify-email/${data.email}`);
     } catch (error) {
       
       setServerError(

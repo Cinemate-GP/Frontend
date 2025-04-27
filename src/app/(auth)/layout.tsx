@@ -35,12 +35,12 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
                   active === "login" ? avtiveTab : " border-transparent"
                 } transition-all duration-300 hover:text-primary`}
               >
-                <Link href={"/auth/login"} onClick={() => setActive("login")}>
+                <Link href={"/login"} onClick={() => setActive("login")}>
                   Login
                 </Link>
               </li>
               <li className={`p-2 ${active === "signup" ? avtiveTab : ""} transition-all duration-300 hover:text-primary` }>
-                <Link href={"/auth/signup"} onClick={() => setActive("signup")}>
+                <Link href={"/signup"} onClick={() => setActive("signup")}>
                   Signup
                 </Link>
               </li>
