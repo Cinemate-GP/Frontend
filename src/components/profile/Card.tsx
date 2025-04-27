@@ -39,7 +39,7 @@ const Card = (movie: MoveProps) => {
   };
 
   return (
-    <Link href={`/pages/movies/${movie.tmdbid}`}>
+    <Link href={`/movies/${movie.tmdbid}`}>
       <div className="relative group overflow-hidden rounded-lg">
         <Image
           src={movie.image}

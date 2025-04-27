@@ -43,7 +43,7 @@ const ReviewCard = (item: cardProps) => {
   };
   return (
     <Link
-      href={`/pages/movies/${item.tmdbId}`}
+      href={`/movies/${item.tmdbId}`}
       className="border-b border-primary py-6"
     >
       <div className="max-w-xl sm:max-w-3xl md:max-w-4xl  flex gap-4">
