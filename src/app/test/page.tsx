@@ -73,7 +73,7 @@ const MovieRating = () => {
               </button>
 
               <button
-                onClick={() => router.push("/")}
+                onClick={() => router.push("/auth/login")}
                 className="py-3 px-6 border border-gray-300 text-white font-semibold 
                          rounded-full hover:bg-gray-800 hover:border-gray-500 
                          transition-all duration-300"

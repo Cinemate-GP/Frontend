@@ -18,7 +18,7 @@ const FinishTest = ({
       {hideButtons && (
         <div className="text-center">
           <Link
-            href="/pages"
+            href="/auth/login"
             onClick={handleFinish}
             className="relative -mt-2 px-6 py-2 bg-primary hover:bg-red-600 transition rounded-full w-full text-white"
           >

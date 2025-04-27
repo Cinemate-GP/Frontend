@@ -67,16 +67,18 @@ export default function SingleActor() {
               <h3>{actorData?.name}</h3>
               <p className="text-gray-400 text-sm mt-1 overflow-auto custom-scrollbar">
                 {truncateText(
-                  actorData!.biography.slice(0, 400),
+                  actorData!.biography.slice(0, 500),
                   isExpanded,
                   200
                 )}{" "}
-                <button
-                  className="font-bold text-white"
-                  onClick={() => setIsExpanded(!isExpanded)}
-                >
-                  {isExpanded ? " Show Less" : " Show More"}
-                </button>
+                {(actorData?.biography?.length ?? 0) > 500 && (
+                  <button
+                    className="font-bold text-white"
+                    onClick={() => setIsExpanded(!isExpanded)}
+                  >
+                    {isExpanded ? " Show Less" : " Show More"}
+                  </button>
+                )}
               </p>
             </aside>
           </div>
