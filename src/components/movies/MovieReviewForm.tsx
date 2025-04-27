@@ -77,24 +77,23 @@ const MovieReviewForm = ({ tmdbId, title, onclose }: Props) => {
           value={message}
           onChange={(e) => setMessage(e.target.value)}
         />
+        <button
+          type="submit"
+          className="bg-[linear-gradient(90deg,#ff0000,#800000)] hover:scale-105 transition-all duration-150 rounded-full px-8 sm:px-12 py-2 sm:text-sm mt-3"
+        >
+          {loading ? (
+            <span className="flex items-center">
+              <svg
+                className="animate-spin h-5 w-5 mr-2 border-t-2 border-white rounded-full"
+                viewBox="0 0 24 24"
+              ></svg>
+              Loading...
+            </span>
+          ) : (
+            "Submit"
+          )}
+        </button>
       </form>
-
-      <button
-        type="submit"
-        className="bg-[linear-gradient(90deg,#ff0000,#800000)] hover:scale-105 transition-all duration-150 rounded-full px-8 sm:px-12 py-2 sm:text-sm"
-      >
-        {loading ? (
-          <span className="flex items-center">
-            <svg
-              className="animate-spin h-5 w-5 mr-2 border-t-2 border-white rounded-full"
-              viewBox="0 0 24 24"
-            ></svg>
-            Loading...
-          </span>
-        ) : (
-          "Submit"
-        )}
-      </button>
     </div>
   );
 };

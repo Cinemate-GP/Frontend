@@ -226,7 +226,7 @@ export const Search = ({ border, isMobile = false }: { border?: boolean, isMobil
             )}
 
             {!loading && values.length > 0 && (
-              <div className="flex flex-col max-h-[calc(100vh-200px)] overflow-y-auto">
+              <div className="flex flex-col max-h-[calc(100vh-200px)] overflow-y-auto custom-scrollbar">
                 {values.map((item, index) => (
                   <Link 
                     href={getItemLink(item)} 
