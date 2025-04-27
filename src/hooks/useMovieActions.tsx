@@ -1,206 +1,122 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
+
 import { getUserId } from "@/lib/utils";
-import { addToRecentActivities } from "@/redux/slices/recentActivity";
-import { RootState } from "@/redux/store";
 import { useCallback, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
 import { useCookie } from "./useCookie";
 
 interface MovieInfoProps {
-  info: {
-    tmdbId: number | undefined;
-    title: string | undefined;
-    backdropPath: string | undefined;
-    posterPath: string | undefined;
-  };
+  tmdbId: number | undefined;
+  isLiked: boolean | undefined;
+  isWatched: boolean | undefined;
+  isInWatchList: boolean | undefined;
 }
 
-export const useMovieInfo = (info: MovieInfoProps["info"]) => {
+export const useMovieInfo = (info: MovieInfoProps) => {
+  console.log(info.isInWatchList)
   // states
-  const [liked, setLiked] = useState<boolean | null>(null);
-  const [watched, setWatched] = useState<boolean | null>(null);
-
-  // redux
-  const dispatch = useDispatch();
-  const { watchlist } = useSelector((state: RootState) => state.watchlist);
+  const [liked, setLiked] = useState<boolean | null>(info.isLiked ?? null);
+  const [watched, setWatched] = useState<boolean | null>(
+    info.isWatched ?? null
+  );
+  const [watchlist, setWatchlist] = useState<boolean | null>(
+    info.isInWatchList ?? null
+  );
 
   // Get token from cookie hook
   const token = useCookie();
+  const userId = getUserId();
 
-  // post data
+  // Post data
   const postedData = {
     tmdbId: info.tmdbId,
-    userId: getUserId(),
+    userId: userId,
   };
 
-  // toggle like function
-  const toggleLike = useCallback(() => {
-    setLiked((prev) => !prev);
-  }, [liked]);
+  // Handle adding or deleting action
+  const addAction = async (
+    type: boolean | null,
+    addUrl: string,
+    deleteUrl: string
+  ) => {
+    if (!token || !postedData.tmdbId || !postedData.userId || type === null) {
+      console.warn("Request canceled: Missing token or data");
+      return;
+    }
 
-  // toggle watched function
-  const toggleWatched = useCallback(() => {
-    setWatched((prev) => !prev);
-  }, [watched]);
+    const url = type ? addUrl : deleteUrl;
+    const method = type ? "POST" : "DELETE";
 
-  // add to watchlist
-  const addToWatchlist = useCallback(async () => {
     try {
-      const res = await fetch("/api/UserWatchlistMovie/Add", {
-        method: "POST",
+      const res = await fetch(url, {
+        method,
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(postedData),
       });
-      if (!res.ok) throw new Error("Failed to fetch data");
-      toast.success("Added to watchlist successfully!", {
-        theme: "dark",
-        position: "bottom-right",
-      });
+
+      if (!res.ok) {
+        throw new Error(
+          `Failed to ${method === "POST" ? "add" : "remove"} movie`
+        );
+      }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
-    dispatch(addToRecentActivities({
-      tmdbId: info.tmdbId,
-      movieTitle: info.title,
-      poster_path: info.posterPath,
-      activities: [
-        {
-          type: 'watchlist',
-          title: "added to watchlist",
-          createdAt: new Date().toISOString(),
-        },
-      ],
-    }))
+  };
 
+  // Toggle like
+  const toggleLike = useCallback(() => {
+    setLiked((prev) => (prev !== null ? !prev : true));
+  }, []);
 
-  }, [info, , watchlist]);
+  // Toggle watched
+  const toggleWatched = useCallback(() => {
+    setWatched((prev) => (prev !== null ? !prev : true));
+  }, []);
 
-  // liked effect
+  // Toggle watchlist
+  const toggleWatchlist = useCallback(() => {
+    setWatchlist((prev) => (prev !== null ? !prev : true));
+  }, []);
+
+  // Liked effect
   useEffect(() => {
-    if (liked && info.tmdbId) {
-      (async function () {
-        try {
-          const res = await fetch("/api/UserLikeMovie/Add", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify(postedData),
-          });
-          if (!res.ok) throw new Error("Failed to add movie to liked");
-          dispatch(
-            addToRecentActivities({
-              tmdbId: info.tmdbId,
-              movieTitle: info.title,
-              poster_path: info.posterPath,
-              activities: [
-                {
-                  id: 1,
-                  title: "added to liked",
-                  createdAt: new Date().toISOString(),
-                },
-              ],
-            })
-          );
-        } catch (error) {
-          console.log(error);
-        }
-      })();
-      dispatch(
-        addToRecentActivities({
-          tmdbId: info.tmdbId,
-          movieTitle: info.title,
-          poster_path: info.posterPath,
-          activities: [
-            {
-              type: "liked",
-              title: "added to liked",
-              createdAt: new Date().toISOString(),
-            },
-          ],
-        })
-      );
-    } else if (liked === false && info.tmdbId) {
-      (async function () {
-        try {
-          const res = await fetch("/api/UserLikeMovie/Delete", {
-            method: "DELETE",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify(postedData),
-          });
-          if (!res.ok) throw new Error("Failed to remove movie from liked");
-        } catch (error) {
-          console.log(error);
-        }
-      })();
+    if (liked !== null) {
+      addAction(liked, "/api/UserLikeMovie/Add", "/api/UserLikeMovie/Delete");
     }
   }, [liked]);
 
-  // watched effect
+  // Watchlist effect
   useEffect(() => {
-    if (watched && info.tmdbId) {
-      (async function () {
-        try {
-          const res = await fetch("/api/UserWatchedMovie/Add", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify(postedData),
-          });
-          if (!res.ok) throw new Error("Failed to add movie to watched");
-        } catch (error) {
-          console.log(error);
-        }
-      })();
-      dispatch(
-        addToRecentActivities({
-          tmdbId: info.tmdbId,
-          movieTitle: info.title,
-          poster_path: info.posterPath,
-          activities: [
-            {
-              type: "watched",
-              title: "added to watched",
-              createdAt: new Date().toISOString(),
-            },
-          ],
-        })
+    if (watchlist !== null) {
+      addAction(
+        watchlist,
+        "/api/UserWatchlistMovie/Add",
+        "/api/UserWatchlistMovie/Delete"
       );
-    } else if (watched === false && info.tmdbId) {
-      (async function () {
-        try {
-          const res = await fetch("/api/UserWatchedMovie/Delete", {
-            method: "DELETE",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify(postedData),
-          });
-          if (!res.ok) throw new Error("Failed to remove movie from watched");
-        } catch (error) {
-          console.log(error);
-        }
-      })();
+    }
+  }, [watchlist]);
+
+  // Watched effect
+  useEffect(() => {
+    if (watched !== null) {
+      addAction(
+        watched,
+        "/api/UserWatchedMovie/Add",
+        "/api/UserWatchedMovie/Delete"
+      );
     }
   }, [watched]);
 
   return {
     liked,
     watched,
-    onWatched: toggleWatched,
+    watchlist,
+    toggleWatched,
     toggleLike,
-    addToWatchlist,
+    toggleWatchlist,
   };
 };

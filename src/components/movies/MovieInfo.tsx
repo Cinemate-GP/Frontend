@@ -2,13 +2,12 @@
 import { MoviePoster } from "./MoviePoster";
 import { MovieGenres } from "./MovieGeners";
 import { MovieActions } from "./MovieActions";
-import { useMovieInfo } from "@/hooks/useMovieActions";
 import RatingModal from "../modals/RatingModal";
 import { formatDuration } from "@/lib/utils";
 import { GoStarFill } from "react-icons/go";
 import { LuCalendarClock } from "react-icons/lu";
 import { SkeletonMovieInfo } from "../skeletons";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { IMAGEPOSTER } from "@/constants";
 import { FaClock } from "react-icons/fa6";
 import Image from "next/image";
@@ -28,6 +27,10 @@ interface MovieInfoProps {
     time?: number | undefined;
     overview?: string | undefined;
     geners?: { name: string; id: number }[] | undefined;
+    isLiked?: boolean | undefined;
+    isWatched?: boolean | undefined;
+    isInWatchList?: boolean | undefined;
+    stars?:number | undefined
   };
   loading: boolean;
 }
@@ -35,12 +38,9 @@ interface MovieInfoProps {
 const MovieInfo: React.FC<MovieInfoProps> = ({ info, loading }) => {
   // Rated movie modal state
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [rated, setRated] = useState(false);
 
   // Movie actions
-  const { liked, watched, onWatched, toggleLike, addToWatchlist } =
-    useMovieInfo(info);
-  const setIsRated = useCallback((rated: boolean) => setRated(rated), []);
+  
 
   // render selecton during waiting for data comming form backend
   if (loading) return <SkeletonMovieInfo />;
@@ -110,12 +110,10 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ info, loading }) => {
             )}
             <MovieActions
               tmdbId={info.tmdbId!}
-              liked={liked!}
-              watched={watched!}
-              rated={rated}
-              onWatched={onWatched}
-              onLikeToggle={toggleLike}
-              onWatchlist={addToWatchlist}
+              stars={info.stars!}
+              isLiked={info.isLiked!}
+              isWatched={info.isWatched!}
+              isInWatchList={info.isInWatchList!}
               onReview={() => setIsModalOpen(true)}
             />
           </div>
@@ -129,7 +127,6 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ info, loading }) => {
           title={info.title!}
           poster_path={info.posterPath!}
           onclose={() => setIsModalOpen(false)}
-          onRate={setIsRated}
         />
       )}
     </div>
