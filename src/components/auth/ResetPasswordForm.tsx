@@ -52,7 +52,7 @@ const ResetPasswordForm = () => {
         console.log(response);
         throw Error("Error resetting password");
       }
-      router.push("/auth/login");
+      router.push("/login");
     } catch (error) {
       reset();
       setServerError(

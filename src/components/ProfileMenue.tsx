@@ -15,8 +15,8 @@ export default function ProfileMenu() {
   const menuRef = useRef<HTMLDivElement | null>(null);
 
   const menuItems = [
-    { name: "Profile", href: "/pages/profile", icon: LuUserRound },
-    { name: "Settings", href: "/pages/settings", icon: IoSettingsOutline },
+    { name: "Profile", href: "/profile", icon: LuUserRound },
+    { name: "Settings", href: "/settings", icon: IoSettingsOutline },
   ];
 
   useEffect(() => {

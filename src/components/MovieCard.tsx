@@ -18,7 +18,7 @@ const MovieCard = ({ id, tmdbid, title, image, imdbRating, cardType = 'default' 
   
   if (isTop10) {
     return (
-      <Link href={`/pages/movies/${tmdbid}`} className="block">
+      <Link href={`/movies/${tmdbid}`} className="block">
         <div className="relative flex items-end group">
           <span
             className={`absolute text-stroke-primary transition-all duration-300
@@ -44,7 +44,7 @@ const MovieCard = ({ id, tmdbid, title, image, imdbRating, cardType = 'default' 
   }
 
   return (
-    <Link href={`/pages/movies/${tmdbid}`} className="block">
+    <Link href={`/movies/${tmdbid}`} className="block">
       <div className="relative group rounded-lg overflow-hidden">
         <Image
           src={image}
