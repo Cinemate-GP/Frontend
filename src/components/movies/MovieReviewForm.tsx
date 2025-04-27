@@ -1,5 +1,5 @@
 "use client";
-import {useState } from "react";
+import { useState } from "react";
 import { toast } from "react-toastify";
 import { useCookie } from "@/hooks/useCookie";
 
@@ -13,13 +13,14 @@ interface Props {
 
 const MovieReviewForm = ({ tmdbId, title, onclose }: Props) => {
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const { user } = JSON.parse(localStorage.getItem("user") || "{}");
   const token = useCookie();
 
-
   // handle review
-  const HandleSubmitReview = async () => {
+  const HandleSubmitReview = async (e: React.FormEvent) => {
+    e.preventDefault();
     if (message.length < 3) {
       toast.error("Please enter a message with at least 3 characters", {
         position: "top-center",
@@ -28,6 +29,7 @@ const MovieReviewForm = ({ tmdbId, title, onclose }: Props) => {
       });
     } else {
       try {
+        setLoading(true);
         const res = await fetch("/api/UserReviewMovie/Add", {
           method: "POST",
           headers: {
@@ -52,18 +54,22 @@ const MovieReviewForm = ({ tmdbId, title, onclose }: Props) => {
         onclose();
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoading(false);
       }
     }
   };
 
   return (
     <div className="flex-1 bg-gray-900 p-4 rounded-lg">
-      <h3 className="text-white text-sm sm:text-lg font-bold">Rate &quot;{title}&quot;</h3>
+      <h3 className="text-white text-sm sm:text-lg font-bold">
+        Rate &quot;{title}&quot;
+      </h3>
       <p className="text-gray-400 text-sm mt-3">
         Write a review for this movie. It will be posted on this page.
       </p>
 
-      <div className="mt-4">
+      <form onSubmit={HandleSubmitReview} className="mt-4">
         <label className="text-gray-400 text-sm">Message</label>
         <textarea
           className="w-full bg-background text-white text-xs sm:text-[16px] p-2 rounded-md h-40 mt-1"
@@ -71,13 +77,23 @@ const MovieReviewForm = ({ tmdbId, title, onclose }: Props) => {
           value={message}
           onChange={(e) => setMessage(e.target.value)}
         />
-      </div>
+      </form>
 
       <button
-        onClick={HandleSubmitReview}
-        className="w-full bg-red-600 text-white font-bold py-2 rounded-lg mt-4"
+        type="submit"
+        className="bg-[linear-gradient(90deg,#ff0000,#800000)] hover:scale-105 transition-all duration-150 rounded-full px-8 sm:px-12 py-2 sm:text-sm"
       >
-        Submit
+        {loading ? (
+          <span className="flex items-center">
+            <svg
+              className="animate-spin h-5 w-5 mr-2 border-t-2 border-white rounded-full"
+              viewBox="0 0 24 24"
+            ></svg>
+            Loading...
+          </span>
+        ) : (
+          "Submit"
+        )}
       </button>
     </div>
   );

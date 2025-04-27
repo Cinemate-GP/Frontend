@@ -1,6 +1,6 @@
 "use client";
 import FeedCard from "@/components/feed/FeedCard";
-import FeedCardSkelton from "@/components/skeletons";
+import {FeedCardSkelton} from "@/components/skeletons";
 import useFetch from "@/hooks/useFetch";
 
 interface Feed {

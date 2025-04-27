@@ -205,17 +205,17 @@ export const ReviewSkeletonCard = () => {
           {/* Stars */}
           <div className="flex gap-1">
             {[...Array(5)].map((_, i) => (
-              <div key={i} className="w-4 h-4 bg-gray-700 rounded-full" />
+              <div key={i} className="w-4 h-4 bg-zinc-800 animate-pulse rounded-full" />
             ))}
           </div>
 
           {/* Review Text */}
-          <div className="w-3/4 h-4 bg-gray-700 rounded animate-pulse" />
-          <div className="w-full h-4 bg-gray-700 rounded animate-pulse" />
+          <div className="w-3/4 h-4 rounded animate-pulse" />
+          <div className="w-full h-4 rounded animate-pulse" />
 
           {/* Date */}
           <div className="flex items-center gap-2 mt-2">
-            <div className="w-20 h-4 bg-gray-700 rounded" />
+            <div className="w-20 h-4 animate-pulse bg-zinc-800 rounded" />
           </div>
         </div>
       </div>
@@ -234,36 +234,67 @@ export const SearchResultSkeleton = () => {
   );
 };
 
-  export default function FeedCardSkelton() {
-      return (
-        <div className="flex flex-col bg-black p-4 rounded-lg w-full max-w-6xl mt-24 mx-auto mb-12">
-          {/* Header */}
-          <div className="flex items-center justify-between">
-            {/* Profile */}
-            <div className="flex items-center gap-2">
-              <div className="w-12 h-12 animate-pulse rounded-full"></div>
-              <div>
-                <div className="h-4 animate-pulse rounded w-24"></div>
-              </div>
-            </div>
-            {/* Date Time */}
-            <div className="h-3 animate-pulse rounded w-16"></div>
-          </div>
-    
-          {/* Content */}
-          <div className="bg-[#1a1a1a] p-4 rounded-lg mt-2">
-            <div className="flex justify-between">
-              {/* Left */}
-              <div className="flex flex-col gap-2">
-                <div className="h-4 animate-pulse bg-gray-600 rounded w-40"></div>
-                <div className="h-6 animate-pulse bg-gray-600 rounded w-32"></div>
-                <div className="h-10 animate-pulse bg-gray-600 rounded-lg w-[200px] md:w-[400px]"></div>
-              </div>
-              {/* Right */}
-              <div className="ml-4 animate-pulse w-[80px] h-[80px] bg-gray-600 rounded-lg"></div>
-            </div>
+export  function FeedCardSkelton() {
+  return (
+    <div className="flex flex-col bg-black p-4 rounded-lg w-full max-w-6xl mt-24 mx-auto mb-12">
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        {/* Profile */}
+        <div className="flex items-center gap-2">
+          <div className="w-12 h-12 animate-pulse rounded-full"></div>
+          <div>
+            <div className="h-4 animate-pulse rounded w-24"></div>
           </div>
         </div>
-      );
-    }
-    
+        {/* Date Time */}
+        <div className="h-3 animate-pulse rounded w-16"></div>
+      </div>
+
+      {/* Content */}
+      <div className="bg-[#1a1a1a] p-4 rounded-lg mt-2">
+        <div className="flex justify-between">
+          {/* Left */}
+          <div className="flex flex-col gap-2">
+            <div className="h-4 animate-pulse bg-gray-600 rounded w-40"></div>
+            <div className="h-6 animate-pulse bg-gray-600 rounded w-32"></div>
+            <div className="h-10 animate-pulse bg-gray-600 rounded-lg w-[200px] md:w-[400px]"></div>
+          </div>
+          {/* Right */}
+          <div className="ml-4 animate-pulse w-[80px] h-[80px] bg-gray-600 rounded-lg"></div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+export function ActivityCardSkeleton() {
+  return (
+    <div className="flex bg-[#1a1a1a] p-4 rounded-lg w-full max-w-xl gap-4">
+      {/* Image Placeholder */}
+      <div className="w-24 h-32 animate-pulse rounded-lg"></div>
+
+      {/* Content */}
+      <div className="flex-1">
+        {/* Title */}
+        <div className="h-5 animate-pulse rounded w-3/4 mb-2"></div>
+
+        {/* Action Text */}
+        <div className="h-4 animate-pulse rounded w-1/4 mb-4"></div>
+
+        {/* Review or Rating */}
+        <div className="h-4 animate-pulse rounded w-2/3 mb-4"></div>
+        <div className="flex gap-1">
+          <div className="w-5 h-5 animate-pulse rounded-full"></div>
+          <div className="w-5 h-5 animate-pulse rounded-full"></div>
+          <div className="w-5 h-5 animate-pulse rounded-full"></div>
+          <div className="w-5 h-5 animate-pulse rounded-full"></div>
+          <div className="w-5 h-5 animate-pulse rounded-full"></div>
+        </div>
+
+        {/* Time */}
+        <div className="mt-4 h-3 animate-pulse rounded w-1/5"></div>
+      </div>
+    </div>
+  );
+}

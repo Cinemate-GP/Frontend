@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 import SectionTitle from "@/components/SectionTitle";
+import { ActivityCardSkeleton } from "@/components/skeletons";
 import { IMAGEPOSTER } from "@/constants";
 import { formatTimestamp, truncateText } from "@/lib/utils";
 import Link from "next/link";
@@ -30,7 +31,7 @@ const getIcon = (type: string) => {
           <span>Added To Favorites</span>
         </div>
       );
-    case "watchlist":
+    case "WatchList":
       return (
         <div className="flex items-center gap-2 text-sm text-gray-300">
           <FaBookmark className="text-yellow-400" />
@@ -69,6 +70,7 @@ interface Activity {
 
 export default function RecentActivitySection() {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [recenActivities, setRecentActivities] = useState<Activity[] | null>(
     null
   );
@@ -76,6 +78,7 @@ export default function RecentActivitySection() {
   useEffect(() => {
     (async function () {
       try {
+        setLoading(true);
         const res = await fetch("/api/Profile/RecentActivity", {
           method: "GET",
           headers: {
@@ -88,18 +91,21 @@ export default function RecentActivitySection() {
         setRecentActivities(data);
       } catch (error) {
         console.log(error);
+      }finally {
+        setLoading(false);
       }
     })();
   }, []);
   return (
     <div className="mt-5">
       <SectionTitle title="Recent Activity" />
+      {loading && <ActivityCardSkeleton />}
       {recenActivities?.length === 0 && <p>No activities yet</p>}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 p-0 sm:p-6 rounded-lg">
         {recenActivities?.map((item) => (
           <Link
             href={"/pages/movies/" + item.tmdbId}
-            key={item.tmdbId}
+            key={item.createdOn}
             className="flex bg-zinc-900 rounded-xl overflow-hidden border border-zinc-700 shadow-md"
           >
             <img
