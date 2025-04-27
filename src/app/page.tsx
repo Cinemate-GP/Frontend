@@ -91,7 +91,7 @@ const Page = () => {
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-3">
             <Image src="/favicon.ico" width={40} height={40} alt="logo" className="animate-fadeIn" priority />
-            <span className="text-white text-xl font-semibold">CineVerse</span>
+            <span className="text-white text-xl font-semibold">CineMate</span>
           </div>
           <div className="text-white/70 text-sm">Redirecting in {countdown} seconds...</div>
         </div>
