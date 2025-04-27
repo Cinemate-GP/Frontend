@@ -143,9 +143,9 @@ const Page = () => {
               description: "AI recommendations matching your taste"
             },
             {
-              icon: "🎬",
+              icon: "🎥",
               title: "Exclusive Content",
-              description: "Movies, Trailers, behind-the-scenes & more"
+              description: "Movies, behind-the-scenes and more."
             },
             {
               icon: "🌐",
