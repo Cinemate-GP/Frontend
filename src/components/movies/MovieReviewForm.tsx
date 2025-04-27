@@ -20,8 +20,8 @@ const MovieReviewForm = ({ tmdbId, title, onclose }: Props) => {
 
   // handle review
   const HandleSubmitReview = async () => {
-    if (message.length < 10) {
-      toast.error("Please enter a message with at least 10 characters", {
+    if (message.length < 3) {
+      toast.error("Please enter a message with at least 3 characters", {
         position: "top-center",
         autoClose: 2000,
         theme: "dark",
@@ -57,8 +57,8 @@ const MovieReviewForm = ({ tmdbId, title, onclose }: Props) => {
   };
 
   return (
-    <div className="flex-1 bg-secondaryBg rounded-lg">
-      <h3 className="text-white text-lg font-bold">Rate &quot;{title}&quot;</h3>
+    <div className="flex-1 bg-gray-900 p-4 rounded-lg">
+      <h3 className="text-white text-sm sm:text-lg font-bold">Rate &quot;{title}&quot;</h3>
       <p className="text-gray-400 text-sm mt-3">
         Write a review for this movie. It will be posted on this page.
       </p>
@@ -66,7 +66,7 @@ const MovieReviewForm = ({ tmdbId, title, onclose }: Props) => {
       <div className="mt-4">
         <label className="text-gray-400 text-sm">Message</label>
         <textarea
-          className="w-full bg-background text-white p-2 rounded-md h-40 mt-1"
+          className="w-full bg-background text-white text-xs sm:text-[16px] p-2 rounded-md h-40 mt-1"
           placeholder="Make it short and sweet..."
           value={message}
           onChange={(e) => setMessage(e.target.value)}

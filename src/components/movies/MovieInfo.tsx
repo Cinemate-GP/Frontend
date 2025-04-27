@@ -62,7 +62,7 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ info, loading }) => {
             </h2>
             <p>{info.tagline}</p>
             {/* meta info */}
-            <div className="flex flex-wrap justify-center gap-4 text-lg">
+            <div className="flex flex-wrap justify-center gap-4 gap-y-0 text-lg">
               <span className="flex items-center gap-1 text-[16px]">
                 <LuCalendarClock />
                 {info.date}

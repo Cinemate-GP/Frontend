@@ -61,7 +61,7 @@ export const MovieActions = ({
       label: "Rate",
     },
   ];
-  const [rating, setRating] = useState(0);
+  const [rating, setRating] = useState<number | null>(null);
 
   const handleRating = (i: number) => {
     setRating(i);
@@ -70,6 +70,7 @@ export const MovieActions = ({
   // handle rating side effect
   useEffect(() => {
     (async function () {
+      if (rating === null) return;
       try {
         const res = await fetch("/api/UserRateMovie/Add", {
           method: "POST",
@@ -118,13 +119,13 @@ export const MovieActions = ({
         ))}
       </div>
       <div className="flex gap-2 justify-center mt-3">
-        {Array.from({ length: rating }, (_, i) => (
+        {Array.from({ length: rating! }, (_, i) => (
           <button key={i} onClick={() => handleRating(i + 1)}>
             <FaStar color="red" className="text-2xl" />
           </button>
         ))}
-        {Array.from({ length: 5 - rating }, (_, i) => (
-          <button key={i} onClick={() => handleRating(rating + i + 1)}>
+        {Array.from({ length: 5 - rating! }, (_, i) => (
+          <button key={i} onClick={() => handleRating(rating! + i + 1)}>
             <FaRegStar color="red" className="text-2xl" />
           </button>
         ))}
