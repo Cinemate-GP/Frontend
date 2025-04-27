@@ -145,7 +145,7 @@ const Page = () => {
             {
               icon: "🎬",
               title: "Exclusive Content",
-              description: "Trailers, behind-the-scenes & more"
+              description: "Movies, Trailers, behind-the-scenes & more"
             },
             {
               icon: "🌐",
