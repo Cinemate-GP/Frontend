@@ -68,12 +68,19 @@ interface Activity {
   stars: number;
 }
 
+const ITEMS_PER_PAGE = 6;
+
 export default function RecentActivitySection() {
+  const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
   const [isExpanded, setIsExpanded] = useState(false);
   const [loading, setLoading] = useState(true);
   const [recenActivities, setRecentActivities] = useState<Activity[] | null>(
     null
   );
+
+  const handleLoadMore = () => {
+    setVisibleCount((prev) => prev + ITEMS_PER_PAGE);
+  };
 
   useEffect(() => {
     (async function () {
@@ -102,7 +109,7 @@ export default function RecentActivitySection() {
       {loading && <ActivityCardSkeleton />}
       {recenActivities?.length === 0 && <p>No activities yet</p>}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 p-0 sm:p-6 rounded-lg">
-        {recenActivities?.map((item) => (
+        {recenActivities?.slice(0, visibleCount).map((item) => (
           <Link
             href={"/pages/movies/" + item.tmdbId}
             key={item.createdOn}
@@ -168,6 +175,14 @@ export default function RecentActivitySection() {
           </Link>
         ))}
       </div>
+      {(recenActivities?.length ?? 0) > visibleCount && (
+        <button
+          onClick={handleLoadMore}
+          className="my-4 px-4 py-2 bg-primary text-white rounded-3xl w-fit mx-auto block"
+        >
+          Load More
+        </button>
+      )}
     </div>
   );
 }
