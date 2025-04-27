@@ -91,7 +91,7 @@ export default function RecentActivitySection() {
         setRecentActivities(data);
       } catch (error) {
         console.log(error);
-      }finally {
+      } finally {
         setLoading(false);
       }
     })();
@@ -118,7 +118,9 @@ export default function RecentActivitySection() {
             />
 
             <div className="p-4 flex-1 flex flex-col gap-3">
-              <h3 className="text-sm sm:text-lg font-bold text-white">{item.name}</h3>
+              <h3 className="text-sm sm:text-lg font-bold text-white">
+                {item.name}
+              </h3>
 
               <div className="flex flex-col gap-6">
                 {/* title & icons */}

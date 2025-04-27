@@ -53,10 +53,10 @@ const MovieRating = () => {
       {isSkipped && (
         <div className="h-screen w-full flex items-center justify-center px-4">
           <div className="text-center max-w-xl">
-            <h1 className="text-3xl font-bold mb-4 text-white drop-shadow-md text-shdow-glow">
+            <h1 className="text-2xl sm:text-3xl font-bold mb-4 text-white drop-shadow-md text-shdow-glow">
               Find Movies That Match Your Taste
             </h1>
-            <p className="text-gray-300 text-lg leading-relaxed">
+            <p className="text-gray-300 leading-relaxed text-xs sm:text-lg">
               Rate at least{" "}
               <span className="font-semibold text-red-400">5 movies </span>
               to receive tailored recommendations. If you haven&apos;t seen a
@@ -64,21 +64,21 @@ const MovieRating = () => {
               film!
             </p>
 
-            <div className="mt-6 flex items-center justify-center gap-6">
+            <div className="mt-6 flex items-center justify-center gap-4 sm:gap-6">
               <button
                 onClick={() => setIsSkipped(false)}
-                className="bg-gradient-to-r from-primary to-red-500 rounded-3xl hover:translate-y-[-3px] shadow-lg hover:shadow-red-500/50 transition-all duration-300 px-6 py-3"
+                className="bg-gradient-to-r from-primary to-red-500 rounded-3xl hover:translate-y-[-3px] shadow-lg hover:shadow-red-500/50 transition-all duration-300 px-3 sm:px-6 py-2 sm:py-3 text-xs sm:text-sm"
               >
                 Start Test
               </button>
 
               <button
                 onClick={() => router.push("/auth/login")}
-                className="py-3 px-6 border border-gray-300 text-white font-semibold 
+                className="py-2 sm:py-3 px-3 sm:px-6 text-xs sm:text-sm border border-gray-300 text-white font-semibold 
                          rounded-full hover:bg-gray-800 hover:border-gray-500 
                          transition-all duration-300"
               >
-                Continue Without Test
+                Skip Test
               </button>
             </div>
           </div>
