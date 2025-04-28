@@ -117,7 +117,7 @@ const HomeSlider = () => {
                       </button>
 
                       <Link
-                        href={`/pages/movies/${slid.tmdbId}`}
+                        href={`/movies/${slid.tmdbId}`}
                         aria-label="More Info"
                         className="border border-primary text-sm p-3 flex items-center gap-1 rounded-3xl text-white transition-all duration-150 hover:bg-primary h-[40px]  sm:h-auto"
                       >

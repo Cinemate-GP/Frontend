@@ -93,7 +93,7 @@ const SearchPage = () => {
             );
           } else if (selectedValue === "Actor") {
             return (
-              <Link href={`/pages/actors/${item.id}`} key={item.id}>
+              <Link href={`/actors/${item.id}`} key={item.id}>
                 <div className="text-center cursor-pointer hover:opacity-80 transition">
                   <Image
                     width={300}
@@ -112,7 +112,7 @@ const SearchPage = () => {
             );
           } else {
             return (
-              <Link href={`/pages/users/${item.id}`} key={item.id}>
+              <Link href={`/users/${item.id}`} key={item.id}>
                 <div className="text-center cursor-pointer hover:opacity-80 transition">
                   <Image
                     width={300}

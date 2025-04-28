@@ -78,11 +78,11 @@ export const Search = ({ border, isMobile = false }: { border?: boolean, isMobil
   const getItemLink = (item: SearchValue) => {
     switch (item.type) {
       case "Movie":
-        return `/pages/movies/${item.id}`;
+        return `/movies/${item.id}`;
       case "Actor":
-        return `/pages/actors/${item.id}`;
+        return `/actors/${item.id}`;
       case "User":
-        return `/pages/users/${item.id}`;
+        return `/users/${item.id}`;
       default:
         return "#";
     }

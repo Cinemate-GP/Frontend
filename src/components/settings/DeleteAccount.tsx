@@ -15,7 +15,7 @@ const DeleteAccount = () => {
       localStorage.removeItem("user");
       document.cookie =
         "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-      window.location.href = "/auth/signup";
+      window.location.href = "/signup";
     } catch (error) {
       console.log(error);
     }

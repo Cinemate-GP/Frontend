@@ -111,7 +111,7 @@ export default function RecentActivitySection() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 p-0 sm:p-6 rounded-lg">
         {recenActivities?.slice(0, visibleCount).map((item) => (
           <Link
-            href={"/pages/movies/" + item.tmdbId}
+            href={"/movies/" + item.tmdbId}
             key={item.createdOn}
             className="flex bg-zinc-900 rounded-xl overflow-hidden border border-zinc-700 shadow-md"
           >

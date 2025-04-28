@@ -114,7 +114,7 @@ export const SearchModal = ({ onclose }: NavbarSearchModalProps) => {
                     </div>
                   ) : (
                     <div key={item.id} onClick={onclose}>
-                      <Link href={`/pages/actors/${item.id}`}>
+                      <Link href={`/actors/${item.id}`}>
                         <div className="relative group overflow-hidden rounded-lg">
                           <img
                             src={

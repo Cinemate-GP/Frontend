@@ -38,7 +38,7 @@ export default function withAuth<T extends object>(Component: React.ComponentTyp
         const Cookies = (await import("js-cookie")).default;
         const token = Cookies.get("token");
         if (!token) {
-          router.replace("/auth/login");
+          router.replace("/login");
         }
       };
 

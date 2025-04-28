@@ -9,27 +9,27 @@ const Menu = ({
   const menueItems = [
     {
       name: "Watchlist",
-      href: "/pages/profile/watchlist",
+      href: "/profile/watchlist",
       icon: icons.Watchlist,
     },
     {
       name: "Likes",
-      href: "/pages/profile/liked",
+      href: "/profile/liked",
       icon: icons.Likes,
     },
     {
       name: "Movies",
-      href: "/pages/movies",
+      href: "/movies",
       icon: icons.Movies,
     },
     {
       name: "Settings",
-      href: "/pages/settings",
+      href: "/settings",
       icon: icons.Settings,
     },
     {
       name: "Profile",
-      href: "/pages/profile",
+      href: "/profile",
       icon: icons.Profile,
     },
   ];

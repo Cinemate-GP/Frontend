@@ -57,7 +57,7 @@ export default function Actors({
           : actors?.filter((item) => item.role === selected)
         )?.map((actor) => (
           <Link
-            href={`/pages/actors/${actor.id}`}
+            href={`/actors/${actor.id}`}
             key={`${actor.id}-${actor.name}`}
           >
             <div className="flex items-center gap-4 hover:bg-gray-800 p-4 rounded-lg transition-all duration-300">
