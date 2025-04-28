@@ -27,10 +27,6 @@ export const Geners = [
     Name: "Animation",
   },
   {
-    Id: 2,
-    Name: "Children",
-  },
-  {
     Id: 3,
     Name: "Comedy",
   },
@@ -131,6 +127,17 @@ const icons = {
   Signin: PiSignInBold,
   Feeds: MdOutlineFeed
 };
+
+// Movie streaming sources
+export const movieSources = [
+  { id: "vidlink", name: "VidLink Pro", url: (id: string) => `https://vidlink.pro/movie/${id}` },
+  { id: "vidsrc", name: "VidSrc", url: (id: string) => `https://vidsrc.xyz/embed/movie?tmdb=${id}` },
+  { id: "vidsrc_icu", name: "VidSrc.icu", url: (id: string) => `https://vidsrc.icu/embed/movie/${id}` },
+  { id: "vidsrc_me", name: "VidSrc.me", url: (id: string) => `https://vidsrc.me/embed/movie/${id}` },
+  { id: "vidsrc_to", name: "VidSrc.to", url: (id: string) => `https://vidsrc.to/embed/movie/${id}` },
+  { id: "embed_su", name: "Embed.su", url: (id: string) => `https://embed.su/embed/movie/${id}` },
+];
+
 
 export const mainLinks: NavLink[] = [
   { name: "Home", href: "/home", icon: "Home" },
