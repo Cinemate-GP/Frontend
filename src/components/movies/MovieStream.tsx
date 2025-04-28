@@ -1,56 +1,90 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { IoPlay } from "react-icons/io5";
-import { IMAGEPOSTER } from "@/constants";
+import { HiOutlineSwitchHorizontal } from "react-icons/hi";
+import { IMAGEPOSTER, movieSources } from "@/constants";
 import { SkeletonMovieStreaming } from "../skeletons";
 
-export default function MovieStreaming({
-  image,
-  loading,
-  id,
-}: {
-  image: string | undefined;
+type Props = {
+  image?: string;
   loading: boolean;
-  id: string | undefined;
-}) {
-  const [isPlaying, setIsPlaying] = useState(false);
+  id?: string;
+};
+
+export default function MovieStreaming({ image, loading, id }: Props) {
+  const [playing, setPlaying] = useState(false);
+  const [source, setSource] = useState(movieSources[0]);
+  const playerRef = useRef<HTMLDivElement>(null);
 
   if (loading) return <SkeletonMovieStreaming />;
+
   return (
-    <div className="bg-black rounded-lg section">
-      <div className="relative w-full max-w-[1280px] mx-auto px-4">
-        <div className="mt-4 relative rounded-lg overflow-hidden w-full aspect-video md:aspect-[16/9] max-h-[70vh]">
-          {isPlaying ? (
-            <iframe
-              className="w-full h-full rounded-lg"
-              src={`https://vidsrc.xyz/embed/movie?tmdb=${id}`}
-              allowFullScreen
-              allow="autoplay; encrypted-media"
-              style={{ aspectRatio: '16/9' }}
-              title="Movie Stream"
-            />
-          ) : (
-            <>
-              <img
-                src={IMAGEPOSTER + image}
-                alt="Movie Stream Thumbnail"
-                width="1280"
-                height="720"
-                className="object-cover w-full h-full"
-                loading="lazy" 
-              />
-              <button
-                onClick={() => setIsPlaying(true)}
-                className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] flex items-center justify-center bg-black bg-opacity-80 py-4 w-20 h-12 rounded-md hover:bg-primary transition-all duration-300"
-                aria-label="Play movie"
-              >
-                <IoPlay className="text-white text-4xl" />
-              </button>
-            </>
-          )}
+    <section className="relative w-full max-w-6xl mx-auto bg-black/60 backdrop-blur-xl rounded-2xl shadow-2xl overflow-hidden p-4 space-y-6">
+      
+      {/* Header: Source Selector */}
+      <div className="flex flex-col md:flex-row items-center justify-between gap-4 p-4 rounded-xl bg-black/30">
+        
+        <div className="flex items-center gap-3">
+          <HiOutlineSwitchHorizontal className="text-primary text-xl" />
+          <span className="text-white text-sm font-semibold tracking-wide">Choose Source</span>
+        </div>
+
+        <div className="flex items-center gap-2">
+          {movieSources.map((s) => (
+            <button
+              key={s.id}
+              onClick={() => setSource(s)}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm transition ${
+                source.id === s.id
+                  ? "bg-primary text-white"
+                  : "bg-black/40 text-gray-300 hover:bg-gray-700/60 hover:text-white"
+              }`}
+            >
+              {source.id === s.id && <span className="w-2 h-2 bg-white rounded-full" />}
+              {s.name}
+            </button>
+          ))}
         </div>
       </div>
-    </div>
+
+      {/* Player */}
+      <div ref={playerRef} className="relative w-full aspect-video rounded-xl overflow-hidden">
+        {playing ? (
+          <iframe
+            src={source.url(id!)}
+            allowFullScreen
+            allow="autoplay; encrypted-media"
+            title="Movie Player"
+            className="w-full h-full rounded-xl"
+          />
+        ) : (
+          <div className="relative w-full h-full group cursor-pointer">
+            <img
+              src={image ? IMAGEPOSTER + image : "/image-placeholder.png"}
+              alt="Movie Thumbnail"
+              className="object-cover w-full h-full rounded-xl transition-transform duration-300 group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition" />
+
+            {/* Play Button */}
+            <div className="absolute inset-0 flex flex-col items-center justify-center">
+              <button
+                onClick={() => setPlaying(true)}
+                className="flex flex-col items-center gap-3"
+              >
+                <div className="bg-primary w-20 h-20 rounded-full flex items-center justify-center hover:scale-110 transition-transform">
+                  <IoPlay className="text-white text-4xl ml-1" />
+                </div>
+                <span className="text-white text-sm font-medium bg-black/50 px-4 py-1 rounded-full">
+                  Play Movie
+                </span>
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+
+    </section>
   );
 }
