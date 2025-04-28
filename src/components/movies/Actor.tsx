@@ -11,7 +11,7 @@ import { truncateText } from "@/lib/utils";
 
 export default function SingleActor() {
   const pathname = usePathname();
-  const actorId = pathname.split("/")[3];
+  const actorId = pathname.split("/")[2];
   const [loading, setLoading] = useState<boolean>(true);
   const [actorData, setActorData] = useState<Actor | null>(null);
   const [isExpanded, setIsExpanded] = useState(false);
