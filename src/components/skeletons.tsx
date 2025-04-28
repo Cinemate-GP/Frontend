@@ -205,7 +205,10 @@ export const ReviewSkeletonCard = () => {
           {/* Stars */}
           <div className="flex gap-1">
             {[...Array(5)].map((_, i) => (
-              <div key={i} className="w-4 h-4 bg-zinc-800 animate-pulse rounded-full" />
+              <div
+                key={i}
+                className="w-4 h-4 bg-zinc-800 animate-pulse rounded-full"
+              />
             ))}
           </div>
 
@@ -234,7 +237,7 @@ export const SearchResultSkeleton = () => {
   );
 };
 
-export  function FeedCardSkelton() {
+export function FeedCardSkelton() {
   return (
     <div className="flex flex-col bg-black p-4 rounded-lg w-full max-w-6xl mt-24 mx-auto mb-12">
       {/* Header */}
@@ -255,9 +258,9 @@ export  function FeedCardSkelton() {
         <div className="flex justify-between">
           {/* Left */}
           <div className="flex flex-col gap-2">
-            <div className="h-4 animate-pulse bg-gray-600 rounded w-40"></div>
-            <div className="h-6 animate-pulse bg-gray-600 rounded w-32"></div>
-            <div className="h-10 animate-pulse bg-gray-600 rounded-lg w-[200px] md:w-[400px]"></div>
+            <div className="h-4 animate-pulse rounded w-40"></div>
+            <div className="h-6 animate-pulse rounded w-32"></div>
+            <div className="h-10 animate-pulse rounded-lg w-[200px] md:w-[400px]"></div>
           </div>
           {/* Right */}
           <div className="ml-4 animate-pulse w-[80px] h-[80px] bg-gray-600 rounded-lg"></div>
@@ -267,34 +270,75 @@ export  function FeedCardSkelton() {
   );
 }
 
-
 export function ActivityCardSkeleton() {
   return (
-    <div className="flex bg-[#1a1a1a] p-4 rounded-lg w-full max-w-xl gap-4">
-      {/* Image Placeholder */}
-      <div className="w-24 h-32 animate-pulse rounded-lg"></div>
+    <div className="flex gap-4 flex-wrap">
+      {Array.from({ length: 2 }, (_, i) => i).map((i) => (
+        <div key={i} className="flex bg-[#1a1a1a] p-4 rounded-lg w-full max-w-xl md:max-w-sm xl:max-w-xl  gap-4">
+          {/* Image Placeholder */}
+          <div className="w-24 h-32 animate-pulse rounded-lg"></div>
 
-      {/* Content */}
-      <div className="flex-1">
-        {/* Title */}
-        <div className="h-5 animate-pulse rounded w-3/4 mb-2"></div>
+          {/* Content */}
+          <div className="flex-1">
+            {/* Title */}
+            <div className="h-5 animate-pulse rounded w-3/4 mb-2"></div>
 
-        {/* Action Text */}
-        <div className="h-4 animate-pulse rounded w-1/4 mb-4"></div>
+            {/* Action Text */}
+            <div className="h-4 animate-pulse rounded w-1/4 mb-4"></div>
 
-        {/* Review or Rating */}
-        <div className="h-4 animate-pulse rounded w-2/3 mb-4"></div>
-        <div className="flex gap-1">
-          <div className="w-5 h-5 animate-pulse rounded-full"></div>
-          <div className="w-5 h-5 animate-pulse rounded-full"></div>
-          <div className="w-5 h-5 animate-pulse rounded-full"></div>
-          <div className="w-5 h-5 animate-pulse rounded-full"></div>
-          <div className="w-5 h-5 animate-pulse rounded-full"></div>
+            {/* Review or Rating */}
+            <div className="h-4 animate-pulse rounded w-2/3 mb-4"></div>
+            <div className="flex gap-1">
+              <div className="w-5 h-5 animate-pulse rounded-full"></div>
+              <div className="w-5 h-5 animate-pulse rounded-full"></div>
+              <div className="w-5 h-5 animate-pulse rounded-full"></div>
+              <div className="w-5 h-5 animate-pulse rounded-full"></div>
+              <div className="w-5 h-5 animate-pulse rounded-full"></div>
+            </div>
+
+            {/* Time */}
+            <div className="mt-4 h-3 animate-pulse rounded w-1/5"></div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export function ProfileHeaderSkeleton() {
+  return (
+    <header className="flex flex-col sm:flex-row justify-between items-center gap-8">
+      {/* Left side */}
+      <div className="flex gap-4 items-center flex-wrap">
+        {/* Profile Image Skeleton */}
+        <div className="border-2 border-primary p-1 rounded-full mx-auto sm:mx-0">
+          <div className="w-16 h-16 sm:w-32 sm:h-32 rounded-full bg-gray-700 animate-pulse" />
         </div>
 
-        {/* Time */}
-        <div className="mt-4 h-3 animate-pulse rounded w-1/5"></div>
+        {/* Name and Follow Button */}
+        <div className="flex items-center mx-auto sm:mx-0">
+          <span className="block w-[6px] h-6 rounded-xl bg-primary mr-2"></span>
+          <div className="h-6 w-32 sm:w-48 bg-gray-700 rounded animate-pulse" />
+          <div className="h-8 w-24 bg-gray-700 rounded-lg ml-3 animate-pulse" />
+        </div>
       </div>
-    </div>
+
+      {/* Right side (Stats) */}
+      <ul className="flex gap-3 justify-center sm:justify-start">
+        {/* Each Stat */}
+        <li className="flex flex-col items-center border-r-2 pr-3 border-white/40 animate-pulse">
+          <div className="h-6 w-10  rounded animate-pulse" />
+          <div className="h-4 w-12 rounded mt-1 animate-pulse" />
+        </li>
+        <li className="flex flex-col items-center border-r-2 pr-3 border-white/40 animate-pulse">
+          <div className="h-6 w-10  rounded animate-pulse" />
+          <div className="h-4 w-16 rounded mt-1 animate-pulse" />
+        </li>
+        <li className="flex flex-col items-center animate-pulse">
+          <div className="h-6 w-10 rounded animate-pulse" />
+          <div className="h-4 w-16 rounded mt-1 animate-pulse" />
+        </li>
+      </ul>
+    </header>
   );
 }

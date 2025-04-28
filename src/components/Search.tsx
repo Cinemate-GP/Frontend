@@ -82,7 +82,7 @@ export const Search = ({ border, isMobile = false }: { border?: boolean, isMobil
       case "Actor":
         return `/actors/${item.id}`;
       case "User":
-        return `/users/${item.id}`;
+        return `/user/${item.id}`;
       default:
         return "#";
     }

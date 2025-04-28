@@ -5,7 +5,7 @@ import { ActivityCardSkeleton } from "@/components/skeletons";
 import { IMAGEPOSTER } from "@/constants";
 import { formatTimestamp, truncateText } from "@/lib/utils";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   FaHeart,
   FaPlayCircle,
@@ -67,48 +67,29 @@ interface Activity {
   stars: number;
 }
 
-const ITEMS_PER_PAGE = 6;
+interface Props {
+ activities: Activity[] | undefined;
+  loading: boolean;
+}
 
-export default function RecentActivitySection() {
+const ITEMS_PER_PAGE = 4;
+
+export function RecentActivitySection({ activities, loading }: Props) {
   const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
   const [isExpanded, setIsExpanded] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [recenActivities, setRecentActivities] = useState<Activity[] | null>(
-    null
-  );
+   
 
   const handleLoadMore = () => {
     setVisibleCount((prev) => prev + ITEMS_PER_PAGE);
   };
 
-  useEffect(() => {
-    (async function () {
-      try {
-        setLoading(true);
-        const res = await fetch("/api/Profile/RecentActivity", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${document.cookie.split("=")[1]}`,
-          },
-        });
-        if (!res.ok) throw new Error("Failed to fetch recent activities");
-        const data = await res.json();
-        setRecentActivities(data);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setLoading(false);
-      }
-    })();
-  }, []);
   return (
-    <div className="mt-5">
+    <div className="mt-6">
       <SectionTitle title="Recent Activity" />
       {loading && <ActivityCardSkeleton />}
-      {recenActivities?.length === 0 && <p>No activities yet</p>}
+      {activities?.length === 0 && <p>No activities yet</p>}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 p-0 sm:p-6 rounded-lg">
-        {recenActivities?.slice(0, visibleCount).map((item) => (
+        {activities?.slice(0, visibleCount).map((item) => (
           <Link
             href={"/movies/" + item.tmdbId}
             key={item.createdOn}
@@ -174,7 +155,7 @@ export default function RecentActivitySection() {
           </Link>
         ))}
       </div>
-      {(recenActivities?.length ?? 0) > visibleCount && (
+      {(activities?.length ?? 0) > visibleCount && (
         <button
           onClick={handleLoadMore}
           className="my-4 px-4 py-2 bg-primary text-white rounded-3xl w-fit mx-auto block"
