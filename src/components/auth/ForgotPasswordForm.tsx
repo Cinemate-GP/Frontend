@@ -129,7 +129,7 @@ const ForgotPasswordForm = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
           >
-            <p className="text-red-500 text-xs font-medium text-center"> // Smaller text
+            <p className="text-red-500 text-xs font-medium text-center">
               {serverError}
             </p>
           </motion.div>

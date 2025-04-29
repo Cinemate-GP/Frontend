@@ -10,7 +10,6 @@ import Image from "next/image";
 const Page = () => {
   const router = useRouter();
   const token = useCookie();
-  const [countdown, setCountdown] = useState(30);
   const [loading, setLoading] = useState(true);
   const [isRedirecting, setIsRedirecting] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -53,22 +52,15 @@ const Page = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  // Countdown effect
+  // Handle redirect after loading completes
   useEffect(() => {
     if (loading) return;
     
-    const timer = setInterval(() => {
-      setCountdown(prev => {
-        if (prev <= 1) {
-          clearInterval(timer);
-          setIsRedirecting(true);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
+    const timer = setTimeout(() => {
+      setIsRedirecting(true);
+    }, 10000); // Set a reasonable timeout before redirect
 
-    return () => clearInterval(timer);
+    return () => clearTimeout(timer);
   }, [loading]);
 
   // Handle redirect
@@ -124,7 +116,7 @@ const Page = () => {
               />
             </svg>
             <div className="absolute inset-0 flex items-center justify-center">
-              <img 
+              <Image 
                 src="/logo.png" 
                 alt="Logo" 
                 className="w-10 h-10 opacity-90"
@@ -226,7 +218,7 @@ const Page = () => {
             transition={{ duration: 0.6 }}
           >
             <div className="relative">
-              <img 
+              <Image 
                 src="/logo.png" 
                 alt="CineMate" 
                 className="w-10 h-10 object-contain"

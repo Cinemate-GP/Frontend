@@ -11,6 +11,7 @@ export default function VerifyEmail() {
 
   const reSendEmail = async (emailAddress: string) => {
     try {
+      setLoading(true);
       const response = await fetch(`/api/Auth/resend-confirm-email`, {
         method: "POST",
         headers: {
@@ -41,7 +42,7 @@ export default function VerifyEmail() {
         <p className="text-gray-400 mt-3">
           Please check your inbox and click the verification link.
         </p>
-        <p className="text-gray-400 text-sm mt-3">Didn’t receive the email?</p>
+        <p className="text-gray-400 text-sm mt-3">Did not receive the email?</p>
         <button
           className="text-red-400 hover:underline"
           onClick={() => reSendEmail(emailAddress)}
@@ -59,7 +60,14 @@ export default function VerifyEmail() {
           )}
         </button>
       </div>
-      <SuccessModal isOpen={isOpen} onClose={() => setIsOpen(false)} />
+      <SuccessModal 
+        isOpen={isOpen} 
+        onClose={() => setIsOpen(false)} 
+        email={emailAddress}
+        title="Email Sent Successfully!"
+        message="The verification email has been resent. Please check your inbox and click the verification link."
+        type="email-verification"
+      />
     </div>
   );
 }
