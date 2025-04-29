@@ -1,75 +1,110 @@
 import React from "react";
 import Image from "next/image";
 import { FiStar } from "react-icons/fi";
+import Link from "next/link";
+import { IMAGEPOSTER } from "@/constants";
+import { capitalizeString, convertToDateTime, extractDigit } from "@/lib/utils";
+import { FaHeart } from "react-icons/fa6";
+import { MdOutlineRateReview } from "react-icons/md";
+import { RiUserFollowLine } from "react-icons/ri";
 
 interface ActionCardProps {
-  name: string;
+  id: number;
+  userId: string;
+  type: string;
+  profilePic: string;
+  userName: string;
   time: string;
-  actionText: string;
-  imageUrl: string;
-  stars?: number;
-  review?: string;
+  actionTitle: string;
+  posterPath: string;
+  description: string;
 }
 
 const FeedCard: React.FC<ActionCardProps> = ({
-  name,
+  userId,
+  id,
+  profilePic,
+  userName,
   time,
-  actionText,
-  imageUrl,
-  stars,
-  review
+  type,
+  actionTitle,
+  posterPath,
+  description,
 }) => {
+  function getIcon(type: string) {
+    switch (type) {
+      case "like":
+        return <FaHeart color="red" size={12}/>;
+      case "review":
+        return <MdOutlineRateReview style={{ color: '#577fc5' }} size={16}/>;
+      case "rate":
+        return null;
+      case "follow":
+        return <RiUserFollowLine color="green" size={20}/>;
+    }
+  }
   return (
-    <div className="flex flex-col bg-secondaryBg p-4 rounded-lg w-full max-w-6xl">
+    <div className="flex flex-col bg-secondaryBg py-4 px-0 sm:px-4 rounded-lg w-full max-w-6xl">
       {/* header */}
       <div className="flex items-center justify-between">
         {/* Profile */}
         <div className="flex items-center gap-2">
-          <div className="w-12 h-12 bg-gray-600 rounded-full">
+          <Link
+            href={`/user/${userId}`}
+            className="w-12 h-12 bg-gray-600 rounded-full"
+          >
             <Image
-              src={"/user-profile.webp"}
+              src={profilePic ? profilePic : "/ueser-placeholder.jpg"}
               alt="Profile"
               width={40}
               height={40}
               className="w-full h-full rounded-full object-cover"
             />
-          </div>
+          </Link>
           <div>
-            <h2 className="text-white font-semibold">{name}</h2>
+            <h2 className="text-white font-semibold">{userName}</h2>
           </div>
         </div>
         {/* Date Time */}
-        <div className="text-gray-400 text-xs">{time}</div>
+        <div className="text-gray-400 text-xs">{convertToDateTime(time)}</div>
       </div>
 
       {/* content */}
-      <div className="bg-[#3f3d3d60] p-4 rounded-lg mt-2">
+      <div className="bg-[#3f3d3d60] py-0 sm:py-2 px-4 rounded-lg mt-2">
         <div className="flex justify-between">
           {/* left */}
           <div>
-            <p className="text-white mt-2">{actionText}</p>
-            {stars && (
+            <p className="text-white mt-2">
+              <span className="text-primary">{capitalizeString(type)}:</span>{" "}
+              {actionTitle}
+            </p>
+            {type === "rate" && (
               <div className="flex gap-1 mt-2 bg-black rounded-full w-fit justify-center px-4 py-2">
-                {[...Array(stars)].map((_, index) => (
+                {[...Array(extractDigit(description))].map((_, index) => (
                   <FiStar key={index} className="text-primary" />
                 ))}
               </div>
-
             )}
-            {review && (
-              <p className="text-white max-w-[200px] md:max-w-[400px] bg-gray-900 mt-2 border border-gray-500 rounded-lg p-2">{review}</p>
+            {type === "review" && (
+              <p className="text-white max-w-[200px] md:max-w-[400px] bg-gray-900 mt-2 border border-gray-500 rounded-lg p-2">
+                {description}
+              </p>
             )}
+            <div className="mt-4">{getIcon(type)}</div>
           </div>
           {/* right*/}
-          <div className="ml-4 w-[80px] h-[80px]">
+          <Link
+            href={`/${type === "follow" ? "user" : "movies"}/${id}`}
+            className="ml-4 w-[80px] h-[80px]"
+          >
             <Image
-              src={imageUrl}
+              src={posterPath ? type === "follow" ? posterPath : IMAGEPOSTER + posterPath : "/ueser-placeholder.jpg"}
               alt="Action Image"
               width={80}
               height={80}
               className="w-full h-full"
             />
-          </div>
+          </Link>
         </div>
       </div>
     </div>
