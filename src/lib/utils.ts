@@ -72,6 +72,14 @@ export const formatTimestamp = (timestamp: string) => {
   });
 };
 
+export function convertToDateTime(dateTimeString:string) {
+  const date = new Date(dateTimeString);
+
+  const formattedDate = date.toLocaleDateString(); 
+  const formattedTime = date.toLocaleTimeString(); 
+
+  return `${formattedDate} | ${formattedTime}`;
+}
 
 export const getUserId = () => {
   const {user} = JSON.parse(localStorage.getItem("user") || "{}");
@@ -80,3 +88,9 @@ export const getUserId = () => {
   }
   return null;
 }
+
+export function extractDigit(str:string) {
+  const match = str.match(/\d/); // \d means any digit
+  return match ? Number(match[0]) : null; // return the digit or null if not found
+}
+

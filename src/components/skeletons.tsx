@@ -239,33 +239,37 @@ export const SearchResultSkeleton = () => {
 
 export function FeedCardSkelton() {
   return (
-    <div className="flex flex-col bg-black p-4 rounded-lg w-full max-w-6xl mt-24 mx-auto mb-12">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        {/* Profile */}
-        <div className="flex items-center gap-2">
-          <div className="w-12 h-12 animate-pulse rounded-full"></div>
-          <div>
-            <div className="h-4 animate-pulse rounded w-24"></div>
+    <div className="flex flex-col gap-6 mt-20 p-4 mx-[0] sm:mx-8 mb-10 md:mb-0">
+      {Array.from({ length: 3 }, (_, i) => i).map((i) => (
+        <div key={i}>
+          {/* Header */}
+          <div className="flex items-center justify-between">
+            {/* Profile */}
+            <div className="flex items-center gap-2">
+              <div className="w-12 h-12 animate-pulse rounded-full"></div>
+              <div>
+                <div className="h-4 animate-pulse rounded w-24"></div>
+              </div>
+            </div>
+            {/* Date Time */}
+            <div className="h-3 animate-pulse rounded w-16"></div>
           </div>
-        </div>
-        {/* Date Time */}
-        <div className="h-3 animate-pulse rounded w-16"></div>
-      </div>
 
-      {/* Content */}
-      <div className="bg-[#1a1a1a] p-4 rounded-lg mt-2">
-        <div className="flex justify-between">
-          {/* Left */}
-          <div className="flex flex-col gap-2">
-            <div className="h-4 animate-pulse rounded w-40"></div>
-            <div className="h-6 animate-pulse rounded w-32"></div>
-            <div className="h-10 animate-pulse rounded-lg w-[200px] md:w-[400px]"></div>
+          {/* Content */}
+          <div className="bg-[#1a1a1a] p-4 rounded-lg mt-2">
+            <div className="flex justify-between">
+              {/* Left */}
+              <div className="flex flex-col gap-2">
+                <div className="h-4 animate-pulse rounded w-40"></div>
+                <div className="h-6 animate-pulse rounded w-32"></div>
+                <div className="h-10 animate-pulse rounded-lg w-[200px] md:w-[400px]"></div>
+              </div>
+              {/* Right */}
+              <div className="ml-4 animate-pulse w-[80px] h-[80px] bg-gray-600 rounded-lg"></div>
+            </div>
           </div>
-          {/* Right */}
-          <div className="ml-4 animate-pulse w-[80px] h-[80px] bg-gray-600 rounded-lg"></div>
         </div>
-      </div>
+      ))}
     </div>
   );
 }
@@ -274,7 +278,10 @@ export function ActivityCardSkeleton() {
   return (
     <div className="flex gap-4 flex-wrap">
       {Array.from({ length: 2 }, (_, i) => i).map((i) => (
-        <div key={i} className="flex bg-[#1a1a1a] p-4 rounded-lg w-full max-w-xl md:max-w-sm xl:max-w-xl  gap-4">
+        <div
+          key={i}
+          className="flex bg-[#1a1a1a] p-4 rounded-lg w-full md:max-w-xl xl:max-w-lg  gap-4"
+        >
           {/* Image Placeholder */}
           <div className="w-24 h-32 animate-pulse rounded-lg"></div>
 
