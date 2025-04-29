@@ -1,50 +1,159 @@
 "use client";
 import Link from "next/link";
-import { useState } from "react";
-import { AiOutlineHome } from "react-icons/ai";
-import { BsGrid } from "react-icons/bs";
+import { useState, useCallback, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { FiHome, FiRss } from "react-icons/fi";
+import { IoExitOutline } from "react-icons/io5";
+import { useRouter, usePathname as useNextPathname } from "next/navigation";
 import Menu from "./Menu";
 import { Search } from "./Search";
+import { useUser } from "@/context/UserContext";
+import Image from "next/image";
 
-const HorizontalNav = ({ pathname }: { pathname: string }) => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+const HorizontalNav = ({ pathname: propPathname }: { pathname: string }) => {
+  // Use Next.js's usePathname for more reliable pathname updates
+  const pathFromRouter = useNextPathname();
+  const pathname = propPathname || pathFromRouter;
   
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isLogoutConfirm, setIsLogoutConfirm] = useState<boolean>(false);
+  const router = useRouter();
+  const { user } = useUser();
+
+  // Close logout confirmation when menu is opened
   const toggleMenu = () => {
     setIsOpen((prev: boolean) => !prev);
+    // Always close logout confirmation when toggling menu
+    if (isLogoutConfirm) setIsLogoutConfirm(false);
   };
+
+  const handleLogout = useCallback(() => {
+    // If this is the first click, show confirmation
+    if (!isLogoutConfirm) {
+      setIsLogoutConfirm(true);
+      return;
+    }
+    
+    // On second click, actually log out
+    localStorage.removeItem("user");
+    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    router.push("/");
+    setIsLogoutConfirm(false);
+  }, [router, isLogoutConfirm]);
+
+  // Auto-close logout confirmation after a delay
+  useEffect(() => {
+    if (isLogoutConfirm) {
+      const timer = setTimeout(() => {
+        setIsLogoutConfirm(false);
+      }, 3000);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [isLogoutConfirm]);
+
+  // Updated mobile nav items with Home, Feed, and Search
+  const mobileNavItems = [
+    { name: "Home", href: "/home", icon: FiHome },
+    { name: "Feed", href: "/feed", icon: FiRss },
+  ];
 
   return (
     <>
-      <div className="w-full h-[60px] bg-opacity-15 fixed z-[100] left-0 bottom-0 p-4 pt-0 block md:hidden backdrop-blur-md shadow-lg">
-        <ul className="flex items-center justify-between px-3 bg-opacity-30 sm:px-5">
-          <li className="text-lg">
-            <Link
-              href="/home"
-              className={`flex flex-col gap-1 items-center px-4 py-2 ${
-                pathname === "/" ? "text-primary" : ""
-              }`}
-            >
-              <AiOutlineHome className="w-5 h-5" aria-hidden="true" />
-              <span className="text-[12px]">Home</span>
-            </Link>
+      {/* Mobile Bottom Navigation Bar */}
+      <motion.div 
+        initial={{ y: 100 }}
+        animate={{ y: 0 }}
+        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+        className="w-full h-[60px] fixed z-[100] left-0 bottom-0 block md:hidden border-t border-[#222222] bg-[#111111]/95 backdrop-blur-md shadow-lg"
+      >
+        <ul className="flex items-center justify-between h-full px-2">
+          {/* Main Navigation Items - Home and Feed */}
+          {mobileNavItems.map((item) => (
+            <li key={item.name} className="flex-1">
+              <Link
+                href={item.href}
+                className={`flex flex-col items-center justify-center h-full ${
+                  pathname?.includes(item.href) ? "text-red-500" : "text-gray-400"
+                }`}
+              >
+                <item.icon className="w-5 h-5 mb-1" aria-hidden="true" />
+                <span className="text-[10px]">{item.name}</span>
+              </Link>
+            </li>
+          ))}
+
+          {/* Search Button */}
+          <li className="flex-1">
+            <div className="flex flex-col items-center justify-center h-full">
+              <Search isMobile={true} />
+            </div>
           </li>
-          <li className="relative">
-            <Search isMobile={true} />
-          </li>
-          <li>
-            <button
-              className={`flex flex-col gap-1 items-center px-4 py-2 ${
-                isOpen ? "text-primary" : ""
-              }`}
-              onClick={toggleMenu}
-            >
-              <BsGrid className="w-5 h-5" aria-hidden="true" />
-              <span className="text-[12px]">Menu</span>
-            </button>
-          </li>
+
+          {/* Profile Button (opens menu) */}
+          <AnimatePresence mode="wait">
+            {isLogoutConfirm ? (
+              <motion.li 
+                key="logout-confirm"
+                className="flex-1"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.8 }}
+              >
+                <button
+                  className="flex flex-col items-center justify-center h-full w-full text-red-500"
+                  onClick={handleLogout}
+                  aria-label="Confirm logout"
+                >
+                  <IoExitOutline className="w-5 h-5 mb-1" aria-hidden="true" />
+                  <span className="text-[10px]">Confirm</span>
+                </button>
+              </motion.li>
+            ) : (
+              <motion.li 
+                key="profile" 
+                className="flex-1"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.8 }}
+              >
+                <button
+                  className={`flex flex-col items-center justify-center h-full w-full ${
+                    isOpen ? "text-red-500" : "text-gray-400"
+                  }`}
+                  onClick={toggleMenu}
+                >
+                  <div className="relative w-6 h-6 mb-1 rounded-full border border-red-500/50 overflow-hidden">
+                    <Image
+                      src={user?.profilePic || "/ueser-placeholder.jpg"}
+                      alt="Profile"
+                      width={24}
+                      height={24}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <span className="text-[10px]">profile</span>
+                </button>
+              </motion.li>
+            )}
+          </AnimatePresence>
         </ul>
-      </div>
-      {isOpen && <Menu setIsOpen={setIsOpen} />}
+      </motion.div>
+
+      {/* Mobile Menu Popup */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-x-0 bottom-[60px] z-[99] bg-[#111111] border-t border-[#222222] p-4 max-h-[70vh] overflow-y-auto rounded-t-xl shadow-xl"
+          >
+            <Menu setIsOpen={setIsOpen} />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 };

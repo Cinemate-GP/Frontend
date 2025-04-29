@@ -1,20 +1,22 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import React from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { mainLinks, icons, NavLink } from "@/constants";
+import { usePathname, useRouter } from "next/navigation";
+import { NavLink, navCategories, modernIcons } from "@/constants";
 import HorizontalNav from "./HorizontalNav";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
 import { toggleSidenave } from "@/redux/slices/sidebarSlice";
-import { RiMenuUnfold2Line, RiMenuFold2Line } from "react-icons/ri";
+import { IoIosArrowBack } from "react-icons/io";
 import { useSearch } from "@/context/SearchContext";
 import { useUser } from "@/context/UserContext";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Sidenav() {
   const pathname = usePathname();
+  const router = useRouter();
   const [isCollapsed, setIsCollapsed] = useState(false);
   const { setSearch } = useSearch();
   const dispatch = useDispatch();
@@ -25,51 +27,113 @@ export default function Sidenav() {
     dispatch(toggleSidenave(isCollapsed));
   };
 
+  const handleLogout = useCallback(() => {
+    // Clear user data from localStorage
+    localStorage.removeItem("user");
+    // Clear token cookie
+    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    // Redirect to home/login page
+    router.push("/");
+  }, [router]);
+
+  const navigateToProfile = useCallback(() => {
+    router.push("/profile");
+  }, [router]);
+
+  // Sidebar animation variants
+  const sidebarVariants = {
+    expanded: {
+      width: "14rem",
+      transition: {
+        type: "spring",
+        stiffness: 300,
+        damping: 30
+      }
+    },
+    collapsed: {
+      width: "4.2rem",
+      transition: {
+        type: "spring",
+        stiffness: 300,
+        damping: 30
+      }
+    }
+  };
+
   return (
     <>
-      <aside
+      <motion.aside
         onClick={() => setSearch("")}
-        className={`h-screen bg-[#191919] fixed z-50
-          flex flex-col transition-all duration-200 ease-in-out
-          ${isCollapsed ? "w-[4.5rem]" : "w-[14rem]"} hidden md:flex
-          border-r border-gray-800`}
+        className="h-screen bg-[#111111] fixed z-50
+           flex-col border-r border-[#222222] shadow-xl overflow-x-hidden
+          md:flex hidden"
+        variants={sidebarVariants}
+        initial="expanded"
+        animate={isCollapsed ? "collapsed" : "expanded"}
       >
-        {/* Logo Section */}
-        <div className="relative flex items-center h-16 px-4 border-b border-gray-800/60">
+        {/* Logo Section with Toggle Button */}
+        <div className="relative flex items-center h-16 px-4 border-b border-[#222222]">
           <Link
             href="/home"
             className={`flex items-center ${isCollapsed ? "justify-center w-full" : ""}`}
           >
             <Image
               src="/logo.png"
-              width={50}
-              height={50}
+              width={36}
+              height={36}
               priority
               alt="CineMate logo"
-              className="object-contain"
+              className="object-contain min-w-[36px]"
             />
-            {!isCollapsed && (
-              <span className="ml-2 mr-5 font-semibold text-gray-200">
-                Cine<span className="text-red-500">Mate</span>
-              </span>
-            )}
+            <AnimatePresence>
+              {!isCollapsed && (
+                <motion.span 
+                  className="ml-2.5 font-semibold text-base text-white truncate"
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -10 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  Cine<span className="text-red-500">Mate</span>
+                </motion.span>
+              )}
+            </AnimatePresence>
           </Link>
-
-          <button
-            aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
-            className={`${
-              isCollapsed ? "-mr-12" : "-mr-2"
-            } p-1.5 rounded-lg hover:bg-gray-900/60 text-gray-500 hover:text-gray-200 transition-colors duration-200`}
-            onClick={toggleSidebar}
-          >
-            {isCollapsed ? <RiMenuFold2Line size={20} /> : <RiMenuUnfold2Line size={20} />}
-          </button>
+          
+          {/* Toggle Button - Only shown when sidebar is expanded */}
+          {!isCollapsed && (
+            <motion.button
+              aria-label="Collapse sidebar"
+              className="ml-auto text-gray-400 hover:text-white p-1.5 rounded-lg hover:bg-[#333333] 
+                transition-colors duration-200"
+              onClick={toggleSidebar}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+            >
+              <IoIosArrowBack size={20} />
+            </motion.button>
+          )}
         </div>
 
-        {/* Navigation Links */}
-        <nav className="flex-1 py-4 px-3">
-          <ul className="space-y-1">
-            {mainLinks.map((link) => (
+        {/* Browse Section */}
+        <nav className="flex-1 py-3 px-3 overflow-y-auto overflow-x-hidden custom-scrollbar">
+          {/* Browse Category */}
+          <div className={`mb-2 px-2 overflow-hidden ${isCollapsed ? 'hidden' : ''}`}>
+            <AnimatePresence mode="wait">
+              <motion.h2 
+                key="browse-expanded"
+                className="text-xs text-gray-500 uppercase tracking-wider"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+              >
+                Browse
+              </motion.h2>
+            </AnimatePresence>
+          </div>
+          <ul className="space-y-1.5 mb-3">
+            {navCategories.browse.map((link) => (
               <NavItem
                 key={link.name}
                 link={link}
@@ -78,78 +142,189 @@ export default function Sidenav() {
               />
             ))}
           </ul>
+
+          {/* Separator for collapsed mode */}
+          {isCollapsed && (
+            <div className="my-3 mx-auto w-3/4 h-[2px] bg-gradient-to-r from-transparent via-gray-700/50 to-transparent rounded-full" />
+          )}
+
+          {/* Personal Library Section */}
+          <div className={`mb-2 px-2 overflow-hidden ${isCollapsed ? 'hidden' : ''}`}>
+            <AnimatePresence mode="wait">
+              <motion.h2 
+                key="library-expanded"
+                className="text-xs text-gray-500 uppercase tracking-wider"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+              >
+                Your Library
+              </motion.h2>
+            </AnimatePresence>
+          </div>
+          <ul className="space-y-1.5 mb-3">
+            {navCategories.library.map((link) => (
+              <NavItem
+                key={link.name}
+                link={link}
+                isActive={pathname === link.href || pathname.startsWith(link.href)}
+                isCollapsed={isCollapsed}
+              />
+            ))}
+          </ul>
+
+          {/* Separator for collapsed mode */}
+          {isCollapsed && (
+            <div className="my-3 mx-auto w-3/4 h-[2px] bg-gradient-to-r from-transparent via-gray-700/50 to-transparent rounded-full" />
+          )}
+
+          {/* Account Section */}
+          <div className={`mb-2 px-2 overflow-hidden ${isCollapsed ? 'hidden' : ''}`}>
+            <AnimatePresence mode="wait">
+              <motion.h2 
+                key="account-expanded"
+                className="text-xs text-gray-500 uppercase tracking-wider"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+              >
+                Your Account
+              </motion.h2>
+            </AnimatePresence>
+          </div>
+          <ul className="space-y-1.5">
+            {navCategories.account.map((link) => (
+              <NavItem
+                key={link.name}
+                link={link}
+                isActive={pathname === link.href || pathname.startsWith(link.href)}
+                isCollapsed={isCollapsed}
+              />
+            ))}
+          </ul>
         </nav>
 
-        {/* Footer Actions */}
-        <div className="mt-auto border-t border-gray-800/60 p-3">
-          <div className={`flex ${isCollapsed ? "flex-col" : "items-center justify-between"} gap-2`}>
-            <Link
-              href="/profile"
-              className={`relative group flex items-center p-2 rounded-xl
-                ${pathname === "/profile" ? "bg-red-950/30 text-red-500" : "text-gray-400"}
-                hover:bg-[#252525] hover:text-gray-200 transition-all duration-200
-                ${isCollapsed ? "justify-center w-10 mx-auto" : ""}`}
-            >
-              <span className={`${isCollapsed ? "" : "mr-3"}`}>
-                <div className="w-[28px] h-[28px] rounded-full overflow-hidden">
-                  <Image
-                    src={user?.profilePic || "/ueser-placeholder.jpg"}
-                    alt="Profile"
-                    width={28}
-                    height={28}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              </span>
-              {!isCollapsed && <span className="text-sm font-medium">Profile</span>}
+        {/* User Profile and Logout Section */}
+        <div className="mt-auto border-t border-[#222222] p-3">
+          <div className={`relative group w-full ${isCollapsed ? 'flex justify-center' : 'flex items-center'} p-2 rounded-lg text-gray-400 transition-all duration-200`}>
+            <div className={`flex items-center ${isCollapsed ? 'justify-center' : 'w-full'}`}>
+              {/* User photo with profile link functionality */}
+              <motion.div 
+                className="min-w-[36px] h-[36px] rounded-full border-2 border-red-500/50 overflow-hidden shadow-md cursor-pointer"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                onClick={navigateToProfile}
+              >
+                <Image
+                  src={user?.profilePic || "/ueser-placeholder.jpg"}
+                  alt="Profile"
+                  width={36}
+                  height={36}
+                  className="w-full h-full object-cover"
+                />
+              </motion.div>
               
-              {isCollapsed && (
-                <div className="absolute left-full ml-2 px-2.5 py-1.5 bg-gray-950 text-gray-200
-                  text-sm rounded-lg opacity-0 group-hover:opacity-100 transform translate-x-2
-                  group-hover:translate-x-0 pointer-events-none group-hover:pointer-events-auto
-                  transition-all duration-200 whitespace-nowrap z-50 shadow-lg">
-                  Profile
-                </div>
-              )}
-            </Link>
-
-            <Link
-              href="/settings"
-              className={`relative group flex items-center p-2 rounded-xl
-                ${pathname === "/settings" ? "bg-red-950/30 text-red-500" : "text-gray-400"}
-                hover:bg-[#252525] hover:text-gray-200 transition-all duration-200
-                ${isCollapsed ? "justify-center w-10 mx-auto" : ""}`}
-            >
-              <span className={`${isCollapsed ? "" : "mr-3"}`}>
-                {icons["Settings"] ? (
-                  React.createElement(icons["Settings"], {
-                    className: `w-[22px] h-[22px] ${pathname === "/settings" ? "text-red-500" : ""}`,
-                  })
-                ) : (
-                  <div className="w-[22px] h-[22px] flex items-center justify-center text-gray-500">⚙️</div>
+              <AnimatePresence>
+                {/* User name and logout - only visible when expanded */}
+                {!isCollapsed && (
+                  <motion.div 
+                    className="ml-3 flex flex-1 justify-between items-center"
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -10 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    {/* User name with profile link functionality */}
+                    <motion.div 
+                      className="flex flex-col cursor-pointer"
+                      onClick={navigateToProfile}
+                      whileHover={{ color: "#ffffff" }}
+                    >
+                      <span className="text-sm font-medium truncate max-w-[7rem]">
+                        {user?.fullName || "User"}
+                      </span>
+                      <span className="text-xs">View profile</span>
+                    </motion.div>
+                    
+                    {/* Logout button */}
+                    <motion.button
+                      className="p-1.5 rounded-lg hover:bg-[#333333]"
+                      onClick={handleLogout}
+                      whileHover={{ scale: 1.1, color: "#ffffff" }}
+                      whileTap={{ scale: 0.9 }}
+                      aria-label="Sign out"
+                    >
+                      {React.createElement(modernIcons.Logout, {
+                        className: "w-[20px] h-[20px]",
+                        "aria-hidden": "true",
+                      })}
+                    </motion.button>
+                  </motion.div>
                 )}
-              </span>
-              {!isCollapsed && <span className="text-sm font-medium">Settings</span>}
+              </AnimatePresence>
               
+              {/* Tooltip for collapsed state */}
               {isCollapsed && (
-                <div className="absolute left-full ml-2 px-2.5 py-1.5 bg-gray-950 text-gray-200
-                  text-sm rounded-lg opacity-0 group-hover:opacity-100 transform translate-x-2
+                <div className="absolute left-full ml-2 px-2.5 py-1.5 bg-[#1a1a1a] text-gray-200
+                  text-xs rounded-lg opacity-0 group-hover:opacity-100 transform translate-x-2
                   group-hover:translate-x-0 pointer-events-none group-hover:pointer-events-auto
-                  transition-all duration-200 whitespace-nowrap z-50 shadow-lg">
-                  Settings
+                  border border-[#333333] transition-all duration-200 whitespace-nowrap z-50 shadow-lg">
+                  {user?.fullName || "User"} (Click for profile)
                 </div>
               )}
-            </Link>
+            </div>
           </div>
         </div>
-      </aside>
+      </motion.aside>
+
+      {/* Expand Button - Only shown when sidebar is collapsed and positioned outside */}
+      <AnimatePresence>
+        {isCollapsed && (
+          <motion.button
+            key="expand-button"
+            aria-label="Expand sidebar"
+            className="fixed top-4 left-[4.2rem] z-50 
+              backdrop-blur-md bg-white/10 border border-white/20
+              text-white p-1.5 rounded-lg
+              flex items-center justify-center"
+            onClick={toggleSidebar}
+            initial={{ opacity: 0, x: -5 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -5 }}
+            transition={{ duration: 0.2 }}
+            whileHover={{ x: 3 }}
+            whileTap={{ scale: 0.9 }}
+          >
+            <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              width="20" 
+              height="20" 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              stroke="currentColor" 
+              strokeWidth="2" 
+              strokeLinecap="round" 
+              strokeLinejoin="round"
+            >
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </motion.button>
+        )}
+      </AnimatePresence>
 
       <HorizontalNav pathname={pathname} />
     </>
   );
 }
 
-const NavItem = ({ link, isActive, isCollapsed }: { 
+const NavItem = ({ 
+  link, 
+  isActive, 
+  isCollapsed
+}: { 
   link: NavLink; 
   isActive: boolean; 
   isCollapsed: boolean;
@@ -157,39 +332,55 @@ const NavItem = ({ link, isActive, isCollapsed }: {
   const iconName = link.icon;
   
   return (
-    <li className="relative group">
+    <motion.li 
+      className="relative group w-full"
+      whileHover={{ x: 2 }}
+      transition={{ type: "spring", stiffness: 400, damping: 20 }}
+    >
       <Link
         href={link.href}
-        className={`flex items-center px-3 py-2.5 rounded-xl transition-all duration-200
-          ${isActive ? "bg-[#252525] text-white" : "text-gray-400 hover:bg-[#252525] hover:text-gray-200"}
-          ${isCollapsed ? "justify-center w-10 mx-auto" : ""}
+        className={`flex items-center px-3 py-2.5 rounded-lg transition-all duration-200 w-full
+          ${isActive 
+            ? "bg-gradient-to-r from-red-950/40 to-transparent border-l-2 border-red-500 text-white" 
+            : "text-gray-400 hover:bg-[#222222] hover:text-gray-200 border-l-2 border-transparent"
+          }
+          ${isCollapsed ? "justify-center" : ""}
         `}
       >
-        <span className={`${isCollapsed ? "" : "mr-3"}`}>
-          {icons[iconName] ? (
-            React.createElement(icons[iconName], {
-              className: `w-[22px] h-[22px] transition-colors duration-200 ${isActive ? "text-red-500" : ""}`,
-              "aria-hidden": "true",
-            })
-          ) : (
-            <div className="w-[22px] h-[22px] bg-[#1a1a1a] rounded-md" />
+        <motion.span 
+          className={`${isCollapsed ? "" : "mr-3"} flex-shrink-0`}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+        >
+          {React.createElement(modernIcons[iconName], {
+            className: `w-[20px] h-[20px] transition-colors duration-200 ${isActive ? "text-red-500" : ""}`,
+            "aria-hidden": "true",
+          })}
+        </motion.span>
+        
+        <AnimatePresence>
+          {!isCollapsed && (
+            <motion.span 
+              className="text-sm font-medium truncate"
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -10 }}
+              transition={{ duration: 0.2 }}
+            >
+              {link.name}
+            </motion.span>
           )}
-        </span>
-        {!isCollapsed && <span className="text-sm font-medium">{link.name}</span>}
+        </AnimatePresence>
 
         {isCollapsed && (
-          <div className="absolute left-full ml-2 px-2.5 py-1.5 bg-[#1a1a1a] text-gray-200 text-sm rounded-lg
+          <div className="absolute left-full ml-2 px-2.5 py-1.5 bg-[#1a1a1a] text-gray-200 text-xs rounded-lg
             opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0
-            pointer-events-none group-hover:pointer-events-auto border border-gray-800
+            pointer-events-none group-hover:pointer-events-auto border border-[#333333]
             transition-all duration-200 whitespace-nowrap z-50 shadow-lg">
             {link.name}
           </div>
         )}
       </Link>
-      {isActive && (
-        <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1 h-4 bg-red-500 rounded-full transform origin-center
-          transition-transform duration-200" />
-      )}
-    </li>
+    </motion.li>
   );
 };

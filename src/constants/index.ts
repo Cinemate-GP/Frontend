@@ -8,11 +8,14 @@ import { MdAddToQueue } from "react-icons/md";
 import { MdOutlineSubscriptions } from "react-icons/md";
 import { PiSignInBold } from "react-icons/pi";
 import { MdOutlineFeed } from "react-icons/md";
+import { FiHome, FiFilm, FiBookmark, FiHeart, FiRss } from "react-icons/fi";
+import { FaRegUser } from "react-icons/fa";
+import { IoSettingsOutline, IoExitOutline } from "react-icons/io5";
 
 export interface NavLink {
   name: string;
   href: string;
-  icon: keyof typeof icons;
+  icon: keyof typeof modernIcons;
 }
 
 // geners
@@ -113,10 +116,22 @@ export const Years = [
   "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013",
   "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023",
   "2024"
-];
+]
 ;
 
-// Define the available icons
+// Define the modern icons first so we can reference its keys in the NavLink type
+export const modernIcons = {
+  Home: FiHome,
+  Movies: FiFilm,
+  Watchlist: FiBookmark,
+  Likes: FiHeart,
+  Profile: FaRegUser,
+  Settings: IoSettingsOutline,
+  Feeds: FiRss,
+  Logout: IoExitOutline
+};
+
+// Legacy icons (keeping this for backward compatibility)
 const icons = {
   Home: AiOutlineHome,
   Movies: MdOutlineSubscriptions,
@@ -128,17 +143,28 @@ const icons = {
   Feeds: MdOutlineFeed
 };
 
-// Movie streaming sources
-export const movieSources = [
-  { id: "vidlink", name: "VidLink Pro", url: (id: string) => `https://vidlink.pro/movie/${id}` },
-  { id: "vidsrc", name: "VidSrc", url: (id: string) => `https://vidsrc.xyz/embed/movie?tmdb=${id}` },
-  { id: "vidsrc_icu", name: "VidSrc.icu", url: (id: string) => `https://vidsrc.icu/embed/movie/${id}` },
-  { id: "vidsrc_me", name: "VidSrc.me", url: (id: string) => `https://vidsrc.me/embed/movie/${id}` },
-  { id: "vidsrc_to", name: "VidSrc.to", url: (id: string) => `https://vidsrc.to/embed/movie/${id}` },
-  { id: "embed_su", name: "Embed.su", url: (id: string) => `https://embed.su/embed/movie/${id}` },
-];
+// Updated categories with proper NavLink typing
+export const navCategories: {
+  browse: NavLink[];
+  library: NavLink[];
+  account: NavLink[];
+} = {
+  browse: [
+    { name: "Home", href: "/home", icon: "Home" },
+    { name: "Movies", href: "/movies", icon: "Movies" },
+    { name: "Feed", href: "/feed", icon: "Feeds" },
+  ],
+  library: [
+    { name: "Watchlist", href: "/profile/watchlist", icon: "Watchlist" },
+    { name: "Liked", href: "/profile/liked", icon: "Likes" },
+  ],
+  account: [
+    { name: "Profile", href: "/profile", icon: "Profile" },
+    { name: "Settings", href: "/settings", icon: "Settings" },
+  ]
+};
 
-
+// Keep the legacy exports for backward compatibility
 export const mainLinks: NavLink[] = [
   { name: "Home", href: "/home", icon: "Home" },
   { name: "Movies", href: "/movies", icon: "Movies" },
