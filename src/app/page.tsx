@@ -8,14 +8,14 @@ import { useCookie } from "@/hooks/useCookie";
 const Page = () => {
   const router = useRouter();
   const token = useCookie();
-  const [countdown, setCountdown] = useState(10);
+  const [countdown, setCountdown] = useState(30);
   const [loading, setLoading] = useState(true);
   const [shouldRedirect, setShouldRedirect] = useState(false);
   
   // Pre-load main content
   useEffect(() => {
     // Ensure minimum loading time for smoother transition
-    const loadTimer = setTimeout(() => {
+    const loadTimer = setTimeout(() => {  
       setLoading(false);
     }, 800);
     
@@ -67,7 +67,7 @@ const Page = () => {
         {/* Simple loading spinner */}
         <div className="relative w-14 h-14">
           <div className="absolute w-full h-full rounded-full border-4 border-gray-700"></div>
-          <div className="absolute w-full h-full rounded-full border-4 border-transparent border-t-[hsl(6,78%,57%)] animate-spin"></div>
+          <div className="absolute w-full h-full rounded-full border-4 border-transparent border-t-[hsl(0,100%,50%)] animate-spin"></div>
         </div>
       </div>
     );
@@ -82,7 +82,7 @@ const Page = () => {
       </div>
       
       {/* Countdown overlay */}
-      <div className="fixed top-6 right-6 bg-[hsl(6,78%,57%)]/80 text-white rounded-full h-16 w-16 flex items-center justify-center text-xl font-bold animate-pulse z-50">
+      <div className="fixed top-6 right-6 bg-[hsl(0,100%,50%)]/80 text-white rounded-full h-16 w-16 flex items-center justify-center text-xl font-bold animate-pulse z-50">
         {countdown}
       </div>
       
@@ -100,7 +100,7 @@ const Page = () => {
         <div className="flex-grow flex items-center justify-center">
           {/* Hero text */}
           <div className="text-center max-w-4xl mx-auto animate-slideUp">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[hsl(6,78%,57%)] via-[hsl(6,78%,67%)] to-[hsl(6,78%,47%)] leading-tight">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[hsl(0,100%,50%)] via-[hsl(0,100%,60%)] to-[hsl(0,100%,40%)] leading-tight">
               Discover Cinema Magic Like Never Before
             </h1>
             <p className="mt-4 text-base sm:text-lg md:text-xl text-gray-300 max-w-2xl mx-auto">
@@ -110,7 +110,7 @@ const Page = () => {
               {token ? (
                 <button 
                   onClick={() => setShouldRedirect(true)}
-                  className="px-6 py-3 bg-[hsl(6,78%,57%)] rounded-full text-white font-medium hover:shadow-lg hover:shadow-[hsl(6,78%,57%)]/30 transform hover:-translate-y-1 transition-all duration-300"
+                  className="px-6 py-3 bg-[hsl(0,100%,50%)] rounded-full text-white font-medium hover:shadow-lg hover:shadow-[hsl(0,100%,50%)]/30 transform hover:-translate-y-1 transition-all duration-300"
                 >
                   Continue to Dashboard
                 </button>
@@ -118,13 +118,13 @@ const Page = () => {
                 <>
                   <button 
                     onClick={() => setShouldRedirect(true)}
-                    className="px-6 py-3 bg-[hsl(6,78%,57%)] rounded-full text-white font-medium hover:shadow-lg hover:shadow-[hsl(6,78%,57%)]/30 transform hover:-translate-y-1 transition-all duration-300"
+                    className="px-6 py-3 bg-[hsl(0,100%,50%)] rounded-full text-white font-medium hover:shadow-lg hover:shadow-[hsl(0,100%,50%)]/30 transform hover:-translate-y-1 transition-all duration-300"
                   >
                     Get Started
                   </button>
                   <button 
                     onClick={() => setShouldRedirect(true)}
-                    className="px-6 py-3 bg-[#121212] border border-white/20 text-white rounded-full font-medium hover:border-[hsl(6,78%,57%)]/50 transition-all duration-300"
+                    className="px-6 py-3 bg-[#121212] border border-white/20 text-white rounded-full font-medium hover:border-[hsl(0,100%,50%)]/50 transition-all duration-300"
                   >
                     Sign In
                   </button>
@@ -153,7 +153,7 @@ const Page = () => {
               description: "Connect with fellow film enthusiasts"
             }
           ].map((feature, index) => (
-            <div key={index} className="bg-[#121212] p-3 md:p-4 rounded-xl border border-white/5 hover:border-[hsl(6,78%,57%)]/30 transition-all duration-300">
+            <div key={index} className="bg-[#121212] p-3 md:p-4 rounded-xl border border-white/5 hover:border-[hsl(0,100%,50%)]/30 transition-all duration-300">
               <div className="flex items-center gap-2">
                 <div className="text-2xl">{feature.icon}</div>
                 <div>

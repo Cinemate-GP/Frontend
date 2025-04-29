@@ -1,7 +1,7 @@
 "use client";
 import { useSearch } from "@/context/SearchContext";
 import { useState, useEffect, useRef } from "react";
-import { CiSearch } from "react-icons/ci";
+import { FiSearch } from "react-icons/fi";
 import { IMAGEPOSTER } from "@/constants";
 import { useDebounce } from "@/hooks/useDebounce";
 import Link from "next/link";
@@ -92,13 +92,17 @@ export const Search = ({ border, isMobile = false }: { border?: boolean, isMobil
   if (isMobile) {
     return (
       <>
-        <button 
-          onClick={() => setShowMobileSearch(true)} 
-          className="flex flex-col items-center justify-center"
+        <Link
+          href="#"
+          onClick={(e) => {
+            e.preventDefault();
+            setShowMobileSearch(true);
+          }}
+          className="flex flex-col items-center justify-center h-full text-gray-400 hover:text-white transition-colors"
         >
-          <CiSearch className="w-5 h-5" aria-hidden="true" />
-          <span className="text-[12px]">Search</span>
-        </button>
+          <FiSearch className="w-5 h-5 mb-1" aria-hidden="true" />
+          <span className="text-[10px]">Search</span>
+        </Link>
         
         {showMobileSearch && typeof document !== 'undefined' && createPortal(
           <div className="fixed inset-0 bg-black/90 z-[110] flex flex-col">
@@ -301,7 +305,7 @@ const SearchInput = ({
     <div className={`flex items-center h-12 bg-[#1a1a1a] rounded-xl overflow-hidden border border-gray-800 focus-within:border-red-500/70 transition-colors ${
       border ? "p-[2px] pl-3" : "pl-3"
     }`}>
-      <CiSearch className="text-gray-400 text-xl flex-shrink-0" />
+      <FiSearch className="text-gray-400 text-xl flex-shrink-0" />
       
       <input
         value={search}
