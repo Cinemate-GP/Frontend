@@ -1,9 +1,8 @@
 "use client";
 
-import { Dialog, Transition } from "@headlessui/react";
-import { Fragment } from "react";
+import {  useEffect } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface ModalProps {
   isOpen: boolean;
@@ -33,34 +32,61 @@ const SuccessModal = ({
         return "We have sent an email to:";
     }
   };
+
+  // Handle escape key to close modal
+  useEffect(() => {
+    const handleEsc = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && isOpen) {
+        onClose();
+      }
+    };
+    
+    window.addEventListener('keydown', handleEsc);
+    
+    return () => {
+      window.removeEventListener('keydown', handleEsc);
+    };
+  }, [isOpen, onClose]);
+  
+  // Handle body scroll lock when modal is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
+  
+  if (!isOpen) return null;
   
   return (
-    <Transition appear show={isOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-50" onClose={onClose}>
-        <Transition.Child
-          as={Fragment}
-          enter="ease-out duration-300"
-          enterFrom="opacity-0"
-          enterTo="opacity-100"
-          leave="ease-in duration-200"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
-        >
-          <div className="fixed inset-0 bg-black/75 backdrop-blur-sm" />
-        </Transition.Child>
+    <div className="fixed inset-0 z-50 overflow-y-auto">
+      <div className="fixed inset-0 bg-black/75 backdrop-blur-sm" 
+           onClick={onClose}
+           style={{
+             opacity: isOpen ? 1 : 0,
+             transition: 'opacity 300ms ease-out'
+           }} />
 
-        <div className="fixed inset-0 overflow-y-auto">
-          <div className="flex min-h-full items-center justify-center p-4">
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0 scale-95"
-              enterTo="opacity-100 scale-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100 scale-100"
-              leaveTo="opacity-0 scale-95"
-            >
-              <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-secondaryBg/90 backdrop-blur-md p-6 text-left align-middle shadow-xl border border-gray-700/30 transition-all">
+      <div className="fixed inset-0 overflow-y-auto">
+        <div className="flex min-h-full items-center justify-center p-4">
+          <AnimatePresence>
+            {isOpen && (
+              <motion.div
+                className="w-full max-w-md transform overflow-hidden rounded-2xl bg-secondaryBg/90 backdrop-blur-md p-6 text-left align-middle shadow-xl border border-gray-700/30"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ 
+                  type: "spring", 
+                  damping: 20, 
+                  stiffness: 300 
+                }}
+              >
                 <div className="flex flex-col items-center justify-center text-center">
                   {/* Animated success icon */}
                   <motion.div 
@@ -86,12 +112,9 @@ const SuccessModal = ({
                     </motion.svg>
                   </motion.div>
                   
-                  <Dialog.Title
-                    as="h3"
-                    className="text-xl font-bold text-white mb-2"
-                  >
+                  <h3 className="text-xl font-bold text-white mb-2">
                     {title}
-                  </Dialog.Title>
+                  </h3>
                   
                   <div className="mt-2">
                     <p className="text-sm text-gray-400 mb-2">
@@ -131,12 +154,12 @@ const SuccessModal = ({
                     </Link>
                   </div>
                 </div>
-              </Dialog.Panel>
-            </Transition.Child>
-          </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
-      </Dialog>
-    </Transition>
+      </div>
+    </div>
   );
 };
 

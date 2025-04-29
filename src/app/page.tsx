@@ -116,10 +116,12 @@ const Page = () => {
               />
             </svg>
             <div className="absolute inset-0 flex items-center justify-center">
-              <img 
-                src="/logo.png" 
+              <Image 
+                src="/favicon.ico" 
                 alt="Logo" 
-                className="w-10 h-10 opacity-90"
+                width={40}
+                height={40}
+                className="opacity-90"
                 style={{ filter: "grayscale(20%)" }}
               />
             </div>
@@ -218,10 +220,12 @@ const Page = () => {
             transition={{ duration: 0.6 }}
           >
             <div className="relative">
-              <img 
-                src="/logo.png" 
+              <Image 
+                src="/favicon.ico" 
                 alt="CineMate" 
-                className="w-10 h-10 object-contain"
+                width={40}
+                height={40}
+                className="object-contain"
               />
               <div className="absolute -inset-1.5 bg-red-500/20 rounded-full blur-lg -z-10 animate-pulse"></div>
             </div>
