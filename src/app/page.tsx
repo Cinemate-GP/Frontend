@@ -116,7 +116,7 @@ const Page = () => {
               />
             </svg>
             <div className="absolute inset-0 flex items-center justify-center">
-              <Image 
+              <img 
                 src="/logo.png" 
                 alt="Logo" 
                 className="w-10 h-10 opacity-90"
@@ -218,7 +218,7 @@ const Page = () => {
             transition={{ duration: 0.6 }}
           >
             <div className="relative">
-              <Image 
+              <img 
                 src="/logo.png" 
                 alt="CineMate" 
                 className="w-10 h-10 object-contain"
