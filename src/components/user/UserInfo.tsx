@@ -3,6 +3,7 @@ import { getUserId } from "@/lib/utils";
 import Image from "next/image";
 import React from "react";
 import { ProfileHeaderSkeleton } from "../skeletons";
+import { authFetch } from "@/lib/api";
 
 interface User {
   id: string | undefined;
@@ -27,7 +28,7 @@ const UserInfo = ({ id, fullName, profilePic, isFollowing, loading }: User) => {
         : "/api/UserFollow/Add";
       const method = follow ? "DELETE" : "POST";
 
-      const res = await fetch(endpoint, {
+      const res = await authFetch(endpoint, {
         method,
         headers: {
           "Content-Type": "application/json",
