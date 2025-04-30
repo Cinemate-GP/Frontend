@@ -9,6 +9,7 @@ import RHFTextField from "../../components/hook-form/RHFTextField";
 import { LoginSchema } from "@/lib/validation";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/redux/slices/userSlice";
+import { setCookie } from "@/lib/utils";
 
 interface LoginFormData {
   email: string;
@@ -53,7 +54,8 @@ const LoginForm = () => {
       dispatch(
         setUser({user})
       );
-      document.cookie = `token=${user.token}; path=/;`;
+      setCookie("token", user.token, 1);
+      setCookie("refreshToken", user.refreshToken, 1);
       router.push("/home");
     } catch (error) {
       setError("afterSubmit", {

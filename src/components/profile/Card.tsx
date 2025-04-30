@@ -5,11 +5,13 @@ import Link from "next/link";
 import React from "react";
 import { FaStar } from "react-icons/fa6";
 import { useCookie } from "@/hooks/useCookie";
+import { authFetch } from "@/lib/api";
 
 interface MoveProps {
   image: string;
   title: string;
   imdbRating?: string;
+  stars?: number;
   tmdbid: number;
   type: string;
   onDelete: (id: number) => void;
@@ -21,7 +23,7 @@ const Card = (movie: MoveProps) => {
   const handleDelete = async () => {
     movie?.onDelete(movie.tmdbid);
     try {
-      const res = await fetch(`/api/User${movie.type}Movie/Delete`, {
+      const res = await authFetch(`/api/User${movie.type}Movie/Delete`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -54,13 +56,13 @@ const Card = (movie: MoveProps) => {
             <div className="flex justify-between mt-3">
               <span className="flex items-center gap-2 font-light">
                 <FaStar className="text-primary" />
-                {movie.imdbRating?.split("/")[0]}
+                {movie.stars ? movie.stars : movie.imdbRating?.split("/")[0]}
               </span>
               <button
                 onClick={(e) => {
-                  e.preventDefault(); 
-                  e.stopPropagation(); 
-                  handleDelete(); 
+                  e.preventDefault();
+                  e.stopPropagation();
+                  handleDelete();
                 }}
                 className="hover:text-primary duration-150 transition-all text-sm"
               >

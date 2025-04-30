@@ -1,3 +1,4 @@
+import { authFetch } from "@/lib/api";
 import React, { useEffect, useState } from "react";
 
 export function withProfileContainer<T extends { tmdbId: number }>(
@@ -15,7 +16,7 @@ export function withProfileContainer<T extends { tmdbId: number }>(
     useEffect(() => {
       const fetchData = async () => {
         try {
-          const res = await fetch(endpoint, {
+          const res = await authFetch(endpoint, {
             method: "GET",
             headers: {
               "Content-Type": "application/json",

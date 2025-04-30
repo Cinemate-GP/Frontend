@@ -94,3 +94,57 @@ export function extractDigit(str:string) {
   return match ? Number(match[0]) : null; // return the digit or null if not found
 }
 
+/** Decode JWT and return payload */
+function parseJwt(token: string): { exp: number } | null {
+  try {
+    const base64 = token.split(".")[1];
+    const decoded = JSON.parse(atob(base64));
+    return decoded;
+  } catch {
+    return null;
+  }
+}
+
+/** Check if token will expire in the next X seconds */
+export function willExpireIn(token: string, seconds: number): boolean {
+  const data = parseJwt(token);
+  if (!data?.exp) return false;
+
+  const now = Math.floor(Date.now() / 1000);
+  return data.exp - now <= seconds;
+}
+
+/** Send refresh request */
+export async function tryRefreshToken() {
+  const res = await fetch("/api/Auth/refresh-token", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      token: getCookie("token"),
+      refreshToken: getCookie("refreshToken"),
+    }),
+  });
+
+  if (res.ok) {
+    const data = await res.json();
+    setCookie("token", data.token);
+    setCookie("refreshToken", data.refreshToken);
+    console.log("🔄 Token refreshed");
+    return true;
+  }
+
+  return false;
+}
+
+
+export function getCookie(name: string): string | null {
+  if (typeof document === "undefined") return null; // ✅ Only run on client
+  const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
+  return match ? decodeURIComponent(match[2]) : null;
+}
+
+export function setCookie(name: string, value: string, days = 7) {
+  if (typeof document === "undefined") return; // ✅ Only run on client
+  const expires = new Date(Date.now() + days * 86400000).toUTCString();
+  document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/`;
+}
