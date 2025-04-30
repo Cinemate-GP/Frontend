@@ -1,52 +1,34 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
-const avtiveTab = "border-b-2 border-primary";
 
 const AuthLayout = ({ children }: { children: React.ReactNode }) => {
-  const pathname = usePathname();
-  const path = useMemo(() => pathname.split("/")[2], [pathname]);
-  const [active, setActive] = useState(path);
-
-  useEffect(() => {
-    setActive(path);
-  }, [path]);
+  const year = new Date().getFullYear();
 
   return (
     <div className="bg-[url('/main-img.png')] bg-cover bg-center min-h-screen w-full relative">
-      <div className="w-full min-h-screen bg-black/90 flex items-center justify-center py-8">
-        <div className="w-full">
-          <Link href={"/"}>
+      <div className="w-full min-h-screen bg-black/75 backdrop-blur-sm flex items-center justify-center py-8">
+        <div className="w-full max-w-md px-4">
+          <Link href={"/"} className="block transition-transform hover:scale-105">
             <Image
               src="/logo.png"
-              width={100}
-              height={100}
+              width={120}
+              height={120}
               priority
               alt="logo"
-              className="mx-auto mb-6"
+              className="mx-auto mb-8"
             />
           </Link>
-          <div className="w-5/6 md:w-2/3 lg:w-2/5 rounded-lg bg-[#0d0d0d] p-5 mx-auto border border-gray-800">
-            <ul className="flex gap-10 w-full justify-center mb-6">
-              <li
-                className={`p-2  hover:border-primary ${
-                  active === "login" ? avtiveTab : " border-transparent"
-                } transition-all duration-300 hover:text-primary`}
-              >
-                <Link href={"/login"} onClick={() => setActive("login")}>
-                  Login
-                </Link>
-              </li>
-              <li className={`p-2 ${active === "signup" ? avtiveTab : ""} transition-all duration-300 hover:text-primary` }>
-                <Link href={"/signup"} onClick={() => setActive("signup")}>
-                  Signup
-                </Link>
-              </li>
-            </ul>
+          
+          <div className="w-full rounded-xl bg-secondaryBg/70 backdrop-blur-md p-8 mx-auto 
+                        border border-gray-700/30 shadow-2xl 
+                        transition-all duration-300 hover:shadow-primary/5">
             {children}
           </div>
+          
+          <p className="text-center text-gray-400 text-sm mt-8 font-light">
+            © {year} All Rights Reserved
+          </p>
         </div>
       </div>
     </div>
