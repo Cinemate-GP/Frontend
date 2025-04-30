@@ -20,6 +20,7 @@ export interface NavLink {
 
 // Movie source options for streaming
 export const movieSources = [
+  { id: "cineby", name: "cineby", url: (id: string) => `https://www.cineby.app/movie/${id}?play=true` },
   { id: "vidlink", name: "VidLink Pro", url: (id: string) => `https://vidlink.pro/movie/${id}` },
   { id: "vidsrc", name: "VidSrc", url: (id: string) => `https://vidsrc.xyz/embed/movie?tmdb=${id}` },
   { id: "vidsrc_icu", name: "VidSrc.icu", url: (id: string) => `https://vidsrc.icu/embed/movie/${id}` },
