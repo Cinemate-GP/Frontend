@@ -1,4 +1,5 @@
 'use client'
+import { authFetch } from "@/lib/api";
 import { useState, useEffect } from "react";
 const useFetch = <T,>(url: string) => {
   const [data, setData] = useState<T | null>(null);
@@ -10,7 +11,7 @@ const useFetch = <T,>(url: string) => {
       setLoading(true);
       setError(null);
       try {
-        const response = await fetch(url,{
+        const response = await authFetch(url,{
           method: "GET",
           headers: {
             "Content-Type": "application/json",
