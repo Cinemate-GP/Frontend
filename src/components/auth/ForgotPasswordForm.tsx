@@ -147,18 +147,6 @@ const ForgotPasswordForm = () => {
               type="email"
               placeholder="Enter your email address"
             />
-            <motion.div 
-              className="absolute inset-0 rounded-lg border border-red-500/0 pointer-events-none"
-              animate={{ 
-                borderColor: ["rgba(239, 68, 68, 0)", "rgba(239, 68, 68, 0.1)", "rgba(239, 68, 68, 0)"],
-                boxShadow: [
-                  "0 0 0 rgba(239, 68, 68, 0)", 
-                  "0 0 8px rgba(239, 68, 68, 0.2)", 
-                  "0 0 0 rgba(239, 68, 68, 0)"
-                ]
-              }}
-              transition={{ duration: 2, repeat: Infinity, repeatType: "loop" }}
-            />
           </div>
 
           <motion.button
