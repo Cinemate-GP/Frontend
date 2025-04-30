@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import { authFetch } from "@/lib/api";
 import SectionTitle from "../SectionTitle";
 import { IMAGEPOSTER } from "@/constants";
 import {FormatDate,getUserId } from "@/lib/utils";
@@ -24,7 +25,7 @@ const ReviewCard = (item: cardProps) => {
 
     // delete on server
     try {
-      const res = await fetch(`/api/User${item.type}Movie/Delete`, {
+      const res = await authFetch(`/api/User${item.type}Movie/Delete`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

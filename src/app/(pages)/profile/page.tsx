@@ -3,6 +3,7 @@
 import SectionTitle from "@/components/SectionTitle";
 import { ActivityCardSkeleton } from "@/components/skeletons";
 import { IMAGEPOSTER } from "@/constants";
+import { authFetch } from "@/lib/api";
 import { formatTimestamp, truncateText } from "@/lib/utils";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -85,7 +86,7 @@ export default function RecentActivitySection() {
     (async function () {
       try {
         setLoading(true);
-        const res = await fetch("/api/Profile/RecentActivity", {
+        const res = await authFetch("/api/Profile/RecentActivity", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

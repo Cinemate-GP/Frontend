@@ -7,6 +7,7 @@ import { capitalizeString, convertToDateTime, extractDigit } from "@/lib/utils";
 import { FaHeart } from "react-icons/fa6";
 import { MdOutlineRateReview } from "react-icons/md";
 import { RiUserFollowLine } from "react-icons/ri";
+import { FaPlayCircle } from "react-icons/fa";
 
 interface ActionCardProps {
   id: number;
@@ -35,6 +36,8 @@ const FeedCard: React.FC<ActionCardProps> = ({
     switch (type) {
       case "like":
         return <FaHeart color="red" size={12}/>;
+      case "Watched":
+        return <FaPlayCircle color="red" size={12}/>;
       case "review":
         return <MdOutlineRateReview style={{ color: '#577fc5' }} size={16}/>;
       case "rate":
@@ -86,7 +89,7 @@ const FeedCard: React.FC<ActionCardProps> = ({
               </div>
             )}
             {type === "review" && (
-              <p className="text-white max-w-[200px] md:max-w-[400px] bg-gray-900 mt-2 border border-gray-500 rounded-lg p-2">
+              <p className="text-white break-words max-w-[200px] md:max-w-[400px] bg-gray-900 mt-2 border border-gray-500 rounded-lg p-2">
                 {description}
               </p>
             )}

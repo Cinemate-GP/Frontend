@@ -22,7 +22,7 @@ const FeedPage = () => {
     <div className="flex flex-col mt-20 p-4 mx-[0] sm:mx-8 mb-10 md:mb-0 min-h-screen">
       {feeds?.map((feed) => (
         <FeedCard
-          key={feed.id}
+          key={feed.createdOn}
           id={feed.id}
           userId={feed.userId}
           userName={feed.userName}

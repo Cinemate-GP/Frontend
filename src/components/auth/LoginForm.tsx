@@ -1,5 +1,5 @@
 "use client";
-
+import {motion} from "framer-motion";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/navigation";
@@ -9,7 +9,7 @@ import RHFTextField from "../../components/hook-form/RHFTextField";
 import { LoginSchema } from "@/lib/validation";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/redux/slices/userSlice";
-import { motion } from "framer-motion";
+import { setCookie } from "@/lib/utils";
 
 interface LoginFormData {
   email: string;
@@ -52,8 +52,11 @@ const LoginForm = () => {
       }
       
       const user = await response.json();
-      dispatch(setUser({user}));
-      document.cookie = `token=${user.token}; path=/;`;
+      dispatch(
+        setUser({user})
+      );
+      setCookie("token", user.token, 1);
+      setCookie("refreshToken", user.refreshToken, 1);
       router.push("/home");
     } catch (error) {
       setError("afterSubmit", {

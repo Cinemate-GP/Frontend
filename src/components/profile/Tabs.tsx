@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { capitalizeString } from "@/lib/utils";
 const Tabs = () => {
 
-  const tabs = ["Profile","Watched","Liked", "Watchlist", "Reviews", "Recommended"];
+  const tabs = ["Profile","Watched","Liked", "Watchlist", "Reviews","Rated", "Recommended"];
   const router = useRouter();
   const pathname = usePathname();
   const [activeTab, setActiveTab] = useState<string>("Profile")
@@ -23,6 +23,9 @@ const Tabs = () => {
         break;
       case "Reviews":
         router.push("/profile/reviews");
+        break;
+      case "Rated":
+        router.push("/profile/rated");
         break;
       case "Recommended":
         router.push("/profile/recommended");
