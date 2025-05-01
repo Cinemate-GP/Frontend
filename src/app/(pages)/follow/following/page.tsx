@@ -15,7 +15,7 @@ interface User {
 function Followers() {
   const [followedUsers, setFollowedUsers] = useState<Record<string, boolean>>({});
   const { data, loading } = useFetch<User[]>(
-    "/api/UserFollow/get-all-following"
+    `/api/UserFollow/get-all-following/${getUserId()}`
   );
 
   const token = getCookie('token');

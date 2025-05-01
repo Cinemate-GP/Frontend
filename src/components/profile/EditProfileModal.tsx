@@ -4,9 +4,10 @@ import Image from "next/image";
 import { FiUploadCloud } from "react-icons/fi";
 import { IoClose } from "react-icons/io5";
 import { useUser } from "@/context/UserContext";
-import { getCookie } from "@/lib/utils";
+import { getCookie, getUserId } from "@/lib/utils";
 
 interface User {
+  id?: string;
   fullName: string;
   email: string;
   profilePic?: string;
@@ -17,6 +18,7 @@ export default function EditProfileModal({ onClose }: { onClose: () => void }) {
   const [storedUser, setStoredUser] = useState<User>({
     fullName: "",
     email: "",
+
   });
   const { setUser } = useUser();
   const [loading, setLoading] = useState(false);
@@ -83,6 +85,7 @@ export default function EditProfileModal({ onClose }: { onClose: () => void }) {
         "user",
         JSON.stringify({
           user: {
+            id: getUserId(),
             fullName: data.fullName,
             email: data.email,
             profilePic: data.profile_Image,

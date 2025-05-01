@@ -25,21 +25,21 @@ interface User {
 const UserPage = () => {
   const params = useParams();
   const userId = params.userId;
-  const { data, loading } = useFetch<User>(
+  const { data : info, loading } = useFetch<User>(
     `/api/UserFollow/follow-details/${userId}`
   );
 
   const userInfo = {
-    id: data?.id,
-    fullName: data?.fullName,
-    profilePic: data?.profilePic,
-    isFollowing: data?.isFollowing,
+    id: info?.id,
+    fullName: info?.fullName,
+    profilePic: info?.profilePic,
+    isFollowing: info?.isFollowing,
   };
   return (
     <div className="mt-24 px-10">
       <UserInfo {...userInfo} loading={loading} />
       <RecentActivitySection
-        activities={data?.userRecentActivityResponses}
+        activities={info?.userRecentActivityResponses}
         loading={loading}
       />
     </div>

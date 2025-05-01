@@ -16,7 +16,7 @@ const ProfileHeader = () => {
   useEffect(() => {
     (async function () {
       try {
-        const res = await authFetch("/api/UserFollow/count-follow", {
+        const res = await authFetch(`/api/UserFollow/count-follow`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -83,13 +83,13 @@ const ProfileHeader = () => {
           </div>
         </div>
         <ul className="flex gap-3 justify-center sm:justify-start">
-          {/* <li className="flex flex-col items-center border-r-2 pr-3 border-white">
+          <li className="flex flex-col items-center border-gray-600 pr-3">
             <span className="text-lg sm:text-2xl font-bold">80</span>
-            <span>film</span>
-          </li> */}
+            <span className="text-sm">film</span>
+          </li>
           <li className="flex flex-col items-center border-r border-gray-600 pr-3">
             <span className="text-lg sm:text-2xl font-bold">{followers}</span>
-            <Link href={`/follow/followers`} className={`text-sm transition-all duration-200 hover:text-primary `}>Followers</Link>
+            <Link href={`/follow/followers`} className={`text-sm transition-all duration-200 hover:text-primary`}>Followers</Link>
           </li>
           <li className="flex flex-col items-center">
             <span className="text-lg sm:text-2xl font-bold">{following}</span>

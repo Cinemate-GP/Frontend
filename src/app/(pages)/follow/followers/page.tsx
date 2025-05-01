@@ -1,5 +1,6 @@
 "use client";
 import useFetch from "@/hooks/useFetch";
+import { getUserId } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -11,7 +12,7 @@ interface User {
 
 function Followers() {
   const { data, loading } = useFetch<User[]>(
-    "/api/UserFollow/get-all-followers"
+  `/api/UserFollow/get-all-followers/${getUserId()}`
   );
 
   return (
