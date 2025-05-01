@@ -1,9 +1,21 @@
+"use client";
+
 import React from "react";
 import NavbarSearch from "./Search";
 import Image from "next/image";
 import NotificationDropdown from "./Dropdown";
+import { useUser } from "@/context/UserContext";
+import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
 
 const Navbar = () => {
+  const { user } = useUser();
+  const router = useRouter();
+
+  const navigateToProfile = () => {
+    router.push("/profile");
+  };
+
   return (
     <div className="absolute z-30 w-full pr-2 top-0">
       <div className="flex items-center py-2 md:p-4">
@@ -19,8 +31,23 @@ const Navbar = () => {
         <div className="hidden md:block md:ml-10 w-[62%] sm:w-1/2">
           <NavbarSearch />
         </div>
-        <div className="ml-auto flex items-center relative">
+        <div className="ml-auto flex items-center relative gap-3">
           <NotificationDropdown />
+          <motion.div 
+            className="w-[36px] h-[36px] rounded-full border-2 border-red-500/50 overflow-hidden shadow-md cursor-pointer"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ type: "spring", stiffness: 400, damping: 10 }}
+            onClick={navigateToProfile}
+          >
+            <Image
+              src={user?.profilePic || "/ueser-placeholder.jpg"}
+              alt="Profile"
+              width={36}
+              height={36}
+              className="w-full h-full object-cover"
+            />
+          </motion.div>
         </div>
       </div>
     </div>
