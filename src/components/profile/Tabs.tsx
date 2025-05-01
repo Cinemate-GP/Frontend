@@ -36,8 +36,8 @@ const Tabs = () => {
   }
   
   useEffect(() => {
-    const path = pathname.split("/")[3];
-    setActiveTab(capitalizeString(path ? path : pathname.split("/")[2]));
+    const path = pathname.split("/")[2];
+    setActiveTab(capitalizeString(path ?  pathname.split("/")[2] ? path : pathname.split("/")[2] : "profile"));
   }, [activeTab, pathname]);
        
   return (

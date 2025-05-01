@@ -4,6 +4,7 @@ import Image from "next/image";
 import { FiUploadCloud } from "react-icons/fi";
 import { IoClose } from "react-icons/io5";
 import { useUser } from "@/context/UserContext";
+import { authFetch } from "@/lib/api";
 
 interface User {
   fullName: string;
@@ -57,7 +58,7 @@ export default function EditProfileModal({ onClose }: { onClose: () => void }) {
     if (file) formDate.append("profile_Image", file);
     try {
       setLoading(true);
-      const res = await fetch("/api/Profile/UpdateAccount", {
+      const res = await authFetch("/api/Profile/UpdateAccount", {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${document.cookie.split("=")[1]}`,
