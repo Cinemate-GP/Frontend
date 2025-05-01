@@ -148,3 +148,24 @@ export function setCookie(name: string, value: string, days = 7) {
   const expires = new Date(Date.now() + days * 86400000).toUTCString();
   document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/`;
 }
+
+/**
+ * Properly logs out the user by clearing all auth tokens and local storage
+ * @param redirectPath Optional path to redirect to after logout
+ */
+export function logout(redirectPath?: string) {
+  // Clear both auth cookies
+  document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+  document.cookie = "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+  
+  // Clear user data from localStorage
+  localStorage.removeItem("user");
+  
+  // Redirect if path is provided
+  if (redirectPath && typeof window !== "undefined") {
+    window.location.href = redirectPath;
+    return true;
+  }
+  
+  return false;
+}

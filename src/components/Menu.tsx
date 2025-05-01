@@ -1,28 +1,23 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { modernIcons } from "@/constants";
 import { motion } from "framer-motion";
 import { useUser } from "@/context/UserContext";
 import Image from "next/image";
 import React from "react";
+import { logout } from "@/lib/utils";
 
 const Menu = ({
   setIsOpen,
 }: {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const router = useRouter();
   const { user } = useUser();
 
   const handleLogout = () => {
-    // Clear user data from localStorage
-    localStorage.removeItem("user");
-    // Clear token cookie
-    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    // Redirect to home/login page
-    router.push("/");
+    // Use centralized logout function
+    logout("/");
     setIsOpen(false);
   };
 

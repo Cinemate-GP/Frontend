@@ -2,15 +2,15 @@
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { CiLogout } from "react-icons/ci";
 import { LuUserRound } from "react-icons/lu";
 import { IoSettingsOutline } from "react-icons/io5";
 // import { useGetUser } from "@/hooks/useGetUser";
 import { useUser } from "@/context/UserContext";
+import { logout } from "@/lib/utils";
+
 export default function ProfileMenu() {
   const { user } = useUser();
-  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
 
@@ -90,10 +90,7 @@ export default function ProfileMenu() {
               className="w-full flex items-center gap-3 p-2"
               onClick={() => {
                 setIsOpen(false);
-                router.push("/");
-                localStorage.removeItem("user");
-                document.cookie =
-                  "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+                logout("/");
               }}
             >
               <CiLogout size={20} />
