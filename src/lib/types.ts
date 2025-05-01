@@ -10,6 +10,7 @@ export type Movie = {
    backdropPath:string
     language:string
     imdbRating:string
+    logoPath:string
     tmdbId: number;
     title: string;
     tagline: string;

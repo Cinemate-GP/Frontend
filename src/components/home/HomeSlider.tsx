@@ -21,6 +21,7 @@ import { useDispatch } from "react-redux";
 import { IMAGEPOSTER } from "@/constants";
 import { addToRecentActivities } from "@/redux/slices/recentActivity";
 import { toast } from "react-toastify";
+import Image from "next/image";
 
 const HomeSlider = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -76,7 +77,21 @@ const HomeSlider = () => {
               >
                 <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-[rgba(0,0,0,0.4)] to-black/90 flex items-start md:items-center pt-48 md:pt-0">
                   <div className="ml-2 md:ml-12 p-3 md-p-0 flex flex-col gap-3 w-full sm:max-w-xl text-center sm:text-left">
-                    <h2 className="text-2xl sm:text-6xl mb-4">{slid.title}</h2>
+                    {slid?.logoPath ? (
+                      <Image
+                        src={IMAGEPOSTER + slid.logoPath}
+                        width={50}
+                        height={50}
+                        alt="movie title"
+                        className="max-w-full max-h-full mb-4"
+                      />
+                    ) : null}
+                    {!slid?.logoPath && (
+                      <h2 className="text-2xl sm:text-6xl mb-4">
+                        {slid.title}
+                      </h2>
+                    )}
+
                     <div className="flex gap-3 justify-center sm:justify-start">
                       <span className="flex basis-auto capitalize items-center bg-primary rounded-xl text-xs font-semibold text-white px-3">
                         {slid.language}

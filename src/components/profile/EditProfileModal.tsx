@@ -4,7 +4,7 @@ import Image from "next/image";
 import { FiUploadCloud } from "react-icons/fi";
 import { IoClose } from "react-icons/io5";
 import { useUser } from "@/context/UserContext";
-import { authFetch } from "@/lib/api";
+import { getCookie } from "@/lib/utils";
 
 interface User {
   fullName: string;
@@ -50,6 +50,8 @@ export default function EditProfileModal({ onClose }: { onClose: () => void }) {
     }));
   };
 
+  console.log(storedUser);
+
   const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
     const formDate = new FormData();
@@ -58,10 +60,10 @@ export default function EditProfileModal({ onClose }: { onClose: () => void }) {
     if (file) formDate.append("profile_Image", file);
     try {
       setLoading(true);
-      const res = await authFetch("/api/Profile/UpdateAccount", {
+      const res = await fetch("/api/Profile/UpdateAccount", {
         method: "PUT",
         headers: {
-          Authorization: `Bearer ${document.cookie.split("=")[1]}`,
+          Authorization: `Bearer ${getCookie("token")}`,
         },
         body: formDate,
       });

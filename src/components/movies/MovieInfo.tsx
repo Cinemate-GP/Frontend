@@ -17,6 +17,7 @@ interface MovieInfoProps {
     tmdbId: number | undefined;
     title: string | undefined;
     imdbRating: string | undefined;
+    logoPath: string | undefined;
     posterPath: string | undefined;
     rottenTomatoesRating?: string | undefined;
     metacriticRating?: string | undefined;
@@ -30,7 +31,7 @@ interface MovieInfoProps {
     isLiked?: boolean | undefined;
     isWatched?: boolean | undefined;
     isInWatchList?: boolean | undefined;
-    stars?:number | undefined
+    stars?: number | undefined;
   };
   loading: boolean;
 }
@@ -40,7 +41,6 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ info, loading }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Movie actions
-  
 
   // render selecton during waiting for data comming form backend
   if (loading) return <SkeletonMovieInfo />;
@@ -57,9 +57,22 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ info, loading }) => {
           {/* movie details */}
           <div className="flex flex-col items-center text-center gap-3 xl:gap-6 max-w-3xl">
             {/* title */}
-            <h2 className="tracking-widest text-2xl md:text-4xl xl:text-5xl font-bold">
-              {info.title || "Untitled"}
-            </h2>
+            {!info.logoPath && (
+              <h2 className="tracking-widest text-2xl md:text-4xl xl:text-5xl font-bold">
+                {info.title || "Untitled"}
+              </h2>
+            )}
+            {info.logoPath && (
+              <Image
+                src={IMAGEPOSTER + info.logoPath}
+                width={50}
+                height={50}
+                alt="movie title"
+                className="max-w-full max-h-full mb-4"
+              />
+            )}
+            {/* movie meta info */}
+
             <p>{info.tagline}</p>
             {/* meta info */}
             <div className="flex flex-wrap justify-center gap-4 gap-y-0 text-lg">
