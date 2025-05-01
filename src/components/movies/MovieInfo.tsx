@@ -24,8 +24,8 @@ interface MovieInfoProps {
     mpa?: string | undefined;
     backdropPath: string | undefined;
     tagline?: string | undefined;
-    date?: string | undefined;
-    time?: number | undefined;
+    releaseDate?: string | undefined;
+    runtime?: number | undefined;
     overview?: string | undefined;
     geners?: { name: string; id: number }[] | undefined;
     isLiked?: boolean | undefined;
@@ -44,15 +44,15 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ info, loading }) => {
 
   return (
     <div
-      className="relative w-full h-screen bg-cover bg-top"
+      className="relative w-full h-screen overflow-auto bg-cover bg-top"
       style={{ backgroundImage: `url(${IMAGEPOSTER}${info.backdropPath})` }}
     >
       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 via-10% to-black/40">
-        <div className="absolute w-full flex flex-col lg:flex-row justify-around items-center top-[50%] -translate-y-1/2 px-5 xl:px-16">
+        <div className="absolute h-full  w-full flex flex-col lg:flex-row justify-around items-center top-[50%] -translate-y-1/2 px-5 xl:px-16">
           <MoviePoster poster_path={info.posterPath!} title={info.title} />
 
           {/* movie details */}
-          <div className="flex flex-col items-center text-center gap-3 xl:gap-6 max-w-3xl">
+          <div className="flex flex-col items-center text-center gap-3 max-w-3xl">
             {/* title */}
             {!info.logoPath && (
               <h2 className="tracking-widest text-2xl md:text-4xl xl:text-5xl font-bold">
@@ -60,7 +60,7 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ info, loading }) => {
               </h2>
             )}
             {info.logoPath && (
-              <div className="w-full max-w-[300px] md:max-w-[400px] mx-auto sm:mx-0 mb-4">
+              <div className="w-full max-w-[150px] sm:max-w-xs xl:max-w-[280px] mx-auto sm:mx-0">
                 <Image
                   src={IMAGEPOSTER + info.logoPath}
                   width={200}
@@ -77,7 +77,7 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ info, loading }) => {
             <div className="flex flex-wrap justify-center gap-4 gap-y-0 text-lg">
               <span className="flex items-center gap-1 text-[16px]">
                 <LuCalendarClock />
-                {info.date}
+                {info.releaseDate}
               </span>
               <span className="text-[16px]">{info.mpa}</span>
               <span className="flex items-center gap-1 text-[16px]">
@@ -110,7 +110,7 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ info, loading }) => {
               )}
               <span className="flex items-center gap-1 text-[16px]">
                 <FaClock size={14} />
-                {formatDuration(info.time)}
+                {formatDuration(info.runtime)} 
               </span>
             </div>
 
