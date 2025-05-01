@@ -78,14 +78,17 @@ const HomeSlider = () => {
                 <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-[rgba(0,0,0,0.4)] to-black/90 flex items-start md:items-center pt-48 md:pt-0">
                   <div className="ml-2 md:ml-12 p-3 md-p-0 flex flex-col gap-3 w-full sm:max-w-xl text-center sm:text-left">
                     {slid?.logoPath ? (
-                      <Image
-                        src={IMAGEPOSTER + slid.logoPath}
-                        width={50}
-                        height={50}
-                        alt="movie title"
-                        className="max-w-full max-h-full mb-4"
-                      />
+                      <div className="w-full max-w-[300px] md:max-w-[400px] mx-auto sm:mx-0 mb-4">
+                        <Image 
+                          width={400}
+                          height={200}
+                          src={IMAGEPOSTER + slid.logoPath}
+                          alt={slid.title || "Movie logo"}
+                          className="w-full h-auto object-contain"
+                        />
+                      </div>
                     ) : null}
+                    
                     {!slid?.logoPath && (
                       <h2 className="text-2xl sm:text-6xl mb-4">
                         {slid.title}

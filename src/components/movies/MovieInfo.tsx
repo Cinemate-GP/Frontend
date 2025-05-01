@@ -60,13 +60,15 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ info, loading }) => {
               </h2>
             )}
             {info.logoPath && (
-              <Image
-                src={IMAGEPOSTER + info.logoPath}
-                width={200}
-                height={200}
-                alt="movie title"
-                className=""
-              />
+              <div className="w-full max-w-[300px] md:max-w-[400px] mx-auto sm:mx-0 mb-4">
+                <Image
+                  src={IMAGEPOSTER + info.logoPath}
+                  width={200}
+                  height={200}
+                  alt="movie title"
+                  className="w-full h-auto object-contain"
+                />
+              </div>
             )}
             {/* movie meta info */}
 
