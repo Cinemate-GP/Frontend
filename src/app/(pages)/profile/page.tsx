@@ -21,7 +21,7 @@ const getIcon = (type: string) => {
     case "rate":
       return (
         <div className="flex items-center gap-2 text-sm text-gray-300">
-          <FaStar className="text-yellow-400" />
+          <FaStar className="text-red-500" />
           <span>Rated Movie</span>
         </div>
       );
@@ -35,22 +35,22 @@ const getIcon = (type: string) => {
     case "WatchList":
       return (
         <div className="flex items-center gap-2 text-sm text-gray-300">
-          <FaBookmark className="text-yellow-400" />
+          <FaBookmark className="text-red-500" />
           <span>Added to Watchlist</span>
         </div>
       );
     case "Watched":
       return (
         <div className="flex items-center gap-2 text-sm text-gray-300">
-          <FaPlayCircle className="text-green-500" />
+          <FaPlayCircle className="text-red-500" />
           <span>Watched Movie</span>
         </div>
       );
     case "review":
       return (
         <div className="flex items-center gap-2 text-sm text-gray-300">
-          <MdRateReview className="text-blue-400" />
-          <span>Reviewd</span>
+          <MdRateReview className="text-red-500" />
+          <span>Reviewed</span>
         </div>
       );
     default:
@@ -103,52 +103,65 @@ export default function RecentActivitySection() {
       }
     })();
   }, []);
+  
   return (
     <div className="mt-5">
       <SectionTitle title="Recent Activity" />
       {loading && <ActivityCardSkeleton />}
-      {recenActivities?.length === 0 && <p>No activities yet</p>}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 p-0 sm:p-6 rounded-lg">
+      {recenActivities?.length === 0 && (
+        <p className="text-center text-gray-400 py-8">No activities yet</p>
+      )}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 p-0 sm:p-6 rounded-lg">
         {recenActivities?.slice(0, visibleCount).map((item) => (
           <Link
             href={"/movies/" + item.tmdbId}
             key={item.createdOn}
-            className="flex bg-zinc-900 rounded-xl overflow-hidden border border-zinc-700 shadow-md"
+            className="group flex bg-zinc-900 rounded-xl overflow-hidden border border-zinc-800 shadow-lg hover:shadow-red-900/20 transition-all duration-300 hover:-translate-y-1"
           >
-            <img
-              src={IMAGEPOSTER + item.posterPath}
-              alt={item.name}
-              width={250}
-              height={190}
-              className="max-w-[90px] max-h-[120px] sm:max-w-[150px] lg:max-w-[200px] sm:max-h-[250px] object-cover"
-              loading="lazy"
-            />
+            <div className="relative overflow-hidden min-w-[90px] sm:min-w-[120px]">
+              <img
+                src={IMAGEPOSTER + item.posterPath}
+                alt={item.name}
+                width={250}
+                height={190}
+                className="w-full h-full min-h-[130px] sm:min-h-[160px] object-cover transition-transform duration-500 group-hover:scale-110"
+                loading="lazy"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </div>
 
-            <div className="p-4 flex-1 flex flex-col gap-3">
-              <h3 className="text-sm sm:text-lg font-bold text-white">
-                {item.name}
-              </h3>
+            <div className="p-4 flex-1 flex flex-col justify-between">
+              <div>
+                <h3 className="text-base sm:text-lg font-bold text-white mb-2 group-hover:text-red-400 transition-colors duration-300">
+                  {item.name}
+                </h3>
 
-              <div className="flex flex-col gap-6">
-                {/* title & icons */}
+                {/* Activity type with icon */}
                 {getIcon(item.type)}
+              </div>
 
-                {/* review message if exist */}
+              <div className="mt-3 space-y-3">
+                {/* Review message if exists */}
                 {item.description && item.type === "review" && (
-                  <p className="text-gray-400 text-sm">
-                    {truncateText(item.description!, isExpanded, 80)}
-                    <br />
-                    {item.type!.length > 80 && (
-                      <button
-                        className="text-white text-sm"
-                        onClick={() => setIsExpanded(!isExpanded)}
-                      >
-                        {isExpanded ? "Read Less" : "Read More"}
-                      </button>
-                    )}
-                  </p>
+                  <div className="bg-zinc-950/50 rounded-lg p-3 border-l-2 border-red-500">
+                    <p className="text-gray-300 text-sm italic">
+                      {truncateText(item.description!, isExpanded, 80)}
+                      {item.description.length > 80 && (
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setIsExpanded(!isExpanded);
+                          }}
+                          className="text-red-400 hover:text-red-300 text-sm font-medium ml-1"
+                        >
+                          {isExpanded ? "Read Less" : "Read More"}
+                        </button>
+                      )}
+                    </p>
+                  </div>
                 )}
-                {/* rating if exist */}
+
+                {/* Rating if exists */}
                 {item.stars > 0 && (
                   <div className="flex items-center space-x-1">
                     {[...Array(5)].map((_, i) => (
@@ -156,29 +169,29 @@ export default function RecentActivitySection() {
                         key={i}
                         size={14}
                         className={
-                          i < item.stars! ? "text-red-500" : "text-zinc-600"
+                          i < item.stars! ? "text-red-500" : "text-zinc-700"
                         }
                       />
                     ))}
                   </div>
                 )}
 
-                {/* dated created at */}
-                <div className="flex items-center gap-2">
-                  <FaClock />
-                  <p className="text-xs text-gray-500">
-                    {formatTimestamp(item.createdOn)}
-                  </p>
+                {/* Date created at */}
+                <div className="flex items-center gap-2 text-xs text-gray-400">
+                  <FaClock className="text-gray-500" />
+                  <p>{formatTimestamp(item.createdOn)}</p>
                 </div>
               </div>
             </div>
           </Link>
         ))}
       </div>
+      
+      {/* Load more button with improved styling */}
       {(recenActivities?.length ?? 0) > visibleCount && (
         <button
           onClick={handleLoadMore}
-          className="my-4 px-4 py-2 bg-primary text-white rounded-3xl w-fit mx-auto block"
+          className="my-6 px-6 py-2.5 bg-gradient-to-r from-red-600 to-red-800 text-white rounded-full w-fit mx-auto block font-medium hover:from-red-700 hover:to-red-900 transition-all duration-300 hover:shadow-lg hover:shadow-red-900/30 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-zinc-900"
         >
           Load More
         </button>

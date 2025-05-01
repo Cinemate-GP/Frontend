@@ -4,11 +4,12 @@ import { useState, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiHome, FiRss } from "react-icons/fi";
 import { IoExitOutline } from "react-icons/io5";
-import { useRouter, usePathname as useNextPathname } from "next/navigation";
+import { usePathname as useNextPathname } from "next/navigation";
 import Menu from "./Menu";
 import { Search } from "./Search";
 import { useUser } from "@/context/UserContext";
 import Image from "next/image";
+import { logout } from "@/lib/utils";
 
 const HorizontalNav = ({ pathname: propPathname }: { pathname: string }) => {
   // Use Next.js's usePathname for more reliable pathname updates
@@ -17,7 +18,6 @@ const HorizontalNav = ({ pathname: propPathname }: { pathname: string }) => {
   
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isLogoutConfirm, setIsLogoutConfirm] = useState<boolean>(false);
-  const router = useRouter();
   const { user } = useUser();
 
   // Close logout confirmation when menu is opened
@@ -34,12 +34,10 @@ const HorizontalNav = ({ pathname: propPathname }: { pathname: string }) => {
       return;
     }
     
-    // On second click, actually log out
-    localStorage.removeItem("user");
-    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    router.push("/");
+    // On second click, actually log out using the centralized logout function
+    logout("/");
     setIsLogoutConfirm(false);
-  }, [router, isLogoutConfirm]);
+  }, [isLogoutConfirm]);
 
   // Auto-close logout confirmation after a delay
   useEffect(() => {

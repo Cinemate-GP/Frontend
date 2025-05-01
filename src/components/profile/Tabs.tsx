@@ -2,9 +2,9 @@
 import { useRouter, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { capitalizeString } from "@/lib/utils";
-const Tabs = () => {
 
-  const tabs = ["Profile","Watched","Liked", "Watchlist", "Reviews","Rated", "Recommended"];
+const Tabs = () => {
+  const tabs = ["Profile", "Watched", "Liked", "Watchlist", "Reviews", "Rated", "Recommended"];
   const router = useRouter();
   const pathname = usePathname();
   const [activeTab, setActiveTab] = useState<string>("Profile")
@@ -34,27 +34,37 @@ const Tabs = () => {
         router.push("/profile");
     }
   }
+  
   useEffect(() => {
     const path = pathname.split("/")[3];
     setActiveTab(capitalizeString(path ? path : pathname.split("/")[2]));
   }, [activeTab, pathname]);
        
   return (
-    <div className="w-full overflow-x-auto custom-scrollbar tabs-scroll">
-      {/* tabs */}
-      <ul className="flex gap-3 sm:gap-4 mt-12 border-b border-gray-600">
-        {tabs.map((tab) => (
-          <button
-            onClick={() => clickHandler(tab)}
-            key={tab}
-            className={`text-[16px] sm:text-lg hover:text-primary hover:border-primary transition-all duration-300 border-0 sm:border-b-2 pb-3 ${
-              activeTab === tab ? "text-primary border-primary" : "border-transparent"
-            }`}
-          >
-            {tab}
-          </button>
-        ))}
-      </ul>
+    <div className="w-full overflow-x-auto custom-scrollbar tabs-scroll mt-8">
+      {/* Modern tabs with red accents and smoother transitions */}
+      <div className="bg-zinc-900 rounded-xl border border-zinc-800 p-1">
+        <ul className="flex gap-1 sm:gap-2 overflow-x-auto custom-scrollbar whitespace-nowrap">
+          {tabs.map((tab) => (
+            <button
+              onClick={() => clickHandler(tab)}
+              key={tab}
+              className={`relative px-4 py-3 rounded-lg font-medium transition-all duration-300 text-sm sm:text-base
+                ${
+                  activeTab === tab 
+                    ? "text-white bg-gradient-to-br from-red-700 to-red-900 shadow-lg" 
+                    : "text-gray-400 hover:text-white hover:bg-zinc-800"
+                }
+              `}
+            >
+              {tab}
+              {activeTab === tab && (
+                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 bg-white rounded-full"></span>
+              )}
+            </button>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };

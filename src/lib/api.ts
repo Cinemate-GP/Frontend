@@ -8,8 +8,9 @@ export async function authFetch(
   options: RequestInit = {}
 ): Promise<Response> {
   let token = getCookie("token");
+  const refreshToken = getCookie("refreshToken");
 
-  if (token && willExpireIn(token, 5) && !isRefreshing) {
+  if (token && refreshToken && willExpireIn(token, 5) && !isRefreshing) {
     console.log("🔁 Token about to expire, refreshing before request...");
     isRefreshing = true;
     const success = await tryRefreshToken();
@@ -31,8 +32,10 @@ export async function authFetch(
 
 setInterval(async () => {
   const token = getCookie("token");
+  const refreshToken = getCookie("refreshToken");
 
-  if (token && willExpireIn(token, 5) && !isRefreshing) {
+  // Only attempt refresh if both tokens exist
+  if (token && refreshToken && willExpireIn(token, 5) && !isRefreshing) {
     isRefreshing = true;
     await tryRefreshToken();
     isRefreshing = false;

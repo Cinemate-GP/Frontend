@@ -13,6 +13,7 @@ import { IoIosArrowBack } from "react-icons/io";
 import { useSearch } from "@/context/SearchContext";
 import { useUser } from "@/context/UserContext";
 import { motion, AnimatePresence } from "framer-motion";
+import { logout } from "@/lib/utils";
 
 export default function Sidenav() {
   const pathname = usePathname();
@@ -28,13 +29,10 @@ export default function Sidenav() {
   };
 
   const handleLogout = useCallback(() => {
-    // Clear user data from localStorage
-    localStorage.removeItem("user");
-    // Clear token cookie
-    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    // Redirect to home/login page
-    router.push("/");
-  }, [router]);
+    // Use centralized logout function that handles both token and refreshToken
+    logout("/");
+    // Router will be handled by the logout function
+  }, []);
 
   const navigateToProfile = useCallback(() => {
     router.push("/profile");
