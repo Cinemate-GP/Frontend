@@ -9,7 +9,7 @@ interface User {
   id: string | undefined;
   fullName: string | undefined;
   profilePic: string | undefined;
-  isFollowing: boolean | undefined;
+  isFollowing?: boolean | undefined;
   loading: boolean;
 }
 
@@ -74,30 +74,34 @@ const UserInfo = ({ id, fullName, profilePic, isFollowing, loading }: User) => {
           <h2 className="text-lg sm:text-3xl">
             {fullName ? fullName : "User Name"}
           </h2>
-          <button
-            onClick={toggleFollow}
-            className={`rounded-lg px-3 py-1 border border-primary text-sm ml-3 ${
-              follow ? "bg-primary" : ""
-            }`}
-          >
-            {follow ? "Followed" : "follow"}
-          </button>
+          {isFollowing && (
+            <button
+              onClick={toggleFollow}
+              className={`rounded-lg px-3 py-1 border border-primary text-sm ml-3 ${
+                follow ? "bg-primary" : ""
+              }`}
+            >
+              {follow ? "Followed" : "follow"}
+            </button>
+          )}
         </div>
       </div>
-      <ul className="flex gap-3 justify-center sm:justify-start">
-        <li className="flex flex-col items-center border-r-2 pr-3 border-white">
-          <span className="text-lg sm:text-2xl font-bold">80</span>
-          <span>film</span>
-        </li>
-        <li className="flex flex-col items-center border-r-2 pr-3 border-white">
-          <span className="text-lg sm:text-2xl font-bold">48</span>
-          <span>folowers</span>
-        </li>
-        <li className="flex flex-col items-center">
-          <span className="text-lg sm:text-2xl font-bold">56</span>
-          <span>following</span>
-        </li>
-      </ul>
+      {isFollowing && (
+        <ul className="flex gap-3 justify-center sm:justify-start">
+          <li className="flex flex-col items-center border-r-2 pr-3 border-white">
+            <span className="text-lg sm:text-2xl font-bold">80</span>
+            <span>film</span>
+          </li>
+          <li className="flex flex-col items-center border-r-2 pr-3 border-white">
+            <span className="text-lg sm:text-2xl font-bold">48</span>
+            <span>folowers</span>
+          </li>
+          <li className="flex flex-col items-center">
+            <span className="text-lg sm:text-2xl font-bold">56</span>
+            <span>following</span>
+          </li>
+        </ul>
+      )}
     </header>
   );
 };

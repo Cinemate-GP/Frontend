@@ -19,7 +19,7 @@ const useFetch = <T,>(url: string) => {
           },
         });
         if (!response.ok) throw new Error("Failed to fetch data");
-        
+
         const json = await response.json();
         setData(json);
       } catch (err) {
