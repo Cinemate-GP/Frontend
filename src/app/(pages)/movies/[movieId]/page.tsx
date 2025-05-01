@@ -28,6 +28,7 @@ const MovieDetails = () => {
     tagline: data?.tagline,
     releaseDate: data?.releaseDate,
     posterPath: data?.posterPath,
+    logoPath: data?.logoPath,
     imdbRating: data?.imdbRating,
     rottenTomatoesRating: data?.rottenTomatoesRating,
     metacriticRating: data?.metacriticRating,

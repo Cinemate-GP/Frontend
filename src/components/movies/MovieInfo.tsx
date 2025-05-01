@@ -39,9 +39,6 @@ interface MovieInfoProps {
 const MovieInfo: React.FC<MovieInfoProps> = ({ info, loading }) => {
   // Rated movie modal state
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  // Movie actions
-
   // render selecton during waiting for data comming form backend
   if (loading) return <SkeletonMovieInfo />;
 
@@ -65,10 +62,10 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ info, loading }) => {
             {info.logoPath && (
               <Image
                 src={IMAGEPOSTER + info.logoPath}
-                width={50}
-                height={50}
+                width={200}
+                height={200}
                 alt="movie title"
-                className="max-w-full max-h-full mb-4"
+                className=""
               />
             )}
             {/* movie meta info */}

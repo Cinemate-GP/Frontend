@@ -50,7 +50,6 @@ export default function EditProfileModal({ onClose }: { onClose: () => void }) {
     }));
   };
 
-  console.log(storedUser);
 
   const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
