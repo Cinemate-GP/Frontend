@@ -3,7 +3,7 @@
 import { useState, useCallback } from "react";
 import React from "react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { NavLink, navCategories, modernIcons } from "@/constants";
 import HorizontalNav from "./HorizontalNav";
 import Image from "next/image";
@@ -11,17 +11,14 @@ import { useDispatch } from "react-redux";
 import { toggleSidenave } from "@/redux/slices/sidebarSlice";
 import { IoIosArrowBack } from "react-icons/io";
 import { useSearch } from "@/context/SearchContext";
-import { useUser } from "@/context/UserContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { logout } from "@/lib/utils";
 
 export default function Sidenav() {
   const pathname = usePathname();
-  const router = useRouter();
   const [isCollapsed, setIsCollapsed] = useState(false);
   const { setSearch } = useSearch();
   const dispatch = useDispatch();
-  const { user } = useUser();
 
   const toggleSidebar = () => {
     setIsCollapsed(!isCollapsed);
@@ -33,10 +30,6 @@ export default function Sidenav() {
     logout("/");
     // Router will be handled by the logout function
   }, []);
-
-  const navigateToProfile = useCallback(() => {
-    router.push("/profile");
-  }, [router]);
 
   // Sidebar animation variants
   const sidebarVariants = {
@@ -206,61 +199,36 @@ export default function Sidenav() {
 
         {/* User Profile and Logout Section */}
         <div className="mt-auto border-t border-[#222222] p-3">
-          <div className={`relative group w-full ${isCollapsed ? 'flex justify-center' : 'flex items-center'} p-2 rounded-lg text-gray-400 transition-all duration-200`}>
+          <motion.button
+            onClick={handleLogout}
+            className={`relative group w-full rounded-lg transition-all duration-200
+              ${isCollapsed ? 'p-2 flex justify-center' : 'p-3 flex items-center'} 
+              text-gray-400 hover:bg-[#222222] hover:text-white`}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            aria-label="Sign out"
+          >
             <div className={`flex items-center ${isCollapsed ? 'justify-center' : 'w-full'}`}>
-              {/* User photo with profile link functionality */}
-              <motion.div 
-                className="min-w-[36px] h-[36px] rounded-full border-2 border-red-500/50 overflow-hidden shadow-md cursor-pointer"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-                transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                onClick={navigateToProfile}
-              >
-                <Image
-                  src={user?.profilePic || "/ueser-placeholder.jpg"}
-                  alt="Profile"
-                  width={36}
-                  height={36}
-                  className="w-full h-full object-cover"
-                />
-              </motion.div>
+              {/* Logout icon */}
+              <span className="flex-shrink-0">
+                {React.createElement(modernIcons.Logout, {
+                  className: "w-[20px] h-[20px]",
+                  "aria-hidden": "true",
+                })}
+              </span>
               
               <AnimatePresence>
-                {/* User name and logout - only visible when expanded */}
+                {/* Logout text - only visible when expanded */}
                 {!isCollapsed && (
-                  <motion.div 
-                    className="ml-3 flex flex-1 justify-between items-center"
+                  <motion.span 
+                    className="ml-3 text-sm font-medium"
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -10 }}
                     transition={{ duration: 0.2 }}
                   >
-                    {/* User name with profile link functionality */}
-                    <motion.div 
-                      className="flex flex-col cursor-pointer"
-                      onClick={navigateToProfile}
-                      whileHover={{ color: "#ffffff" }}
-                    >
-                      <span className="text-sm font-medium truncate max-w-[7rem]">
-                        {user?.fullName || "User"}
-                      </span>
-                      <span className="text-xs">View profile</span>
-                    </motion.div>
-                    
-                    {/* Logout button */}
-                    <motion.button
-                      className="p-1.5 rounded-lg hover:bg-[#333333]"
-                      onClick={handleLogout}
-                      whileHover={{ scale: 1.1, color: "#ffffff" }}
-                      whileTap={{ scale: 0.9 }}
-                      aria-label="Sign out"
-                    >
-                      {React.createElement(modernIcons.Logout, {
-                        className: "w-[20px] h-[20px]",
-                        "aria-hidden": "true",
-                      })}
-                    </motion.button>
-                  </motion.div>
+                    Sign out
+                  </motion.span>
                 )}
               </AnimatePresence>
               
@@ -270,11 +238,11 @@ export default function Sidenav() {
                   text-xs rounded-lg opacity-0 group-hover:opacity-100 transform translate-x-2
                   group-hover:translate-x-0 pointer-events-none group-hover:pointer-events-auto
                   border border-[#333333] transition-all duration-200 whitespace-nowrap z-50 shadow-lg">
-                  {user?.fullName || "User"} (Click for profile)
+                  Sign out
                 </div>
               )}
             </div>
-          </div>
+          </motion.button>
         </div>
       </motion.aside>
 
