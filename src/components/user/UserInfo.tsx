@@ -61,7 +61,7 @@ const UserInfo = ({ id, fullName, profilePic, isFollowing, loading }: User) => {
           )}
           {!profilePic && (
             <Image
-              src="/ueser-placeholder.jpg"
+              src="/user-placeholder.jpg"
               alt="user profile"
               width={100}
               height={100}

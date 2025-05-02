@@ -49,7 +49,7 @@ export default function ProfileMenu() {
           )}
           {!user.profilePic && (
             <Image
-              src="/ueser-placeholder.jpg"
+              src="/user-placeholder.jpg"
               alt="user"
               width={32}
               height={32}

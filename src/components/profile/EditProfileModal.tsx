@@ -18,9 +18,9 @@ export default function EditProfileModal({ onClose }: { onClose: () => void }) {
   const [storedUser, setStoredUser] = useState<User>({
     fullName: "",
     email: "",
-
+    profilePic: "",
   });
-  const { setUser } = useUser();
+  const { setUser, refreshUserData } = useUser();
   const [loading, setLoading] = useState(false);
 
   // Load user from localStorage on mount
@@ -52,7 +52,6 @@ export default function EditProfileModal({ onClose }: { onClose: () => void }) {
     }));
   };
 
-
   const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
     const formDate = new FormData();
@@ -70,31 +69,35 @@ export default function EditProfileModal({ onClose }: { onClose: () => void }) {
       });
       if (!res.ok) throw new Error("Failed to update profile");
       const data = await res.json();
-      setStoredUser({
-        fullName: data.fullName,
-        email: data.email,
-        profilePic: data.profile_Image,
-      });
-      setUser({
-        fullName: data.fullName,
-        email: data.email,
-        profilePic: data.profile_Image,
-      });
 
+      // Update the user data with new information
+      const updatedUser = {
+        fullName: data.fullName,
+        email: data.email,
+        profilePic: data.profile_Image,
+      };
+
+      setStoredUser(updatedUser);
+
+      // Update context with new user data
+      setUser(updatedUser);
+
+      // Update localStorage to match what's in context
       localStorage.setItem(
         "user",
         JSON.stringify({
           user: {
             id: getUserId(),
-            fullName: data.fullName,
-            email: data.email,
-            profilePic: data.profile_Image,
+            ...updatedUser,
           },
         })
       );
+
+      // Refresh user data from storage to ensure consistency
+      refreshUserData();
     } catch (error) {
       console.log(error);
-    }finally {
+    } finally {
       setLoading(false);
     }
     onClose();
@@ -127,7 +130,7 @@ export default function EditProfileModal({ onClose }: { onClose: () => void }) {
                   onChange={handleImageUpload}
                 />
                 <label htmlFor="fileUpload" className="cursor-pointer">
-                  <FiUploadCloud className="mx-auto text-red-500 !text-sm" size={40}/>
+                  <FiUploadCloud className="mx-auto text-red-500 !text-sm" size={40} />
                   <p className="text-gray-400 text-sm">Drag your image here</p>
                   <p className="text-xs text-gray-500">
                     (Only .jpg and .png files will be accepted)

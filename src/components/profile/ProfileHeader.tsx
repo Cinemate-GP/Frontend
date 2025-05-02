@@ -2,17 +2,23 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import EditProfileModal from "./EditProfileModal";
-import { useGetUser } from "@/hooks/useGetUser";
+import { useUser } from "@/context/UserContext"; 
 import { authFetch } from "@/lib/api";
 import { getCookie } from "@/lib/utils";
 import Link from "next/link";
 
 const ProfileHeader = () => {
-  const user = useGetUser();
+  const { user, refreshUserData } = useUser();
   const [isOpen, setIsOpen] = useState(false);
   const [followers, setFollowers] = useState(0);
   const [following, setFollowing] = useState(0);
   const token = getCookie("token");
+
+  // Explicitly refresh user data when component mounts
+  useEffect(() => {
+    refreshUserData();
+  }, [refreshUserData]);
+  
   useEffect(() => {
     (async function () {
       try {
@@ -32,6 +38,7 @@ const ProfileHeader = () => {
       }
     })();
   }, [token]);
+
   return (
     <>
       <header className="relative flex flex-col sm:flex-row justify-between items-center gap-8 p-6 bg-zinc-900 rounded-xl border border-zinc-800 shadow-lg overflow-hidden">
@@ -46,23 +53,14 @@ const ProfileHeader = () => {
           <div className="relative">
             <div className="absolute inset-0 rounded-full bg-gradient-to-br from-red-500 to-red-800 blur-sm opacity-75"></div>
             <div className="relative border-2 border-red-500 p-1 rounded-full mx-auto sm:mx-0 bg-zinc-950">
-              {user?.profilePic ? (
-                <Image
-                  src={user.profilePic}
-                  alt="user profile"
-                  width={100}
-                  height={100}
-                  className="w-16 h-16 sm:w-28 sm:h-28 rounded-full object-cover"
-                />
-              ) : (
-                <Image
-                  src="/ueser-placeholder.jpg"
-                  alt="user profile"
-                  width={100}
-                  height={100}
-                  className="w-16 h-16 sm:w-28 sm:h-28 rounded-full object-cover"
-                />
-              )}
+              <Image
+                src={user?.profilePic || "/user-placeholder.jpg"}
+                alt="user profile"
+                width={100}
+                height={100}
+                className="w-16 h-16 sm:w-28 sm:h-28 rounded-full object-cover"
+                priority={true}
+              />
             </div>
           </div>
           
@@ -70,7 +68,7 @@ const ProfileHeader = () => {
           <div className="flex flex-col items-center sm:items-start">
             <div className="flex items-center mx-auto sm:mx-0 mb-2">
               <h2 className="text-xl sm:text-3xl font-bold text-white">
-                {user.fullName ? user.fullName : "User Name"}
+                {user?.fullName || "User Name"}
               </h2>
             </div>
             
