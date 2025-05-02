@@ -32,6 +32,8 @@ interface MovieInfoProps {
     isWatched?: boolean | undefined;
     isInWatchList?: boolean | undefined;
     stars?: number | undefined;
+    trailer?: string | undefined;
+    streamingLink?: string | undefined;
   };
   loading: boolean;
 }
@@ -49,7 +51,12 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ info, loading }) => {
     >
       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 via-10% to-black/40">
         <div className="absolute h-full  w-full flex flex-col lg:flex-row justify-around items-center top-[50%] -translate-y-1/2 px-5 xl:px-16">
-          <MoviePoster poster_path={info.posterPath!} title={info.title} />
+          <MoviePoster 
+            poster_path={info.posterPath!} 
+            title={info.title} 
+            trailer={info.trailer}
+            streamingLink={info.streamingLink}
+          />
 
           {/* movie details */}
           <div className="flex flex-col items-center text-center gap-3 max-w-3xl">

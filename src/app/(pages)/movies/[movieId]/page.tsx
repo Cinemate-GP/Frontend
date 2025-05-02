@@ -10,7 +10,6 @@ import { ToastContainer } from "react-toastify";
 import { usePathname } from "next/navigation";
 import useFetch from "@/hooks/useFetch";
 import { Movie } from "@/lib/types";
-
 interface MovieDetails extends Movie {
   isLiked: boolean;
   isWatched: boolean;
@@ -41,7 +40,9 @@ const MovieDetails = () => {
     stars: data?.stars,
     isLiked: data?.isLiked,
     isWatched: data?.isWatched,
-    isInWatchList: data?.isInWatchList
+    isInWatchList: data?.isInWatchList,
+    trailer: data?.trailer,
+    streamingLink: data?.tmdbId.toString(),
   };
 
   return (
