@@ -159,7 +159,7 @@ export default function Sidenav() {
               <NavItem
                 key={link.name}
                 link={link}
-                isActive={pathname === link.href || pathname.startsWith(link.href)}
+                isActive={pathname === link.href}
                 isCollapsed={isCollapsed}
               />
             ))}
@@ -190,7 +190,9 @@ export default function Sidenav() {
               <NavItem
                 key={link.name}
                 link={link}
-                isActive={pathname === link.href || pathname.startsWith(link.href)}
+                isActive={pathname === link.href || 
+                  // Only consider it active if it's exactly the profile path, not subpaths
+                  (link.href === '/profile' && pathname === '/profile')}
                 isCollapsed={isCollapsed}
               />
             ))}

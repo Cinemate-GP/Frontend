@@ -72,7 +72,7 @@ const HorizontalNav = ({ pathname: propPathname }: { pathname: string }) => {
               <Link
                 href={item.href}
                 className={`flex flex-col items-center justify-center h-full ${
-                  pathname?.includes(item.href) ? "text-red-500" : "text-gray-400"
+                  pathname === item.href ? "text-red-500" : "text-gray-400"
                 }`}
               >
                 <item.icon className="w-5 h-5 mb-1" aria-hidden="true" />
