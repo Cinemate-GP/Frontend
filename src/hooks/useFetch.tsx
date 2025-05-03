@@ -11,11 +11,15 @@ const useFetch = <T,>(url: string) => {
       setLoading(true);
       setError(null);
       try {
+        // Get token from cookie and clean it
+        const token = document.cookie.split("=")[1];
+        const cleanToken = token ? token.split(';')[0].trim() : '';
+        
         const response = await authFetch(url,{
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${document.cookie.split("=")[1]}`,
+            Authorization: `Bearer ${cleanToken}`,
           },
         });
         if (!response.ok) throw new Error("Failed to fetch data");

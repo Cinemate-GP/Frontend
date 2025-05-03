@@ -48,11 +48,14 @@ export const useMovieInfo = (info: MovieInfoProps) => {
     const method = type ? "POST" : "DELETE";
 
     try {
+      // Clean token - remove any content after the JWT if present
+      const cleanToken = token.split(';')[0].trim();
+      
       const res = await fetch(url, {
         method,
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${cleanToken}`,
         },
         body: JSON.stringify(postedData),
       });

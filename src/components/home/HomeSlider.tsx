@@ -28,7 +28,7 @@ const HomeSlider = () => {
   const [trailer, setTrailer] = useState("");
   const dispatch = useDispatch();
   const { data: movies, loading } = useFetch<Movie[]>(
-    "/api/Movie/random-movie"
+    "/api/Movie/trending",
   );
   const addToWatchlist = (movie: {
     tmdbId: number;
