@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useUser } from "@/context/UserContext"; 
 import { authFetch } from "@/lib/api";
-import { getCookie } from "@/lib/utils";
+import { getCookie, getUserId } from "@/lib/utils";
 import Link from "next/link";
 import ProfileImageViewer from "./ProfileImageViewer";
 import { useRouter } from "next/navigation";
@@ -22,24 +22,38 @@ const ProfileHeader = () => {
   }, [refreshUserData]);
   
   useEffect(() => {
+    if (!user) return;
+    
     (async function () {
       try {
-        const res = await authFetch(`/api/UserFollow/count-follow`, {
+        const userId = getUserId();
+        if (!userId) {
+          console.error("User ID not found");
+          return;
+        }
+
+        // Add userId to the endpoint
+        const res = await authFetch(`/api/UserFollow/count-follow/${userId}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
         });
+        
         if (!res.ok) throw new Error("Failed to fetch followers");
         const data = await res.json();
+        
+        // Update state with the retrieved counts
         setFollowers(data.followersCount);
         setFollowing(data.followingCount);
+        
+        console.log("Follower/Following counts:", data); // Debug logging
       } catch (error) {
-        console.log(error);
+        console.error("Error fetching follow counts:", error);
       }
     })();
-  }, [token]);
+  }, [token, user]); // Changed dependency to just user
 
   const handleNavigateToSettings = () => {
     router.push("/settings");
