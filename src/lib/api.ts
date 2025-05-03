@@ -1,8 +1,8 @@
 import { getCookie, tryRefreshToken } from "./utils";
 
 let isRefreshing = false;
+let refreshPromise: Promise<boolean> | null = null;
 
-/** Main fetch wrapper */
 export async function authFetch(
   url: string,
   options: RequestInit = {}
@@ -16,19 +16,22 @@ export async function authFetch(
     "Content-Type": "application/json",
   });
 
-  // First request
+  // First try
   let response = await fetch(url, { ...options, headers: makeHeaders(token as string) });
 
-  // If unauthorized and refreshToken exists, try refresh once
-  if (response.status === 401 && refreshToken && !isRefreshing) {
-    console.log("🔁 Got 401, trying token refresh...");
-    isRefreshing = true;
-    const success = await tryRefreshToken();
-    isRefreshing = false;
+  // If token is expired
+  if (response.status === 401 && refreshToken) {
+    // Avoid multiple refresh attempts
+    if (!isRefreshing) {
+      isRefreshing = true;
+      refreshPromise = tryRefreshToken().finally(() => {
+        isRefreshing = false;
+      });
+    }
 
+    const success = await refreshPromise;
     if (success) {
-      token = getCookie("token"); // get new token
-      // Retry the original request with new token
+      token = getCookie("token"); // get updated token
       response = await fetch(url, { ...options, headers: makeHeaders(token as string) });
     }
   }

@@ -1,9 +1,11 @@
 "use client";
+import SectionTitle from "@/components/SectionTitle";
 import useFetch from "@/hooks/useFetch";
 import { authFetch } from "@/lib/api";
 import { getCookie, getUserId } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 import { useState } from "react";
 
 interface User {
@@ -13,21 +15,25 @@ interface User {
 }
 
 function Followers() {
-  const [followedUsers, setFollowedUsers] = useState<Record<string, boolean>>({});
+  const params = useParams();
+  const userId = params.userId;
+  const [FollowersUsers, setFollowersUsers] = useState<Record<string, boolean>>(
+    {}
+  );
   const { data, loading } = useFetch<User[]>(
-    `/api/UserFollow/get-all-following/${getUserId()}`
+    `/api/UserFollow/get-all-followers/${userId}`
   );
 
-  const token = getCookie('token');
+  const token = getCookie("token");
   const toggleFollow = async (followId: string) => {
     try {
-      const isFollowing = followedUsers[followId] ?? true; // default to true
-  
+      const isFollowing = FollowersUsers[followId] ?? true; // default to true
+
       const endpoint = isFollowing
         ? "/api/UserFollow/Delete"
         : "/api/UserFollow/Add";
       const method = isFollowing ? "DELETE" : "POST";
-  
+
       const res = await authFetch(endpoint, {
         method,
         headers: {
@@ -36,11 +42,11 @@ function Followers() {
         },
         body: JSON.stringify({ userId: getUserId(), followId }),
       });
-  
+
       if (!res.ok) throw new Error("Failed to toggle follow status");
-  
+
       // Toggle follow state for this user only
-      setFollowedUsers((prev) => ({
+      setFollowersUsers((prev) => ({
         ...prev,
         [followId]: !isFollowing,
       }));
@@ -48,16 +54,23 @@ function Followers() {
       console.error(error);
     }
   };
-  
+
   return (
-    <div className="col-span-4 md:col-span-3  w-full">
+    <div className="col-span-4 md:col-span-3  w-full max-h-[72%] scrollbar-hidden  md:max-h-full overflow-auto">
+      <SectionTitle title="Followers" />
       {loading && <p>Loading...</p>}
-      {!loading && data?.length === 0 && <p>No followings found</p>}
+      {!loading && data?.length === 0 && <p>No followers found</p>}
       {!loading && (data?.length as number) > 0 && (
         <div className="flex flex-col gap-4 w-full">
           {data?.map((user) => (
-            <div key={user.userId} className="flex justify-between items-center border-b border-gray-700">
-              <Link href={`/user/${user.userId}`} className="flex items-center gap-4 p-4 px-0">
+            <div
+              key={user.userId}
+              className="flex justify-between items-center border-b border-gray-700"
+            >
+              <Link
+                href={`/user/${user.userId}`}
+                className="flex items-center gap-4 p-4 px-0"
+              >
                 {user.profilePic ? (
                   <Image
                     src={user.profilePic}
@@ -77,9 +90,14 @@ function Followers() {
                 )}
                 <h2 className="text-lg">{user.fullName}</h2>
               </Link>
-              <button onClick={() => toggleFollow(user.userId)} className="rounded-lg px-3 py-1 border border-primary text-sm ml-3 text-white transition-all duration-200 hover:bg-primary">
-              {followedUsers[user.userId] ?? true ? "Unfollow" : "Follow"}
-              </button>
+              {getUserId() !== user.userId && (
+                <button
+                  onClick={() => toggleFollow(user.userId)}
+                  className="rounded-lg px-3 py-1 border border-primary text-sm ml-3 text-white transition-all duration-200 hover:bg-primary"
+                >
+                  {FollowersUsers[user.userId] ? "Unfollow" : "Follow"}
+                </button>
+              )}
             </div>
           ))}
         </div>

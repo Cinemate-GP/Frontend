@@ -126,13 +126,13 @@ const UserInfo = ({ id, fullName, profilePic, isFollowing, loading }: User) => {
           <span className="block text-xl font-bold">{filmsCount}</span>
           <span className="text-sm text-zinc-400">Films</span>
         </li>
-        <Link href={`/followers`} className="text-center group">
+        <Link href={`/followers/${id}`} className="text-center group">
           <span className="block text-xl font-bold">{followersCount}</span>
           <span className="text-sm text-zinc-400 group-hover:text-white transition-colors">
             Followers
           </span>
         </Link>
-        <Link href={`/followers`} className="text-center group">
+        <Link href={`/following/${id}`} className="text-center group">
           <span className="block text-xl font-bold">{followingCount}</span>
           <span className="text-sm text-zinc-400 group-hover:text-white transition-colors">
             Following

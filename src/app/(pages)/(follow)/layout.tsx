@@ -1,8 +1,8 @@
 "use client";
 import { ProfileInfoSkeleton } from "@/components/skeletons";
 import useFetch from "@/hooks/useFetch";
-import { getUserId } from "@/lib/utils";
 import Image from "next/image";
+import { useParams } from "next/navigation";
 
 interface User {
   id: string;
@@ -12,12 +12,13 @@ interface User {
 }
 
 const FollowLayout = ({ children }: { children: React.ReactNode }) => {
-  const userId = getUserId();
+  const params = useParams();
+  const userId = params.userId;
   const { data, loading } = useFetch<User>(`/api/UserFollow/follow-details/${userId}`);
   return (
     <div className="mt-24 px-10">
       {loading && <ProfileInfoSkeleton />}
-      <div className="grid grid-cols-4 gap-12 md:gap-24 items-center justify-items-center sm:justify-items-start">
+      <div className="grid grid-cols-4 gap-12 gap-y-6 md:gap-24 items-center justify-items-center sm:justify-items-start">
         {!loading && (
           <div className="flex flex-col gap-4 col-span-4 md:col-span-1 mx-auto items-center text-center">
             <div className="border-2 border-primary p-1 rounded-full mx-auto sm:mx-0">
