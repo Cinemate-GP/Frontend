@@ -15,6 +15,10 @@ const nextConfig: NextConfig = {
         protocol: "http",
         hostname: "cinemate.runasp.net",
       },
+      {
+        protocol: "https",
+        hostname: "cinemate.runasp.net",
+      },
     ],
   },
   async rewrites() {

@@ -1,7 +1,7 @@
 import { useCookie } from "@/hooks/useCookie";
 import { getUserId } from "@/lib/utils";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ProfileHeaderSkeleton } from "../skeletons";
 import { authFetch } from "@/lib/api";
 
@@ -14,12 +14,42 @@ interface User {
 }
 
 const UserInfo = ({ id, fullName, profilePic, isFollowing, loading }: User) => {
-  const [follow, setFollow] = React.useState<boolean>(isFollowing ?? false);
+  const [follow, setFollow] = useState<boolean>(isFollowing ?? false);
+  const [followersCount, setFollowersCount] = useState<number>(0);
+  const [followingCount, setFollowingCount] = useState<number>(0);
+  const [filmsCount] = useState<number>(80); // Removed unused setter
   const token = useCookie();
 
-  React.useEffect(() => {
+  useEffect(() => {
     setFollow(isFollowing ?? false);
   }, [isFollowing]);
+
+  // Fetch follower and following counts
+  useEffect(() => {
+    if (!id) return;
+    
+    const fetchFollowCounts = async () => {
+      try {
+        const res = await authFetch(`api/UserFollow/count-follow/${id}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        
+        if (!res.ok) throw new Error("Failed to fetch follow counts");
+        
+        const data = await res.json();
+        setFollowersCount(data.followersCount);
+        setFollowingCount(data.followingCount);
+      } catch (error) {
+        console.error("Error fetching follow counts:", error);
+      }
+    };
+    
+    fetchFollowCounts();
+  }, [id, token]);
 
   const toggleFollow = async () => {
     try {
@@ -39,7 +69,11 @@ const UserInfo = ({ id, fullName, profilePic, isFollowing, loading }: User) => {
 
       if (!res.ok) throw new Error("Failed to toggle follow status");
 
-      setFollow(!follow); // Update local state only after success
+      // Update local follow state
+      setFollow(!follow);
+      
+      // Update follower count based on action
+      setFollowersCount(prevCount => follow ? prevCount - 1 : prevCount + 1);
     } catch (error) {
       console.error(error);
     }
@@ -61,7 +95,7 @@ const UserInfo = ({ id, fullName, profilePic, isFollowing, loading }: User) => {
           )}
           {!profilePic && (
             <Image
-              src="/ueser-placeholder.jpg"
+              src="/user-placeholder.jpg"
               alt="user profile"
               width={100}
               height={100}
@@ -87,15 +121,15 @@ const UserInfo = ({ id, fullName, profilePic, isFollowing, loading }: User) => {
       </div>
       <ul className="flex gap-3 justify-center sm:justify-start">
         <li className="flex flex-col items-center border-r-2 pr-3 border-white">
-          <span className="text-lg sm:text-2xl font-bold">80</span>
-          <span>film</span>
+          <span className="text-lg sm:text-2xl font-bold">{filmsCount}</span>
+          <span>films</span>
         </li>
         <li className="flex flex-col items-center border-r-2 pr-3 border-white">
-          <span className="text-lg sm:text-2xl font-bold">48</span>
-          <span>folowers</span>
+          <span className="text-lg sm:text-2xl font-bold">{followersCount}</span>
+          <span>followers</span>
         </li>
         <li className="flex flex-col items-center">
-          <span className="text-lg sm:text-2xl font-bold">56</span>
+          <span className="text-lg sm:text-2xl font-bold">{followingCount}</span>
           <span>following</span>
         </li>
       </ul>

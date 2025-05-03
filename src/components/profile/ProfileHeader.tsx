@@ -1,104 +1,126 @@
 "use client";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import EditProfileModal from "./EditProfileModal";
-import { useGetUser } from "@/hooks/useGetUser";
+import { useUser } from "@/context/UserContext"; 
 import { authFetch } from "@/lib/api";
-import { getCookie } from "@/lib/utils";
+import { getCookie, getUserId } from "@/lib/utils";
 import Link from "next/link";
+import ProfileImageViewer from "./ProfileImageViewer";
+import { useRouter } from "next/navigation";
 
 const ProfileHeader = () => {
-  const user = useGetUser();
-  const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
+  const { user, refreshUserData } = useUser();
+  const [showImageViewer, setShowImageViewer] = useState(false);
   const [followers, setFollowers] = useState(0);
   const [following, setFollowing] = useState(0);
   const token = getCookie("token");
+
+  // Explicitly refresh user data when component mounts
   useEffect(() => {
+    refreshUserData();
+  }, [refreshUserData]);
+  
+  useEffect(() => {
+    if (!user) return;
+    
     (async function () {
       try {
-        const res = await authFetch(`/api/UserFollow/count-follow`, {
+        const userId = getUserId();
+        if (!userId) {
+          console.error("User ID not found");
+          return;
+        }
+
+        // Add userId to the endpoint
+        const res = await authFetch(`/api/UserFollow/count-follow/${userId}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
         });
+        
         if (!res.ok) throw new Error("Failed to fetch followers");
         const data = await res.json();
+        
+        // Update state with the retrieved counts
         setFollowers(data.followersCount);
         setFollowing(data.followingCount);
+        
+        console.log("Follower/Following counts:", data); // Debug logging
       } catch (error) {
-        console.log(error);
+        console.error("Error fetching follow counts:", error);
       }
     })();
-  }, [token]);
+  }, [token, user]); // Changed dependency to just user
+
+  const handleNavigateToSettings = () => {
+    router.push("/settings");
+  };
+
   return (
     <>
-      <header className="relative flex flex-col sm:flex-row justify-between items-center gap-8 p-6 bg-zinc-900 rounded-xl border border-zinc-800 shadow-lg overflow-hidden">
-        {/* Decorative elements */}
-        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-800 via-red-600 to-red-800"></div>
-        <div className="absolute -top-32 -left-32 w-64 h-64 bg-red-900/10 rounded-full blur-3xl"></div>
-        <div className="absolute -bottom-32 -right-32 w-64 h-64 bg-red-900/5 rounded-full blur-3xl"></div>
-        
-        {/* Profile details container */}
-        <div className="flex gap-6 items-center flex-wrap z-10 w-full sm:w-auto">
-          {/* Avatar with red border glow effect */}
-          <div className="relative">
-            <div className="absolute inset-0 rounded-full bg-gradient-to-br from-red-500 to-red-800 blur-sm opacity-75"></div>
-            <div className="relative border-2 border-red-500 p-1 rounded-full mx-auto sm:mx-0 bg-zinc-950">
-              {user?.profilePic ? (
-                <Image
-                  src={user.profilePic}
-                  alt="user profile"
-                  width={100}
-                  height={100}
-                  className="w-16 h-16 sm:w-28 sm:h-28 rounded-full object-cover"
-                />
-              ) : (
-                <Image
-                  src="/ueser-placeholder.jpg"
-                  alt="user profile"
-                  width={100}
-                  height={100}
-                  className="w-16 h-16 sm:w-28 sm:h-28 rounded-full object-cover"
-                />
-              )}
-            </div>
-          </div>
-          
-          {/* User info */}
-          <div className="flex flex-col items-center sm:items-start">
-            <div className="flex items-center mx-auto sm:mx-0 mb-2">
-              <h2 className="text-xl sm:text-3xl font-bold text-white">
-                {user.fullName ? user.fullName : "User Name"}
-              </h2>
+      <header className="backdrop-blur-sm bg-zinc-900/90 rounded-xl shadow-md p-6">
+        <div className="flex flex-col sm:flex-row items-center gap-6 justify-between">
+          <div className="flex flex-col sm:flex-row items-center gap-6">
+            {/* Profile image - with click handler */}
+            <div 
+              onClick={() => setShowImageViewer(true)} 
+              className="cursor-pointer transition-transform hover:scale-105"
+            >
+              <Image
+                src={user?.profilePic || "/user-placeholder.jpg"}
+                alt="user profile"
+                width={100}
+                height={100}
+                className="w-24 h-24 rounded-full object-cover shadow-md"
+                priority={true}
+              />
             </div>
             
-            <button
-              onClick={() => setIsOpen(true)}
-              className="bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 transition-all duration-300 rounded-full px-6 py-2 text-sm text-white font-medium flex items-center justify-center gap-1 hover:shadow-lg hover:shadow-red-900/20 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-zinc-900"
-            >
-              Edit Profile
-            </button>
+            {/* Profile information */}
+            <div className="flex-1 text-center sm:text-left">
+              <h2 className="text-2xl font-bold text-white mb-2">
+                {user?.fullName || "User Name"}
+              </h2>
+              
+              <button
+                onClick={handleNavigateToSettings}
+                className="bg-zinc-800 hover:bg-zinc-700 text-white px-4 py-1.5 rounded-md transition-all duration-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-zinc-600"
+              >
+                Edit Profile
+              </button>
+            </div>
+          </div>
+
+          {/* Stats row - moved to the right */}
+          <div className="flex justify-center gap-6 mt-4 sm:mt-0">
+            <div className="text-center">
+              <span className="block text-xl font-bold">80</span>
+              <span className="text-sm text-zinc-400">Films</span>
+            </div>
+            
+            <Link href={`/followers`} className="text-center group">
+              <span className="block text-xl font-bold">{followers}</span>
+              <span className="text-sm text-zinc-400 group-hover:text-white transition-colors">Followers</span>
+            </Link>
+            
+            <Link href={`/following`} className="text-center group">
+              <span className="block text-xl font-bold">{following}</span>
+              <span className="text-sm text-zinc-400 group-hover:text-white transition-colors">Following</span>
+            </Link>
           </div>
         </div>
-        <ul className="flex gap-3 justify-center sm:justify-start">
-          <li className="flex flex-col items-center border-gray-600 pr-3">
-            <span className="text-lg sm:text-2xl font-bold">80</span>
-            <span className="text-sm">film</span>
-          </li>
-          <li className="flex flex-col items-center border-r border-gray-600 pr-3">
-            <span className="text-lg sm:text-2xl font-bold">{followers}</span>
-            <Link href={`/follow/followers`} className={`text-sm transition-all duration-200 hover:text-primary`}>Followers</Link>
-          </li>
-          <li className="flex flex-col items-center">
-            <span className="text-lg sm:text-2xl font-bold">{following}</span>
-            <Link href={`/follow/following`} className={`transition-all text-sm duration-200 hover:text-primary `}>Following</Link>
-          </li>
-        </ul>
       </header>
 
-      {isOpen && <EditProfileModal onClose={() => setIsOpen(false)} />}
+      {/* Profile Image Viewer */}
+      {showImageViewer && (
+        <ProfileImageViewer 
+          imageUrl={user?.profilePic || "/user-placeholder.jpg"} 
+          onClose={() => setShowImageViewer(false)} 
+        />
+      )}
     </>
   );
 };

@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import NavbarSearch from "./Search";
 import Image from "next/image";
 import NotificationDropdown from "./Dropdown";
@@ -9,8 +9,13 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 
 const Navbar = () => {
-  const { user } = useUser();
+  const { user, refreshUserData } = useUser();
   const router = useRouter();
+
+  // Refresh user data when component mounts
+  useEffect(() => {
+    refreshUserData();
+  }, [refreshUserData]);
 
   const navigateToProfile = () => {
     router.push("/profile");
@@ -41,11 +46,12 @@ const Navbar = () => {
             onClick={navigateToProfile}
           >
             <Image
-              src={user?.profilePic || "/ueser-placeholder.jpg"}
+              src={user?.profilePic || "/user-placeholder.jpg"}
               alt="Profile"
               width={36}
               height={36}
               className="w-full h-full object-cover"
+              priority={true}
             />
           </motion.div>
         </div>
