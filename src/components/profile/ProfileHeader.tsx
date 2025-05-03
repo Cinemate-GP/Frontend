@@ -87,12 +87,12 @@ const ProfileHeader = () => {
               <span className="text-sm text-zinc-400">Films</span>
             </div>
             
-            <Link href={`/follow/followers`} className="text-center group">
+            <Link href={`/followers`} className="text-center group">
               <span className="block text-xl font-bold">{followers}</span>
               <span className="text-sm text-zinc-400 group-hover:text-white transition-colors">Followers</span>
             </Link>
             
-            <Link href={`/follow/following`} className="text-center group">
+            <Link href={`/following`} className="text-center group">
               <span className="block text-xl font-bold">{following}</span>
               <span className="text-sm text-zinc-400 group-hover:text-white transition-colors">Following</span>
             </Link>
