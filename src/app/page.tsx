@@ -5,8 +5,7 @@ import React, { useEffect, useState } from "react";
 import { FaPlay, FaSignInAlt } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { getCookie, willExpireIn } from "@/lib/utils";
-import { checkIsValidTokenAndRefresh } from "@/lib/api";
+import { getCookie } from "@/lib/utils";
 
 const Page = () => {
   const router = useRouter();
@@ -15,7 +14,6 @@ const Page = () => {
   const [isRedirecting, setIsRedirecting] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
 
-  checkIsValidTokenAndRefresh();
 
   // Modernized feature card data
   const features = [
@@ -68,9 +66,8 @@ const Page = () => {
 
   // Handle redirect
   useEffect(() => {
-    console.log(willExpireIn(token as string,5))
     if (isRedirecting) {
-      const redirectTo = token && !willExpireIn(token, 5) ? "/home" : "/login";
+      const redirectTo = token ? "/home" : "/login";
       router.push(redirectTo);
     }
   }, [isRedirecting, token, router]);

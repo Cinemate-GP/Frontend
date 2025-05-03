@@ -1,4 +1,4 @@
-import { getCookie, tryRefreshToken, willExpireIn } from "./utils";
+import { getCookie, tryRefreshToken } from "./utils";
 
 let isRefreshing = false;
 
@@ -10,36 +10,28 @@ export async function authFetch(
   let token = getCookie("token");
   const refreshToken = getCookie("refreshToken");
 
-  if (token && refreshToken && willExpireIn(token, 5) && !isRefreshing) {
-    console.log("🔁 Token about to expire, refreshing before request...");
+  const makeHeaders = (token?: string) => ({
+    ...options.headers,
+    Authorization: token ? `Bearer ${token}` : "",
+    "Content-Type": "application/json",
+  });
+
+  // First request
+  let response = await fetch(url, { ...options, headers: makeHeaders(token as string) });
+
+  // If unauthorized and refreshToken exists, try refresh once
+  if (response.status === 401 && refreshToken && !isRefreshing) {
+    console.log("🔁 Got 401, trying token refresh...");
     isRefreshing = true;
     const success = await tryRefreshToken();
     isRefreshing = false;
 
     if (success) {
-      token = getCookie("token"); // update to new token
+      token = getCookie("token"); // get new token
+      // Retry the original request with new token
+      response = await fetch(url, { ...options, headers: makeHeaders(token as string) });
     }
   }
 
-  const headers = {
-    ...options.headers,
-    Authorization: token ? `Bearer ${token}` : "",
-    "Content-Type": "application/json",
-  };
-
-  return fetch(url, { ...options, headers });
-}
-
-export function checkIsValidTokenAndRefresh() {
-  setInterval(async () => {
-    const token = getCookie("token");
-    const refreshToken = getCookie("refreshToken");
-
-    // Only attempt refresh if both tokens exist
-    if (token && refreshToken && willExpireIn(token, 5) && !isRefreshing) {
-      isRefreshing = true;
-      await tryRefreshToken();
-      isRefreshing = false;
-    }
-  }, 1000);
+  return response;
 }
