@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useCookie } from "@/hooks/useCookie";
+import { authFetch } from "@/lib/api";
 
 interface Props {
   tmdbId: number;
@@ -29,7 +30,7 @@ const MovieReviewForm = ({ tmdbId, title, onclose }: Props) => {
     } else {
       try {
         setLoading(true);
-        const res = await fetch("/api/UserReviewMovie/Add", {
+        const res = await authFetch("/api/UserReviewMovie/Add", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

@@ -30,14 +30,16 @@ export async function authFetch(
   return fetch(url, { ...options, headers });
 }
 
-setInterval(async () => {
-  const token = getCookie("token");
-  const refreshToken = getCookie("refreshToken");
+export function checkIsValidTokenAndRefresh() {
+  setInterval(async () => {
+    const token = getCookie("token");
+    const refreshToken = getCookie("refreshToken");
 
-  // Only attempt refresh if both tokens exist
-  if (token && refreshToken && willExpireIn(token, 5) && !isRefreshing) {
-    isRefreshing = true;
-    await tryRefreshToken();
-    isRefreshing = false;
-  }
-}, 1000)
+    // Only attempt refresh if both tokens exist
+    if (token && refreshToken && willExpireIn(token, 5) && !isRefreshing) {
+      isRefreshing = true;
+      await tryRefreshToken();
+      isRefreshing = false;
+    }
+  }, 1000);
+}

@@ -111,8 +111,8 @@ export function willExpireIn(token: string, seconds: number): boolean {
   if (!data?.exp) return false;
 
   const now = Math.floor(Date.now() / 1000);
-  // console.log("Will expire in:", data.exp - now, "seconds");
-  return data.exp - now <= seconds;
+  console.log(data.exp - now)
+  return data.exp - now <= seconds ;
 }
 
 /** Send refresh request */

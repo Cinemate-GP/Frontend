@@ -1,4 +1,5 @@
 import { useMovieInfo } from "@/hooks/useMovieActions";
+import { authFetch } from "@/lib/api";
 import { getUserId } from "@/lib/utils";
 import { useState } from "react";
 import { FaHeart, FaRegEye, FaRegStar, FaStar } from "react-icons/fa6";
@@ -66,7 +67,7 @@ export const MovieActions = ({
 
   const handleRating = async (i: number) => {
     try {
-      const res = await fetch("/api/UserRateMovie/Add", {
+      const res = await authFetch("/api/UserRateMovie/Add", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -4,6 +4,7 @@
 import { getUserId } from "@/lib/utils";
 import { useCallback, useEffect, useState } from "react";
 import { useCookie } from "./useCookie";
+import { authFetch } from "@/lib/api";
 
 interface MovieInfoProps {
   tmdbId: number | undefined;
@@ -48,7 +49,7 @@ export const useMovieInfo = (info: MovieInfoProps) => {
     const method = type ? "POST" : "DELETE";
 
     try {
-      const res = await fetch(url, {
+      const res = await authFetch(url, {
         method,
         headers: {
           "Content-Type": "application/json",
