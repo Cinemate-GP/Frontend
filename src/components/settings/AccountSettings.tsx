@@ -23,54 +23,11 @@ const AccountSettings = () => {
     e.preventDefault();
     setLoading(true);
     
-    try {
-      // Get token from cookies and clean it
-      const cookies = document.cookie;
-      const tokenCookie = cookies.split(';').find(c => c.trim().startsWith('token='));
-      let token = '';
-      
-      if (tokenCookie) {
-        // Extract just the token value, without any trailing data
-        token = tokenCookie.split('=')[1].split(';')[0].trim();
-      }
-      
-      const response = await fetch('/api/Auth/update-account', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          username: formData.username || undefined,
-          email: formData.email || undefined,
-          currentPassword: formData.currentPassword || undefined,
-          newPassword: formData.newPassword || undefined
-        })
-      });
-      
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to update account');
-      }
-      
-      // Show success notification
-      alert('Account settings updated successfully');
-      
-      // Reset password fields
-      setFormData(prev => ({
-        ...prev,
-        currentPassword: "",
-        newPassword: "",
-        confirmPassword: ""
-      }));
-      
-      setShowPasswordFields(false);
-    } catch (error) {
-      console.error('Error updating account:', error);
-      alert(error instanceof Error ? error.message : 'An error occurred');
-    } finally {
+    // Simulate API call
+    setTimeout(() => {
       setLoading(false);
-    }
+      // Reset form or show success message
+    }, 1500);
   };
 
   return (
