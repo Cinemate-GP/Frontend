@@ -8,6 +8,12 @@ export async function authFetch(
   options: RequestInit = {}
 ): Promise<Response> {
   let token = getCookie("token");
+  
+  // Clean token - remove any content after the JWT if present
+  if (token) {
+    token = token.split(';')[0].trim();
+  }
+  
   const refreshToken = getCookie("refreshToken");
 
   if (token && refreshToken && willExpireIn(token, 5) && !isRefreshing) {
@@ -18,6 +24,9 @@ export async function authFetch(
 
     if (success) {
       token = getCookie("token"); // update to new token
+      if (token) {
+        token = token.split(';')[0].trim(); // Clean the new token as well
+      }
     }
   }
 

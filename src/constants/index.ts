@@ -20,7 +20,6 @@ export interface NavLink {
 
 // Movie source options for streaming
 export const movieSources = [
-  { id: "cineby", name: "cineby", url: (id: string) => `https://www.cineby.app/movie/${id}?play=true` },
   { id: "vidlink", name: "VidLink Pro", url: (id: string) => `https://vidlink.pro/movie/${id}` },
   { id: "vidsrc", name: "VidSrc", url: (id: string) => `https://vidsrc.xyz/embed/movie?tmdb=${id}` },
   { id: "vidsrc_icu", name: "VidSrc.icu", url: (id: string) => `https://vidsrc.icu/embed/movie/${id}` },
@@ -31,84 +30,43 @@ export const movieSources = [
 
 // geners
 export const Geners = [
-  
-  {
-    Id: 0,
-    Name: "Adventure",
-  },
-  {
-    Id: 1,
-    Name: "Animation",
-  },
-  {
-    Id: 3,
-    Name: "Comedy",
-  },
-  {
-    Id: 4,
-    Name: "Crime",
-  },
-  {
-    Id: 5,
-    Name: "Documentary",
-  },
-  {
-    Id: 6,
-    Name: "Drama",
-  },
-  {
-    Id: 7,
-    Name: "Fantasy",
-  },
-  {
-    Id: 8,
-    Name: "Film-Noir",
-  },
-  {
-    Id: 9,
-    Name: "Horror",
-  },
-  {
-    Id: 10,
-    Name: "Musical",
-  },
-  {
-    Id: 11,
-    Name: "Mystery",
-  },
-  {
-    Id: 12,
-    Name: "Romance",
-  },
-  {
-    Id: 13,
-    Name: "Sci-Fi",
-  },
-  {
-    Id: 14,
-    Name: "Thriller",
-  },
-  {
-    Id: 15,
-    Name: "War",
-  },
-  {
-    Id: 16,
-    Name: "Western",
-  },
+  { Id: 0, Name: "Action" },
+  { Id: 1, Name: "Comedy" },
+  { Id: 2, Name: "Drama" },
+  { Id: 3, Name: "Adventure" },
+  { Id: 4, Name: "Romance" },
+  { Id: 5, Name: "Sci-Fi" },
+  { Id: 6, Name: "Horror" },
+  { Id: 7, Name: "Thriller" },
+  { Id: 8, Name: "Animation" },
+  { Id: 9, Name: "Fantasy" },
+  { Id: 10, Name: "Mystery" },
+  { Id: 11, Name: "Crime" },
+  { Id: 12, Name: "Documentary" },
 ];
 
 // MPA
-export const MPA  = [
-  "12", "13+", "16", "16+", "18", "18+",
-  "AO", "Atp", "Btl", "C", "E", "EM", "F",
-  "G", "GP", "K-13", "K-14", "K-16", "K-8", "M", "M/PG",
-  "MA-17", "N/A", "NC-17", "Not Rated", "o.Al.", "Open",
-  "PD", "PG", "PG-13", "R", "TV-13", "TV-14",
-  "TV-G", "TV-MA", "TV-PG", "TV-Y", "TV-Y7", "TV-Y7-FV",
-  "U", "Unrated", "X"
-]
-;
+export const MPA = [
+  "G",         // General Audiences
+  "TV-Y",      // All Children
+  "TV-Y7",     // Older Children
+  "TV-Y7-FV",  // Fantasy Violence
+  "PG",        // Parental Guidance
+  "TV-G",      // General Audience (TV)
+  "TV-PG",     // Parental Guidance (TV)
+  "PG-13",     // Parents Strongly Cautioned
+  "TV-13",     // Some programs may be inappropriate
+  "TV-14",     // Parents Strongly Cautioned (TV)
+  "R",         // Restricted
+  "M",         // Mature (older term)
+  "MA-17",     // Mature Audiences
+  "TV-MA",     // Mature Audience Only
+  "NC-17",     // No One 17 and Under Admitted
+  "X",         // Adults Only
+  "Unrated",   // No official rating
+  "Not Rated", // Alternate form
+  "N/A",       // Not Available
+];
 
 export const Years = [
   "1874", "1875", "1876", "1877", "1878", "1879", "1880", "1881", "1882", "1883",

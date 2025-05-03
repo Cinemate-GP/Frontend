@@ -115,14 +115,46 @@ export function willExpireIn(token: string, seconds: number): boolean {
   return data.exp - now <= seconds;
 }
 
+/** Get cookie by name */
+export function getCookie(name: string): string {
+  if (typeof document === "undefined") return "";
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) {
+    const cookiePart = parts.pop();
+    if (cookiePart) {
+      // Only get the token part, ignoring anything after a semicolon
+      const tokenValue = cookiePart.split(';')[0];
+      return tokenValue;
+    }
+  }
+  return "";
+}
+
+/** Set cookie with name, value, and days until expiry */
+export function setCookie(name: string, value: string, days = 7): void {
+  if (typeof document === "undefined") return;
+  
+  // Ensure we set just the value without any refreshToken information
+  const cleanValue = value.split(';')[0].trim();
+  
+  const date = new Date();
+  date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+  
+  document.cookie = `${name}=${cleanValue}; expires=${date.toUTCString()}; path=/`;
+}
+
 /** Send refresh request */
 export async function tryRefreshToken() {
+  const token = getCookie("token");
+  const refreshToken = getCookie("refreshToken");
+  
   const res = await fetch("/api/Auth/refresh-token", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      token: getCookie("token"),
-      refreshToken: getCookie("refreshToken"),
+      token,
+      refreshToken,
     }),
   });
 
@@ -135,19 +167,6 @@ export async function tryRefreshToken() {
   }
 
   return false;
-}
-
-
-export function getCookie(name: string): string | null {
-  if (typeof document === "undefined") return null; // ✅ Only run on client
-  const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
-  return match ? decodeURIComponent(match[2]) : null;
-}
-
-export function setCookie(name: string, value: string, days = 7) {
-  if (typeof document === "undefined") return; // ✅ Only run on client
-  const expires = new Date(Date.now() + days * 86400000).toUTCString();
-  document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/`;
 }
 
 /**

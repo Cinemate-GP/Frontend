@@ -18,7 +18,12 @@ const HorizontalNav = ({ pathname: propPathname }: { pathname: string }) => {
   
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isLogoutConfirm, setIsLogoutConfirm] = useState<boolean>(false);
-  const { user } = useUser();
+  const { user, refreshUserData } = useUser();
+
+  // Refresh user data when component mounts
+  useEffect(() => {
+    refreshUserData();
+  }, [refreshUserData]);
 
   // Close logout confirmation when menu is opened
   const toggleMenu = () => {
@@ -123,11 +128,12 @@ const HorizontalNav = ({ pathname: propPathname }: { pathname: string }) => {
                 >
                   <div className="relative w-6 h-6 mb-1 rounded-full border border-red-500/50 overflow-hidden">
                     <Image
-                      src={user?.profilePic || "/ueser-placeholder.jpg"}
+                      src={user?.profilePic || "/user-placeholder.jpg"}
                       alt="Profile"
                       width={24}
                       height={24}
                       className="w-full h-full object-cover"
+                      priority={true}
                     />
                   </div>
                   <span className="text-[10px]">profile</span>

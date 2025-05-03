@@ -1,3 +1,4 @@
+import { useCookie } from "@/hooks/useCookie";
 import { useMovieInfo } from "@/hooks/useMovieActions";
 import { getUserId } from "@/lib/utils";
 import { useState } from "react";
@@ -23,6 +24,7 @@ export const MovieActions = ({
   onReview,
 }: MovieActionsProps) => {
   const {liked,watched,watchlist,toggleLike,toggleWatched,toggleWatchlist} = useMovieInfo({tmdbId,isLiked,isWatched,isInWatchList})  
+  const token = useCookie();
   const buttons = [
     {
       icon: liked ? (
@@ -70,7 +72,7 @@ export const MovieActions = ({
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${document.cookie.split("=")[1]}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           tmdbId: tmdbId,

@@ -11,7 +11,7 @@ const ActorImage = ({
   return (
     <div className="relative w-14 h-16 rounded-lg overflow-hidden">
       <img
-        src={profilePath ? IMAGEPOSTER + profilePath : "/ueser-placeholder.jpg"}
+        src={profilePath ? IMAGEPOSTER + profilePath : "/user-placeholder.jpg"}
         alt={name}
         width={100}
         height={200}
