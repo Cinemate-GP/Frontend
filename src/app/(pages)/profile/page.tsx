@@ -4,7 +4,7 @@ import SectionTitle from "@/components/SectionTitle";
 import { ActivityCardSkeleton } from "@/components/skeletons";
 import { IMAGEPOSTER } from "@/constants";
 import { authFetch } from "@/lib/api";
-import { formatTimestamp, truncateText } from "@/lib/utils";
+import { formatTimestamp, getCookie, getUserId, truncateText } from "@/lib/utils";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import {
@@ -74,6 +74,7 @@ export default function RecentActivitySection() {
   const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
   const [isExpanded, setIsExpanded] = useState(false);
   const [loading, setLoading] = useState(true);
+  const token = getCookie("token");
   const [recenActivities, setRecentActivities] = useState<Activity[] | null>(
     null
   );
@@ -86,11 +87,11 @@ export default function RecentActivitySection() {
     (async function () {
       try {
         setLoading(true);
-        const res = await authFetch("/api/Profile/RecentActivity", {
+        const res = await authFetch(`/api/Profile/RecentActivity/${getUserId()}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${document.cookie.split("=")[1]}`,
+            Authorization: `Bearer ${token}`,
           },
         });
         if (!res.ok) throw new Error("Failed to fetch recent activities");
@@ -102,7 +103,7 @@ export default function RecentActivitySection() {
         setLoading(false);
       }
     })();
-  }, []);
+  }, [token]);
   
   return (
     <div className="mt-5">

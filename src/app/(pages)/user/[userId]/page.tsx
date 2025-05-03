@@ -1,8 +1,9 @@
 "use client";
 import UserInfo from "@/components/user/UserInfo";
 import useFetch from "@/hooks/useFetch";
-import { useParams } from "next/navigation";
+import { redirect, useParams } from "next/navigation";
 import { RecentActivitySection } from "@/components/user/UserActivities";
+import { getUserId } from "@/lib/utils";
 interface Activity {
   userId: string;
   tmdbId: number;
@@ -25,7 +26,10 @@ interface User {
 const UserPage = () => {
   const params = useParams();
   const userId = params.userId;
-  const { data : info, loading } = useFetch<User>(
+  if (userId === getUserId()) {
+    redirect("/profile");
+  }
+  const { data: info, loading } = useFetch<User>(
     `/api/UserFollow/follow-details/${userId}`
   );
 
