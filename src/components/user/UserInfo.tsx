@@ -4,6 +4,7 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { ProfileHeaderSkeleton } from "../skeletons";
 import { authFetch } from "@/lib/api";
+import Link from "next/link";
 
 interface User {
   id: string | undefined;
@@ -27,27 +28,26 @@ const UserInfo = ({ id, fullName, profilePic, isFollowing, loading }: User) => {
   // Fetch follower and following counts
   useEffect(() => {
     if (!id) return;
-    
     const fetchFollowCounts = async () => {
       try {
-        const res = await authFetch(`api/UserFollow/count-follow/${id}`, {
+        const res = await authFetch(`/api/UserFollow/count-follow/${id}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
         });
-        
+
         if (!res.ok) throw new Error("Failed to fetch follow counts");
-        
         const data = await res.json();
+        console.log(data);
         setFollowersCount(data.followersCount);
         setFollowingCount(data.followingCount);
       } catch (error) {
         console.error("Error fetching follow counts:", error);
       }
     };
-    
+
     fetchFollowCounts();
   }, [id, token]);
 
@@ -71,9 +71,11 @@ const UserInfo = ({ id, fullName, profilePic, isFollowing, loading }: User) => {
 
       // Update local follow state
       setFollow(!follow);
-      
+
       // Update follower count based on action
-      setFollowersCount(prevCount => follow ? prevCount - 1 : prevCount + 1);
+      setFollowersCount((prevCount) =>
+        follow ? prevCount - 1 : prevCount + 1
+      );
     } catch (error) {
       console.error(error);
     }
@@ -120,18 +122,22 @@ const UserInfo = ({ id, fullName, profilePic, isFollowing, loading }: User) => {
         </div>
       </div>
       <ul className="flex gap-3 justify-center sm:justify-start">
-        <li className="flex flex-col items-center border-r-2 pr-3 border-white">
-          <span className="text-lg sm:text-2xl font-bold">{filmsCount}</span>
-          <span>films</span>
+        <li className="text-center">
+          <span className="block text-xl font-bold">{filmsCount}</span>
+          <span className="text-sm text-zinc-400">Films</span>
         </li>
-        <li className="flex flex-col items-center border-r-2 pr-3 border-white">
-          <span className="text-lg sm:text-2xl font-bold">{followersCount}</span>
-          <span>followers</span>
-        </li>
-        <li className="flex flex-col items-center">
-          <span className="text-lg sm:text-2xl font-bold">{followingCount}</span>
-          <span>following</span>
-        </li>
+        <Link href={`/followers`} className="text-center group">
+          <span className="block text-xl font-bold">{followersCount}</span>
+          <span className="text-sm text-zinc-400 group-hover:text-white transition-colors">
+            Followers
+          </span>
+        </Link>
+        <Link href={`/followers`} className="text-center group">
+          <span className="block text-xl font-bold">{followingCount}</span>
+          <span className="text-sm text-zinc-400 group-hover:text-white transition-colors">
+            Following
+          </span>
+        </Link>
       </ul>
     </header>
   );
