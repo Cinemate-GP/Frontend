@@ -57,6 +57,7 @@ const LoginForm = () => {
       );
       setCookie("token", user.token, 1);
       setCookie("refreshToken", user.refreshToken, 1);
+      setCookie("userId", user.userId, 1);
       router.push("/home");
     } catch (error) {
       setError("afterSubmit", {

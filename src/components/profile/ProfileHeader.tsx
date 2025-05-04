@@ -1,72 +1,84 @@
 "use client";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { useUser } from "@/context/UserContext"; 
-import { authFetch } from "@/lib/api";
-import { getCookie, getUserId } from "@/lib/utils";
+import { useUser } from "@/context/UserContext";
 import Link from "next/link";
 import ProfileImageViewer from "./ProfileImageViewer";
 import { useRouter } from "next/navigation";
+import { User } from "@/lib/types";
+import useFetch from "@/hooks/useFetch";
+import { ProfileHeaderSkeleton } from "../skeletons";
+import { authFetch } from "@/lib/api";
+import { getCookie, getUserId } from "@/lib/utils";
+interface UserInfo extends User {
+  followingCount: number;
+  followersCount: number;
+  sameUser: boolean;
+  isFollowing: boolean;
+}
 
-const ProfileHeader = () => {
+const ProfileHeader = ({ userId }: { userId: string }) => {
   const router = useRouter();
-  const { user, refreshUserData } = useUser();
+  const { refreshUserData } = useUser();
+  const [followersCount, setFollowersCount] = useState<number>(0);
   const [showImageViewer, setShowImageViewer] = useState(false);
-  const [followers, setFollowers] = useState(0);
-  const [following, setFollowing] = useState(0);
-  const token = getCookie("token");
+  const token = getCookie("token") as string;
+  const { data: user, loading } = useFetch<UserInfo | null>(
+    `/api/Profile/details/${userId}`
+  );
+  const [follow, setFollow] = useState<boolean>(user?.isFollowing ?? false);
+  useEffect(() => {
+    setFollowersCount(user?.followersCount ?? 0);
+    setFollow(user?.isFollowing ?? false);
+  }, [user?.isFollowing, user?.followersCount]);
 
-  // Explicitly refresh user data when component mounts
+  const toggleFollow = async () => {
+    try {
+      const endpoint = follow
+        ? "/api/UserFollow/Delete"
+        : "/api/UserFollow/Add";
+      const method = follow ? "DELETE" : "POST";
+
+      const res = await authFetch(endpoint, {
+        method,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ userId: getUserId(), followId: user?.userId }),
+      });
+
+      if (!res.ok) throw new Error("Failed to toggle follow status");
+
+      // Update local follow state
+      setFollow(!follow);
+
+      // Update follower count based on action
+      setFollowersCount((prevCount) =>
+        follow ? prevCount - 1 : prevCount + 1
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     refreshUserData();
   }, [refreshUserData]);
-  
-  useEffect(() => {
-    if (!user) return;
-    
-    (async function () {
-      try {
-        const userId = getUserId();
-        if (!userId) {
-          console.error("User ID not found");
-          return;
-        }
-
-        // Add userId to the endpoint
-        const res = await authFetch(`/api/UserFollow/count-follow/${userId}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        
-        if (!res.ok) throw new Error("Failed to fetch followers");
-        const data = await res.json();
-        
-        // Update state with the retrieved counts
-        setFollowers(data.followersCount);
-        setFollowing(data.followingCount);
-        
-        console.log("Follower/Following counts:", data); // Debug logging
-      } catch (error) {
-        console.error("Error fetching follow counts:", error);
-      }
-    })();
-  }, [token, user]); // Changed dependency to just user
 
   const handleNavigateToSettings = () => {
     router.push("/settings");
   };
 
+  if (loading) return <ProfileHeaderSkeleton />;
   return (
     <>
       <header className="backdrop-blur-sm bg-zinc-900/90 rounded-xl shadow-md p-6">
         <div className="flex flex-col sm:flex-row items-center gap-6 justify-between">
           <div className="flex flex-col sm:flex-row items-center gap-6">
             {/* Profile image - with click handler */}
-            <div 
-              onClick={() => setShowImageViewer(true)} 
+            <div
+              onClick={() => setShowImageViewer(true)}
               className="cursor-pointer transition-transform hover:scale-105"
             >
               <Image
@@ -78,19 +90,30 @@ const ProfileHeader = () => {
                 priority={true}
               />
             </div>
-            
+
             {/* Profile information */}
             <div className="flex-1 text-center sm:text-left">
               <h2 className="text-2xl font-bold text-white mb-2">
                 {user?.fullName || "User Name"}
               </h2>
-              
-              <button
-                onClick={handleNavigateToSettings}
-                className="bg-zinc-800 hover:bg-zinc-700 text-white px-4 py-1.5 rounded-md transition-all duration-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-zinc-600"
-              >
-                Edit Profile
-              </button>
+
+              {user?.sameUser ? (
+                <button
+                  onClick={handleNavigateToSettings}
+                  className="bg-zinc-800 hover:bg-zinc-700 text-white px-4 py-1.5 rounded-md transition-all duration-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-zinc-600"
+                >
+                  Edit Profile
+                </button>
+              ) : (
+                <button
+                  onClick={toggleFollow}
+                  className={`rounded-lg px-3 py-1 border border-primary text-sm ml-3 ${
+                    follow ? "bg-primary" : ""
+                  }`}
+                >
+                  {follow ? "Followed" : "Follow"}
+                </button>
+              )}
             </div>
           </div>
 
@@ -100,15 +123,27 @@ const ProfileHeader = () => {
               <span className="block text-xl font-bold">80</span>
               <span className="text-sm text-zinc-400">Films</span>
             </div>
-            
-            <Link href={`/followers/${getUserId()}`} className="text-center group">
-              <span className="block text-xl font-bold">{followers}</span>
-              <span className="text-sm text-zinc-400 group-hover:text-white transition-colors">Followers</span>
+
+            <Link
+              href={`/follow/${userId}_followers`}
+              className="text-center group"
+            >
+              <span className="block text-xl font-bold">{followersCount}</span>
+              <span className="text-sm text-zinc-400 group-hover:text-white transition-colors">
+                Followers
+              </span>
             </Link>
-            
-            <Link href={`/following/${getUserId()}`} className="text-center group">
-              <span className="block text-xl font-bold">{following}</span>
-              <span className="text-sm text-zinc-400 group-hover:text-white transition-colors">Following</span>
+
+            <Link
+              href={`/follow/${userId}_following`}
+              className="text-center group"
+            >
+              <span className="block text-xl font-bold">
+                {user?.followingCount}
+              </span>
+              <span className="text-sm text-zinc-400 group-hover:text-white transition-colors">
+                Following
+              </span>
             </Link>
           </div>
         </div>
@@ -116,9 +151,9 @@ const ProfileHeader = () => {
 
       {/* Profile Image Viewer */}
       {showImageViewer && (
-        <ProfileImageViewer 
-          imageUrl={user?.profilePic || "/user-placeholder.jpg"} 
-          onClose={() => setShowImageViewer(false)} 
+        <ProfileImageViewer
+          imageUrl={user?.profilePic || "/user-placeholder.jpg"}
+          onClose={() => setShowImageViewer(false)}
         />
       )}
     </>

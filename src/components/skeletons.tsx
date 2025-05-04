@@ -352,16 +352,40 @@ export function ProfileHeaderSkeleton() {
 
 export function ProfileInfoSkeleton() {
   return (
-    <div className="flex flex-col gap-4 items-center justify-center md:justify-start">
+    
+    <div className="flex flex-col gap-4 items-center justify-start">
       {/* Profile Image Skeleton */}
-      <div className="border-2 border-primary p-1 rounded-full mx-auto sm:mx-0">
+      <div className="border-2 border-primary p-1 rounded-full  sm:mx-0">
         <div className="w-16 h-16 sm:w-32 sm:h-32 rounded-full bg-gray-700 animate-pulse" />
       </div>
 
       {/* Name and Follow Button */}
-      <div className="flex items-center mx-auto sm:mx-0">
+      <div className="flex items-center  sm:mx-0">
         <div className="h-6 w-32 sm:w-48 bg-gray-700 rounded animate-pulse" />
       </div>
     </div>
   );
 }
+
+
+export const FollowItemSkeleton = () => {
+  return (
+    <div>
+      {Array.from({length:5}).map((_,index) => (
+        <div key={index} className="flex justify-between items-center border-b border-gray-700 py-4">
+        {/* Left part: image and name */}
+        <div className="flex items-center gap-4">
+          {/* Profile Picture Skeleton */}
+          <div className="w-16 h-16 rounded-full animate-pulse" />
+  
+          {/* Name Skeleton */}
+          <div className="h-4 w-32 animate-pulse rounded" />
+        </div>
+  
+        {/* Button Skeleton */}
+        <div className="w-20 h-8 rounded-md animate-pulse" />
+      </div>
+      ))}
+    </div>
+  );
+};
