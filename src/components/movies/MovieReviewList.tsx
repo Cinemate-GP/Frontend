@@ -1,6 +1,7 @@
 import { Review } from "@/lib/types";
 import { FormatDate, truncateText } from "@/lib/utils";
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 import { FaStar } from "react-icons/fa6";
 
@@ -29,7 +30,7 @@ const MovieReviewList = ({movieReviews}:{movieReviews:Review[] | undefined}) => 
               key={review.reviewId}
               className="grid grid-cols-10 bg-background p-2 md:p-4 rounded-lg gap-4"
             >
-              <div className="col-span-10 sm:col-span-2 lg:col-span-1">
+              <Link href={`/user/${review.userId}`} className="col-span-10 sm:col-span-2 lg:col-span-1">
                 <Image
                   src={review.profilePic ? review.profilePic : "/ueser-placeholder.jpg"}
                   alt="User"
@@ -38,7 +39,7 @@ const MovieReviewList = ({movieReviews}:{movieReviews:Review[] | undefined}) => 
                   className="w-16 h-16 rounded-full object-cover"
                   priority
                 />
-              </div>
+              </Link>
               <div className="col-span-10 sm:col-span-8 lg:col-span-9">
                 <div className="flex gap-3 items-center flex-wrap">
                   <h4 className="text-white font-bold">{review.fullName}</h4>

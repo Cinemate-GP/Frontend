@@ -2,6 +2,7 @@
 import { ProfileInfoSkeleton } from "@/components/skeletons";
 import useFetch from "@/hooks/useFetch";
 import Image from "next/image";
+import Link from "next/link";
 import { useParams } from "next/navigation";
 import { RiGroupLine } from "react-icons/ri";
 
@@ -24,7 +25,7 @@ const FollowLayout = ({ children }: { children: React.ReactNode }) => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-y-6 gap-x-12 md:gap-x-24 items-center mx-auto">
         {!loading && (
           <div className="flex flex-col gap-4 items-center text-center md:items-start md:text-left">
-            <div className="border-2 border-primary p-1 rounded-full aspect-square w-full max-w-[120px] sm:max-w-[160px] overflow-hidden mx-auto">
+            <Link href={`/user/${userId}`} className="border-2 border-primary p-1 rounded-full aspect-square w-full max-w-[120px] sm:max-w-[160px] overflow-hidden mx-auto flex-justify-center items-center">
               {data?.profilePic ? (
                 <Image
                   src={data.profilePic}
@@ -39,10 +40,10 @@ const FollowLayout = ({ children }: { children: React.ReactNode }) => {
                   alt="user profile"
                   width={100}
                   height={100}
-                  className="w-16 h-16 sm:w-32 sm:h-32 rounded-full object-cover"
+                  className="w-full h-full rounded-full object-cover"
                 />
               )}
-            </div>
+            </Link>
             <h2 className="text-lg sm:text-3xl text-center mx-auto">
               {data?.fullName || "User Name"}
             </h2>
