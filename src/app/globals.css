@@ -129,7 +129,7 @@ body {
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #ef4444;
+  background: var(--primary);
   border-radius: 10px;
 }
 

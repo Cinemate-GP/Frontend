@@ -198,10 +198,10 @@ export const ProfilePhotoEditor: React.FC<ProfilePhotoEditorProps> = ({
                 }}
                 unoptimized={true}
               />
-              <div className="absolute inset-0 rounded-full ring-4 ring-red-500 pointer-events-none" />
+              <div className="absolute inset-0 rounded-full ring-4 ring-primary pointer-events-none" />
             </div>
             <div className="text-gray-400 text-sm flex items-center gap-2 mb-4">
-              <FiMove className="text-red-400" /> Drag to position
+              <FiMove className="text-primary" /> Drag to position
             </div>
           </div>
 
@@ -209,7 +209,7 @@ export const ProfilePhotoEditor: React.FC<ProfilePhotoEditorProps> = ({
             <div className="space-y-6 w-full">
               <div className="space-y-2">
                 <label className="text-gray-300 flex items-center gap-2 text-sm font-medium">
-                  <MdZoomIn size={20} className="text-red-400" /> Zoom
+                  <MdZoomIn size={20} className="text-primary" /> Zoom
                 </label>
                 <div className="flex items-center gap-3">
                   <MdZoomOut size={18} className="text-gray-400" />
@@ -220,7 +220,7 @@ export const ProfilePhotoEditor: React.FC<ProfilePhotoEditorProps> = ({
                     step="0.01"
                     value={editorState.scale}
                     onChange={(e) => handleScaleChange(parseFloat(e.target.value))}
-                    className="flex-1 h-2 bg-zinc-700 rounded-full appearance-none [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-red-500"
+                    className="flex-1 h-2 bg-zinc-700 rounded-full appearance-none [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-primary"
                   />
                   <MdZoomIn size={18} className="text-gray-400" />
                 </div>
@@ -233,7 +233,7 @@ export const ProfilePhotoEditor: React.FC<ProfilePhotoEditorProps> = ({
                     const file = await applyEditing();
                     if (file) onApply(file);
                   }}
-                  className="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white py-2.5 px-4 rounded-lg flex items-center justify-center gap-2 transition-colors"
+                  className="w-full  bg-primary text-white py-2.5 px-4 rounded-lg flex items-center justify-center gap-2 transition-colors"
                 >
                   <IoCheckmarkCircle size={18} /> Apply Changes
                 </button>

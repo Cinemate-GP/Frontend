@@ -33,7 +33,7 @@ const AccountSettings = () => {
   return (
     <div className="bg-zinc-900 p-4 sm:p-6 rounded-xl shadow-md">
       <h2 className="text-xl font-semibold mb-4 sm:mb-6 text-white flex items-center gap-2">
-        <IoSettingsSharp className="text-red-500" />
+        <IoSettingsSharp className="text-primary" />
         Account Settings
       </h2>
       
@@ -53,7 +53,7 @@ const AccountSettings = () => {
                 type="text"
                 value={formData.username}
                 onChange={handleChange}
-                className="w-full pl-10 pr-4 py-2.5 sm:py-3 rounded-lg bg-zinc-800 text-white border border-zinc-700 focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-colors outline-none text-sm sm:text-base"
+                className="w-full pl-10 pr-4 py-2.5 sm:py-3 rounded-lg bg-zinc-800 text-white border border-zinc-700 focus:border-primary focus:ring-1 focus:ring-primary transition-colors outline-none text-sm sm:text-base"
                 placeholder="Change username"
               />
             </div>
@@ -73,7 +73,7 @@ const AccountSettings = () => {
                 type="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full pl-10 pr-4 py-2.5 sm:py-3 rounded-lg bg-zinc-800 text-white border border-zinc-700 focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-colors outline-none text-sm sm:text-base"
+                className="w-full pl-10 pr-4 py-2.5 sm:py-3 rounded-lg bg-zinc-800 text-white border border-zinc-700 focus:border-primary focus:ring-1 focus:ring-primary transition-colors outline-none text-sm sm:text-base"
                 placeholder="Change email address"
               />
             </div>
@@ -82,7 +82,7 @@ const AccountSettings = () => {
           <div className="pt-2">
             <button 
               type="button" 
-              className="text-red-500 hover:text-red-400 text-sm font-medium flex items-center gap-1"
+              className="text-primary hover:text-red-400 text-sm font-medium flex items-center gap-1"
               onClick={() => setShowPasswordFields(!showPasswordFields)}
             >
               <IoLockClosed className="h-3.5 w-3.5" />
@@ -106,7 +106,7 @@ const AccountSettings = () => {
                     type="password"
                     value={formData.currentPassword}
                     onChange={handleChange}
-                    className="w-full pl-10 pr-4 py-2.5 sm:py-3 rounded-lg bg-zinc-800 text-white border border-zinc-700 focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-colors outline-none text-sm sm:text-base"
+                    className="w-full pl-10 pr-4 py-2.5 sm:py-3 rounded-lg bg-zinc-800 text-white border border-zinc-700 focus:border-primary focus:ring-1 focus:ring-primary transition-colors outline-none text-sm sm:text-base"
                     placeholder="Enter current password"
                   />
                 </div>
@@ -126,7 +126,7 @@ const AccountSettings = () => {
                     type="password"
                     value={formData.newPassword}
                     onChange={handleChange}
-                    className="w-full pl-10 pr-4 py-2.5 sm:py-3 rounded-lg bg-zinc-800 text-white border border-zinc-700 focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-colors outline-none text-sm sm:text-base"
+                    className="w-full pl-10 pr-4 py-2.5 sm:py-3 rounded-lg bg-zinc-800 text-white border border-zinc-700 focus:border-primary focus:ring-1 focus:ring-primary transition-colors outline-none text-sm sm:text-base"
                     placeholder="Enter new password"
                   />
                 </div>
@@ -146,10 +146,11 @@ const AccountSettings = () => {
                     type="password"
                     value={formData.confirmPassword}
                     onChange={handleChange}
-                    className="w-full pl-10 pr-4 py-2.5 sm:py-3 rounded-lg bg-zinc-800 text-white border border-zinc-700 focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-colors outline-none text-sm sm:text-base"
+                    className="w-full pl-10 pr-4 py-2.5 sm:py-3 rounded-lg bg-zinc-800 text-white border border-zinc-700 focus:border-primary focus:ring-1 focus:ring-primary transition-colors outline-none text-sm sm:text-base"
                     placeholder="Confirm new password"
                   />
                 </div>
+
               </div>
             </div>
           )}
@@ -159,7 +160,7 @@ const AccountSettings = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-2.5 sm:py-3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white rounded-lg transition-colors flex items-center justify-center text-sm sm:text-base"
+            className="w-full py-2.5 sm:py-3 bg-primary hover:from-red-700 hover:to-red-800 text-white rounded-lg transition-colors flex items-center justify-center text-sm sm:text-base"
           >
             {loading ? (
               <>

@@ -302,7 +302,7 @@ const SearchInput = ({
   ];
   
   return (
-    <div className={`flex items-center h-12 bg-[#1a1a1a] rounded-xl overflow-hidden border border-gray-800 focus-within:border-red-500/70 transition-colors ${
+    <div className={`flex items-center h-12 bg-[#1a1a1a] rounded-xl overflow-hidden border border-gray-800 focus-within:border-primary transition-colors ${
       border ? "p-[2px] pl-3" : "pl-3"
     }`}>
       <FiSearch className="text-gray-400 text-xl flex-shrink-0" />

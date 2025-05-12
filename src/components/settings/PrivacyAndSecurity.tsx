@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { IoShieldCheckmark } from "react-icons/io5";
 import { MdHistory, MdFavorite, MdVisibility, MdVisibilityOff, MdManageAccounts } from "react-icons/md";
-import SwitchButton from "../SwitchButton";
+import SwitchButton from "../ui/SwitchButton";
 import Link from "next/link";
 
 const PrivacyAndSecurity = () => {

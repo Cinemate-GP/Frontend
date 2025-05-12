@@ -166,7 +166,7 @@ export default function ProfileEditor({ modal = false, onClose }: ProfileEditorP
       
       <div className="bg-zinc-900 p-4 sm:p-6 rounded-xl shadow-md">
         <h2 className="text-xl font-semibold mb-4 sm:mb-6 text-white flex items-center gap-2">
-          <FaUserCircle className="text-red-500" />
+          <FaUserCircle className="text-primary" />
           Profile Information
         </h2>
 
@@ -175,7 +175,7 @@ export default function ProfileEditor({ modal = false, onClose }: ProfileEditorP
           <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 py-4 border-b border-zinc-800">
             <div 
               onClick={handleImageClick} 
-              className="relative cursor-pointer group w-24 h-24 rounded-full overflow-hidden border-2 border-red-500/50"
+              className="relative cursor-pointer group w-24 h-24 rounded-full overflow-hidden border-2 border-primary"
             >
               <Image
                 src={previewUrl || "/user-placeholder.jpg"}
@@ -216,7 +216,7 @@ export default function ProfileEditor({ modal = false, onClose }: ProfileEditorP
               name="fullName"
               value={user.fullName}
               onChange={handleUserChange}
-              className="bg-zinc-800 text-white border border-zinc-700 rounded-lg px-4 py-2 w-full focus:outline-none focus:border-red-500"
+              className="bg-zinc-800 text-white border border-zinc-700 rounded-lg px-4 py-2 w-full focus:outline-none focus:border-primary"
             />
           </div>
 
@@ -237,7 +237,7 @@ export default function ProfileEditor({ modal = false, onClose }: ProfileEditorP
               value={user.bio || ""}
               onChange={handleUserChange}
               rows={4}
-              className="bg-zinc-800 text-white border border-zinc-700 rounded-lg px-4 py-2 w-full focus:outline-none focus:border-red-500"
+              className="bg-zinc-800 text-white border border-zinc-700 rounded-lg px-4 py-2 w-full focus:outline-none focus:border-primary"
               placeholder="Write a short bio about yourself..."
             />
           </div>
@@ -262,7 +262,7 @@ export default function ProfileEditor({ modal = false, onClose }: ProfileEditorP
                 name="socialMedia.instagram"
                 value={user.socialMedia?.instagram || ""}
                 onChange={handleUserChange}
-                className="bg-zinc-800 text-white border border-zinc-700 rounded-lg px-4 py-2 w-full focus:outline-none focus:border-red-500"
+                className="bg-zinc-800 text-white border border-zinc-700 rounded-lg px-4 py-2 w-full focus:outline-none focus:border-primary"
                 placeholder="Username"
               />
             </div>
@@ -278,7 +278,7 @@ export default function ProfileEditor({ modal = false, onClose }: ProfileEditorP
                 name="socialMedia.twitter"
                 value={user.socialMedia?.twitter || ""}
                 onChange={handleUserChange}
-                className="bg-zinc-800 text-white border border-zinc-700 rounded-lg px-4 py-2 w-full focus:outline-none focus:border-red-500"
+                className="bg-zinc-800 text-white border border-zinc-700 rounded-lg px-4 py-2 w-full focus:outline-none focus:border-primary"
                 placeholder="Username"
               />
             </div>
@@ -294,7 +294,7 @@ export default function ProfileEditor({ modal = false, onClose }: ProfileEditorP
                 name="socialMedia.linkedin"
                 value={user.socialMedia?.linkedin || ""}
                 onChange={handleUserChange}
-                className="bg-zinc-800 text-white border border-zinc-700 rounded-lg px-4 py-2 w-full focus:outline-none focus:border-red-500"
+                className="bg-zinc-800 text-white border border-zinc-700 rounded-lg px-4 py-2 w-full focus:outline-none focus:border-primary"
                 placeholder="Username"
               />
             </div>
@@ -302,7 +302,7 @@ export default function ProfileEditor({ modal = false, onClose }: ProfileEditorP
 
           {/* Error Message */}
           {errorMessage && (
-            <div className="text-red-500 text-sm text-center py-2">
+            <div className="text-primary text-sm text-center py-2">
               {errorMessage}
             </div>
           )}
@@ -312,7 +312,7 @@ export default function ProfileEditor({ modal = false, onClose }: ProfileEditorP
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white py-2.5 px-4 rounded-lg flex items-center justify-center gap-2 transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
+              className="w-full bg-primary text-white py-2.5 px-4 rounded-lg flex items-center justify-center gap-2 transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
             >
               {loading ? (
                 <>

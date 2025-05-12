@@ -39,7 +39,7 @@ const Navbar = () => {
         <div className="ml-auto flex items-center relative gap-3">
           <NotificationDropdown />
           <motion.div 
-            className="w-[36px] h-[36px] rounded-full border-2 border-red-500/50 overflow-hidden shadow-md cursor-pointer"
+            className="w-[36px] h-[36px] rounded-full border-2 border-primary overflow-hidden shadow-md cursor-pointer"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
             transition={{ type: "spring", stiffness: 400, damping: 10 }}

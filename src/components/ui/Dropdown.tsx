@@ -58,20 +58,20 @@ export default function NotificationDropdown() {
           <IoNotificationsOutline />
         </div>
         {notifications.some((n) => !n.read) && (
-          <span className="absolute top-2 right-[21px] w-[6px] h-[6px] bg-red-600 rounded-full animate-ping"></span>
+          <span className="absolute top-2 right-[21px] w-[6px] h-[6px] bg-primary rounded-full animate-ping"></span>
         )}
       </button>
 
       {/* Dropdown */}
       <div
-        className={`absolute -right-10 p-3 mt-3 w-80 bg-black border border-red-500 rounded-lg shadow-xl text-white transform max-w-[300px] ${
+        className={`absolute -right-10 p-3 mt-3 w-80 bg-black border border-primary rounded-lg shadow-xl text-white transform max-w-[300px] ${
           isOpen
             ? "opacity-100 scale-100"
             : "opacity-0 scale-95 pointer-events-none"
         } transition-all duration-300`}
       >
         {/* Header */}
-        <div className="p-3 border-b border-red-500 text-lg font-bold text-center bg-gray-900">
+        <div className="p-3 border-b border-primary text-lg font-bold text-center bg-gray-900">
           🎬 Movie Alerts
         </div>
 

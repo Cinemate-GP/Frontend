@@ -15,7 +15,7 @@ const TrailerModal = ({ setIsOpen, trailer }: ModalProps) => {
           {/* Close Button */}
           <button
             onClick={()=> setIsOpen(false)}
-            className="text-lg absolute -top-3 -right-3 text-white bg-primary w-8 h-8 rounded-full transition-all hover:bg-red-700 flex items-center justify-center duration-300"
+            className="text-lg absolute -top-3 right-1 text-white bg-primary w-8 h-8 rounded-full transition-all hover:bg-red-700 flex items-center justify-center duration-300"
           >
             ✕
           </button>

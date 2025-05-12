@@ -38,8 +38,8 @@ interface PaginationProps {
             onClick={() => onPageChange(page)}
             className={`w-6 md:w-6 h-6  md:h-6 text-xs rounded-full transition ${
               page === pageNumber
-                ? "bg-red-600 text-white ring-1 ring-white"
-                : "bg-gray-800 text-white hover:bg-red-500"
+                ? "bg-primary text-white ring-1 ring-white"
+                : "bg-gray-800 text-white"
             }`}
           >
             {page}
@@ -51,7 +51,7 @@ interface PaginationProps {
         <button
           disabled={!hasNextPage}
           onClick={() => onPageChange(pageNumber + 1)}
-          className="w-9 h-9 rounded-full bg-gray-800 text-white hover:bg-red-600 disabled:opacity-30 transition flex items-center justify-center"
+          className="w-9 h-9 rounded-full bg-gray-800 text-white hover:bg-primary disabled:opacity-30 transition flex items-center justify-center"
         >
           <TiChevronRight />
         </button>

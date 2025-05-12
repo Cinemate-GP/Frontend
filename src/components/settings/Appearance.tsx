@@ -1,29 +1,31 @@
 'use client';
 import React, { useState } from "react";
 import { MdOutlineDarkMode, MdOutlineColorLens, MdOutlineMonitor } from "react-icons/md";
-import SwitchButton from "../SwitchButton";
-
+import SwitchButton from "../ui/SwitchButton";
+import { accentColors } from "@/constants";
+import { setPrimaryColor } from "@/redux/slices/themeSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 const AppearanceSettings = () => {
   const [darkMode, setDarkMode] = useState(true);
   const [autoTheme, setAutoTheme] = useState(false);
-  const [selectedAccent, setSelectedAccent] = useState("red");
-
-  const accentColors = [
-    { name: "Red", value: "red" },
-    { name: "Blue", value: "blue" },
-    { name: "Green", value: "green" },
-    { name: "Purple", value: "purple" },
-    { name: "Orange", value: "orange" }
-  ];
+  const primaryColor = useSelector((state: RootState) => state.accentColor.primaryColor);
+  const [selectedAccent, setSelectedAccent] = useState(primaryColor);
+  
+  const dispath = useDispatch();
 
   const handleAccentChange = (value: string) => {
     setSelectedAccent(value);
   };
 
+  const saveChanges = () => {
+    dispath(setPrimaryColor(selectedAccent));
+  }
+
   return (
     <div className="bg-zinc-900 p-4 sm:p-6 rounded-xl shadow-md">
       <h2 className="text-xl font-semibold mb-4 sm:mb-6 text-white flex items-center gap-2">
-        <MdOutlineColorLens className="text-red-500" />
+        <MdOutlineColorLens className="text-primary" />
         Appearance
       </h2>
       
@@ -53,19 +55,13 @@ const AppearanceSettings = () => {
           <div className="flex flex-wrap gap-3 sm:gap-4">
             {accentColors.map((color) => (
               <button
-                key={color.value}
+                key={color.name}
                 className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-transform ${
                   selectedAccent === color.value 
                     ? 'border-white scale-110' 
                     : 'border-transparent'
                 }`}
-                style={{ 
-                  backgroundColor: color.value === 'red' ? '#dc2626' : 
-                                  color.value === 'blue' ? '#2563eb' : 
-                                  color.value === 'green' ? '#16a34a' : 
-                                  color.value === 'purple' ? '#9333ea' : 
-                                  '#f97316' 
-                }}
+                style={{ backgroundColor: color.value }}
                 onClick={() => handleAccentChange(color.value)}
                 aria-label={`Select ${color.name} accent color`}
               >
@@ -90,7 +86,9 @@ const AppearanceSettings = () => {
 
         <div className="pt-4">
           <button
-            className="w-full py-2.5 sm:py-3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white rounded-lg transition-colors flex items-center justify-center"
+            type="button"
+            onClick={saveChanges}
+            className="w-full py-2.5 sm:py-3 bg-primary   text-white rounded-lg transition-colors flex items-center justify-center"
           >
             Apply Changes
           </button>

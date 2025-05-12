@@ -40,7 +40,7 @@ export default function Settings() {
                   : "bg-zinc-800/50 text-gray-300 hover:text-gray-200"
                 }`}
               >
-                <span className={activeTab === tab.id ? "text-red-500" : "text-gray-500"}>
+                <span className={activeTab === tab.id ? "text-primary" : "text-gray-500"}>
                   {tab.icon}
                 </span>
                 <span className="whitespace-nowrap">{tab.label}</span>
@@ -60,12 +60,12 @@ export default function Settings() {
                   : "text-gray-400 hover:bg-zinc-800/70 hover:text-gray-200"
                 }`}
               >
-                <span className={`${activeTab === tab.id ? "text-red-500" : "text-gray-500"}`}>
+                <span className={`${activeTab === tab.id ? "text-primary" : "text-gray-500"}`}>
                   {tab.icon}
                 </span>
                 <span>{tab.label}</span>
                 {activeTab === tab.id && (
-                  <span className="ml-auto w-1.5 h-5 bg-red-500 rounded-full"></span>
+                  <span className="ml-auto w-1.5 h-5 bg-primary rounded-full"></span>
                 )}
               </button>
             ))}

@@ -61,7 +61,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
           <div className="flex flex-col items-center">
             <div className="relative mb-4">
               <div
-                className="w-36 h-36 rounded-full overflow-hidden border-2 border-zinc-700 hover:border-red-500 cursor-pointer transition-all duration-200 group"
+                className="w-36 h-36 rounded-full overflow-hidden border-2 border-zinc-700 hover:border-primary cursor-pointer transition-all duration-200 group"
                 onClick={onImageClick}
               >
                 <Image
@@ -101,7 +101,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
                 type="text"
                 value={user.fullName}
                 onChange={onUserChange}
-                className="w-full px-4 py-3 rounded-lg bg-zinc-900/80 text-white border border-zinc-700 focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-colors outline-none"
+                className="w-full px-4 py-3 rounded-lg bg-zinc-900/80 text-white border border-zinc-700 focus:border-primary focus:ring-1 focus:ring-primary transition-colors outline-none"
                 placeholder="Enter your full name"
               />
             </div>
@@ -112,7 +112,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
                 rows={4}
                 value={user.bio || ""}
                 onChange={onUserChange}
-                className="w-full px-4 py-3 rounded-lg bg-zinc-900/80 text-white border border-zinc-700 focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-colors outline-none resize-none"
+                className="w-full px-4 py-3 rounded-lg bg-zinc-900/80 text-white border border-zinc-700 focus:border-primary focus:ring-1 focus:ring-primary transition-colors outline-none resize-none"
                 placeholder="Tell us about yourself"
               />
             </div>
@@ -131,7 +131,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
                 type="text"
                 value={user.socialMedia?.instagram || ""}
                 onChange={onUserChange}
-                className="flex-grow px-4 py-3 rounded-lg bg-zinc-900/80 text-white border border-zinc-700 focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-colors outline-none"
+                className="flex-grow px-4 py-3 rounded-lg bg-zinc-900/80 text-white border border-zinc-700 focus:border-primary focus:ring-1 focus:ring-primary transition-colors outline-none"
                 placeholder="Instagram username"
               />
             </div>
@@ -144,7 +144,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
                 type="text"
                 value={user.socialMedia?.twitter || ""}
                 onChange={onUserChange}
-                className="flex-grow px-4 py-3 rounded-lg bg-zinc-900/80 text-white border border-zinc-700 focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-colors outline-none"
+                className="flex-grow px-4 py-3 rounded-lg bg-zinc-900/80 text-white border border-zinc-700 focus:border-primary focus:ring-1 focus:ring-primary transition-colors outline-none"
                 placeholder="Twitter/X username"
               />
             </div>
@@ -157,7 +157,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
                 type="text"
                 value={user.socialMedia?.linkedin || ""}
                 onChange={onUserChange}
-                className="flex-grow px-4 py-3 rounded-lg bg-zinc-900/80 text-white border border-zinc-700 focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-colors outline-none"
+                className="flex-grow px-4 py-3 rounded-lg bg-zinc-900/80 text-white border border-zinc-700 focus:border-primary focus:ring-1 focus:ring-primary transition-colors outline-none"
                 placeholder="LinkedIn username"
               />
             </div>
