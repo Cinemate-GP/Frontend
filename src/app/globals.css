@@ -102,6 +102,17 @@ body {
     -webkit-background-clip: text;
     -webkit-text-stroke: 2px transparent; /* Hide default stroke */
   }
+  .custom-datepicker .react-datepicker__year-dropdown {
+    @apply bg-gray-800 text-white p-2 rounded-lg;
+  }
+  
+  .custom-datepicker .react-datepicker__year-option {
+    @apply bg-gray-700 text-white px-4 py-2 rounded-md;
+  }
+  
+  .custom-datepicker .react-datepicker__year-option:hover {
+    @apply bg-gray-600;
+  }
 }
 
 .custom-scrollbar::-webkit-scrollbar {

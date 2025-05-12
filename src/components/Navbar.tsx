@@ -3,7 +3,7 @@
 import React, { useEffect } from "react";
 import NavbarSearch from "./Search";
 import Image from "next/image";
-import NotificationDropdown from "./Dropdown";
+import NotificationDropdown from "@/components/ui/Dropdown";
 import { useUser } from "@/context/UserContext";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
