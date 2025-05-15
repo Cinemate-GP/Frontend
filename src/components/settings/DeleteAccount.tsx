@@ -31,8 +31,8 @@ const DeleteAccount = () => {
 
   return (
     <>
-      <div className="bg-zinc-900 p-4 sm:p-6 rounded-xl shadow-md">
-        <h2 className="text-xl font-semibold mb-4 text-white flex items-center gap-2">
+      <div className="bg-background p-4 sm:p-6 rounded-xl shadow-md">
+        <h2 className="text-xl font-semibold mb-4 text-textMuted flex items-center gap-2">
           <FaTrash className="text-primary" />
           Delete Account
         </h2>
@@ -44,10 +44,10 @@ const DeleteAccount = () => {
             </div>
             <div>
               <h3 className="text-red-400 text-xs sm:text-sm font-medium mb-1">Warning: Permanent Action</h3>
-              <p className="text-gray-300 text-xs sm:text-sm">
+              <p className="text-textMuted text-xs sm:text-sm">
                 Deleting your account will remove all your data, including:
               </p>
-              <ul className="list-disc list-inside text-gray-300 text-xs sm:text-sm mt-2 space-y-1">
+              <ul className="list-disc list-inside text-textMuted text-xs sm:text-sm mt-2 space-y-1">
                 <li>Your profile information</li>
                 <li>Watch history and preferences</li>
                 <li>Reviews and ratings</li>

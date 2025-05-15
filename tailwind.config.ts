@@ -8,13 +8,22 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "var(--main-bg)",
-        wrapperBg: "var(--wrapper-bg)",
-        foreground: "var(--text)",
-        primary: "var(--primary)",
-        secondaryBg: "var(--secondary-bg)",
-        border: "var(--border)",
-      },
+      background: "var(--main-bg)",
+      secondaryBg: "var(--secondary-bg)",
+      sideNavBg: "var(--side-nav-bg)",
+
+      foreground: "var(--text)",
+      textMuted: "var(--text-muted)",
+
+      primary: "var(--primary)",
+      primaryHover: "var(--primary-hover)",
+
+      hoverBg: "var(--hover-bg)",
+      hoverText: "var(--hover-text)",
+
+      border: "var(--border)",
+      overlay: "var(--overlay)",
+    },
     },
     keyframes: {
       shimmer: {

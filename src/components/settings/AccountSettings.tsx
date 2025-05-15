@@ -31,8 +31,8 @@ const AccountSettings = () => {
   };
 
   return (
-    <div className="bg-zinc-900 p-4 sm:p-6 rounded-xl shadow-md">
-      <h2 className="text-xl font-semibold mb-4 sm:mb-6 text-white flex items-center gap-2">
+    <div className="bg-secondaryBg p-4 sm:p-6 rounded-xl shadow-md">
+      <h2 className="text-xl font-semibold mb-4 sm:mb-6 text-foreground flex items-center gap-2">
         <IoSettingsSharp className="text-primary" />
         Account Settings
       </h2>
@@ -40,11 +40,11 @@ const AccountSettings = () => {
       <form onSubmit={handleSubmit}>
         <div className="space-y-4 sm:space-y-5">
           <div>
-            <label htmlFor="username" className="block text-gray-300 text-sm font-medium mb-1.5 sm:mb-2">
+            <label htmlFor="username" className="block text-textMuted text-sm font-medium mb-1.5 sm:mb-2">
               Username
             </label>
             <div className="relative">
-              <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">
+              <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-textMuted">
                 <FaUser className="h-4 w-4" />
               </span>
               <input
@@ -53,18 +53,18 @@ const AccountSettings = () => {
                 type="text"
                 value={formData.username}
                 onChange={handleChange}
-                className="w-full pl-10 pr-4 py-2.5 sm:py-3 rounded-lg bg-zinc-800 text-white border border-zinc-700 focus:border-primary focus:ring-1 focus:ring-primary transition-colors outline-none text-sm sm:text-base"
+                className="w-full pl-10 pr-4 py-2.5 sm:py-3 rounded-lg bg-background text-white border border-border focus:border-primary focus:ring-1 focus:ring-primary transition-colors outline-none text-sm sm:text-base"
                 placeholder="Change username"
               />
             </div>
           </div>
 
           <div>
-            <label htmlFor="email" className="block text-gray-300 text-sm font-medium mb-1.5 sm:mb-2">
+            <label htmlFor="email" className="block text-textMuted text-sm font-medium mb-1.5 sm:mb-2">
               Email Address
             </label>
             <div className="relative">
-              <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">
+              <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-textMuted">
                 <IoMail className="h-4 w-4" />
               </span>
               <input
@@ -73,7 +73,7 @@ const AccountSettings = () => {
                 type="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full pl-10 pr-4 py-2.5 sm:py-3 rounded-lg bg-zinc-800 text-white border border-zinc-700 focus:border-primary focus:ring-1 focus:ring-primary transition-colors outline-none text-sm sm:text-base"
+                className="w-full pl-10 pr-4 py-2.5 sm:py-3 rounded-lg bg-background text-white border border-border focus:border-primary focus:ring-1 focus:ring-primary transition-colors outline-none text-sm sm:text-base"
                 placeholder="Change email address"
               />
             </div>
@@ -91,13 +91,13 @@ const AccountSettings = () => {
           </div>
 
           {showPasswordFields && (
-            <div className="space-y-4 pt-3 pb-2 border-t border-zinc-700">
+            <div className="space-y-4 pt-3 pb-2 border-t border-border">
               <div>
-                <label htmlFor="currentPassword" className="block text-gray-300 text-sm font-medium mb-1.5 sm:mb-2">
+                <label htmlFor="currentPassword" className="block text-textMuted text-sm font-medium mb-1.5 sm:mb-2">
                   Current Password
                 </label>
                 <div className="relative">
-                  <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">
+                  <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-textMuted">
                     <IoLockClosed className="h-4 w-4" />
                   </span>
                   <input
@@ -106,18 +106,18 @@ const AccountSettings = () => {
                     type="password"
                     value={formData.currentPassword}
                     onChange={handleChange}
-                    className="w-full pl-10 pr-4 py-2.5 sm:py-3 rounded-lg bg-zinc-800 text-white border border-zinc-700 focus:border-primary focus:ring-1 focus:ring-primary transition-colors outline-none text-sm sm:text-base"
+                    className="w-full pl-10 pr-4 py-2.5 sm:py-3 rounded-lg bg-background text-white border border-border focus:border-primary focus:ring-1 focus:ring-primary transition-colors outline-none text-sm sm:text-base"
                     placeholder="Enter current password"
                   />
                 </div>
               </div>
 
               <div>
-                <label htmlFor="newPassword" className="block text-gray-300 text-sm font-medium mb-1.5 sm:mb-2">
+                <label htmlFor="newPassword" className="block text-textMuted text-sm font-medium mb-1.5 sm:mb-2">
                   New Password
                 </label>
                 <div className="relative">
-                  <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">
+                  <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-textMuted">
                     <IoLockClosed className="h-4 w-4" />
                   </span>
                   <input
@@ -126,18 +126,18 @@ const AccountSettings = () => {
                     type="password"
                     value={formData.newPassword}
                     onChange={handleChange}
-                    className="w-full pl-10 pr-4 py-2.5 sm:py-3 rounded-lg bg-zinc-800 text-white border border-zinc-700 focus:border-primary focus:ring-1 focus:ring-primary transition-colors outline-none text-sm sm:text-base"
+                    className="w-full pl-10 pr-4 py-2.5 sm:py-3 rounded-lg bg-background text-white border border-border focus:border-primary focus:ring-1 focus:ring-primary transition-colors outline-none text-sm sm:text-base"
                     placeholder="Enter new password"
                   />
                 </div>
               </div>
 
               <div>
-                <label htmlFor="confirmPassword" className="block text-gray-300 text-sm font-medium mb-1.5 sm:mb-2">
+                <label htmlFor="confirmPassword" className="block text-textMuted text-sm font-medium mb-1.5 sm:mb-2">
                   Confirm Password
                 </label>
                 <div className="relative">
-                  <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">
+                  <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-textMuted">
                     <IoLockClosed className="h-4 w-4" />
                   </span>
                   <input
@@ -146,7 +146,7 @@ const AccountSettings = () => {
                     type="password"
                     value={formData.confirmPassword}
                     onChange={handleChange}
-                    className="w-full pl-10 pr-4 py-2.5 sm:py-3 rounded-lg bg-zinc-800 text-white border border-zinc-700 focus:border-primary focus:ring-1 focus:ring-primary transition-colors outline-none text-sm sm:text-base"
+                    className="w-full pl-10 pr-4 py-2.5 sm:py-3 rounded-lg bg-background text-white border border-border focus:border-primary focus:ring-1 focus:ring-primary transition-colors outline-none text-sm sm:text-base"
                     placeholder="Confirm new password"
                   />
                 </div>

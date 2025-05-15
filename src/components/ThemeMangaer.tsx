@@ -1,16 +1,23 @@
 "use client";
-import { RootState } from "@/redux/store";
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { hydrateThemeFromLocalStorage } from "@/redux/slices/themeSlice";
+import { RootState } from "@/redux/store";
 
 export default function ThemeManager() {
-  const primaryColor = useSelector((state: RootState) => state.accentColor.primaryColor);
+  const dispatch = useDispatch();
+  const { primaryColor, themeMode } = useSelector(
+    (state: RootState) => state.accentColor
+  );
 
   useEffect(() => {
-    if (primaryColor) {
-      document.documentElement.style.setProperty("--primary", primaryColor);
-    }
-  }, [primaryColor]);
+    dispatch(hydrateThemeFromLocalStorage());
+  }, [dispatch]);
+
+  useEffect(() => {
+    document.documentElement.style.setProperty("--primary", primaryColor);
+    document.documentElement.setAttribute("data-theme", themeMode);
+  }, [primaryColor, themeMode]);
 
   return null;
 }

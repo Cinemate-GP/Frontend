@@ -6,8 +6,55 @@
   --primary: #e62e2d;
   --main-bg: #000000;
   --secondary-bg: #0a0a0a;
-  --text: #fff;
-  --border: "red";
+  --text: #ffffff;
+  --border: #444444;
+}
+/* Dark Theme */
+[data-theme="dark"] {
+  --primary: #e50914;
+  --primary-hover: #f6121d;       /* Brighter red for hover */
+  
+  --main-bg: #0d0d0d;
+  --secondary-bg: #1a1a1a;
+  --side-nav-bg: #121212;         /* Dark grey with contrast from main-bg */
+
+  --text: #f5f5f5;
+  --text-muted: #aaaaaa;
+
+  --border: #2e2e2e;
+  --highlight: #ffcc00;
+
+  --hover-bg: #262626;            /* For card/link hover backgrounds */
+  --hover-text: #ffffff;  
+  --overlay:#00000080; 
+
+   --skeleton-base: #2d2d2d;
+  --skeleton-highlight: #3b3b3b;
+  --skeleton-emphasis: #1a1a1a;
+  
+  /* Optional: brighten text on hover */
+}
+
+[data-theme="light"] {
+  --primary: #e50914;
+  --primary-hover: #cc0812;
+
+  --main-bg: #f9f9f9;
+  --secondary-bg: #ffffff;
+  --side-nav-bg: #f0f0f0;         /* Light grey for separation */
+
+  --text: #121212;
+  --text-muted: #666666;
+
+  --border: #e0e0e0;
+  --highlight: #ff9900;
+
+  --hover-bg: #f2f2f2;            /* Light hover effect */
+  --hover-text: #000000;
+  --overlay:#ffffff80;
+   --skeleton-base: #d5d5d5;
+  --skeleton-highlight: #f0f0f0;
+  --skeleton-emphasis: #d5d5d5;
 }
 
 body {
@@ -105,11 +152,11 @@ body {
   .custom-datepicker .react-datepicker__year-dropdown {
     @apply bg-gray-800 text-white p-2 rounded-lg;
   }
-  
+
   .custom-datepicker .react-datepicker__year-option {
     @apply bg-gray-700 text-white px-4 py-2 rounded-md;
   }
-  
+
   .custom-datepicker .react-datepicker__year-option:hover {
     @apply bg-gray-600;
   }
@@ -138,12 +185,12 @@ body {
 }
 
 .scrollbar-hidden {
-  -ms-overflow-style: none !important;  /* IE and Edge */
-  scrollbar-width: none !important;     /* Firefox */
+  -ms-overflow-style: none !important; /* IE and Edge */
+  scrollbar-width: none !important; /* Firefox */
 }
 
 .scrollbar-hidden::-webkit-scrollbar {
-  display: none !important;             /* Chrome, Safari, Opera */
+  display: none !important; /* Chrome, Safari, Opera */
 }
 @keyframes shimmer {
   0% {
@@ -155,11 +202,10 @@ body {
 }
 
 .animate-pulse {
-  background: linear-gradient(90deg, #2d2d2d 25%, #3b3b3b 50%, #2d2d2d 75%);
+  background: linear-gradient(90deg, var(--skeleton-base) 25%, var(--skeleton-highlight) 50%, var(--skeleton-base) 75%);
   background-size: 400% 100%;
   animation: shimmer 1.5s infinite linear;
 }
-
 
 /* picker */
 .react-datepicker {
@@ -250,7 +296,6 @@ body {
   animation: heartBounce 0.3s ease-in-out;
 }
 
-
 @keyframes heartBounce {
   0% {
     transform: scale(1);
@@ -264,8 +309,12 @@ body {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .custom-spin {

@@ -54,7 +54,7 @@ export default function NotificationDropdown() {
         onClick={() => setIsOpen(!isOpen)}
         className="relative p-2 transition"
       >
-        <div className="w-8 h-8 rounded-full flex items-center justify-center text-xl">
+        <div className="w-8 h-8 text-foreground rounded-full flex items-center justify-center text-xl">
           <IoNotificationsOutline />
         </div>
         {notifications.some((n) => !n.read) && (

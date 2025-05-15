@@ -65,7 +65,7 @@ const HorizontalNav = ({ pathname: propPathname }: { pathname: string }) => {
         initial={{ y: 100 }}
         animate={{ y: 0 }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
-        className="w-full h-[60px] fixed z-[100] left-0 bottom-0 block md:hidden border-t border-[#222222] bg-[#111111]/95 backdrop-blur-md shadow-lg"
+        className="w-full h-[60px] fixed z-[100] left-0 bottom-0 block md:hidden border-t border-border bg-sideNavBg backdrop-blur-md shadow-lg"
       >
         <ul className="flex items-center justify-between h-full px-2">
           {/* Main Navigation Items - Home and Feed */}

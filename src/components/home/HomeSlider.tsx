@@ -59,10 +59,10 @@ const HomeSlider = () => {
       <Swiper
         modules={[Navigation, Pagination, Autoplay]}
         slidesPerView={1}
-        autoplay={{
-          delay: 4500,
-          disableOnInteraction: false,
-        }}
+        // autoplay={{
+        //   delay: 4500,
+        //   disableOnInteraction: false,
+        // }}
         loop={true}
       >
         {loading && HomeSliderSkeleton()}
