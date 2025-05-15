@@ -128,7 +128,7 @@ function FollowTabs() {
             return (
               <div
                 key={user.userId}
-                className="flex justify-between items-center border-b border-gray-700"
+                className="flex justify-between items-center border-b border-border"
               >
                 <Link
                   href={`/user/${user.userId}`}
@@ -147,7 +147,7 @@ function FollowTabs() {
                 {getUserId() !== user.userId && (
                   <button
                     onClick={() => toggleFollow(user.userId)}
-                    className="rounded-lg px-3 py-1 border border-primary text-sm ml-3 text-white transition-all duration-200 hover:bg-primary"
+                    className="rounded-lg px-3 py-1 border border-primary text-sm ml-3 text-foreground hover:text-white transition-all duration-200 hover:bg-primary"
                   >
                     {isCurrentlyFollowing ? "Unfollow" : "Follow"}
                   </button>

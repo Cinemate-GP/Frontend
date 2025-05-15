@@ -2,7 +2,7 @@ import React from 'react'
 
 const SliderWrapper = ({children}: {children: React.ReactNode}) => {
   return (
-    <div className='bg-[#181818] rounded-lg px-0 py-4 w-[95%] overflow-hidden'>
+    <div className='bg-secondaryBg rounded-lg p-4 w-full overflow-hidden'>
         {children}
     </div>
   )

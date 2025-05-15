@@ -40,9 +40,9 @@ export default function SingleActor() {
         <ActorMoviesSkeleton />
       ) : (
         <>
-          <div className="hidden sm:flex h-screen gap-4 bg-black text-white">
+          <div className="hidden sm:flex h-screen gap-4 bg-background">
             {/* Left section (Movies Grid) */}
-            <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 p-[2rem] overflow-y-auto custom-scrollbar">
+            <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 p-[1rem] overflow-y-auto custom-scrollbar bg-secondaryBg mx-4">
               {actorData?.movies.map((movie) => (
                 <MovieCard
                   key={movie.tmdbId}
@@ -65,7 +65,7 @@ export default function SingleActor() {
                 loading="lazy"
               />
               <h3>{actorData?.name}</h3>
-              <p className="text-gray-400 text-sm mt-1 overflow-auto custom-scrollbar">
+              <p className="text-textMuted text-sm mt-1 overflow-auto custom-scrollbar">
                 {truncateText(
                   actorData!.biography.slice(0, 500),
                   isExpanded,
@@ -73,7 +73,7 @@ export default function SingleActor() {
                 )}{" "}
                 {(actorData?.biography?.length ?? 0) > 500 && (
                   <button
-                    className="font-bold text-white"
+                    className="font-bold text-foreground"
                     onClick={() => setIsExpanded(!isExpanded)}
                   >
                     {isExpanded ? " Show Less" : " Show More"}
@@ -84,7 +84,7 @@ export default function SingleActor() {
           </div>
 
           {/* for mobile */}
-          <div className="h-screen bg-black text-white sm:hidden flex flex-col">
+          <div className="h-screen bg-secondary text-white sm:hidden flex flex-col">
             {/* Actor Info Section */}
             <div className="flex flex-col items-center p-4 sticky">
               <Image
@@ -98,15 +98,15 @@ export default function SingleActor() {
                 height={120}
                 className="w-32 h-32 rounded-full object-cover"
               />
-              <h2 className="mt-2 text-lg font-bold">Chris Pratt</h2>
-              <p className="text-gray-400 text-sm mt-1 overflow-auto">
+              <h2 className="mt-2 text-lg font-bold text-foreground">Chris Pratt</h2>
+              <p className="text-textMuted text-sm mt-1 overflow-auto">
                 {truncateText(
                   actorData!.biography.slice(0, 400),
                   isExpanded,
                   200
                 )}{" "}
                 <button
-                  className="font-bold text-white"
+                  className="font-bold text-foreground"
                   onClick={() => setIsExpanded(!isExpanded)}
                 >
                   {isExpanded ? " Show Less" : " Show More"}

@@ -22,29 +22,29 @@ export default function Actors({
   const [selected, setSelected] = useState("all");
   if (loading) return <SkeletonActors />;
   return (
-    <div className="bg-black mb-[4rem] mt-32 section">
+    <div className="bg-secondaryBg mb-[4rem] mt-32 section p-4">
       <SectionTitle title="Staff" />
-      <div className="flex gap-3 my-3">
+      <div className="flex gap-3 my-3 rounded bg-sideNavBg p-4 ">
         <button
           onClick={() => setSelected("all")}
           className={`${
-            selected === "all" ? "bg-primary" : ""
-          } rounded-lg px-4 py-2`}
+            selected === "all" ? "bg-primary text-white" : ""
+          } rounded-lg px-4 py-2 hover:bg-primary hover:text-white`}
         >
           All
         </button>
         <button
           onClick={() => setSelected("cast")}
           className={`${
-            selected === "cast" ? "bg-primary" : ""
-          } rounded-lg px-4 py-2`}
+            selected === "cast" ? "bg-primary text-white" : ""
+          } rounded-lg px-4 py-2 hover:bg-primary hover:text-white`}
         >
           Cast
         </button>
         <button
           className={`${
-            selected === "crew" ? "bg-primary" : ""
-          } rounded-lg px-4 py-2`}
+            selected === "crew" ? "bg-primary text-white" : ""
+          } rounded-lg px-4 py-2 hover:bg-primary hover:text-white`}
           onClick={() => setSelected("crew")}
         >
           Crew
@@ -60,12 +60,12 @@ export default function Actors({
             href={`/actors/${actor.id}`}
             key={`${actor.id}-${actor.name}`}
           >
-            <div className="flex items-center gap-4 hover:bg-gray-800 p-4 rounded-lg transition-all duration-300">
+            <div className="flex items-center gap-4 hover:bg-hoverBg p-4 rounded-lg transition-all duration-300 shadow-sm">
               <ActorImage profilePath={actor.profilePath} name={actor.name} />
 
               <div className="flex flex-col gap-2">
-                <h3 className="text-white font-bold">{actor.name}</h3>
-                <p className="text-gray-400 text-sm">{actor.extra}</p>
+                <h3 className="text-foreground font-bold">{actor.name}</h3>
+                <p className="text-textMuted text-sm">{actor.extra}</p>
               </div>
             </div>
           </Link>

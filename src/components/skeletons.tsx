@@ -2,9 +2,9 @@
 // Loading animation
 export const HomeSliderSkeleton = () => {
   return (
-    <div className="mx-[1rem] sm:mx-[2rem] relative w-full h-[500px] bg-gray-800 animate-pulse rounded-lg overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-black/40"></div>
-      <div className="absolute bottom-8 left-4 md:left-8 w-full">
+    <div className="mx-[1rem] sm:mx-[2rem] relative w-full h-[700px] bg-secondaryBg rounded-lg overflow-hidden">
+      <div className="absolute inset-0"></div>
+      <div className="absolute my-auto bottom-1/2 top-1/3  left-4 md:left-8 w-full">
         {/* Title */}
         <div className="h-8 w-3/4 sm:w-2/5 bg-gray-700 rounded mb-2 animate-pulse"></div>
 
@@ -59,7 +59,7 @@ export const ActorMoviesSkeleton = () => {
   return (
     <>
       {/* Desktop Layout */}
-      <div className="hidden sm:flex h-screen bg-black text-white">
+      <div className="hidden sm:flex h-screen bg-secondaryBg text-white">
         {/* Movie Grid Skeleton */}
         <div className="grid grid-cols-3 gap-4 p-6 flex-grow">
           {Array(6)
@@ -82,7 +82,7 @@ export const ActorMoviesSkeleton = () => {
         </div>
       </div>
       {/* Mobile Layout */}
-      <div className="sm:hidden flex flex-col h-screen bg-black text-white">
+      <div className="sm:hidden flex flex-col h-screen bg-secondaryBg text-white">
         {/* Actor Info */}
         <div className="flex flex-col items-center p-4 space-y-2">
           <div className="w-32 h-32 bg-gray-900 rounded-full animate-pulse" />
@@ -110,7 +110,7 @@ export const ActorMoviesSkeleton = () => {
 
 export const SkeletonMovieInfo = () => {
   return (
-    <div className="hidden sm:flex bg-black text-white p-6 mt-[5rem] mx-[2rem]">
+    <div className="hidden sm:flex bg-secondary text-white p-6 mt-[5rem] mx-[2rem]">
       {/* Movie Poster Skeleton */}
       <div className="w-64 h-96 bg-gray-700 animate-pulse rounded-lg hidden lg:block"></div>
 
@@ -152,7 +152,7 @@ import { IoPlay } from "react-icons/io5";
 
 export const SkeletonMovieStreaming = () => {
   return (
-    <div className="bg-black rounded-lg section p-4">
+    <div className="bg-secondaryBg rounded-lg section p-4">
       <div className="relative w-full max-w-[1280px] mx-auto">
         <div className="relative rounded-lg overflow-hidden w-full aspect-video md:aspect-[16/9] max-h-[70vh] bg-gray-700 animate-pulse">
           <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] flex items-center justify-center bg-black bg-opacity-50 py-4 w-20 h-12 rounded-md">
@@ -166,7 +166,7 @@ export const SkeletonMovieStreaming = () => {
 
 export const SkeletonActors = () => {
   return (
-    <div className="bg-black rounded-lg p-4 mx-[2rem]">
+    <div className="bg-secondaryBg rounded-lg p-4 mx-[2rem]">
       {/* Title Skeleton */}
       <div className="h-8 w-32 bg-gray-700 rounded mb-4 animate-pulse"></div>
 
@@ -191,7 +191,7 @@ export const SkeletonActors = () => {
 
 export const ReviewSkeletonCard = () => {
   return (
-    <div className="max-w-xl sm:max-w-3xl md:max-w-4xl flex gap-4 bg-black rounded-lg">
+    <div className="max-w-xl sm:max-w-3xl md:max-w-4xl flex gap-4 bg-secondaryBg rounded-lg">
       {/* Movie Poster */}
       <div className="w-[100px] h-[160px] sm:w-[190px] sm:h-[250px] bg-zinc-800 rounded-lg animate-pulse" />
 
@@ -228,10 +228,11 @@ export const ReviewSkeletonCard = () => {
 
 export const SearchResultSkeleton = () => {
   return (
-    <div className="flex flex-1 gap-4 min-w-[140px] bg-gray-700 p-2 rounded-md">
-      <div className={`w-20 h-20 rounded bg-gray-500 animate-pulse`} />
-      <div className="flex-1 flex items-center">
-        <div className="h-8 bg-gray-800 rounded w-1/3 animate-pulse" />
+    <div className="flex flex-1 items-center gap-4 min-w-[140px p-2 rounded-md">
+      <div className={`w-20 h-20 rounded animate-pulse`} />
+      <div className="flex-1 flex flex-col gap-2">
+        <div className="h-6 rounded w-3/4 animate-pulse" />
+        <div className="h-8 rounded w-1/4 animate-pulse" />
       </div>
     </div>
   );
@@ -280,7 +281,7 @@ export function ActivityCardSkeleton() {
       {Array.from({ length: 2 }, (_, i) => i).map((i) => (
         <div
           key={i}
-          className="flex bg-[#1a1a1a] p-4 rounded-lg w-full md:max-w-xl xl:max-w-lg  gap-4"
+          className="flex bg-secondaryBg p-4 rounded-lg w-full md:max-w-xl xl:max-w-lg  gap-4"
         >
           {/* Image Placeholder */}
           <div className="w-24 h-32 animate-pulse rounded-lg"></div>

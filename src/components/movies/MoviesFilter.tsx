@@ -9,7 +9,7 @@ const MoviesFilter = ({ handleFilterValue }: Props) => {
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 bg-secondaryBg shadow-sm rounded-lg p-4">
       <select
-        className="border border-border bg-background text-gray-400 px-4 py-2 rounded-md"
+        className="border border-border bg-background text-gray-400 px-4 py-2 rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
         onChange={(e) => handleFilterValue("year", e.target.value)}
       >
         <option value={""}>Year</option>
@@ -20,7 +20,7 @@ const MoviesFilter = ({ handleFilterValue }: Props) => {
         ))}
       </select>
       <select
-        className="border border-border bg-background text-gray-400 px-4 py-2 rounded-md"
+        className="border border-border bg-background text-gray-400 px-4 py-2 rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
         onChange={(e) => handleFilterValue("rate", e.target.value)}
       >
         <option value={""}>Rating</option>
@@ -32,7 +32,7 @@ const MoviesFilter = ({ handleFilterValue }: Props) => {
         <option value={"5"}>5 - Exellent</option>
       </select>
       <select
-        className="border border-border bg-background text-gray-400 px-4 py-2 rounded-md"
+        className="border border-border bg-background text-gray-400 px-4 py-2 rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
         onChange={(e) => handleFilterValue("popularity", e.target.value)}
       >
         <option value={""}>Popular</option>
@@ -40,7 +40,7 @@ const MoviesFilter = ({ handleFilterValue }: Props) => {
         <option value={"0"}>Less Popular</option>
       </select>
       <select
-        className="border border-border bg-background text-gray-400 px-4 py-2 rounded-md"
+        className="border border-border bg-background text-gray-400 px-4 py-2 rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
         onChange={(e) => handleFilterValue("mpa", e.target.value)}
       >
         <option value={""}>MPA</option>
@@ -51,7 +51,7 @@ const MoviesFilter = ({ handleFilterValue }: Props) => {
         ))}
       </select>
       <select
-        className="border border-border bg-background text-gray-400 px-4 py-2 rounded-md"
+        className="border border-border bg-background text-gray-400 px-4 py-2 rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
         onChange={(e) => handleFilterValue("genre", e.target.value)}
       >
         <option value={""}>Genre</option>

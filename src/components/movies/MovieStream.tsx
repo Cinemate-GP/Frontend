@@ -20,22 +20,22 @@ export default function MovieStreaming({ image, loading, id }: Props) {
   if (loading) return <SkeletonMovieStreaming />;
 
   return (
-    <section className="relative w-full max-w-6xl mx-auto bg-black/60 backdrop-blur-xl rounded-2xl shadow-2xl overflow-hidden p-4 space-y-6">
+    <section className="relative w-full mx-auto bg-secondaryBg backdrop-blur-xl rounded-2xl shadow-2xl overflow-hidden p-4 space-y-6">
       
       {/* Header: Source Selector */}
-      <div className="flex flex-col md:flex-row items-center justify-between gap-4 p-4 rounded-xl bg-black/30">
+      <div className="flex flex-col lg:flex-row items-center justify-between gap-4 p-4 rounded-xl bg-sideNavBg text-foreground">
         
         <div className="flex items-center gap-3">
           <HiOutlineSwitchHorizontal className="text-primary text-xl" />
-          <span className="text-white text-sm font-semibold tracking-wide">Choose Source</span>
+          <span className="text-sm font-semibold tracking-wide">Choose Source</span>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 overflow-auto max-w-full custom-scrollbar">
           {movieSources.map((s) => (
             <button
               key={s.id}
               onClick={() => setSource(s)}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm transition ${
+              className={`flex items-center text-xs justify-center gap-2 px-2 min-w-[92px] py-2 rounded-lg sm:text-sm transition ${
                 source.id === s.id
                   ? "bg-primary text-white"
                   : "bg-black/40 text-gray-300 hover:bg-gray-700/60 hover:text-white"

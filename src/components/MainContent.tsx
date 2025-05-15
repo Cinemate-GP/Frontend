@@ -7,7 +7,7 @@ const MainContent = ({ children }: { children: React.ReactNode }) => {
   const { isCollapsed } = useSelector((state: RootState) => state.sideNave);
   return (
     <div
-      className={`h-screen overflow-y-auto custom-scrollbar overflow-x-hidden max-w-full relative ml-auto transition-all duration-300 ${isCollapsed ? 'md:w-[calc(100%-4rem)]' : 'md:w-[calc(100%-13rem)]'}`}
+      className={`h-screen overflow-y-auto custom-scrollbar overflow-x-hidden max-w-full relative ml-auto transition-all duration-300 ${isCollapsed ? 'md:w-[calc(100%-4rem)]' : 'md:w-[calc(100%-14rem)]'}`}
     >
       {children}
     </div>

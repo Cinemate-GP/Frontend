@@ -44,7 +44,7 @@ export default function SearchComponent({handleFilterValue}: Props) {
     <input
       type="text"
       placeholder="Search..."
-      className="col-span-2 lg:col-span-1 border border-border bg-background text-foreground px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-red-600"
+      className="col-span-2 lg:col-span-1 border border-border bg-background text-foreground px-4 py-2 rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
       onChange={handleChange}
       onBlur={handleBlur}
       value={searchTerm}

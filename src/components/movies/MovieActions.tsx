@@ -90,7 +90,7 @@ export const MovieActions = ({
 
   return (
     <>
-      <div className="flex items-center gap-6 mt-4">
+      <div className="flex items-center gap-6 mt-4 text-white">
         {buttons.map((btn, index) => (
           <div
             key={index}

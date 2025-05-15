@@ -1,15 +1,19 @@
 "use client";
 
+import { RootState } from "@/redux/store";
+import { useSelector } from "react-redux";
+
 interface ModalProps {
   setIsOpen: (state: boolean) => void;
   trailer: string
 }
 const TrailerModal = ({ setIsOpen, trailer }: ModalProps) => {
+  const { isCollapsed } = useSelector((state: RootState) => state.sideNave);
   return (
     <>
       {/* Modal */}
 
-      <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
+      <div className={`fixed inset-0 px-4 bg-black bg-opacity-80 w-full ${isCollapsed ? 'md:w-[calc(100%-4rem)]' : 'md:w-[calc(100%-14rem)]'} ms-auto flex items-center justify-center z-50`}>
         {/* Modal Container */}
         <div className="relative bg-gray-900 rounded-2xl p-6 w-full max-w-3xl shadow-lg">
           {/* Close Button */}

@@ -167,7 +167,7 @@ export default function ProfileEditor({ modal = false, onClose }: ProfileEditorP
 
         <form onSubmit={handleUpdate} className="space-y-4 sm:space-y-6">
           {/* Profile Photo */}
-          <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 py-4 border-b border-border">
+          <div className="flex flex-col sm:flex-row md:flex-col lg:flex-row items-center gap-4 sm:gap-6 py-4 border-b border-border">
             <div 
               onClick={handleImageClick} 
               className="relative cursor-pointer group w-24 h-24 rounded-full overflow-hidden border-2 border-primary"
@@ -183,7 +183,7 @@ export default function ProfileEditor({ modal = false, onClose }: ProfileEditorP
                 <MdPhotoCamera size={30} className="text-white" />
               </div>
             </div>
-            <div className="flex-1 text-center sm:text-left">
+            <div className="flex-1 text-center sm:text-left md:text-center lg:text-left">
               <h3 className="text-gray-500 text-[16px] mb-2">Profile Photo</h3>
               <p className="text-gray-500 text-sm mb-3">Click on the image to change your profile photo</p>
               <button

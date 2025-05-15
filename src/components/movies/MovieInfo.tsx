@@ -54,8 +54,6 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ info, loading }) => {
           <MoviePoster 
             poster_path={info.posterPath!} 
             title={info.title} 
-            trailer={info.trailer}
-            streamingLink={info.streamingLink}
           />
 
           {/* movie details */}
@@ -79,9 +77,9 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ info, loading }) => {
             )}
             {/* movie meta info */}
 
-            <p>{info.tagline}</p>
+            <p className="text-white">{info.tagline}</p>
             {/* meta info */}
-            <div className="flex flex-wrap justify-center gap-4 gap-y-0 text-lg">
+            <div className="flex flex-wrap justify-center gap-4 gap-y-0 text-lg text-white">
               <span className="flex items-center gap-1 text-[16px]">
                 <LuCalendarClock />
                 {info.releaseDate}
@@ -123,7 +121,7 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ info, loading }) => {
 
             <MovieGenres genres={info.geners || []} />
             {info.overview && (
-              <p className="w-full md:max-w-[60%] text-[14px] sm:text-[16px]">
+              <p className="w-full md:max-w-[60%] text-[14px] sm:text-[16px] text-white">
                 {info.overview}
               </p>
             )}

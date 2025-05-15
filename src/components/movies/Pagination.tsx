@@ -27,7 +27,7 @@ interface PaginationProps {
         <button
           disabled={!hasPreviousPage}
           onClick={() => onPageChange(pageNumber - 1)}
-          className="w-9 h-9 rounded-full bg-gray-800 text-white hover:bg-red-600 disabled:opacity-30 transition flex items-center justify-center"
+          className="w-9 h-9 rounded-full bg-gray-500 text-white hover:bg-primary disabled:opacity-30 transition flex items-center justify-center"
         >
           <TiChevronLeft/>
         </button>
@@ -51,7 +51,7 @@ interface PaginationProps {
         <button
           disabled={!hasNextPage}
           onClick={() => onPageChange(pageNumber + 1)}
-          className="w-9 h-9 rounded-full bg-gray-800 text-white hover:bg-primary disabled:opacity-30 transition flex items-center justify-center"
+          className="w-9 h-9 rounded-full bg-gray-500 text-white hover:bg-primary disabled:opacity-30 transition flex items-center justify-center"
         >
           <TiChevronRight />
         </button>

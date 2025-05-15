@@ -18,7 +18,7 @@ const MovieReviewList = ({movieReviews}:{movieReviews:Review[] | undefined}) => 
   
   return (
     <div className="flex-1 bg-secondaryBg p-6 rounded-lg mt-6 lg:mt-0">
-      <h3 className="text-white text-lg font-bold">
+      <h3 className="text-foreground text-lg font-bold">
         Reviews ({movieReviews?.length})
       </h3>
       {movieReviews?.length === 0 && <p className="text-gray-400 mt-3">No Reviews Found for this Movie</p>}
@@ -28,7 +28,7 @@ const MovieReviewList = ({movieReviews}:{movieReviews:Review[] | undefined}) => 
           return (
             <div
               key={review.reviewId}
-              className="grid grid-cols-10 bg-background p-2 md:p-4 rounded-lg gap-4"
+              className="grid grid-cols-10 p-2 md:p-4 rounded-lg gap-4 bg-hoverBg"
             >
               <Link href={`/user/${review.userId}`} className="col-span-10 sm:col-span-2 lg:col-span-1">
                 <Image
@@ -42,8 +42,8 @@ const MovieReviewList = ({movieReviews}:{movieReviews:Review[] | undefined}) => 
               </Link>
               <div className="col-span-10 sm:col-span-8 lg:col-span-9">
                 <div className="flex gap-3 items-center flex-wrap">
-                  <h4 className="text-white font-bold">{review.fullName}</h4>
-                  <div className="flex items-center space-x-1 mb-1">
+                  <h4 className="text-textMuted font-bold">{review.fullName}</h4>
+                  <div className="flex items-center space-x-1">
                     {[...Array(5)].map((_, i) => (
                       <FaStar
                         key={i}
@@ -55,7 +55,7 @@ const MovieReviewList = ({movieReviews}:{movieReviews:Review[] | undefined}) => 
                     ))}
                   </div>
                 </div>
-                <p className="text-gray-400 text-sm mt-1">
+                <p className="text-gray-500 text-sm mt-1">
                   {truncateText(review.reviewBody, isExpanded, 80)}
                   {review.reviewBody.length > 80 && (
                     <button
@@ -66,7 +66,7 @@ const MovieReviewList = ({movieReviews}:{movieReviews:Review[] | undefined}) => 
                     </button>
                   )}
                 </p>
-                <p className="text-gray-500 text-xs mt-1">{FormatDate(review.reviewedOn)}</p>
+                <p className="text-gray-400 text-xs mt-1">{FormatDate(review.reviewedOn)}</p>
               </div>
             </div>
           );

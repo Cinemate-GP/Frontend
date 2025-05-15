@@ -48,7 +48,7 @@ const Geners = () => {
               className={`px-4 py-2 text-sm transition-all duration-300 relative group ${
                 selected === "Geners"
                   ? "text-primary"
-                  : "text-gray-300 hover:text-primary"
+                  : "text-textMuted hover:text-primary"
               }`}
             >
               All
@@ -63,7 +63,7 @@ const Geners = () => {
                 className={`px-4 py-2 text-sm transition-all duration-300 relative group ${
                   selected === gen.Name
                     ? "text-primary"
-                    : "text-gray-300 hover:text-primary"
+                    : "text-textMuted hover:text-primary"
                 }`}
               >
                 {gen.Name}

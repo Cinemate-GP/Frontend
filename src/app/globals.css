@@ -12,11 +12,11 @@
 /* Dark Theme */
 [data-theme="dark"] {
   --primary: #e50914;
-  --primary-hover: #f6121d;       /* Brighter red for hover */
-  
+  --primary-hover: #f6121d; /* Brighter red for hover */
+
   --main-bg: #0d0d0d;
   --secondary-bg: #1a1a1a;
-  --side-nav-bg: #121212;         /* Dark grey with contrast from main-bg */
+  --side-nav-bg: #121212; /* Dark grey with contrast from main-bg */
 
   --text: #f5f5f5;
   --text-muted: #aaaaaa;
@@ -24,14 +24,14 @@
   --border: #2e2e2e;
   --highlight: #ffcc00;
 
-  --hover-bg: #262626;            /* For card/link hover backgrounds */
-  --hover-text: #ffffff;  
-  --overlay:#00000080; 
+  --hover-bg: #262626; /* For card/link hover backgrounds */
+  --hover-text: #ffffff;
+  --overlay: #00000080;
 
-   --skeleton-base: #2d2d2d;
+  --skeleton-base: #2d2d2d;
   --skeleton-highlight: #3b3b3b;
   --skeleton-emphasis: #1a1a1a;
-  
+
   /* Optional: brighten text on hover */
 }
 
@@ -41,7 +41,7 @@
 
   --main-bg: #f9f9f9;
   --secondary-bg: #ffffff;
-  --side-nav-bg: #f0f0f0;         /* Light grey for separation */
+  --side-nav-bg: #f0f0f0; /* Light grey for separation */
 
   --text: #121212;
   --text-muted: #666666;
@@ -49,10 +49,10 @@
   --border: #e0e0e0;
   --highlight: #ff9900;
 
-  --hover-bg: #f2f2f2;            /* Light hover effect */
+  --hover-bg: #f2f2f2; /* Light hover effect */
   --hover-text: #000000;
-  --overlay:#ffffff80;
-   --skeleton-base: #d5d5d5;
+  --overlay: #ffffff1e;
+  --skeleton-base: #d5d5d5;
   --skeleton-highlight: #f0f0f0;
   --skeleton-emphasis: #d5d5d5;
 }
@@ -89,12 +89,12 @@ body {
 .swiper-button-prev {
   left: -40px !important;
   top: 50% !important;
-  color: white !important;
+  color: var(--text) !important;
 }
 .swiper-button-next {
   right: -40px !important;
   top: 50% !important;
-  color: white !important;
+  color: var(--text) !important;
 }
 .swiper-button-prev.swiper-button-disabled,
 .swiper-button-next.swiper-button-disabled {
@@ -135,15 +135,15 @@ body {
   .text-stroke-primary {
     font-size: 40px;
     font-weight: 900;
-    color: black; /* Make the text fill transparent */
+    color: var(--main-bg); /* Make the text fill transparent */
     background: linear-gradient(
       to right,
       #da2626,
       #da2626,
       var(--primary),
       var(--primary),
-      rgb(143, 59, 59),
-      rgb(56, 27, 27)
+      /* rgb(143, 59, 59), */
+      var(--main-bg)
     ); /* Gradient colors */
     background-clip: text;
     -webkit-background-clip: text;
@@ -160,7 +160,22 @@ body {
   .custom-datepicker .react-datepicker__year-option:hover {
     @apply bg-gray-600;
   }
+  .bg-gradient-overlay-30 {
+    background: linear-gradient(
+      to bottom,
+      var(--overlay) 30%,
+      var(--main-bg) 100%
+    );
+  }
+  .bg-gradient-overlay-50 {
+    background: linear-gradient(
+      to bottom,
+      var(--overlay) 50%,
+      var(--main-bg) 100%
+    );
+  }
 }
+
 
 .custom-scrollbar::-webkit-scrollbar {
   width: 5px;
@@ -202,7 +217,12 @@ body {
 }
 
 .animate-pulse {
-  background: linear-gradient(90deg, var(--skeleton-base) 25%, var(--skeleton-highlight) 50%, var(--skeleton-base) 75%);
+  background: linear-gradient(
+    90deg,
+    var(--skeleton-base) 25%,
+    var(--skeleton-highlight) 50%,
+    var(--skeleton-base) 75%
+  );
   background-size: 400% 100%;
   animation: shimmer 1.5s infinite linear;
 }

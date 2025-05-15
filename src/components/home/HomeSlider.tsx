@@ -59,10 +59,10 @@ const HomeSlider = () => {
       <Swiper
         modules={[Navigation, Pagination, Autoplay]}
         slidesPerView={1}
-        // autoplay={{
-        //   delay: 4500,
-        //   disableOnInteraction: false,
-        // }}
+        autoplay={{
+          delay: 4500,
+          disableOnInteraction: false,
+        }}
         loop={true}
       >
         {loading && HomeSliderSkeleton()}
@@ -75,7 +75,7 @@ const HomeSlider = () => {
                   backgroundImage: `url(${IMAGEPOSTER + slid.backdropPath})`,
                 }}
               >
-                <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-[rgba(0,0,0,0.4)] to-black/90 flex items-start md:items-center pt-48 md:pt-0">
+                <div className="absolute top-0 left-0 w-full h-full bg-gradient-overlay-30 flex items-start md:items-center pt-48 md:pt-0">
                   <div className="ml-2 md:ml-12 p-3 md-p-0 flex flex-col gap-3 w-full sm:max-w-xl text-center sm:text-left">
                     {slid?.logoPath ? (
                       <div className="w-full max-w-[300px] md:max-w-[400px] mx-auto sm:mx-0 mb-4">
@@ -90,7 +90,7 @@ const HomeSlider = () => {
                     ) : null}
                     
                     {!slid?.logoPath && (
-                      <h2 className="text-2xl sm:text-6xl mb-4">
+                      <h2 className="text-2xl sm:text-6xl mb-4 text-foreground">
                         {slid.title}
                       </h2>
                     )}
@@ -101,9 +101,9 @@ const HomeSlider = () => {
                       </span>
                       <div className="flex basis-auto items-center">
                         <AiFillStar className="text-primary" />
-                        <span>{slid.imdbRating.split("/")[0]}</span>
+                        <span className="text-foreground">{slid.imdbRating.split("/")[0]}</span>
                       </div>
-                      <span>{slid.releaseDate}</span>
+                      <span className="text-foreground">{slid.releaseDate}</span>
                     </div>
 
                     {/* genres */}
@@ -111,13 +111,13 @@ const HomeSlider = () => {
                       {slid.genresDetails?.map((genre) => (
                         <span
                           key={genre.id}
-                          className="flex basis-auto items-center italic text-sm font-semibold text-white"
+                          className="flex basis-auto items-center italic text-sm font-semibold text-foreground"
                         >
                           {genre.name}
                         </span>
                       ))}
                     </div>
-                    <p className="text-sm sm:text-lg text-center sm:text-start">
+                    <p className="text-sm sm:text-lg text-center text-foreground sm:text-start">
                       {slid.tagline}
                     </p>
 
@@ -137,12 +137,10 @@ const HomeSlider = () => {
                       <Link
                         href={`/movies/${slid.tmdbId}`}
                         aria-label="More Info"
-                        className="border border-primary text-sm p-3 flex items-center gap-1 rounded-3xl text-white transition-all duration-150 hover:bg-primary h-[40px]  sm:h-auto"
+                        className="border border-primary text-sm p-3 flex items-center gap-1 rounded-3xl text-foreground transition-all duration-150 hover:bg-primary hover:text-white h-[40px]  sm:h-auto"
                       >
                         <BsExclamationCircle
                           size={18}
-                          color="black"
-                          fill="white"
                         />
                         More Info
                       </Link>
@@ -156,9 +154,9 @@ const HomeSlider = () => {
                           })
                         }
                         aria-label="Add to Watchlist"
-                        className="border border-primary text-sm p-3 hidden sm:flex items-center gap-1 rounded-3xl text-white transition-all duration-150 hover:bg-primary hover:text-white h-[40px]  sm:h-auto"
+                        className="border border-primary text-sm p-3 hidden sm:flex items-center gap-1 rounded-3xl text-foreground transition-all duration-150 hover:bg-primary hover:text-white h-[40px]  sm:h-auto"
                       >
-                        <FaRegBookmark size={18} color="black" fill="white" />
+                        <FaRegBookmark size={18}/>
                         Add to Watchlist
                       </button>
                     </div>

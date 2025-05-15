@@ -22,6 +22,7 @@ const ProfileHeader = ({ userId }: { userId: string }) => {
   const { refreshUserData } = useUser();
   const [followersCount, setFollowersCount] = useState<number>(0);
   const [showImageViewer, setShowImageViewer] = useState(false);
+  const [followingLoading,setFollowingLoading] = useState(false)
   const token = getCookie("token") as string;
   const { data: user, loading } = useFetch<UserInfo | null>(
     `/api/Profile/details/${userId}`
@@ -34,6 +35,7 @@ const ProfileHeader = ({ userId }: { userId: string }) => {
 
   const toggleFollow = async () => {
     try {
+      setFollowingLoading(true)
       const endpoint = follow
         ? "/api/UserFollow/Delete"
         : "/api/UserFollow/Add";
@@ -59,6 +61,8 @@ const ProfileHeader = ({ userId }: { userId: string }) => {
       );
     } catch (error) {
       console.error(error);
+    }finally{
+      setFollowingLoading(false)
     }
   };
 
@@ -73,7 +77,7 @@ const ProfileHeader = ({ userId }: { userId: string }) => {
   if (loading) return <ProfileHeaderSkeleton />;
   return (
     <>
-      <header className="backdrop-blur-sm bg-zinc-900/90 rounded-xl shadow-md p-6">
+      <header className="backdrop-blur-sm bg-secondaryBg rounded-xl shadow-md p-6">
         <div className="flex flex-col sm:flex-row items-center gap-6 justify-between">
           <div className="flex flex-col sm:flex-row items-center gap-6">
             {/* Profile image - with click handler */}
@@ -86,29 +90,30 @@ const ProfileHeader = ({ userId }: { userId: string }) => {
                 alt="user profile"
                 width={100}
                 height={100}
-                className="w-24 h-24 rounded-full object-cover shadow-md"
+                className="w-24 h-24 rounded-full object-cover shadow-md border border-primary p-[1px]"
                 priority={true}
               />
             </div>
 
             {/* Profile information */}
             <div className="flex-1 text-center sm:text-left">
-              <h2 className="text-2xl font-bold text-white mb-2">
+              <h2 className="text-2xl font-bold text-foreground mb-2">
                 {user?.fullName || "User Name"}
               </h2>
 
               {user?.sameUser ? (
                 <button
                   onClick={handleNavigateToSettings}
-                  className="bg-zinc-800 hover:bg-zinc-700 text-white px-4 py-1.5 rounded-md transition-all duration-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-zinc-600"
+                  className="bg-background hover:bg-hoverBg text-foreground px-4 py-1.5 rounded-md transition-all duration-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-zinc-600"
                 >
                   Edit Profile
                 </button>
               ) : (
                 <button
+                  disabled={followingLoading}
                   onClick={toggleFollow}
-                  className={`rounded-lg px-3 py-1 border border-primary text-sm ml-3 ${
-                    follow ? "bg-primary" : ""
+                  className={`rounded-lg px-3 py-1 border  border-primary text-sm ml-3 ${
+                    follow ? "bg-primary text-white" : "text-foreground"
                   }`}
                 >
                   {follow ? "Followed" : "Follow"}
@@ -121,7 +126,7 @@ const ProfileHeader = ({ userId }: { userId: string }) => {
           <div className="flex justify-center gap-6 mt-4 sm:mt-0">
             <div className="text-center">
               <span className="block text-xl font-bold">80</span>
-              <span className="text-sm text-zinc-400">Films</span>
+              <span className="text-sm text-gray-500">Films</span>
             </div>
 
             <Link
@@ -129,7 +134,7 @@ const ProfileHeader = ({ userId }: { userId: string }) => {
               className="text-center group"
             >
               <span className="block text-xl font-bold">{followersCount}</span>
-              <span className="text-sm text-zinc-400 group-hover:text-white transition-colors">
+              <span className="text-sm text-gray-500 group-hover:text-foreground transition-colors">
                 Followers
               </span>
             </Link>
@@ -141,7 +146,7 @@ const ProfileHeader = ({ userId }: { userId: string }) => {
               <span className="block text-xl font-bold">
                 {user?.followingCount}
               </span>
-              <span className="text-sm text-zinc-400 group-hover:text-white transition-colors">
+              <span className="text-sm text-gray-500 group-hover:text-foreground transition-colors">
                 Following
               </span>
             </Link>

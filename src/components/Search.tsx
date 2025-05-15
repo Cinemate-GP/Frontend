@@ -7,6 +7,7 @@ import { useDebounce } from "@/hooks/useDebounce";
 import Link from "next/link";
 import Image from "next/image";
 import { createPortal } from "react-dom";
+import { SearchResultSkeleton } from "./skeletons";
 
 interface SearchValue {
   id: number;
@@ -15,7 +16,13 @@ interface SearchValue {
   type: string;
 }
 
-export const Search = ({ border, isMobile = false }: { border?: boolean, isMobile?: boolean }) => {
+export const Search = ({
+  border,
+  isMobile = false,
+}: {
+  border?: boolean;
+  isMobile?: boolean;
+}) => {
   const { setSearch, search } = useSearch();
   const [values, setValues] = useState<SearchValue[]>([]);
   const [loading, setLoading] = useState(false);
@@ -38,12 +45,14 @@ export const Search = ({ border, isMobile = false }: { border?: boolean, isMobil
         const res = await fetch(`/api/Movie/search?SearchValue=${trimmed}`);
         if (!res.ok) throw new Error("Failed to fetch data");
         const data = await res.json();
-        
+
         if (selectedVal === "all") {
           setValues(data.value || []);
         } else {
           setValues(
-            data.value.filter((item: SearchValue) => item.type === selectedVal) || []
+            data.value.filter(
+              (item: SearchValue) => item.type === selectedVal
+            ) || []
           );
         }
       } catch (error) {
@@ -61,13 +70,16 @@ export const Search = ({ border, isMobile = false }: { border?: boolean, isMobil
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      if (searchContainerRef.current && !searchContainerRef.current.contains(target)) {
+      if (
+        searchContainerRef.current &&
+        !searchContainerRef.current.contains(target)
+      ) {
         setShowResults(false);
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const getImageUrl = (item: SearchValue) => {
@@ -103,98 +115,108 @@ export const Search = ({ border, isMobile = false }: { border?: boolean, isMobil
           <FiSearch className="w-5 h-5 mb-1" aria-hidden="true" />
           <span className="text-[10px]">Search</span>
         </Link>
-        
-        {showMobileSearch && typeof document !== 'undefined' && createPortal(
-          <div className="fixed inset-0 bg-black/90 z-[110] flex flex-col">
-            <div className="p-4 pt-8">
-              <div className="flex items-center mb-4">
-                <button 
-                  onClick={() => setShowMobileSearch(false)} 
-                  className="mr-4 text-white"
-                >
-                  Cancel
-                </button>
-                <div className="flex-1">
-                  <SearchInput 
-                    search={search}
-                    setSearch={setSearch}
-                    selectedVal={selectedVal}
-                    setSelectedVal={setSelectedVal}
-                    setShowResults={setShowResults}
-                  />
+
+        {showMobileSearch &&
+          typeof document !== "undefined" &&
+          createPortal(
+            <div className="fixed inset-0 bg-black/90 z-[110] flex flex-col">
+              <div className="p-4 pt-8">
+                <div className="flex items-center mb-4">
+                  <button
+                    onClick={() => setShowMobileSearch(false)}
+                    className="mr-4 text-white"
+                  >
+                    Cancel
+                  </button>
+                  <div className="flex-1">
+                    <SearchInput
+                      search={search}
+                      setSearch={setSearch}
+                      selectedVal={selectedVal}
+                      setSelectedVal={setSelectedVal}
+                      setShowResults={setShowResults}
+                    />
+                  </div>
                 </div>
-              </div>
-              
-              {search.trim().length >= 2 && (
-                <div className="bg-secondaryBg rounded-xl overflow-hidden flex-1 max-h-[calc(100vh-140px)]">
-                  {loading ? (
-                    <div className="overflow-y-auto max-h-[calc(100vh-140px)]">
-                      {[1, 2, 3, 4].map((n) => (
-                        <div key={n} className="flex items-center p-3 border-b border-gray-800/50 animate-pulse">
-                          <div className="h-12 w-12 flex-shrink-0 rounded bg-gray-800"></div>
-                          <div className="ml-3 flex-1">
-                            <div className="h-3 bg-gray-800 rounded w-3/4 mb-2"></div>
-                            <div className="h-2 bg-gray-800 rounded w-1/4"></div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  ) : values.length === 0 ? (
-                    <div className="p-4 text-center text-gray-400">
-                      No results found for &quot;{search}&quot;
-                    </div>
-                  ) : (
-                    <div className="overflow-y-auto max-h-[calc(100vh-140px)]">
-                      {values.map((item, index) => (
-                        <Link 
-                          href={getItemLink(item)} 
-                          key={`${item.id}-${item.type}`}
-                          onClick={() => setShowMobileSearch(false)}
-                          className={`flex items-center p-3 hover:bg-[#252525] transition-colors ${
-                            index < values.length - 1 ? 'border-b border-gray-800/50' : ''
-                          }`}
-                        >
-                          <div className="h-12 w-12 flex-shrink-0 overflow-hidden rounded bg-gray-800">
-                            <Image
-                              src={getImageUrl(item)}
-                              alt={item.name}
-                              width={48}
-                              height={48}
-                              className="h-full w-full object-cover"
-                            />
-                          </div>
-                          <div className="ml-3 flex-1">
-                            <p className="text-white text-sm font-medium truncate">{item.name}</p>
-                            <div className="flex items-center mt-1">
-                              <span className={`text-xs px-1.5 py-0.5 rounded-sm ${
-                                item.type === "Movie" ? "bg-blue-900/50 text-blue-300" :
-                                item.type === "Actor" ? "bg-purple-900/50 text-purple-300" :
-                                "bg-green-900/50 text-green-300"
-                              }`}>
-                                {item.type}
-                              </span>
+
+                {search.trim().length >= 2 && (
+                  <div className="bg-secondaryBg rounded-xl overflow-hidden flex-1 max-h-[calc(100vh-140px)]">
+                    {loading ? (
+                      <div className="overflow-y-auto max-h-[calc(100vh-140px)]">
+                        {[1, 2, 3, 4].map((n) => (
+                          <div
+                            key={n}
+                            className="flex items-center p-3 border-b border-gray-800/50 animate-pulse"
+                          >
+                            <div className="h-12 w-12 flex-shrink-0 rounded bg-gray-800"></div>
+                            <div className="ml-3 flex-1">
+                              <div className="h-3 bg-gray-800 rounded w-3/4 mb-2"></div>
+                              <div className="h-2 bg-gray-800 rounded w-1/4"></div>
                             </div>
                           </div>
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-          </div>,
-          document.body
-        )}
+                        ))}
+                      </div>
+                    ) : values.length === 0 ? (
+                      <div className="p-4 text-center text-gray-400">
+                        No results found for &quot;{search}&quot;
+                      </div>
+                    ) : (
+                      <div className="overflow-y-auto max-h-[calc(100vh-140px)]">
+                        {values.map((item, index) => (
+                          <Link
+                            href={getItemLink(item)}
+                            key={`${item.id}-${item.type}`}
+                            onClick={() => setShowMobileSearch(false)}
+                            className={`flex items-center p-3 hover:bg-[#252525] transition-colors ${
+                              index < values.length - 1
+                                ? "border-b border-gray-800/50"
+                                : ""
+                            }`}
+                          >
+                            <div className="h-12 w-12 flex-shrink-0 overflow-hidden rounded bg-gray-800">
+                              <Image
+                                src={getImageUrl(item)}
+                                alt={item.name}
+                                width={48}
+                                height={48}
+                                className="h-full w-full object-cover"
+                              />
+                            </div>
+                            <div className="ml-3 flex-1">
+                              <p className="text-white text-sm font-medium truncate">
+                                {item.name}
+                              </p>
+                              <div className="flex items-center mt-1">
+                                <span
+                                  className={`text-xs px-1.5 py-0.5 rounded-sm ${
+                                    item.type === "Movie"
+                                      ? "bg-blue-900/50 text-blue-300"
+                                      : item.type === "Actor"
+                                      ? "bg-purple-900/50 text-purple-300"
+                                      : "bg-green-900/50 text-green-300"
+                                  }`}
+                                >
+                                  {item.type}
+                                </span>
+                              </div>
+                            </div>
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>,
+            document.body
+          )}
       </>
     );
   }
 
   return (
-    <div 
-      className="relative w-full" 
-      ref={searchContainerRef}
-    >
-      <SearchInput 
+    <div className="relative w-full" ref={searchContainerRef}>
+      <SearchInput
         search={search}
         setSearch={setSearch}
         selectedVal={selectedVal}
@@ -207,21 +229,7 @@ export const Search = ({ border, isMobile = false }: { border?: boolean, isMobil
       {showResults && search.trim().length >= 2 && (
         <div className="absolute top-full left-0 right-0 mt-1.5 bg-secondaryBg rounded-xl shadow-2xl border border-border z-50 max-h-[calc(100vh-200px)] overflow-hidden">
           <div className="py-1">
-            {loading && (
-              <div className="px-4 py-2">
-                <div className="flex flex-col space-y-3">
-                  {[1, 2, 3, 4].map((n) => (
-                    <div key={n} className="flex items-center space-x-3 animate-pulse">
-                      <div className="h-12 w-12 rounded bg-gray-800"></div>
-                      <div className="flex-1">
-                        <div className="h-3 bg-gray-800 rounded w-3/4 mb-2"></div>
-                        <div className="h-2 bg-gray-800 rounded w-1/4"></div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
+            {loading && <SearchResultSkeleton />}
 
             {!loading && values.length === 0 && (
               <p className="text-gray-400 text-sm p-4 text-center">
@@ -232,12 +240,12 @@ export const Search = ({ border, isMobile = false }: { border?: boolean, isMobil
             {!loading && values.length > 0 && (
               <div className="flex flex-col max-h-[calc(100vh-200px)] overflow-y-auto custom-scrollbar">
                 {values.map((item, index) => (
-                  <Link 
-                    href={getItemLink(item)} 
+                  <Link
+                    href={getItemLink(item)}
                     key={`${item.id}-${item.type}`}
                     onClick={() => setShowResults(false)}
                     className={`flex items-center p-3 hover:bg-hoverBg transition-colors ${
-                      index < values.length - 1 ? 'border-b border-border' : ''
+                      index < values.length - 1 ? "border-b border-border" : ""
                     }`}
                   >
                     <div className="h-12 w-12 flex-shrink-0 overflow-hidden rounded">
@@ -250,13 +258,19 @@ export const Search = ({ border, isMobile = false }: { border?: boolean, isMobil
                       />
                     </div>
                     <div className="ml-3 flex-1">
-                      <p className="text-foreground text-sm font-medium truncate">{item.name}</p>
+                      <p className="text-foreground text-sm font-medium truncate">
+                        {item.name}
+                      </p>
                       <div className="flex items-center mt-1">
-                        <span className={`text-xs px-1.5 py-0.5 rounded-sm ${
-                          item.type === "Movie" ? "bg-blue-900/50 text-foreground" :
-                          item.type === "Actor" ? "bg-purple-900/50 text-foreground" :
-                          "bg-green-900/50 text-foreground"
-                        }`}>
+                        <span
+                          className={`text-xs px-1.5 py-0.5 rounded-sm ${
+                            item.type === "Movie"
+                              ? "bg-blue-900/50 text-foreground"
+                              : item.type === "Actor"
+                              ? "bg-purple-900/50 text-foreground"
+                              : "bg-green-900/50 text-foreground"
+                          }`}
+                        >
                           {item.type}
                         </span>
                       </div>
@@ -277,22 +291,22 @@ export const Search = ({ border, isMobile = false }: { border?: boolean, isMobil
   );
 };
 
-const SearchInput = ({ 
-  search, 
-  setSearch, 
-  selectedVal, 
-  setSelectedVal, 
-  setShowResults, 
+const SearchInput = ({
+  search,
+  setSearch,
+  selectedVal,
+  setSelectedVal,
+  setShowResults,
   border = false,
-  showFilter = false
-}: { 
-  search: string, 
-  setSearch: (s: string) => void, 
-  selectedVal: string, 
-  setSelectedVal: (v: string) => void, 
-  setShowResults: (show: boolean) => void, 
-  border?: boolean,
-  showFilter?: boolean
+  showFilter = false,
+}: {
+  search: string;
+  setSearch: (s: string) => void;
+  selectedVal: string;
+  setSelectedVal: (v: string) => void;
+  setShowResults: (show: boolean) => void;
+  border?: boolean;
+  showFilter?: boolean;
 }) => {
   const filterOptions = [
     { value: "all", label: "All" },
@@ -300,13 +314,15 @@ const SearchInput = ({
     { value: "Actor", label: "Actors" },
     { value: "User", label: "Users" },
   ];
-  
+
   return (
-    <div className={`flex items-center h-12 bg-secondaryBg rounded-xl overflow-hidden border border-border focus-within:border-primary transition-colors ${
-      border ? "p-[2px] pl-3" : "pl-3"
-    }`}>
+    <div
+      className={`flex items-center h-12 bg-secondaryBg rounded-xl overflow-hidden border border-border focus-within:border-primary transition-colors ${
+        border ? "p-[2px] pl-3" : "pl-3"
+      }`}
+    >
       <FiSearch className="text-gray-400 text-xl flex-shrink-0" />
-      
+
       <input
         value={search}
         onFocus={() => setShowResults(true)}
@@ -315,7 +331,7 @@ const SearchInput = ({
         placeholder="Search movies, actors, users..."
         className="bg-transparent outline-none flex-1 mx-3 py-2.5 text-sm text-foreground placeholder:text-gray-400"
       />
-      
+
       {showFilter && (
         <div className="flex-shrink-0 h-full">
           <select
@@ -323,7 +339,7 @@ const SearchInput = ({
             onChange={(e) => setSelectedVal(e.target.value)}
             className="h-full bg-sideNavBg outline-none px-3 sm:px-4 border-l border-border cursor-pointer"
           >
-            {filterOptions.map(option => (
+            {filterOptions.map((option) => (
               <option key={option.value} value={option.value}>
                 {option.label}
               </option>

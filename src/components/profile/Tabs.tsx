@@ -42,7 +42,7 @@ const Tabs = () => {
        
   return (
     <div className="w-full overflow-x-auto mt-8">
-      <div className="bg-zinc-900 rounded-xl border border-zinc-800 p-1">
+      <div className="bg-sideNavBg rounded-xl border border-border p-1">
         <ul className="flex gap-1 sm:gap-2 overflow-x-auto scrollbar-hidden whitespace-nowrap">
           {tabs.map((tab) => (
             <button
@@ -52,7 +52,7 @@ const Tabs = () => {
                 ${
                   activeTab === tab 
                     ? "text-white bg-gradient-to-br bg-primary shadow-lg" 
-                    : "text-gray-400 hover:text-white hover:bg-zinc-800"
+                    : "text-gray-500 hover:text-foreground"
                 }
               `}
             >

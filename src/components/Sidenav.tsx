@@ -208,7 +208,7 @@ export default function Sidenav() {
             onClick={handleLogout}
             className={`relative group w-full rounded-lg transition-all duration-200
               ${isCollapsed ? 'p-2 flex justify-center' : 'p-3 flex items-center'} 
-              text-gray-400 hover:bg-[#222222] hover:text-white`}
+              text-gray-500 hover:bg-secondaryBg hover:text-textMuted`}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             aria-label="Sign out"

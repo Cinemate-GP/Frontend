@@ -77,12 +77,12 @@ const ReviewCard = (item: cardProps) => {
                 />
               ))}
             </div>
-            <p className="text-white mt-2 text-sm sm:text-lg">
+            <p className="text-textMuted mt-2 text-sm sm:text-lg">
               {item.reviewBody}
             </p>
             <span className="text-white text-sm mt-3 flex items-center gap-1">
               <span className="w-1 h-4 rounded-xl bg-primary block"></span>
-              <span>{FormatDate(item.createdAt)}</span>
+              <span className="text-gray-400">{FormatDate(item.createdAt)}</span>
             </span>
           </div>
           <button

@@ -25,35 +25,35 @@ const getIcon = (type: string) => {
   switch (type) {
     case "rate":
       return (
-        <div className="flex items-center gap-2 text-sm text-gray-300">
+        <div className="flex items-center gap-2 text-sm text-textMuted">
           <FaStar className="text-primary" />
           <span>Rated Movie</span>
         </div>
       );
     case "like":
       return (
-        <div className="flex items-center gap-2 text-sm text-gray-300">
+        <div className="flex items-center gap-2 text-sm text-textMuted">
           <FaHeart className="text-primary" />
           <span>Added To Favorites</span>
         </div>
       );
     case "WatchList":
       return (
-        <div className="flex items-center gap-2 text-sm text-gray-300">
+        <div className="flex items-center gap-2 text-sm text-textMuted">
           <FaBookmark className="text-primary" />
           <span>Added to Watchlist</span>
         </div>
       );
     case "Watched":
       return (
-        <div className="flex items-center gap-2 text-sm text-gray-300">
+        <div className="flex items-center gap-2 text-sm text-textMuted">
           <FaPlayCircle className="text-primary" />
           <span>Watched Movie</span>
         </div>
       );
     case "review":
       return (
-        <div className="flex items-center gap-2 text-sm text-gray-300">
+        <div className="flex items-center gap-2 text-sm text-textMuted">
           <MdRateReview className="text-primary" />
           <span>Reviewed</span>
         </div>
@@ -119,14 +119,14 @@ export default function RecentActivitySection({ userId }: { userId?: string }) {
       <SectionTitle title="Recent Activity" />
       {loading && <ActivityCardSkeleton />}
       {recenActivities?.length === 0 && (
-        <p className="text-center text-gray-400 py-8">No activities yet</p>
+        <p className="text-center text-gray-500 py-8">No activities yet</p>
       )}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 px-0 rounded-lg">
         {recenActivities?.slice(0, visibleCount).map((item) => (
           <Link
             href={"/movies/" + item.tmdbId}
             key={item.createdOn}
-            className="group flex bg-zinc-900 rounded-xl max-h-[200px] overflow-hidden border border-zinc-800 shadow-lg hover:shadow-red-900/20 transition-all duration-300 hover:-translate-y-1"
+            className="group flex bg-secondaryBg rounded-xl max-h-[200px] overflow-hidden border border-border shadow-lg hover:shadow-red-900/20 transition-all duration-300 hover:-translate-y-1"
           >
             <div className="relative w-[150px] sm:max-w-[200px] md:w-[280px] overflow-hidden">
               <img
@@ -135,12 +135,11 @@ export default function RecentActivitySection({ userId }: { userId?: string }) {
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 loading="lazy"
               />
-              <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </div>
 
             <div className="p-4 flex-1 flex flex-col justify-between">
               <div>
-                <h3 className="text-base sm:text-lg font-bold text-white mb-2 group-hover:text-primary transition-colors duration-300">
+                <h3 className="text-base sm:text-lg font-bold text-foreground mb-2 group-hover:text-primary transition-colors duration-300">
                   {item.name}
                 </h3>
 
@@ -165,8 +164,8 @@ export default function RecentActivitySection({ userId }: { userId?: string }) {
               <div className="mt-3 space-y-3">
                 {/* Review message if exists */}
                 {item.description && item.type === "review" && (
-                  <div className="bg-zinc-950/50 rounded-lg p-3 border-l-2 border-primary">
-                    <p className="text-gray-300 text-sm italic">
+                  <div className="bg-background shadow-md rounded-lg p-3 border-l-2 border-primary">
+                    <p className="text-gray-500 text-sm italic">
                       {truncateText(item.description!, isExpanded, 80)}
                       {item.description.length > 80 && (
                         <button
@@ -198,7 +197,7 @@ export default function RecentActivitySection({ userId }: { userId?: string }) {
       {(recenActivities?.length ?? 0) > visibleCount && (
         <button
           onClick={handleLoadMore}
-          className="my-6 px-6 py-2.5 bg-gradient-to-r bg-primary text-white rounded-full w-fit mx-auto block font-medium  transition-all duration-300 hover:shadow-lg hover:shadow-red-900/30 focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-zinc-900"
+          className="my-6 px-6 py-2.5 bg-gradient-to-r bg-primary text-white rounded-full w-fit mx-auto block font-medium  transition-all duration-300 hover:shadow-lg hover:shadow-red-900/30 "
         >
           Load More
         </button>

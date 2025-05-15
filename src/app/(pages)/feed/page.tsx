@@ -17,7 +17,7 @@ interface Feed {
 const FeedPage = () => {
   const { data: feeds, loading } = useFetch<Feed[] | null>("/api/Profile/feed");
   if (loading) return <FeedCardSkelton />;
-  if(feeds?.length === 0 ) return <p className="text-gray-300 flex flex-col mt-24 p-4 mx-[0] sm:mx-8 mb-10 md:mb-0">Your Feeds Will Goes Here</p>
+  if(feeds?.length === 0 ) return <p className="text-gray-400 flex flex-col mt-24 p-4 mx-[0] sm:mx-8 mb-10 md:mb-0">Your Feeds Will Goes Here</p>
   return (
     <div className="flex flex-col mt-20 p-4 mx-[0] sm:mx-8 mb-10 md:mb-0 min-h-screen">
       {feeds?.map((feed) => (

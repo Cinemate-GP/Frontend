@@ -7,47 +7,69 @@ import NotificationSettings from "@/components/settings/NotificationSettings";
 import PrivacyAndSecurity from "@/components/settings/PrivacyAndSecurity";
 import ProfileEditor from "@/components/settings/ProfileEditor";
 import { FaUserCircle } from "react-icons/fa";
-import { IoSettingsSharp, IoNotifications, IoShieldCheckmark } from "react-icons/io5";
+import {
+  IoSettingsSharp,
+  IoNotifications,
+  IoShieldCheckmark,
+} from "react-icons/io5";
 import { MdOutlineColorLens } from "react-icons/md";
 
 export default function Settings() {
   const [activeTab, setActiveTab] = useState("profile");
-  
+
   const tabs = [
     { id: "profile", label: "Profile", icon: <FaUserCircle size={18} /> },
     { id: "account", label: "Account", icon: <IoSettingsSharp size={18} /> },
-    { id: "appearance", label: "Appearance", icon: <MdOutlineColorLens size={18} /> },
-    { id: "privacy", label: "Privacy & Security", icon: <IoShieldCheckmark size={18} /> },
-    { id: "notifications", label: "Notifications", icon: <IoNotifications size={18} /> },
+    {
+      id: "appearance",
+      label: "Appearance",
+      icon: <MdOutlineColorLens size={18} />,
+    },
+    {
+      id: "privacy",
+      label: "Privacy & Security",
+      icon: <IoShieldCheckmark size={18} />,
+    },
+    {
+      id: "notifications",
+      label: "Notifications",
+      icon: <IoNotifications size={18} />,
+    },
   ];
-  
+
   return (
     <div className="px-4 sm:px-6 text-foreground max-w-7xl mx-auto mt-[5rem] mb-20">
-      <h1 className="text-2xl sm:text-3xl text-foreground font-bold mb-6 sm:mb-8">Settings</h1>
+      <h1 className="text-2xl sm:text-3xl text-foreground font-bold mb-6 sm:mb-8">
+        Settings
+      </h1>
 
-      <div className="flex flex-col md:flex-row gap-6 sm:gap-8">
+      <div className="flex flex-col md:flex-row gap-4">
         {/* Sidebar - Tab Navigation */}
-        <div className="md:w-64 md:mb-0 rounded-xl shadow-md bg-secondaryBg">
+        <div className="md:w-56 md:mb-0 rounded-xl shadow-md bg-secondaryBg">
           {/* Mobile tabs - horizontal scrollable */}
-          <div className="md:hidden flex overflow-x-auto py-2 scrollbar-hidden space-x-2">
+          <div className="md:hidden flex overflow-x-auto py-2 px-2 scrollbar-hidden space-x-2">
             {tabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex items-center gap-2 shrink-0 px-4 py-2.5 rounded-lg transition-colors ${
                   activeTab === tab.id
-                  ? " text-foreground" 
-                  : "text-foreground hover:bg-hoverBg hover:text-gray-200"
+                    ? "bg-hoverBg text-Muted"
+                    : "text-gray-500 hover:bg-hoverBg"
                 }`}
               >
-                <span className={activeTab === tab.id ? "text-primary" : "text-gray-500"}>
+                <span
+                  className={
+                    activeTab === tab.id ? "text-primary" : "text-gray-500"
+                  }
+                >
                   {tab.icon}
                 </span>
                 <span className="whitespace-nowrap">{tab.label}</span>
               </button>
             ))}
           </div>
-          
+
           {/* Desktop tabs - vertical */}
           <div className="hidden md:block space-y-1.5 p-0  sm:p-2">
             {tabs.map((tab) => (
@@ -56,11 +78,15 @@ export default function Settings() {
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg transition-colors ${
                   activeTab === tab.id
-                  ? "bg-hoverBg text-Muted"
-                  : "text-gray-500 hover:bg-hoverBg"
+                    ? "bg-hoverBg text-Muted"
+                    : "text-gray-500 hover:bg-hoverBg"
                 }`}
               >
-                <span className={`${activeTab === tab.id ? "text-primary" : "text-gray-500"}`}>
+                <span
+                  className={`${
+                    activeTab === tab.id ? "text-primary" : "text-gray-500"
+                  }`}
+                >
                   {tab.icon}
                 </span>
                 <span>{tab.label}</span>
@@ -71,7 +97,7 @@ export default function Settings() {
             ))}
           </div>
         </div>
-        
+
         {/* Main Content */}
         <div className="flex-1 space-y-6">
           {/* Content based on active tab */}
