@@ -126,7 +126,7 @@ export const Search = ({ border, isMobile = false }: { border?: boolean, isMobil
               </div>
               
               {search.trim().length >= 2 && (
-                <div className="bg-[#121212] rounded-xl overflow-hidden flex-1 max-h-[calc(100vh-140px)]">
+                <div className="bg-secondaryBg rounded-xl overflow-hidden flex-1 max-h-[calc(100vh-140px)]">
                   {loading ? (
                     <div className="overflow-y-auto max-h-[calc(100vh-140px)]">
                       {[1, 2, 3, 4].map((n) => (
@@ -205,7 +205,7 @@ export const Search = ({ border, isMobile = false }: { border?: boolean, isMobil
       />
 
       {showResults && search.trim().length >= 2 && (
-        <div className="absolute top-full left-0 right-0 mt-1.5 bg-[#191919] rounded-xl shadow-2xl border border-gray-800 z-50 max-h-[calc(100vh-200px)] overflow-hidden">
+        <div className="absolute top-full left-0 right-0 mt-1.5 bg-secondaryBg rounded-xl shadow-2xl border border-border z-50 max-h-[calc(100vh-200px)] overflow-hidden">
           <div className="py-1">
             {loading && (
               <div className="px-4 py-2">
@@ -236,8 +236,8 @@ export const Search = ({ border, isMobile = false }: { border?: boolean, isMobil
                     href={getItemLink(item)} 
                     key={`${item.id}-${item.type}`}
                     onClick={() => setShowResults(false)}
-                    className={`flex items-center p-3 hover:bg-[#252525] transition-colors ${
-                      index < values.length - 1 ? 'border-b border-gray-800/50' : ''
+                    className={`flex items-center p-3 hover:bg-hoverBg transition-colors ${
+                      index < values.length - 1 ? 'border-b border-border' : ''
                     }`}
                   >
                     <div className="h-12 w-12 flex-shrink-0 overflow-hidden rounded">
@@ -250,12 +250,12 @@ export const Search = ({ border, isMobile = false }: { border?: boolean, isMobil
                       />
                     </div>
                     <div className="ml-3 flex-1">
-                      <p className="text-white text-sm font-medium truncate">{item.name}</p>
+                      <p className="text-foreground text-sm font-medium truncate">{item.name}</p>
                       <div className="flex items-center mt-1">
                         <span className={`text-xs px-1.5 py-0.5 rounded-sm ${
-                          item.type === "Movie" ? "bg-blue-900/50 text-blue-300" :
-                          item.type === "Actor" ? "bg-purple-900/50 text-purple-300" :
-                          "bg-green-900/50 text-green-300"
+                          item.type === "Movie" ? "bg-blue-900/50 text-foreground" :
+                          item.type === "Actor" ? "bg-purple-900/50 text-foreground" :
+                          "bg-green-900/50 text-foreground"
                         }`}>
                           {item.type}
                         </span>
@@ -302,7 +302,7 @@ const SearchInput = ({
   ];
   
   return (
-    <div className={`flex items-center h-12 bg-[#1a1a1a] rounded-xl overflow-hidden border border-gray-800 focus-within:border-red-500/70 transition-colors ${
+    <div className={`flex items-center h-12 bg-secondaryBg rounded-xl overflow-hidden border border-border focus-within:border-primary transition-colors ${
       border ? "p-[2px] pl-3" : "pl-3"
     }`}>
       <FiSearch className="text-gray-400 text-xl flex-shrink-0" />
@@ -313,7 +313,7 @@ const SearchInput = ({
         onChange={(e) => setSearch(e.target.value)}
         type="text"
         placeholder="Search movies, actors, users..."
-        className="bg-transparent outline-none flex-1 mx-3 py-2.5 text-sm text-white placeholder-gray-400"
+        className="bg-transparent outline-none flex-1 mx-3 py-2.5 text-sm text-foreground placeholder:text-gray-400"
       />
       
       {showFilter && (
@@ -321,7 +321,7 @@ const SearchInput = ({
           <select
             value={selectedVal}
             onChange={(e) => setSelectedVal(e.target.value)}
-            className="h-full bg-[#292929] border-none outline-none text-gray-300 px-3 sm:px-4 border-l border-gray-700 cursor-pointer"
+            className="h-full bg-sideNavBg outline-none px-3 sm:px-4 border-l border-border cursor-pointer"
           >
             {filterOptions.map(option => (
               <option key={option.value} value={option.value}>

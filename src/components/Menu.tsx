@@ -71,7 +71,7 @@ const Menu = ({
     <div className="flex flex-col gap-6">
       {/* User Profile Section */}
       <div className="flex items-center gap-3 mb-2 px-2 py-3 bg-[#1a1a1a] rounded-lg">
-        <div className="w-12 h-12 rounded-full border-2 border-red-500/50 overflow-hidden">
+        <div className="w-12 h-12 rounded-full border-2 border-primary overflow-hidden">
           <Image
             src={user?.profilePic || "/user-placeholder.jpg"}
             alt="Profile"

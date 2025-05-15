@@ -12,7 +12,6 @@ import Image from "next/image";
 import { logout } from "@/lib/utils";
 
 const HorizontalNav = ({ pathname: propPathname }: { pathname: string }) => {
-  // Use Next.js's usePathname for more reliable pathname updates
   const pathFromRouter = useNextPathname();
   const pathname = propPathname || pathFromRouter;
   
@@ -28,7 +27,6 @@ const HorizontalNav = ({ pathname: propPathname }: { pathname: string }) => {
   // Close logout confirmation when menu is opened
   const toggleMenu = () => {
     setIsOpen((prev: boolean) => !prev);
-    // Always close logout confirmation when toggling menu
     if (isLogoutConfirm) setIsLogoutConfirm(false);
   };
 
@@ -39,7 +37,6 @@ const HorizontalNav = ({ pathname: propPathname }: { pathname: string }) => {
       return;
     }
     
-    // On second click, actually log out using the centralized logout function
     logout("/");
     setIsLogoutConfirm(false);
   }, [isLogoutConfirm]);
@@ -68,7 +65,7 @@ const HorizontalNav = ({ pathname: propPathname }: { pathname: string }) => {
         initial={{ y: 100 }}
         animate={{ y: 0 }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
-        className="w-full h-[60px] fixed z-[100] left-0 bottom-0 block md:hidden border-t border-[#222222] bg-[#111111]/95 backdrop-blur-md shadow-lg"
+        className="w-full h-[60px] fixed z-[100] left-0 bottom-0 block md:hidden border-t border-border bg-sideNavBg backdrop-blur-md shadow-lg"
       >
         <ul className="flex items-center justify-between h-full px-2">
           {/* Main Navigation Items - Home and Feed */}
@@ -76,8 +73,9 @@ const HorizontalNav = ({ pathname: propPathname }: { pathname: string }) => {
             <li key={item.name} className="flex-1">
               <Link
                 href={item.href}
+                onClick={() => setIsOpen(false)}
                 className={`flex flex-col items-center justify-center h-full ${
-                  pathname === item.href ? "text-red-500" : "text-gray-400"
+                  pathname === item.href ? "text-primary" : "text-gray-400"
                 }`}
               >
                 <item.icon className="w-5 h-5 mb-1" aria-hidden="true" />
@@ -87,7 +85,7 @@ const HorizontalNav = ({ pathname: propPathname }: { pathname: string }) => {
           ))}
 
           {/* Search Button */}
-          <li className="flex-1">
+          <li className="flex-1" onClick={() => setIsOpen(false)}>
             <div className="flex flex-col items-center justify-center h-full">
               <Search isMobile={true} />
             </div>
@@ -104,7 +102,7 @@ const HorizontalNav = ({ pathname: propPathname }: { pathname: string }) => {
                 exit={{ opacity: 0, scale: 0.8 }}
               >
                 <button
-                  className="flex flex-col items-center justify-center h-full w-full text-red-500"
+                  className="flex flex-col items-center justify-center h-full w-full text-primary"
                   onClick={handleLogout}
                   aria-label="Confirm logout"
                 >
@@ -122,11 +120,11 @@ const HorizontalNav = ({ pathname: propPathname }: { pathname: string }) => {
               >
                 <button
                   className={`flex flex-col items-center justify-center h-full w-full ${
-                    isOpen ? "text-red-500" : "text-gray-400"
+                    isOpen ? "text-primary" : "text-gray-400"
                   }`}
                   onClick={toggleMenu}
                 >
-                  <div className="relative w-6 h-6 mb-1 rounded-full border border-red-500/50 overflow-hidden">
+                  <div className="relative w-6 h-6 mb-1 rounded-full border border-primary overflow-hidden">
                     <Image
                       src={user?.profilePic || "/user-placeholder.jpg"}
                       alt="Profile"

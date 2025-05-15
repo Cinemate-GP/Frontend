@@ -31,7 +31,7 @@ export const MovieActions = ({
       icon: liked ? (
         <FaHeart color="red" className="animate-heart" />
       ) : (
-        <FiHeart className="group-hover:text-red-500 transition-all duration-200" />
+        <FiHeart className="group-hover:text-primary transition-all duration-200" />
       ),
       onClick: toggleLike,
       label: "Like",
@@ -39,8 +39,8 @@ export const MovieActions = ({
     {
       icon: (
         <FaRegEye
-          color={watched ? "red" : "white"}
-          className="group-hover:!text-red-500 transition-all duration-200 animate-heart"
+          
+          className={`${watched ? "text-primary" : ""} group-hover:!text-primary transition-all duration-200 animate-heart`}
         />
       ),
       onClick: toggleWatched,
@@ -49,7 +49,7 @@ export const MovieActions = ({
     {
       icon: (
         <FiPlus
-          className={`group-hover:text-red-500 ${watchlist ? "text-red-500" : ""} transition-all duration-200`}
+          className={`group-hover:text-primary ${watchlist ? "text-primary" : ""} transition-all duration-200`}
         />
       ),
       onClick: toggleWatchlist,
@@ -58,7 +58,7 @@ export const MovieActions = ({
     {
       icon: (
         <>
-          <MdOutlineRateReview className="group-hover:text-red-500 transition-all duration-200" />
+          <MdOutlineRateReview className="group-hover:text-primary transition-all duration-200" />
         </>
       ),
       onClick: onReview,
@@ -118,12 +118,12 @@ export const MovieActions = ({
       <div className="flex gap-2 justify-center mt-3">
         {Array.from({ length: rating! }, (_, i) => (
           <button key={i} onClick={() => handleRating(i + 1)}>
-            <FaStar color="red" className="text-2xl" />
+            <FaStar className="text-2xl text-primary" />
           </button>
         ))}
         {Array.from({ length: 5 - rating! }, (_, i) => (
           <button key={i} onClick={() => handleRating(rating! + i + 1)}>
-            <FaRegStar color="red" className="text-2xl" />
+            <FaRegStar className="text-2xl text-primary" />
           </button>
         ))}
       </div>

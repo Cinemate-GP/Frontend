@@ -31,23 +31,23 @@ const DeleteAccount = () => {
 
   return (
     <>
-      <div className="bg-zinc-900 p-4 sm:p-6 rounded-xl shadow-md">
-        <h2 className="text-xl font-semibold mb-4 text-white flex items-center gap-2">
-          <FaTrash className="text-red-500" />
+      <div className="bg-background p-4 sm:p-6 rounded-xl shadow-md">
+        <h2 className="text-xl font-semibold mb-4 text-textMuted flex items-center gap-2">
+          <FaTrash className="text-primary" />
           Delete Account
         </h2>
         
         <div className="bg-red-900/20 border border-red-800 rounded-lg p-3 sm:p-4 mb-5 sm:mb-6">
           <div className="flex items-start gap-2 sm:gap-3">
             <div className="p-1.5 sm:p-2 bg-red-800/40 rounded-full mt-1">
-              <IoWarning className="text-red-500" size={16} />
+              <IoWarning className="text-primary" size={16} />
             </div>
             <div>
               <h3 className="text-red-400 text-xs sm:text-sm font-medium mb-1">Warning: Permanent Action</h3>
-              <p className="text-gray-300 text-xs sm:text-sm">
+              <p className="text-textMuted text-xs sm:text-sm">
                 Deleting your account will remove all your data, including:
               </p>
-              <ul className="list-disc list-inside text-gray-300 text-xs sm:text-sm mt-2 space-y-1">
+              <ul className="list-disc list-inside text-textMuted text-xs sm:text-sm mt-2 space-y-1">
                 <li>Your profile information</li>
                 <li>Watch history and preferences</li>
                 <li>Reviews and ratings</li>
@@ -60,7 +60,7 @@ const DeleteAccount = () => {
         
         <button
           onClick={() => setIsModalOpen(true)}
-          className="w-full py-2.5 sm:py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors flex items-center justify-center gap-2 text-sm sm:text-base"
+          className="w-full py-2.5 sm:py-3 bg-primary text-white rounded-lg transition-colors flex items-center justify-center gap-2 text-sm sm:text-base"
         >
           <FaTrash size={16} />
           Delete My Account
@@ -74,7 +74,7 @@ const DeleteAccount = () => {
             <h3 className="text-lg sm:text-xl font-semibold text-white mb-2">Confirm Account Deletion</h3>
             
             <p className="text-gray-300 text-xs sm:text-sm mb-4">
-              This action is permanent. To confirm deletion, please type <span className="font-bold text-red-500">DELETE</span> below.
+              This action is permanent. To confirm deletion, please type <span className="font-bold text-primary">DELETE</span> below.
             </p>
             
             <div className="mb-4">
@@ -82,7 +82,7 @@ const DeleteAccount = () => {
                 type="text"
                 value={confirmText}
                 onChange={(e) => setConfirmText(e.target.value)}
-                className="w-full px-4 py-2.5 rounded-lg bg-zinc-800 text-white border border-zinc-700 focus:border-red-500 focus:ring-1 focus:ring-red-500 outline-none transition-colors text-sm sm:text-base"
+                className="w-full px-4 py-2.5 rounded-lg bg-zinc-800 text-white border border-zinc-700 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors text-sm sm:text-base"
                 placeholder="Type DELETE to confirm"
               />
             </div>
@@ -100,7 +100,7 @@ const DeleteAccount = () => {
                 disabled={confirmText !== "DELETE" || loading}
                 className={`flex-1 py-2.5 flex items-center justify-center gap-2 rounded-lg transition-colors text-sm sm:text-base ${
                   confirmText === "DELETE" && !loading
-                    ? "bg-red-600 hover:bg-red-700 text-white"
+                    ? "bg-primary text-white"
                     : "bg-gray-800 text-gray-500 cursor-not-allowed"
                 }`}
               >

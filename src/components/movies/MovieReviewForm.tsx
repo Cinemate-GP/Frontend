@@ -72,14 +72,14 @@ const MovieReviewForm = ({ tmdbId, title, onclose }: Props) => {
       <form onSubmit={HandleSubmitReview} className="mt-4">
         <label className="text-gray-400 text-sm">Message</label>
         <textarea
-          className="w-full bg-background text-white text-xs sm:text-[16px] p-2 rounded-md h-40 mt-1"
+          className="w-full bg-background text-white text-xs sm:text-[16px] p-2 rounded-md h-40 mt-1 outline-1  focus:outline-primary"
           placeholder="Make it short and sweet..."
           value={message}
           onChange={(e) => setMessage(e.target.value)}
         />
         <button
           type="submit"
-          className="bg-[linear-gradient(90deg,#ff0000,#800000)] hover:scale-105 transition-all duration-150 rounded-full px-8 sm:px-12 py-2 sm:text-sm mt-3"
+          className="bg-primary text-white hover:scale-105 transition-all duration-150 rounded-full px-8 sm:px-12 py-2 sm:text-sm mt-3"
         >
           {loading ? (
             <span className="flex items-center">

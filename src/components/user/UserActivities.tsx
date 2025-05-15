@@ -4,7 +4,12 @@ import SectionTitle from "@/components/SectionTitle";
 import { ActivityCardSkeleton } from "@/components/skeletons";
 import { IMAGEPOSTER } from "@/constants";
 import { authFetch } from "@/lib/api";
-import { formatTimestamp, getCookie, getUserId, truncateText } from "@/lib/utils";
+import {
+  formatTimestamp,
+  getCookie,
+  getUserId,
+  truncateText,
+} from "@/lib/utils";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import {
@@ -21,35 +26,35 @@ const getIcon = (type: string) => {
     case "rate":
       return (
         <div className="flex items-center gap-2 text-sm text-gray-300">
-          <FaStar className="text-red-500" />
+          <FaStar className="text-primary" />
           <span>Rated Movie</span>
         </div>
       );
     case "like":
       return (
         <div className="flex items-center gap-2 text-sm text-gray-300">
-          <FaHeart className="text-red-500" />
+          <FaHeart className="text-primary" />
           <span>Added To Favorites</span>
         </div>
       );
     case "WatchList":
       return (
         <div className="flex items-center gap-2 text-sm text-gray-300">
-          <FaBookmark className="text-red-500" />
+          <FaBookmark className="text-primary" />
           <span>Added to Watchlist</span>
         </div>
       );
     case "Watched":
       return (
         <div className="flex items-center gap-2 text-sm text-gray-300">
-          <FaPlayCircle className="text-red-500" />
+          <FaPlayCircle className="text-primary" />
           <span>Watched Movie</span>
         </div>
       );
     case "review":
       return (
         <div className="flex items-center gap-2 text-sm text-gray-300">
-          <MdRateReview className="text-red-500" />
+          <MdRateReview className="text-primary" />
           <span>Reviewed</span>
         </div>
       );
@@ -70,12 +75,12 @@ interface Activity {
 
 const ITEMS_PER_PAGE = 6;
 
-export default function RecentActivitySection({userId}:{userId?:string}) {
+export default function RecentActivitySection({ userId }: { userId?: string }) {
   const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
   const [isExpanded, setIsExpanded] = useState(false);
   const [loading, setLoading] = useState(true);
   const token = getCookie("token");
-  const validUserId = userId || getUserId()
+  const validUserId = userId || getUserId();
   const [recenActivities, setRecentActivities] = useState<Activity[] | null>(
     null
   );
@@ -85,17 +90,19 @@ export default function RecentActivitySection({userId}:{userId?:string}) {
   };
 
   useEffect(() => {
-    
     (async function () {
       try {
         setLoading(true);
-        const res = await authFetch(`/api/Profile/RecentActivity/${validUserId}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const res = await authFetch(
+          `/api/Profile/RecentActivity/${validUserId}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         if (!res.ok) throw new Error("Failed to fetch recent activities");
         const data = await res.json();
         setRecentActivities(data);
@@ -105,8 +112,8 @@ export default function RecentActivitySection({userId}:{userId?:string}) {
         setLoading(false);
       }
     })();
-  }, [token, userId]);
-  
+  }, [token, userId, validUserId]);
+
   return (
     <div className="mt-5">
       <SectionTitle title="Recent Activity" />
@@ -114,20 +121,18 @@ export default function RecentActivitySection({userId}:{userId?:string}) {
       {recenActivities?.length === 0 && (
         <p className="text-center text-gray-400 py-8">No activities yet</p>
       )}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 p-0 sm:p-6 rounded-lg">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 px-0 rounded-lg">
         {recenActivities?.slice(0, visibleCount).map((item) => (
           <Link
             href={"/movies/" + item.tmdbId}
             key={item.createdOn}
-            className="group flex bg-zinc-900 rounded-xl overflow-hidden border border-zinc-800 shadow-lg hover:shadow-red-900/20 transition-all duration-300 hover:-translate-y-1"
+            className="group flex bg-zinc-900 rounded-xl max-h-[200px] overflow-hidden border border-zinc-800 shadow-lg hover:shadow-red-900/20 transition-all duration-300 hover:-translate-y-1"
           >
-            <div className="relative overflow-hidden min-w-[90px] sm:min-w-[120px]">
+            <div className="relative w-[150px] sm:max-w-[200px] md:w-[280px] overflow-hidden">
               <img
                 src={IMAGEPOSTER + item.posterPath}
                 alt={item.name}
-                width={250}
-                height={190}
-                className="w-full h-full min-h-[130px] sm:min-h-[160px] object-cover transition-transform duration-500 group-hover:scale-110"
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 loading="lazy"
               />
               <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -135,18 +140,32 @@ export default function RecentActivitySection({userId}:{userId?:string}) {
 
             <div className="p-4 flex-1 flex flex-col justify-between">
               <div>
-                <h3 className="text-base sm:text-lg font-bold text-white mb-2 group-hover:text-red-400 transition-colors duration-300">
+                <h3 className="text-base sm:text-lg font-bold text-white mb-2 group-hover:text-primary transition-colors duration-300">
                   {item.name}
                 </h3>
 
                 {/* Activity type with icon */}
                 {getIcon(item.type)}
               </div>
+              {/* Rating if exists */}
+              {item.stars > 0 && (
+                <div className="flex items-center space-x-1">
+                  {[...Array(5)].map((_, i) => (
+                    <FaStar
+                      key={i}
+                      size={14}
+                      className={
+                        i < item.stars! ? "text-primary" : "text-zinc-700"
+                      }
+                    />
+                  ))}
+                </div>
+              )}
 
               <div className="mt-3 space-y-3">
                 {/* Review message if exists */}
                 {item.description && item.type === "review" && (
-                  <div className="bg-zinc-950/50 rounded-lg p-3 border-l-2 border-red-500">
+                  <div className="bg-zinc-950/50 rounded-lg p-3 border-l-2 border-primary">
                     <p className="text-gray-300 text-sm italic">
                       {truncateText(item.description!, isExpanded, 80)}
                       {item.description.length > 80 && (
@@ -155,27 +174,12 @@ export default function RecentActivitySection({userId}:{userId?:string}) {
                             e.preventDefault();
                             setIsExpanded(!isExpanded);
                           }}
-                          className="text-red-400 hover:text-red-300 text-sm font-medium ml-1"
+                          className="text-primary text-sm font-medium ml-1"
                         >
                           {isExpanded ? "Read Less" : "Read More"}
                         </button>
                       )}
                     </p>
-                  </div>
-                )}
-
-                {/* Rating if exists */}
-                {item.stars > 0 && (
-                  <div className="flex items-center space-x-1">
-                    {[...Array(5)].map((_, i) => (
-                      <FaStar
-                        key={i}
-                        size={14}
-                        className={
-                          i < item.stars! ? "text-red-500" : "text-zinc-700"
-                        }
-                      />
-                    ))}
                   </div>
                 )}
 
@@ -189,12 +193,12 @@ export default function RecentActivitySection({userId}:{userId?:string}) {
           </Link>
         ))}
       </div>
-      
+
       {/* Load more button with improved styling */}
       {(recenActivities?.length ?? 0) > visibleCount && (
         <button
           onClick={handleLoadMore}
-          className="my-6 px-6 py-2.5 bg-gradient-to-r from-red-600 to-red-800 text-white rounded-full w-fit mx-auto block font-medium hover:from-red-700 hover:to-red-900 transition-all duration-300 hover:shadow-lg hover:shadow-red-900/30 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-zinc-900"
+          className="my-6 px-6 py-2.5 bg-gradient-to-r bg-primary text-white rounded-full w-fit mx-auto block font-medium  transition-all duration-300 hover:shadow-lg hover:shadow-red-900/30 focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-zinc-900"
         >
           Load More
         </button>

@@ -1,4 +1,4 @@
-import RecentActivitySection from "@/components/UserActivities";
+import RecentActivitySection from "@/components/user/UserActivities";
 export default function page() {
  
   

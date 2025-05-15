@@ -12,9 +12,7 @@ export default function SearchComponent({handleFilterValue}: Props) {
   const debouncedSearchTerm = useDebounce(searchTerm, 1000);
 
   useEffect(() => {
-    // Only trigger search if:
-    // 1. The term is at least 3 characters OR empty (to reset search)
-    // 2. And it's different from the last searched term
+    
     if (debouncedSearchTerm !== lastSearched && 
         (debouncedSearchTerm.length >= 3 || debouncedSearchTerm === '')) {
       handleFilterValue("search", debouncedSearchTerm);
@@ -46,7 +44,7 @@ export default function SearchComponent({handleFilterValue}: Props) {
     <input
       type="text"
       placeholder="Search..."
-      className="col-span-2 lg:col-span-1 border border-gray-500 bg-black text-white px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-red-600"
+      className="col-span-2 lg:col-span-1 border border-border bg-background text-foreground px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-red-600"
       onChange={handleChange}
       onBlur={handleBlur}
       value={searchTerm}

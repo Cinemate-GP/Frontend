@@ -2,7 +2,7 @@
 import { redirect, useParams } from "next/navigation";
 import { getUserId } from "@/lib/utils";
 import ProfileHeader from "@/components/profile/ProfileHeader";
-import RecentActivitySection from "@/components/UserActivities";
+import RecentActivitySection from "@/components/user/UserActivities";
 
 
 const UserPage = () => {

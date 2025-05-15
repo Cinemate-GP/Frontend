@@ -7,16 +7,18 @@ import { usePathname } from "next/navigation";
 import { NavLink, navCategories, modernIcons } from "@/constants";
 import HorizontalNav from "./HorizontalNav";
 import Image from "next/image";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toggleSidenave } from "@/redux/slices/sidebarSlice";
 import { IoIosArrowBack } from "react-icons/io";
 import { useSearch } from "@/context/SearchContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { logout } from "@/lib/utils";
+import { RootState } from "@/redux/store";
 
 export default function Sidenav() {
   const pathname = usePathname();
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const {themeMode} = useSelector((state: RootState) => state.accentColor);
   const { setSearch } = useSearch();
   const dispatch = useDispatch();
 
@@ -55,15 +57,15 @@ export default function Sidenav() {
     <>
       <motion.aside
         onClick={() => setSearch("")}
-        className="h-screen bg-[#111111] fixed z-50
-           flex-col border-r border-[#222222] shadow-xl overflow-x-hidden
+        className="h-screen bg-sideNavBg fixed z-50
+           flex-col border-r border-border shadow-xl overflow-x-hidden
           md:flex hidden"
         variants={sidebarVariants}
         initial="expanded"
         animate={isCollapsed ? "collapsed" : "expanded"}
       >
         {/* Logo Section with Toggle Button */}
-        <div className="relative flex items-center h-16 px-4 border-b border-[#222222]">
+        <div className="relative flex items-center h-16 px-4 border-b border-border">
           <Link
             href="/home"
             className={`flex items-center ${isCollapsed ? "justify-center w-full" : ""}`}
@@ -74,18 +76,19 @@ export default function Sidenav() {
               height={36}
               priority
               alt="CineMate logo"
-              className="object-contain min-w-[36px]"
+              className={`${themeMode === 'light' ? 'invert' : ''} filter object-contain min-w-[36px]`}
+              
             />
             <AnimatePresence>
               {!isCollapsed && (
                 <motion.span 
-                  className="ml-2.5 font-semibold text-base text-white truncate"
+                  className="ml-2.5 font-semibold text-base text-foreground truncate"
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -10 }}
                   transition={{ duration: 0.2 }}
                 >
-                  Cine<span className="text-red-500">Mate</span>
+                  Cine<span className="text-primary">Mate</span>
                 </motion.span>
               )}
             </AnimatePresence>
@@ -95,7 +98,7 @@ export default function Sidenav() {
           {!isCollapsed && (
             <motion.button
               aria-label="Collapse sidebar"
-              className="ml-auto text-gray-400 hover:text-white p-1.5 rounded-lg hover:bg-[#333333] 
+              className="ml-auto text-gray-500 hover:text-textMuted p-1.5 rounded-lg hover:bg-secondaryBg 
                 transition-colors duration-200"
               onClick={toggleSidebar}
               whileHover={{ scale: 1.1 }}
@@ -200,7 +203,7 @@ export default function Sidenav() {
         </nav>
 
         {/* User Profile and Logout Section */}
-        <div className="mt-auto border-t border-[#222222] p-3">
+        <div className="mt-auto border-t border-border p-3">
           <motion.button
             onClick={handleLogout}
             className={`relative group w-full rounded-lg transition-all duration-200
@@ -255,8 +258,8 @@ export default function Sidenav() {
             key="expand-button"
             aria-label="Expand sidebar"
             className="fixed top-4 left-[4.2rem] z-50 
-              backdrop-blur-md bg-white/10 border border-white/20
-              text-white p-1.5 rounded-lg
+              backdrop-blur-md border border-border
+              text-gray-500 p-1.5 rounded-lg hover:bg-hoverBg
               flex items-center justify-center"
             onClick={toggleSidebar}
             initial={{ opacity: 0, x: -5 }}
@@ -309,8 +312,8 @@ const NavItem = ({
         href={link.href}
         className={`flex items-center px-3 py-2.5 rounded-lg transition-all duration-200 w-full
           ${isActive 
-            ? "bg-gradient-to-r from-red-950/40 to-transparent border-l-2 border-red-500 text-white" 
-            : "text-gray-400 hover:bg-[#222222] hover:text-gray-200 border-l-2 border-transparent"
+            ? "bg-secondaryBg border-l-2 border-primary text-textMuted" 
+            : "text-gray-500 hover:bg-secondaryBg hover:text-textMuted border-l-2 border-transparent"
           }
           ${isCollapsed ? "justify-center" : ""}
         `}
@@ -321,7 +324,7 @@ const NavItem = ({
           whileTap={{ scale: 0.9 }}
         >
           {React.createElement(modernIcons[iconName], {
-            className: `w-[20px] h-[20px] transition-colors duration-200 ${isActive ? "text-red-500" : ""}`,
+            className: `w-[20px] h-[20px] transition-colors duration-200 ${isActive ? "text-primary" : ""}`,
             "aria-hidden": "true",
           })}
         </motion.span>
@@ -341,10 +344,10 @@ const NavItem = ({
         </AnimatePresence>
 
         {isCollapsed && (
-          <div className="absolute left-full ml-2 px-2.5 py-1.5 bg-[#1a1a1a] text-gray-200 text-xs rounded-lg
+          <div className="absolute left-full ml-2 z-50 px-2.5 py-1.5 bg-secondaryBg text-textMuted text-xs rounded-lg
             opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0
-            pointer-events-none group-hover:pointer-events-auto border border-[#333333]
-            transition-all duration-200 whitespace-nowrap z-50 shadow-lg">
+            pointer-events-none group-hover:pointer-events-auto border border-border
+            transition-all duration-200 whitespace-nowrap shadow-lg">
             {link.name}
           </div>
         )}

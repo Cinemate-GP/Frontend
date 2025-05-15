@@ -6,7 +6,7 @@ import DatePicker from "react-datepicker";
 interface RHFDatePickerProps {
   label: string;
   name: string;
-  control:Control<any>
+  control: Control<any>;
 }
 
 const RHFDatePicker: React.FC<RHFDatePickerProps> = ({ label, name }) => {
@@ -21,9 +21,14 @@ const RHFDatePicker: React.FC<RHFDatePickerProps> = ({ label, name }) => {
         render={({ field }) => (
           <DatePicker
             {...field}
+            showYearDropdown
+            scrollableYearDropdown
+            yearDropdownItemNumber={50}
+            minDate={new Date(1980, 0, 1)}
+            maxDate={new Date(2030, 11, 31)}
             selected={field.value}
             onChange={(date) => field.onChange(date)}
-            className="w-full border rounded-lg bg-transparent p-4 outline-none border-gray-800"
+            className="w-full border rounded-lg bg-transparent p-4 outline-none border-gray-800 custom-datepicker"
             placeholderText="Select a date"
           />
         )}

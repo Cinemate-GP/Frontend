@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { IoMdNotifications } from "react-icons/io";
 import { MdEmail, MdDevices, MdMovie, MdFavorite } from "react-icons/md";
-import SwitchButton from "../SwitchButton";
+import SwitchButton from "../ui/SwitchButton";
 
 const NotificationSettings = () => {
   const [emailNotifications, setEmailNotifications] = useState(false);
@@ -14,7 +14,7 @@ const NotificationSettings = () => {
   return (
     <div className="bg-zinc-900 p-4 sm:p-6 rounded-xl shadow-md">
       <h2 className="text-xl font-semibold mb-4 sm:mb-6 text-white flex items-center gap-2">
-        <IoMdNotifications className="text-red-500" />
+        <IoMdNotifications className="text-primary" />
         Notifications
       </h2>
 
@@ -84,7 +84,7 @@ const NotificationSettings = () => {
 
         <div className="pt-4 mt-4">
           <button
-            className="w-full py-2.5 sm:py-3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white rounded-lg transition-colors flex items-center justify-center text-sm sm:text-base"
+            className="w-full py-2.5 sm:py-3 bg-gradient-to-r  bg-primary text-white rounded-lg transition-colors flex items-center justify-center text-sm sm:text-base"
           >
             Save Preferences
           </button>
