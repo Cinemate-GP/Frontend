@@ -311,6 +311,11 @@ body {
   text-shadow: 0 0 10px rgba(210, 35, 35, 0.791),
     0 0 20px rgba(186, 27, 27, 0.781);
 }
+.anaimate-click {
+  animation: clickBounce 0.3s ease-in-out;
+}
+
+
 
 .animate-heart {
   animation: heartBounce 0.3s ease-in-out;
@@ -322,6 +327,17 @@ body {
   }
   50% {
     transform: scale(1.4);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes clickBounce {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.8);
   }
   100% {
     transform: scale(1);

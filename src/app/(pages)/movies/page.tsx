@@ -66,7 +66,7 @@ const MoviesPage = () => {
     fetchData();
   }, [filters, pageNumber]);
   return (
-    <div className="pt-[5rem] mx-0 sm:mx-[2rem] mb-[4rem] md:mb-0">
+    <div className="pt-[8rem] mx-0 sm:mx-[1rem] mb-[4rem] md:mb-0">
       {/* filters */}
       <MoviesFilter handleFilterValue={handleFilterValue} />
       {/* grid */}

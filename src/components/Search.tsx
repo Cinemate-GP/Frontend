@@ -353,7 +353,7 @@ const SearchInput = ({
 
 const NavbarSearch = () => {
   return (
-    <div className="ml-[1rem] sm:ml-[2rem] w-full max-w-[600px]">
+    <div className="w-full max-w-6xl">
       <Search />
     </div>
   );

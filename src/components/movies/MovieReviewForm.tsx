@@ -61,8 +61,8 @@ const MovieReviewForm = ({ tmdbId, title, onclose }: Props) => {
   };
 
   return (
-    <div className="flex-1 bg-gray-900 p-4 rounded-lg">
-      <h3 className="text-white text-sm sm:text-lg font-bold">
+    <div className="flex-1 bg-secondaryBg  rounded-lg">
+      <h3 className="text-foreground text-sm sm:text-lg font-bold">
         Rate &quot;{title}&quot;
       </h3>
       <p className="text-gray-400 text-sm mt-3">
@@ -70,9 +70,9 @@ const MovieReviewForm = ({ tmdbId, title, onclose }: Props) => {
       </p>
 
       <form onSubmit={HandleSubmitReview} className="mt-4">
-        <label className="text-gray-400 text-sm">Message</label>
+        <label className="text-textMuted text-sm">Message</label>
         <textarea
-          className="w-full bg-background text-white text-xs sm:text-[16px] p-2 rounded-md h-40 mt-1 outline-1  focus:outline-primary"
+          className="w-full bg-background text-foreground text-xs sm:text-[16px] p-2 rounded-md h-40 mt-1 outline-1  focus:outline-primary"
           placeholder="Make it short and sweet..."
           value={message}
           onChange={(e) => setMessage(e.target.value)}

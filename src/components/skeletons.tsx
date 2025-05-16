@@ -2,7 +2,7 @@
 // Loading animation
 export const HomeSliderSkeleton = () => {
   return (
-    <div className="mx-[1rem] sm:mx-[2rem] relative w-full h-[700px] bg-secondaryBg rounded-lg overflow-hidden">
+    <div className="mx-[1rem] relative w-full h-[700px] bg-secondaryBg rounded-lg overflow-hidden">
       <div className="absolute inset-0"></div>
       <div className="absolute my-auto bottom-1/2 top-1/3  left-4 md:left-8 w-full">
         {/* Title */}

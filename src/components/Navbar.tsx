@@ -8,9 +8,10 @@ import { useUser } from "@/context/UserContext";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { setThemeMode } from "@/redux/slices/themeSlice";
-import { useDispatch } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 const Navbar = () => {
+  const { isCollapsed } = useSelector((state: RootState) => state.sideNave);
   const { user, refreshUserData } = useUser();
   const dispatch = useDispatch();
   const router = useRouter();
@@ -31,8 +32,10 @@ const Navbar = () => {
   };
 
   return (
-    <div className="absolute z-30 w-full pr-2 top-0">
-      <div className="flex items-center py-2 md:p-4">
+    <div
+      className={`absolute z-30 w-full ${isCollapsed ? "w-[calc(100%-2rem)] right-0" : ""} top-0 px-2 sm:px-0`}
+    >
+      <div className="flex items-center py-2 md:p-4 gap-x-4">
         <div className="block md:hidden w-[60px] h-[60px] sm:w-[100px] sm:h-[100px]">
           <Image
             src="/logo.png"
@@ -42,17 +45,21 @@ const Navbar = () => {
             className="object-contain w-full h-full"
           />
         </div>
-        <div className="hidden md:block md:ml-10 w-[62%] sm:w-1/2">
+        <div className="hidden md:block w-full max-w-2xl">
           <NavbarSearch />
         </div>
         <div
           role="button"
           className={`w-12 h-6 flex items-center bg-gray-400 rounded-full p-1 cursor-pointer ms-auto ${
-            isDark ? "justify-end !bg-primary" : "justify-start"
+            isDark ? "!bg-primary" : ""
           }`}
           onClick={toggleTheme}
         >
-          <div className={`w-5 h-5 bg-white rounded-full transition-all`}></div>
+          <div
+            className={`w-5 h-5 bg-white rounded-full transition-all duration-200 ${
+              isDark ? "translate-x-[22px]" : ""
+            }`}
+          ></div>
         </div>
         <div className="ml-auto flex items-center relative gap-3">
           <NotificationDropdown />

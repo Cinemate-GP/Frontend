@@ -4,8 +4,11 @@ import { authFetch } from "@/lib/api";
 import { getUserId } from "@/lib/utils";
 import { useState } from "react";
 import { FaHeart, FaRegEye, FaRegStar, FaStar } from "react-icons/fa6";
-import { FiHeart, FiPlus } from "react-icons/fi";
+import { FiHeart } from "react-icons/fi";
 import { MdOutlineRateReview } from "react-icons/md";
+import { BsFillEyeFill } from "react-icons/bs";
+import { BsBookmarkPlus } from "react-icons/bs";
+import { BsBookmarkCheckFill } from "react-icons/bs";
 
 interface MovieActionsProps {
   tmdbId: number;
@@ -24,33 +27,39 @@ export const MovieActions = ({
   stars,
   onReview,
 }: MovieActionsProps) => {
-  const {liked,watched,watchlist,toggleLike,toggleWatched,toggleWatchlist} = useMovieInfo({tmdbId,isLiked,isWatched,isInWatchList})  
+  const {
+    liked,
+    watched,
+    watchlist,
+    toggleLike,
+    toggleWatched,
+    toggleWatchlist,
+  } = useMovieInfo({ tmdbId, isLiked, isWatched, isInWatchList });
   const token = useCookie();
   const buttons = [
     {
       icon: liked ? (
-        <FaHeart color="red" className="animate-heart" />
+        <FaHeart className="animate-heart text-primary" />
       ) : (
-        <FiHeart className="group-hover:text-primary transition-all duration-200" />
+        <FiHeart className="group-hover:text-primary transition-all duration-200 animate-heart" />
       ),
       onClick: toggleLike,
       label: "Like",
     },
     {
-      icon: (
-        <FaRegEye
-          
-          className={`${watched ? "text-primary" : ""} group-hover:!text-primary transition-all duration-200 animate-heart`}
-        />
+      icon: watched ? (
+        <BsFillEyeFill size={22} className="text-primary animate-heart" />
+      ) : (
+        <FaRegEye size={22} className="group-hover:!text-primary transition-all duration-200 animate-heart" />
       ),
       onClick: toggleWatched,
       label: "Watched",
     },
     {
-      icon: (
-        <FiPlus
-          className={`group-hover:text-primary ${watchlist ? "text-primary" : ""} transition-all duration-200`}
-        />
+      icon: watchlist ? (
+        <BsBookmarkCheckFill className={`text-primary animate-heart`}/>
+      ) : (
+        <BsBookmarkPlus className="group-hover:text-primary transition-all duration-200 animate-heart" />
       ),
       onClick: toggleWatchlist,
       label: "Watchlist",
@@ -58,7 +67,7 @@ export const MovieActions = ({
     {
       icon: (
         <>
-          <MdOutlineRateReview className="group-hover:text-primary transition-all duration-200" />
+          <MdOutlineRateReview className="group-hover:text-primary transition-all duration-200 animate-heart" />
         </>
       ),
       onClick: onReview,

@@ -18,7 +18,7 @@ import { RootState } from "@/redux/store";
 export default function Sidenav() {
   const pathname = usePathname();
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const {themeMode} = useSelector((state: RootState) => state.accentColor);
+  const { themeMode } = useSelector((state: RootState) => state.accentColor);
   const { setSearch } = useSearch();
   const dispatch = useDispatch();
 
@@ -40,17 +40,17 @@ export default function Sidenav() {
       transition: {
         type: "spring",
         stiffness: 300,
-        damping: 30
-      }
+        damping: 30,
+      },
     },
     collapsed: {
       width: "4.2rem",
       transition: {
         type: "spring",
         stiffness: 300,
-        damping: 30
-      }
-    }
+        damping: 30,
+      },
+    },
   };
 
   return (
@@ -58,7 +58,7 @@ export default function Sidenav() {
       <motion.aside
         onClick={() => setSearch("")}
         className="h-screen bg-sideNavBg fixed z-50
-           flex-col border-r border-border shadow-xl overflow-x-hidden
+           flex-col border-r border-border shadow-xl
           md:flex hidden"
         variants={sidebarVariants}
         initial="expanded"
@@ -68,7 +68,9 @@ export default function Sidenav() {
         <div className="relative flex items-center h-16 px-4 border-b border-border">
           <Link
             href="/home"
-            className={`flex items-center ${isCollapsed ? "justify-center w-full" : ""}`}
+            className={`flex items-center ${
+              isCollapsed ? "justify-center w-full" : ""
+            }`}
           >
             <Image
               src="/logo.png"
@@ -76,12 +78,13 @@ export default function Sidenav() {
               height={36}
               priority
               alt="CineMate logo"
-              className={`${themeMode === 'light' ? 'invert' : ''} filter object-contain min-w-[36px]`}
-              
+              className={`${
+                themeMode === "light" ? "invert" : ""
+              } filter object-contain min-w-[36px]`}
             />
             <AnimatePresence>
               {!isCollapsed && (
-                <motion.span 
+                <motion.span
                   className="ml-2.5 font-semibold text-base text-foreground truncate"
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -93,12 +96,12 @@ export default function Sidenav() {
               )}
             </AnimatePresence>
           </Link>
-          
+
           {/* Toggle Button - Only shown when sidebar is expanded */}
           {!isCollapsed && (
             <motion.button
               aria-label="Collapse sidebar"
-              className="ml-auto text-gray-500 hover:text-textMuted p-1.5 rounded-lg hover:bg-secondaryBg 
+              className="ml-auto text-textMuted hover:text-textMuted p-1.5 rounded-lg hover:bg-secondaryBg 
                 transition-colors duration-200"
               onClick={toggleSidebar}
               whileHover={{ scale: 1.1 }}
@@ -112,9 +115,13 @@ export default function Sidenav() {
         {/* Browse Section */}
         <nav className="flex-1 py-3 px-3 overflow-y-auto overflow-x-hidden custom-scrollbar">
           {/* Browse Category */}
-          <div className={`mb-2 px-2 overflow-hidden ${isCollapsed ? 'hidden' : ''}`}>
+          <div
+            className={`mb-2 px-2 overflow-hidden ${
+              isCollapsed ? "hidden" : ""
+            }`}
+          >
             <AnimatePresence mode="wait">
-              <motion.h2 
+              <motion.h2
                 key="browse-expanded"
                 className="text-xs text-gray-500 uppercase tracking-wider"
                 initial={{ opacity: 0 }}
@@ -143,9 +150,13 @@ export default function Sidenav() {
           )}
 
           {/* Personal Library Section */}
-          <div className={`mb-2 px-2 overflow-hidden ${isCollapsed ? 'hidden' : ''}`}>
+          <div
+            className={`mb-2 px-2 overflow-hidden ${
+              isCollapsed ? "hidden" : ""
+            }`}
+          >
             <AnimatePresence mode="wait">
-              <motion.h2 
+              <motion.h2
                 key="library-expanded"
                 className="text-xs text-gray-500 uppercase tracking-wider"
                 initial={{ opacity: 0 }}
@@ -174,9 +185,13 @@ export default function Sidenav() {
           )}
 
           {/* Account Section */}
-          <div className={`mb-2 px-2 overflow-hidden ${isCollapsed ? 'hidden' : ''}`}>
+          <div
+            className={`mb-2 px-2 overflow-hidden ${
+              isCollapsed ? "hidden" : ""
+            }`}
+          >
             <AnimatePresence mode="wait">
-              <motion.h2 
+              <motion.h2
                 key="account-expanded"
                 className="text-xs text-gray-500 uppercase tracking-wider"
                 initial={{ opacity: 0 }}
@@ -193,9 +208,11 @@ export default function Sidenav() {
               <NavItem
                 key={link.name}
                 link={link}
-                isActive={pathname === link.href || 
+                isActive={
+                  pathname === link.href ||
                   // Only consider it active if it's exactly the profile path, not subpaths
-                  (link.href === '/profile' && pathname === '/profile')}
+                  (link.href === "/profile" && pathname === "/profile")
+                }
                 isCollapsed={isCollapsed}
               />
             ))}
@@ -207,13 +224,21 @@ export default function Sidenav() {
           <motion.button
             onClick={handleLogout}
             className={`relative group w-full rounded-lg transition-all duration-200
-              ${isCollapsed ? 'p-2 flex justify-center' : 'p-3 flex items-center'} 
+              ${
+                isCollapsed
+                  ? "p-2 flex justify-center"
+                  : "p-3 flex items-center"
+              } 
               text-gray-500 hover:bg-secondaryBg hover:text-textMuted`}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             aria-label="Sign out"
           >
-            <div className={`flex items-center ${isCollapsed ? 'justify-center' : 'w-full'}`}>
+            <div
+              className={`flex items-center ${
+                isCollapsed ? "justify-center" : "w-full"
+              }`}
+            >
               {/* Logout icon */}
               <span className="flex-shrink-0">
                 {React.createElement(modernIcons.Logout, {
@@ -221,11 +246,11 @@ export default function Sidenav() {
                   "aria-hidden": "true",
                 })}
               </span>
-              
+
               <AnimatePresence>
                 {/* Logout text - only visible when expanded */}
                 {!isCollapsed && (
-                  <motion.span 
+                  <motion.span
                     className="ml-3 text-sm font-medium"
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -236,13 +261,15 @@ export default function Sidenav() {
                   </motion.span>
                 )}
               </AnimatePresence>
-              
+
               {/* Tooltip for collapsed state */}
               {isCollapsed && (
-                <div className="absolute left-full ml-2 px-2.5 py-1.5 bg-[#1a1a1a] text-gray-200
+                <div
+                  className="absolute left-full ml-2 px-2.5 py-1.5 bg-[#1a1a1a] text-gray-200
                   text-xs rounded-lg opacity-0 group-hover:opacity-100 transform translate-x-2
                   group-hover:translate-x-0 pointer-events-none group-hover:pointer-events-auto
-                  border border-[#333333] transition-all duration-200 whitespace-nowrap z-50 shadow-lg">
+                  border border-[#333333] transition-all duration-200 whitespace-nowrap z-50 shadow-lg"
+                >
                   Sign out
                 </div>
               )}
@@ -259,7 +286,7 @@ export default function Sidenav() {
             aria-label="Expand sidebar"
             className="fixed top-4 left-[4.2rem] z-50 
               backdrop-blur-md border border-border
-              text-gray-500 p-1.5 rounded-lg hover:bg-hoverBg
+              text-gray-textMuted p-1.5 rounded-lg hover:bg-hoverBg
               flex items-center justify-center"
             onClick={toggleSidebar}
             initial={{ opacity: 0, x: -5 }}
@@ -269,15 +296,15 @@ export default function Sidenav() {
             whileHover={{ x: 3 }}
             whileTap={{ scale: 0.9 }}
           >
-            <svg 
-              xmlns="http://www.w3.org/2000/svg" 
-              width="20" 
-              height="20" 
-              viewBox="0 0 24 24" 
-              fill="none" 
-              stroke="currentColor" 
-              strokeWidth="2" 
-              strokeLinecap="round" 
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
               strokeLinejoin="round"
             >
               <polyline points="9 18 15 12 9 6"></polyline>
@@ -291,63 +318,66 @@ export default function Sidenav() {
   );
 }
 
-const NavItem = ({ 
-  link, 
-  isActive, 
-  isCollapsed
-}: { 
-  link: NavLink; 
-  isActive: boolean; 
+const NavItem = ({
+  link,
+  isActive,
+  isCollapsed,
+}: {
+  link: NavLink;
+  isActive: boolean;
   isCollapsed: boolean;
 }) => {
   const iconName = link.icon;
-  
+
   return (
-    <motion.li 
-      className="relative group w-full"
-      whileHover={{ x: 2 }}
+    <motion.li
+      className="group w-full"
+      whileFocus={{ scale: 1.1 }}
       transition={{ type: "spring", stiffness: 400, damping: 20 }}
     >
       <Link
         href={link.href}
-        className={`flex items-center px-3 py-2.5 rounded-lg transition-all duration-200 w-full
-          ${isActive 
-            ? "bg-secondaryBg border-l-2 border-primary text-textMuted" 
-            : "text-gray-500 hover:bg-secondaryBg hover:text-textMuted border-l-2 border-transparent"
+        className={`flex items-center  px-3 py-2.5 rounded-lg transition-all duration-200 w-full
+          ${
+            isActive
+              ? "bg-secondaryBg border-l-2 border-primary text-textMuted"
+              : "text-gray-500 hover:bg-secondaryBg hover:text-textMuted border-l-2 border-transparent"
           }
           ${isCollapsed ? "justify-center" : ""}
         `}
       >
-        <motion.span 
+        <motion.span
           className={`${isCollapsed ? "" : "mr-3"} flex-shrink-0`}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
         >
           {React.createElement(modernIcons[iconName], {
-            className: `w-[20px] h-[20px] transition-colors duration-200 ${isActive ? "text-primary" : ""}`,
+            className: `w-[20px] h-[20px] transition-colors duration-200 ${
+              isActive ? "text-primary" : ""
+            }`,
             "aria-hidden": "true",
           })}
         </motion.span>
-        
-        <AnimatePresence>
-          {!isCollapsed && (
-            <motion.span 
-              className="text-sm font-medium truncate"
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -10 }}
-              transition={{ duration: 0.2 }}
-            >
-              {link.name}
-            </motion.span>
-          )}
-        </AnimatePresence>
+
+        {!isCollapsed && (
+          <motion.span
+            className="text-sm font-medium truncate"
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -10 }}
+            transition={{ duration: 0.2 }}
+          >
+            {link.name}
+          </motion.span>
+        )}
 
         {isCollapsed && (
-          <div className="absolute left-full ml-2 z-50 px-2.5 py-1.5 bg-secondaryBg text-textMuted text-xs rounded-lg
-            opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0
+          <div
+            className="absolute left-full z-50 px-2.5 py-1.5 bg-secondaryBg text-textMuted text-xs rounded-lg
+             opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0
             pointer-events-none group-hover:pointer-events-auto border border-border
-            transition-all duration-200 whitespace-nowrap shadow-lg">
+            transition-all duration-200 whitespace-nowrap shadow-lg"
+          >
             {link.name}
           </div>
         )}
