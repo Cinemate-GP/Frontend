@@ -48,6 +48,7 @@ function FollowTabs() {
       if (!res.ok) throw new Error("Failed to fetch users");
 
       const result: User[] = await res.json();
+      console.log(result)
       setData(result);
     } catch (error) {
       console.error(error);

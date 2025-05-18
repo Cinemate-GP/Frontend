@@ -16,6 +16,7 @@ import { FormateBirthDate } from "@/lib/utils";
 interface SignupFormData {
   fullName: string;
   email: string;
+  userName: string;
   password: string;
   gender: string;
   birthDay: Date;
@@ -24,6 +25,7 @@ interface SignupFormData {
 const defaultValues: SignupFormData = {
   fullName: '',
   email: '',
+  userName: '',
   password: '',
   gender: 'Male',
   birthDay: new Date(),
@@ -117,6 +119,9 @@ const SignupForm = () => {
           <motion.div variants={fadeInUp} custom={2}>
             <RHFTextField name="email" label="Email" type="email" placeholder="Enter your email" />
           </motion.div>
+          <motion.div variants={fadeInUp} custom={2}>
+            <RHFTextField name="userName" label="User Name" type="text" placeholder="Enter your user name" />
+          </motion.div>
           
           <motion.div variants={fadeInUp} custom={3}>
             <RHFTextField name="password" label="Password" type="password" placeholder="Create a secure password" />
@@ -140,6 +145,7 @@ const SignupForm = () => {
               type="submit"
               className="w-full relative group overflow-hidden bg-gradient-to-r from-red-700 to-red-600 hover:from-red-600 hover:to-red-500
                         transition-all duration-300 rounded-lg px-6 py-3.5 font-medium mt-2
+                        text-white
                         focus:ring-2 focus:ring-primary/50 focus:outline-none
                         disabled:opacity-70 disabled:cursor-not-allowed"
               disabled={isSubmitting}

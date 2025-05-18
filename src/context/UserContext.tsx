@@ -5,9 +5,10 @@ import { createContext, useContext, useState, useEffect, useCallback } from "rea
 
 interface User {
   userId?: string;
-  fullName: string;
+  fullName?: string;
+  userName: string;
   email: string;
-  profilePic: string;
+  profilePic?: string;
 }
 
 interface UserContextType {
@@ -22,6 +23,7 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User>({
     fullName: "",
+    userName: "",
     email: "",
     profilePic: "",
   });

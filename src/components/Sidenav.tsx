@@ -287,7 +287,7 @@ export default function Sidenav() {
             className="fixed top-4 left-[4.2rem] z-50 
               backdrop-blur-md border border-border
               text-gray-textMuted p-1.5 rounded-lg hover:bg-hoverBg
-              flex items-center justify-center"
+              hidden md:flex items-center justify-center"
             onClick={toggleSidebar}
             initial={{ opacity: 0, x: -5 }}
             animate={{ opacity: 1, x: 0 }}

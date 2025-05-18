@@ -33,7 +33,7 @@ const Navbar = () => {
 
   return (
     <div
-      className={`absolute z-30 w-full ${isCollapsed ? "w-[calc(100%-2rem)] right-0" : ""} top-0 px-2 sm:px-0`}
+      className={`absolute z-30 w-full ${isCollapsed ? "w-full md:w-[calc(100%-3rem)] right-0" : "w-full left-0"} top-0 px-2`}
     >
       <div className="flex items-center py-2 md:p-4 gap-x-4">
         <div className="block md:hidden w-[60px] h-[60px] sm:w-[100px] sm:h-[100px]">

@@ -2,6 +2,8 @@
 import React, { useState } from "react";
 import { IoWarning } from "react-icons/io5";
 import { FaTrash } from "react-icons/fa";
+import { authFetch } from "@/lib/api";
+import { getCookie } from "@/lib/utils";
 
 const DeleteAccount = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -11,11 +13,11 @@ const DeleteAccount = () => {
   const deleteAccount = async () => {
     try {
       setLoading(true);
-      const res = await fetch("/api/Profile/DeleteAccount", {
+      const res = await authFetch("/api/Profile/DeleteAccount", {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${document.cookie.split("=")[1]}`,
+          Authorization: `Bearer ${getCookie("token")}`,
         },
       });
       if (!res.ok) throw new Error("Failed to delete account");

@@ -8,6 +8,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { createPortal } from "react-dom";
 import { SearchResultSkeleton } from "./skeletons";
+import { authFetch } from "@/lib/api";
 
 interface SearchValue {
   id: number;
@@ -42,7 +43,7 @@ export const Search = ({
 
       try {
         setLoading(true);
-        const res = await fetch(`/api/Movie/search?SearchValue=${trimmed}`);
+        const res = await authFetch(`/api/Movie/search?SearchValue=${trimmed}`);
         if (!res.ok) throw new Error("Failed to fetch data");
         const data = await res.json();
 

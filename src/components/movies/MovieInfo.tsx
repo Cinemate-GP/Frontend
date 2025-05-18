@@ -60,7 +60,7 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ info, loading }) => {
           <div className="flex flex-col items-center text-center gap-3 max-w-3xl">
             {/* title */}
             {!info.logoPath && (
-              <h2 className="tracking-widest text-2xl md:text-4xl xl:text-5xl font-bold">
+              <h2 className="tracking-widest text-white text-2xl md:text-4xl xl:text-5xl font-bold">
                 {info.title || "Untitled"}
               </h2>
             )}

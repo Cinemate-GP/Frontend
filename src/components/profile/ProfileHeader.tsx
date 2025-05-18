@@ -22,7 +22,7 @@ const ProfileHeader = ({ userId }: { userId: string }) => {
   const { refreshUserData } = useUser();
   const [followersCount, setFollowersCount] = useState<number>(0);
   const [showImageViewer, setShowImageViewer] = useState(false);
-  const [followingLoading,setFollowingLoading] = useState(false)
+  const [followingLoading, setFollowingLoading] = useState(false);
   const token = getCookie("token") as string;
   const { data: user, loading } = useFetch<UserInfo | null>(
     `/api/Profile/details/${userId}`
@@ -35,7 +35,7 @@ const ProfileHeader = ({ userId }: { userId: string }) => {
 
   const toggleFollow = async () => {
     try {
-      setFollowingLoading(true)
+      setFollowingLoading(true);
       const endpoint = follow
         ? "/api/UserFollow/Delete"
         : "/api/UserFollow/Add";
@@ -61,8 +61,8 @@ const ProfileHeader = ({ userId }: { userId: string }) => {
       );
     } catch (error) {
       console.error(error);
-    }finally{
-      setFollowingLoading(false)
+    } finally {
+      setFollowingLoading(false);
     }
   };
 
@@ -97,14 +97,15 @@ const ProfileHeader = ({ userId }: { userId: string }) => {
 
             {/* Profile information */}
             <div className="flex-1 text-center sm:text-left">
-              <h2 className="text-2xl font-bold text-foreground mb-2">
+              <h2 className="text-2xl font-bold text-foreground mb-1">
                 {user?.fullName || "User Name"}
               </h2>
+              <p className="text-sm text-gray-500">{user?.userName}</p>
 
               {user?.sameUser ? (
                 <button
                   onClick={handleNavigateToSettings}
-                  className="bg-background hover:bg-hoverBg text-foreground px-4 py-1.5 rounded-md transition-all duration-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-zinc-600"
+                  className="bg-background hover:bg-hoverBg text-foreground mt-2 px-4 py-1.5 rounded-md transition-all duration-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-zinc-600"
                 >
                   Edit Profile
                 </button>

@@ -1,14 +1,14 @@
 export interface User {
   id?: string;
+  userName: string;
   fullName: string;
   email: string;
   profilePic?: string;
   bio?: string;
-  socialMedia?: {
-    instagram?: string;
-    twitter?: string;
-    linkedin?: string;
-  };
+  currentPassword?: string;
+  newPassword?: string;
+  confirmPassword?: string;
+  
 }
 
 export interface ProfileEditorProps {

@@ -21,15 +21,15 @@ const RHFTextField = ({ name, label, type, ...other }: RHFTextFieldProps) => {
       control={control}
       render={({ field, fieldState: { error } }) => (
         <div className="flex flex-col w-full items-start justify-start relative">
-          <label htmlFor="email">{label}</label>
+          <label className="text-white" htmlFor="email">{label}</label>
           <input
             {...field}
             type={type === "password" ? (showPassword ? "text" : "password") : type}
             {...other}
-            className={`w-full bg-transparent text-sm mt-3 p-4 outline-none border ${error ? "border-red-500" :  'border-gray-800'} font-light rounded-lg focus:border `}
+            className={`w-full bg-transparent text-white text-sm mt-3 p-4 outline-none border ${error ? "border-red-500" :  'border-gray-800'} font-light rounded-lg focus:border `}
           />
           {type === "password" && <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-14">
-            {showPassword ? <BsEyeSlash /> : <BsEye />}
+            {showPassword ? <BsEyeSlash color="gray"/> : <BsEye color="gray" />}
           </button>}
           {error && <p className="text-red-500 mt-1 text-sm">{error.message}</p>}
         </div>

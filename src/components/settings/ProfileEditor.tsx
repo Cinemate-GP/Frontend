@@ -5,13 +5,19 @@ import { useUser } from "@/context/UserContext";
 import { getCookie, getUserId } from "@/lib/utils";
 import { ProfilePhotoEditor } from "./profile/ProfilePhotoEditor";
 import { User, ProfileEditorProps } from "./profile/types";
-import { FaUserCircle, /*FaInstagram, FaTwitter, FaLinkedin */} from "react-icons/fa";
+import {
+  FaUserCircle /*FaInstagram, FaTwitter, FaLinkedin */,
+} from "react-icons/fa";
 import { MdPhotoCamera } from "react-icons/md";
 import Image from "next/image";
 
-export default function ProfileEditor({ modal = false, onClose }: ProfileEditorProps) {
+export default function ProfileEditor({
+  modal = false,
+  onClose,
+}: ProfileEditorProps) {
   const [user, setUser] = useState<User>({
     fullName: "",
+    userName: "",
     email: "",
     profilePic: "",
     bio: "",
@@ -31,11 +37,6 @@ export default function ProfileEditor({ modal = false, onClose }: ProfileEditorP
       const newUser = {
         ...parsed.user,
         bio: parsed.user?.bio || "",
-        socialMedia: {
-          instagram: parsed.user?.socialMedia?.instagram || "",
-          twitter: parsed.user?.socialMedia?.twitter || "",
-          linkedin: parsed.user?.socialMedia?.linkedin || "",
-        },
       };
       setUser(newUser);
       if (parsed.user?.profilePic) setPreviewUrl(parsed.user.profilePic);
@@ -46,36 +47,32 @@ export default function ProfileEditor({ modal = false, onClose }: ProfileEditorP
     fileInputRef.current?.click();
   }, []);
 
-  const handleImageUpload = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = e.target.files?.[0];
-    if (!selectedFile) return;
+  const handleImageUpload = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const selectedFile = e.target.files?.[0];
+      if (!selectedFile) return;
 
-    if (selectedFile.size > 5 * 1024 * 1024) {
-      alert("File size should not exceed 5MB");
-      return;
-    }
+      if (selectedFile.size > 5 * 1024 * 1024) {
+        alert("File size should not exceed 5MB");
+        return;
+      }
 
-    setFile(selectedFile);
-    const url = URL.createObjectURL(selectedFile);
-    setPreviewUrl(url);
-    setIsEditingImage(true);
-  }, []);
+      setFile(selectedFile);
+      const url = URL.createObjectURL(selectedFile);
+      setPreviewUrl(url);
+      setIsEditingImage(true);
+    },
+    []
+  );
 
-  const handleUserChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    if (name.includes(".")) {
-      const [parent, child] = name.split(".");
-      setUser((prev) => ({
-        ...prev,
-        [parent]: {
-          ...(prev[parent as keyof User] as Record<string, string> || {}),
-          [child]: value,
-        },
-      }));
-    } else {
+  const handleUserChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      const { name, value } = e.target;
+
       setUser((prev) => ({ ...prev, [name]: value }));
-    }
-  }, []);
+    },
+    []
+  );
 
   const handleUpdate = useCallback(
     async (e: React.FormEvent) => {
@@ -85,14 +82,8 @@ export default function ProfileEditor({ modal = false, onClose }: ProfileEditorP
 
       const formData = new FormData();
       formData.append("fullName", user.fullName);
-      // Email is no longer editable, but we still need to send it in the API request
-      formData.append("email", user.email);
       if (user.bio) formData.append("bio", user.bio);
-      // if (user.socialMedia?.instagram) formData.append("socialMedia.instagram", user.socialMedia.instagram);
-      // if (user.socialMedia?.twitter) formData.append("socialMedia.twitter", user.socialMedia.twitter);
-      // if (user.socialMedia?.linkedin) formData.append("socialMedia.linkedin", user.socialMedia.linkedin);
       if (file) formData.append("profile_Image", file);
-
       try {
         const res = await fetch("/api/Profile/UpdateAccount", {
           method: "PUT",
@@ -103,10 +94,9 @@ export default function ProfileEditor({ modal = false, onClose }: ProfileEditorP
         if (!res.ok) {
           // Get more detailed error information if available
           let errorDetail = "Failed to update profile";
-            const errorData = await res.json();
-            errorDetail = errorData.message || errorData.error || errorDetail;
-          
-          
+          const errorData = await res.json();
+          errorDetail = errorData.message || errorData.error || errorDetail;
+
           setErrorMessage(errorDetail);
           console.error("Profile update failed:", errorDetail);
           return;
@@ -118,7 +108,6 @@ export default function ProfileEditor({ modal = false, onClose }: ProfileEditorP
           fullName: data.fullName,
           profilePic: data.profile_Image,
           bio: data.bio,
-      
         };
 
         setUser(updatedUser);
@@ -158,7 +147,7 @@ export default function ProfileEditor({ modal = false, onClose }: ProfileEditorP
           onChooseDifferent={handleImageClick}
         />
       )}
-      
+
       <div className="bg-secondaryBg p-4 sm:p-6 rounded-xl shadow-md">
         <h2 className="text-xl font-semibold mb-4 sm:mb-6 text-foreground flex items-center gap-2">
           <FaUserCircle className="text-primary" />
@@ -168,8 +157,8 @@ export default function ProfileEditor({ modal = false, onClose }: ProfileEditorP
         <form onSubmit={handleUpdate} className="space-y-4 sm:space-y-6">
           {/* Profile Photo */}
           <div className="flex flex-col sm:flex-row md:flex-col lg:flex-row items-center gap-4 sm:gap-6 py-4 border-b border-border">
-            <div 
-              onClick={handleImageClick} 
+            <div
+              onClick={handleImageClick}
               className="relative cursor-pointer group w-24 h-24 rounded-full overflow-hidden border-2 border-primary"
             >
               <Image
@@ -185,7 +174,9 @@ export default function ProfileEditor({ modal = false, onClose }: ProfileEditorP
             </div>
             <div className="flex-1 text-center sm:text-left md:text-center lg:text-left">
               <h3 className="text-gray-500 text-[16px] mb-2">Profile Photo</h3>
-              <p className="text-gray-500 text-sm mb-3">Click on the image to change your profile photo</p>
+              <p className="text-gray-500 text-sm mb-3">
+                Click on the image to change your profile photo
+              </p>
               <button
                 type="button"
                 onClick={handleImageClick}
@@ -201,8 +192,12 @@ export default function ProfileEditor({ modal = false, onClose }: ProfileEditorP
             <div className="flex items-start gap-3 mb-3">
               <FaUserCircle className="text-gray-400 mt-1" size={20} />
               <div>
-                <label htmlFor="fullName" className="block text-textMuted mb-1">Full Name</label>
-                <p className="text-xs text-gray-500">Your name as it appears across the platform</p>
+                <label htmlFor="fullName" className="block text-textMuted mb-1">
+                  Full Name
+                </label>
+                <p className="text-xs text-gray-500">
+                  Your name as it appears across the platform
+                </p>
               </div>
             </div>
             <input
@@ -218,12 +213,29 @@ export default function ProfileEditor({ modal = false, onClose }: ProfileEditorP
           {/* Bio */}
           <div className="flex flex-col py-3 border-b border-border">
             <div className="flex items-start gap-3 mb-3">
-              <svg className="text-gray-400 mt-1" width="20" height="20" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+              <svg
+                className="text-gray-400 mt-1"
+                width="20"
+                height="20"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                />
               </svg>
               <div>
-                <label htmlFor="bio" className="block text-textMuted mb-1">Biography</label>
-                <p className="text-xs text-gray-500">Tell others about yourself</p>
+                <label htmlFor="bio" className="block text-textMuted mb-1">
+                  Biography
+                </label>
+                <p className="text-xs text-gray-500">
+                  Tell others about yourself
+                </p>
               </div>
             </div>
             <textarea
@@ -311,9 +323,25 @@ export default function ProfileEditor({ modal = false, onClose }: ProfileEditorP
             >
               {loading ? (
                 <>
-                  <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  <svg
+                    className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
                   </svg>
                   Updating Profile...
                 </>

@@ -38,7 +38,7 @@ export default function Settings() {
   ];
 
   return (
-    <div className="px-4 sm:px-6 text-foreground max-w-7xl mx-auto mt-[5rem] mb-20">
+    <div className="px-4 sm:px-6 text-foreground max-w-7xl mx-auto mt-[7rem] mb-20">
       <h1 className="text-2xl sm:text-3xl text-foreground font-bold mb-6 sm:mb-8">
         Settings
       </h1>
@@ -54,8 +54,8 @@ export default function Settings() {
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex items-center gap-2 shrink-0 px-4 py-2.5 rounded-lg transition-colors ${
                   activeTab === tab.id
-                    ? "bg-hoverBg text-Muted"
-                    : "text-gray-500 hover:bg-hoverBg"
+                    ? "bg-hoverBg "
+                    : "text-gray-500 hover:bg-hoverBg hover:text-textMuted"
                 }`}
               >
                 <span
@@ -76,10 +76,10 @@ export default function Settings() {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg transition-colors ${
+                className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg duration-200 transition-colors ${
                   activeTab === tab.id
-                    ? "bg-hoverBg text-Muted"
-                    : "text-gray-500 hover:bg-hoverBg"
+                    ? "bg-hoverBg"
+                    : "text-gray-500 hover:bg-hoverBg hover:text-textMuted"
                 }`}
               >
                 <span

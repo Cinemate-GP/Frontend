@@ -12,7 +12,7 @@ import { setUser } from "@/redux/slices/userSlice";
 import { setCookie } from "@/lib/utils";
 
 interface LoginFormData {
-  email: string;
+  userNameOrEmail: string;
   password: string;
   afterSubmit?: string;
 }
@@ -24,7 +24,7 @@ const LoginForm = () => {
   const methods = useForm<LoginFormData>({
     resolver: yupResolver(LoginSchema),
     defaultValues: {
-      email: "",
+      userNameOrEmail: "",
       password: "",
     },
     mode: "onChange",
@@ -57,7 +57,7 @@ const LoginForm = () => {
       );
       setCookie("token", user.token, 1);
       setCookie("refreshToken", user.refreshToken, 1);
-      setCookie("userId", user.userId, 1);
+      setCookie("userId", user.id, 1);
       router.push("/home");
     } catch (error) {
       setError("afterSubmit", {
@@ -123,10 +123,10 @@ const LoginForm = () => {
         <div className="space-y-3">
           <motion.div variants={fadeInUp} custom={1}>
             <RHFTextField
-              name="email"
-              label="Email"
-              type="email"
-              placeholder="Enter your email"
+              name="userNameOrEmail"
+              label=" Email or Username"
+              type="text"
+              placeholder="Enter your email or username"
             />
           </motion.div>
           
@@ -149,7 +149,7 @@ const LoginForm = () => {
           <motion.div variants={fadeInUp} custom={3}>
             <button
               type="submit"
-              className="w-full relative group overflow-hidden bg-gradient-to-r from-red-700 to-red-600 hover:from-red-600 hover:to-red-500
+              className="w-full relative group overflow-hidden bg-gradient-to-r from-red-700 to-red-600 hover:from-red-600 hover:to-red-500 text-white
                         transition-all duration-300 rounded-lg px-6 py-2.5 font-medium mt-1
                         focus:ring-2 focus:ring-primary/50 focus:outline-none
                         disabled:opacity-70 disabled:cursor-not-allowed"

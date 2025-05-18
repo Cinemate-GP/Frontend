@@ -9,11 +9,10 @@ import { getCookie } from "@/lib/utils";
 
 const Page = () => {
   const router = useRouter();
-  const token = getCookie('token')
+  const token = getCookie("token");
   const [loading, setLoading] = useState(true);
   const [isRedirecting, setIsRedirecting] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
-
 
   // Modernized feature card data
   const features = [
@@ -59,7 +58,7 @@ const Page = () => {
 
     const timer = setTimeout(() => {
       setIsRedirecting(true);
-    }, 10000); // Set a reasonable timeout before redirect
+    }, 10000000); // Set a reasonable timeout before redirect
 
     return () => clearTimeout(timer);
   }, [loading]);
@@ -84,7 +83,6 @@ const Page = () => {
         >
           {/* Modern circular loader with glow effect */}
           <div className="relative w-20 h-20">
-            <div className="absolute inset-0 rounded-full bg-red-600/20 blur-xl animate-pulse"></div>
             <svg className="w-full h-full" viewBox="0 0 100 100">
               <circle
                 cx="50"
@@ -121,14 +119,7 @@ const Page = () => {
               />
             </svg>
             <div className="absolute inset-0 flex items-center justify-center">
-              <Image
-                src="/favicon.ico"
-                alt="Logo"
-                width={40}
-                height={40}
-                className="opacity-90"
-                style={{ filter: "grayscale(20%)" }}
-              />
+              <Image src="/favicon.ico" alt="Logo" width={40} height={40} />
             </div>
           </div>
           <motion.p
@@ -145,10 +136,10 @@ const Page = () => {
   }
 
   return (
-    <div className="fixed inset-0 w-screen h-screen max-w-full overflow-hidden bg-zinc-950 text-white">
+    <div className="inset-0 w-screen h-full md:h-screen  max-w-full overflow-auto bg-zinc-950 text-white">
       {/* Main background image - keeping the background as requested */}
       <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-black/50 z-10"></div>
+        <div className="absolute h-full overflow-hidden inset-0 bg-black/50 z-10"></div>
         <Image
           src="/main-img.png"
           alt="Cinema Background"
@@ -159,7 +150,7 @@ const Page = () => {
       </div>
 
       {/* Enhanced cinematic background overlay */}
-      <div className="absolute inset-0 z-10">
+      <div className="absolute inset-0 z-10 h-full overflow-hidden">
         {/* Modernized cinema effects */}
         <div className="absolute inset-0 overflow-hidden">
           {/* Updated gradient animations */}
@@ -232,7 +223,6 @@ const Page = () => {
                 height={40}
                 className="object-contain"
               />
-              <div className="absolute -inset-1.5 bg-red-500/20 rounded-full blur-lg -z-10 animate-pulse"></div>
             </div>
             <span className="text-xl font-medium tracking-wide">
               Cine
@@ -245,10 +235,10 @@ const Page = () => {
 
         {/* Main content with modern layout */}
         <div className="flex-1 flex items-center">
-          <div className="w-full max-w-screen-xl mx-auto px-6 md:px-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          <div className="w-full px-6 flex flex-wrap md:flex-nowrap md:px-10 gap-8 py-8  lg:gap-12 items-center">
             {/* Left column - Enhanced text content */}
             <motion.div
-              className="lg:col-span-7 flex flex-col"
+              className="flex flex-col"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.2 }}
@@ -268,7 +258,7 @@ const Page = () => {
                 />
 
                 <motion.h1
-                  className="text-4xl md:text-5xl lg:text-7xl font-bold leading-none tracking-tight"
+                  className="text-3xl md:text-4xl lg:text-5xl xl:text-7xl font-bold leading-none tracking-tight"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.3 }}
@@ -302,7 +292,7 @@ const Page = () => {
               </div>
 
               <motion.p
-                className="mt-6 text-zinc-300 text-xl max-w-xl leading-relaxed"
+                className="mt-4 sm:mt-6 text-zinc-300 text-lg sm:text-xl max-w-xl leading-relaxed"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.5 }}
@@ -314,7 +304,7 @@ const Page = () => {
 
               {/* Modern CTA Buttons with enhanced effects */}
               <motion.div
-                className="mt-8 flex flex-wrap gap-5"
+                className="mt-4 sm:mt-8 flex flex-wrap gap-5"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.6 }}
@@ -322,7 +312,7 @@ const Page = () => {
                 {token ? (
                   <button
                     onClick={() => router.push("/home")}
-                    className="group relative px-8 py-3.5 bg-gradient-to-r from-red-700 to-red-600 rounded-lg text-white font-medium overflow-hidden shadow-lg shadow-red-700/20"
+                    className="group relative px-6 sm:px-8 py-2  sm:py-3.5 bg-gradient-to-r from-red-700 to-red-600 rounded-lg text-white font-medium overflow-hidden shadow-lg shadow-red-700/20"
                   >
                     <div className="relative z-10 flex items-center gap-2">
                       Continue To Dashboard
@@ -334,7 +324,7 @@ const Page = () => {
                   <>
                     <button
                       onClick={() => router.push("/signup")}
-                      className="group relative px-8 py-3.5 bg-gradient-to-r from-red-700 to-red-600 rounded-lg text-white font-medium overflow-hidden shadow-lg shadow-red-700/20"
+                      className="group text-sm relative px-4 max-h-[2.75rem] sm:max-h-full sm:px-8 bg-gradient-to-r from-red-700 to-red-600 rounded-lg text-white font-medium overflow-hidden shadow-lg shadow-red-700/20"
                     >
                       <div className="relative z-10 flex items-center gap-2">
                         <FaPlay className="text-xs" />
@@ -360,19 +350,11 @@ const Page = () => {
 
               {/* Social proof section */}
               <motion.div
-                className="mt-12 flex items-center gap-3"
+                className="mt-6 lg:mt-12 flex items-center gap-3"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 1, duration: 0.8 }}
               >
-                <div className="flex -space-x-2">
-                  {[1, 2, 3, 4].map((num) => (
-                    <div
-                      key={num}
-                      className="w-8 h-8 rounded-full border-2 border-zinc-900 bg-zinc-800"
-                    ></div>
-                  ))}
-                </div>
                 <div className="text-sm text-zinc-400">
                   <span className="text-white font-medium">2k+</span> film
                   enthusiasts joined this month
@@ -381,7 +363,7 @@ const Page = () => {
             </motion.div>
 
             {/* Right column - Modern feature card with glass effect */}
-            <div className="lg:col-span-5 relative h-[340px]">
+            <div className="relative h-[340px] w-full md:max-w-[40%] xl:max-w-[30%] mx-auto">
               {/* Cinematic spotlight effects */}
               <motion.div
                 className="absolute -top-10 left-1/4 w-40 h-80 bg-gradient-to-b from-red-500/10 via-red-500/5 to-transparent rotate-12 rounded-full blur-2xl"
@@ -395,10 +377,10 @@ const Page = () => {
 
               {/* Glass morphism feature card with enhanced effects */}
               <div className="relative w-full h-full flex items-center justify-center">
-                <div className="w-full max-w-xs">
+                <div className="w-full mb-auto">
                   {/* Main card with glass effect */}
                   <motion.div
-                    className="relative bg-white/5 backdrop-blur-xl border border-white/10 p-8 rounded-2xl overflow-hidden shadow-[0_20px_80px_-12px_rgba(220,38,38,0.25)]"
+                    className="relative bg-white/5 backdrop-blur-xl border border-white/10 p-4 md:p-8 rounded-2xl overflow-hidden shadow-[0_20px_80px_-12px_rgba(220,38,38,0.25)]"
                     animate={{
                       boxShadow: [
                         "0 20px 50px -12px rgba(220,38,38,0.15)",
@@ -416,7 +398,7 @@ const Page = () => {
                     <div className="absolute -inset-1/2 bg-gradient-to-tr from-white/5 to-transparent rotate-12 opacity-30"></div>
 
                     {/* Card content with animated transition */}
-                    <div className="relative overflow-hidden h-56">
+                    <div className="relative overflow-hidden h-[10rem] md:h-56">
                       <AnimatePresence mode="wait">
                         <motion.div
                           className="flex flex-col items-center text-center absolute inset-0"
@@ -427,7 +409,7 @@ const Page = () => {
                           transition={{ duration: 0.5 }}
                         >
                           <motion.div
-                            className="text-6xl mb-6"
+                            className="text-4xl md:text-6xl mb-6"
                             animate={{
                               scale: [1, 1.1, 1],
                               rotate: [0, 5, 0, -5, 0],
@@ -524,7 +506,7 @@ const Page = () => {
         {/* Modern footer with glass morphism */}
         <div className="mt-auto pb-4 px-6 md:px-10">
           <div className="w-full h-px bg-gradient-to-r from-transparent via-zinc-700/50 to-transparent"></div>
-          <div className="flex justify-between items-center mt-4 text-xs text-zinc-500">
+          <div className="flex justify-between gap-4 flex-wrap items-center mt-4 text-xs text-zinc-500">
             <div className="flex items-center gap-6">
               <span>© {new Date().getFullYear()} CineMate</span>
               <div className="hidden sm:flex gap-4">

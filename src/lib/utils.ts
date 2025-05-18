@@ -86,10 +86,11 @@ export const getUserId = () => {
   if (typeof window === "undefined") return null; // ✅ Only run on client
   const {user} = JSON.parse(localStorage.getItem("user") || "{}");
   if (user) {
-    return user.id
+    return user.userName
   }
   return null;
 }
+
 
 export function extractDigit(str:string) {
   const match = str.match(/\d/); // \d means any digit
