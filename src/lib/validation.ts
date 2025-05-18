@@ -29,3 +29,21 @@ export const RegisterSchema = yup.object().shape({
   gender: yup.string().required("Gender is required"),
   birthDay: yup.date().required("Birth date is required"),
 });
+
+export const validatePasswords = (
+  password: string,
+  confirmPassword: string
+) => {
+  if (
+    password &&
+    !/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/.test(
+      password
+    )
+  ) {
+    throw new Error(
+      "Password must be at least 8 characters, include uppercase, lowercase, number, and special character"
+    );
+    return new Error();
+  }
+  if (password !== confirmPassword) throw new Error("Passwords do not match");
+};

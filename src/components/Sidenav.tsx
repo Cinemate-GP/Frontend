@@ -18,7 +18,7 @@ import { RootState } from "@/redux/store";
 export default function Sidenav() {
   const pathname = usePathname();
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const { themeMode } = useSelector((state: RootState) => state.accentColor);
+  const { themeMode } = useSelector((state: RootState) => state.theme);
   const { setSearch } = useSearch();
   const dispatch = useDispatch();
 

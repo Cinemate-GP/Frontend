@@ -212,7 +212,7 @@ const ResetPasswordForm = () => {
           <motion.div variants={fadeInUp} custom={2}>
             <motion.button
               type="submit"
-              className="w-full relative group overflow-hidden bg-gradient-to-r from-red-700 to-red-600 hover:from-red-600 hover:to-red-500
+              className="w-full text-white relative group overflow-hidden bg-gradient-to-r from-red-700 to-red-600 hover:from-red-600 hover:to-red-500
                        transition-all duration-300 rounded-lg px-6 py-2.5 text-sm font-medium 
                        focus:ring-2 focus:ring-red-500/50 focus:outline-none
                        shadow-lg shadow-red-700/20

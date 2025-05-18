@@ -78,8 +78,8 @@ const ProfileHeader = ({ userId }: { userId: string }) => {
   return (
     <>
       <header className="backdrop-blur-sm bg-secondaryBg rounded-xl shadow-md p-6">
-        <div className="flex flex-col sm:flex-row items-center gap-6 justify-between">
-          <div className="flex flex-col sm:flex-row items-center gap-6">
+        <div className="flex flex-col sm:flex-row gap-6 justify-between">
+          <div className="flex flex-row items-center gap-6">
             {/* Profile image - with click handler */}
             <div
               onClick={() => setShowImageViewer(true)}
@@ -96,8 +96,8 @@ const ProfileHeader = ({ userId }: { userId: string }) => {
             </div>
 
             {/* Profile information */}
-            <div className="flex-1 text-center sm:text-left">
-              <h2 className="text-2xl font-bold text-foreground mb-1">
+            <div className="flex-1 sm:text-left">
+              <h2 className="text-lg sm:text-2xl font-bold text-foreground mb-1">
                 {user?.fullName || "User Name"}
               </h2>
               <p className="text-sm text-gray-500">{user?.userName}</p>
@@ -113,7 +113,7 @@ const ProfileHeader = ({ userId }: { userId: string }) => {
                 <button
                   disabled={followingLoading}
                   onClick={toggleFollow}
-                  className={`rounded-lg px-3 py-1 border  border-primary text-sm ml-3 ${
+                  className={`rounded-lg px-3 py-1 border  border-primary text-sm mt-2 ${
                     follow ? "bg-primary text-white" : "text-foreground"
                   }`}
                 >
@@ -124,7 +124,7 @@ const ProfileHeader = ({ userId }: { userId: string }) => {
           </div>
 
           {/* Stats row - moved to the right */}
-          <div className="flex justify-center gap-6 mt-4 sm:mt-0">
+          <div className="flex gap-6 mt-4 sm:mt-0">
             <div className="text-center">
               <span className="block text-xl font-bold">80</span>
               <span className="text-sm text-gray-500">Films</span>

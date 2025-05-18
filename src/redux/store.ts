@@ -6,7 +6,7 @@ import reviewsReducer from "./slices/reviews";
 import recommendedReducer from "./slices/recommended";
 import ActivityReducer from "./slices/recentActivity";
 import SideNaveReducer from "./slices/sidebarSlice";
-import accentColorReducer from './slices/themeSlice';
+import ThemeReducer from './slices/themeSlice';
 
 export const store = configureStore({
   reducer: {
@@ -17,7 +17,7 @@ export const store = configureStore({
     recommended:recommendedReducer,
     recentActivities:ActivityReducer,
     sideNave:SideNaveReducer,
-    accentColor:accentColorReducer
+    theme:ThemeReducer
   },
 });
 export type RootState = ReturnType<typeof store.getState>;

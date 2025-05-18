@@ -15,7 +15,7 @@ const initialState: ThemeState = {
   themePreference: "manual",
 };
 
-const accentColorSlice = createSlice({
+const themeSlice = createSlice({
   name: "accentColor",
   initialState,
   reducers: {
@@ -82,6 +82,6 @@ export const {
   setSystemTheme,
   switchMode,
   hydrateThemeFromLocalStorage,
-} = accentColorSlice.actions;
+} = themeSlice.actions;
 
-export default accentColorSlice.reducer;
+export default themeSlice.reducer;

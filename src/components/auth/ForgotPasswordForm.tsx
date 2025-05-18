@@ -153,8 +153,8 @@ const ForgotPasswordForm = () => {
             variants={fadeInUp}
             custom={2}
             type="submit"
-            className="w-full relative group overflow-hidden bg-gradient-to-r from-red-700 to-red-600 hover:from-red-600 hover:to-red-500
-                     transition-all duration-300 rounded-lg px-6 py-2.5 font-medium 
+            className="w-full relative text-white group overflow-hidden bg-gradient-to-r from-red-700 to-red-600 hover:from-red-600 hover:to-red-500
+                     transition-all duration-300 rourended-lg px-6 py-2.5 font-medium 
                      focus:ring-2 focus:ring-red-500/50 focus:outline-none
                      shadow-lg shadow-red-700/20
                      disabled:opacity-70 disabled:cursor-not-allowed"

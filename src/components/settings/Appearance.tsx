@@ -17,7 +17,7 @@ import { RootState } from "@/redux/store";
 
 const AppearanceSettings = () => {
   const { primaryColor, themeMode, themePreference } = useSelector(
-    (state: RootState) => state.accentColor
+    (state: RootState) => state.theme
   );
 
   const dispatch = useDispatch();
