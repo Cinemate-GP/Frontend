@@ -78,8 +78,7 @@ export default function Sidenav() {
               height={36}
               priority
               alt="CineMate logo"
-              className={`${
-                themeMode === "light" ? "invert" : ""
+              className={`${themeMode === "light" ? "invert" : ""
               } filter object-contain min-w-[36px]`}
             />
             <AnimatePresence>

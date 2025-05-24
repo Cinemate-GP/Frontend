@@ -22,11 +22,10 @@
   --text-muted: #aaaaaa;
 
   --border: #2e2e2e;
-  --highlight: #ffcc00;
 
   --hover-bg: #262626; /* For card/link hover backgrounds */
   --hover-text: #ffffff;
-  --overlay: #00000080;
+  --overlay: #00000061;
 
   --skeleton-base: #2d2d2d;
   --skeleton-highlight: #3b3b3b;
@@ -47,7 +46,6 @@
   --text-muted: #666666;
 
   --border: #e0e0e0;
-  --highlight: #ff9900;
 
   --hover-bg: #f2f2f2; /* Light hover effect */
   --hover-text: #000000;
@@ -164,7 +162,7 @@ body {
     background: linear-gradient(
       to bottom,
       var(--overlay) 30%,
-      var(--main-bg) 100%
+      black 100%
     );
   }
   .bg-gradient-overlay-50 {
@@ -187,7 +185,7 @@ body {
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: rgb(62, 61, 61);
+  background: var(--hover-bg);
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {

@@ -1,7 +1,6 @@
-import { useCookie } from "@/hooks/useCookie";
 import { useMovieInfo } from "@/hooks/useMovieActions";
 import { authFetch } from "@/lib/api";
-import { getUserId } from "@/lib/utils";
+import { getCookie, getUserId } from "@/lib/utils";
 import { useState } from "react";
 import { FaHeart, FaRegEye, FaRegStar, FaStar } from "react-icons/fa6";
 import { FiHeart } from "react-icons/fi";
@@ -35,7 +34,7 @@ export const MovieActions = ({
     toggleWatched,
     toggleWatchlist,
   } = useMovieInfo({ tmdbId, isLiked, isWatched, isInWatchList });
-  const token = useCookie();
+  const token = getCookie('token');
   const buttons = [
     {
       icon: liked ? (

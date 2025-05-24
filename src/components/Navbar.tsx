@@ -16,6 +16,7 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const [isDark, setIsDark] = useState(false);
+  const { themeMode } = useSelector((state: RootState) => state.theme);
 
   const toggleTheme = () => {
     setIsDark(!isDark);
@@ -33,7 +34,9 @@ const Navbar = () => {
 
   return (
     <div
-      className={`absolute z-30 w-full ${isCollapsed ? "w-full md:w-[calc(100%-3rem)] right-0" : "w-full left-0"} top-0 px-2`}
+      className={`absolute z-30 w-full ${
+        isCollapsed ? "w-full md:w-[calc(100%-3rem)] right-0" : "w-full left-0"
+      } top-0 px-2`}
     >
       <div className="flex items-center py-2 md:p-4 gap-x-4">
         <div className="block md:hidden w-[60px] h-[60px] sm:w-[100px] sm:h-[100px]">
@@ -42,7 +45,7 @@ const Navbar = () => {
             width={60}
             height={60}
             alt="logo"
-            className="object-contain w-full h-full"
+            className={`object-contain w-full h-full filter ${themeMode === "light" ? "invert" : ""}`}
           />
         </div>
         <div className="hidden md:block w-full max-w-2xl">

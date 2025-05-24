@@ -107,7 +107,7 @@ function FollowTabs() {
             className={`px-4 py-2 rounded-md border ${
               activeTab === tab
                 ? "bg-primary text-white border-primary"
-                : "bg-gray-800 text-gray-300 border-gray-600"
+                : "bg-secondaryBg text-foreground border-border"
             }`}
           >
             {tab.charAt(0).toUpperCase() + tab.slice(1)}

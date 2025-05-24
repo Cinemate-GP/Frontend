@@ -24,9 +24,11 @@ const FollowLayout = ({ children }: { children: React.ReactNode }) => {
       {loading && <ProfileInfoSkeleton />}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-y-6 gap-x-12 md:gap-x-24 items-center mx-auto">
         {!loading && (
-          <div className="flex flex-col gap-4 items-center text-center md:items-start md:text-left">
-            
-            <Link href={`/user/${userId}`} className="border-2 border-primary p-1 rounded-full aspect-square w-full max-w-[120px] sm:max-w-[160px] overflow-hidden mx-auto flex-justify-center items-center">
+          <div className="flex  gap-4 items-center text-center md:items-start md:text-left">
+            <Link
+              href={`/user/${userId}`}
+              className="border-2 border-primary p-1 rounded-full aspect-square w-full max-w-[120px] sm:max-w-[160px] overflow-hidden mx-auto flex-justify-center items-center"
+            >
               {data?.profilePic ? (
                 <Image
                   src={data.profilePic}
@@ -45,18 +47,21 @@ const FollowLayout = ({ children }: { children: React.ReactNode }) => {
                 />
               )}
             </Link>
-            <h2 className="text-lg sm:text-3xl text-center mx-auto">
-              {data?.fullName || "User Name"}
-            </h2>
-            <div className="flex items-center gap-2 flex-wrap justify-center mx-auto">
-              <p className="flex items-center gap-1">
-                <RiGroupLine />
-                <span className="text-primary">{data?.followersCount}</span>
-                followers ·
-              </p>
-              <p>
-                <span className="text-primary">{data?.followingCount}</span> following
-              </p>
+            <div>
+              <h2 className="text-lg sm:text-3xl text-center mx-auto">
+                {data?.fullName || "User Name"}
+              </h2>
+              <div className="flex items-center gap-2 flex-wrap justify-center mx-auto">
+                <p className="flex items-center gap-1">
+                  <RiGroupLine />
+                  <span className="text-primary">{data?.followersCount}</span>
+                  followers ·
+                </p>
+                <p>
+                  <span className="text-primary">{data?.followingCount}</span>{" "}
+                  following
+                </p>
+              </div>
             </div>
           </div>
         )}

@@ -64,14 +64,14 @@ export default function NotificationDropdown() {
 
       {/* Dropdown */}
       <div
-        className={`absolute -right-10 p-3 mt-3 w-80 bg-black border border-primary rounded-lg shadow-xl text-white transform max-w-[300px] ${
+        className={`absolute -right-10 p-3 mt-3 w-80 bg-secondaryBg border border-primary rounded-lg shadow-xl text-foreground transform max-w-[300px] ${
           isOpen
             ? "opacity-100 scale-100"
             : "opacity-0 scale-95 pointer-events-none"
         } transition-all duration-300`}
       >
         {/* Header */}
-        <div className="p-3 border-b border-primary text-lg font-bold text-center bg-gray-900">
+        <div className="p-3 border-b border-primary text-lg font-bold text-center bg-background">
           🎬 Movie Alerts
         </div>
 
@@ -81,9 +81,9 @@ export default function NotificationDropdown() {
             {notifications.map((n) => (
               <div
                 key={n.id}
-                className={`flex items-center p-3 gap-3 border-b border-gray-700 ${
-                  n.read ? "opacity-60" : "bg-gray-800 shadow-lg"
-                } hover:bg-gray-700 cursor-pointer transition`}
+                className={`flex items-center p-3 gap-3 border-b border-border ${
+                  n.read ? "opacity-60" : "bg-background shadow-lg"
+                } hover:bg-hoverBg cursor-pointer transition`}
               >
                 {/* Movie Poster */}
                 <Image

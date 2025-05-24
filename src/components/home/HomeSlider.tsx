@@ -90,7 +90,7 @@ const HomeSlider = () => {
                     ) : null}
                     
                     {!slid?.logoPath && (
-                      <h2 className="text-2xl sm:text-6xl mb-4 text-foreground">
+                      <h2 className="text-2xl sm:text-6xl mb-4">
                         {slid.title}
                       </h2>
                     )}
@@ -101,9 +101,9 @@ const HomeSlider = () => {
                       </span>
                       <div className="flex basis-auto items-center">
                         <AiFillStar className="text-primary" />
-                        <span className="text-foreground">{slid.imdbRating.split("/")[0]}</span>
+                        <span className="text-white">{slid.imdbRating.split("/")[0]}</span>
                       </div>
-                      <span className="text-foreground">{slid.releaseDate}</span>
+                      <span className="text-white">{slid.releaseDate}</span>
                     </div>
 
                     {/* genres */}
@@ -111,13 +111,13 @@ const HomeSlider = () => {
                       {slid.genresDetails?.map((genre) => (
                         <span
                           key={genre.id}
-                          className="flex basis-auto items-center italic text-sm font-semibold text-foreground"
+                          className="flex basis-auto items-center italic text-sm font-semibold text-white"
                         >
                           {genre.name}
                         </span>
                       ))}
                     </div>
-                    <p className="text-sm sm:text-lg text-center text-foreground sm:text-start">
+                    <p className="text-sm sm:text-lg text-center text-white sm:text-start">
                       {slid.tagline}
                     </p>
 
@@ -137,7 +137,7 @@ const HomeSlider = () => {
                       <Link
                         href={`/movies/${slid.tmdbId}`}
                         aria-label="More Info"
-                        className="border border-primary text-sm p-3 flex items-center gap-1 rounded-3xl text-foreground transition-all duration-150 hover:bg-primary hover:text-white h-[40px]  sm:h-auto"
+                        className="border border-primary text-sm p-3 flex items-center gap-1 rounded-3xl text-white transition-all duration-150 hover:bg-primary hover:text-white h-[40px]  sm:h-auto"
                       >
                         <BsExclamationCircle
                           size={18}
@@ -154,7 +154,7 @@ const HomeSlider = () => {
                           })
                         }
                         aria-label="Add to Watchlist"
-                        className="border border-primary text-sm p-3 hidden sm:flex items-center gap-1 rounded-3xl text-foreground transition-all duration-150 hover:bg-primary hover:text-white h-[40px]  sm:h-auto"
+                        className="border border-primary text-sm p-3 hidden sm:flex items-center gap-1 rounded-3xl text-white transition-all duration-150 hover:bg-primary hover:text-white h-[40px]  sm:h-auto"
                       >
                         <FaRegBookmark size={18}/>
                         Add to Watchlist

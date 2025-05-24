@@ -3,6 +3,9 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { useCookie } from "@/hooks/useCookie";
 import { authFetch } from "@/lib/api";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+import { getUserId } from "@/lib/utils";
 
 interface Props {
   tmdbId: number;
@@ -14,6 +17,7 @@ interface Props {
 const MovieReviewForm = ({ tmdbId, title, onclose }: Props) => {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const {themeMode} = useSelector((state : RootState) => state.theme)
 
   const { user } = JSON.parse(localStorage.getItem("user") || "{}");
   const token = useCookie();
@@ -38,7 +42,7 @@ const MovieReviewForm = ({ tmdbId, title, onclose }: Props) => {
           },
           body: JSON.stringify({
             tmdbId,
-            userId: user.id,
+            userId: getUserId(),
             reviewBody: message,
           }),
         });
@@ -48,7 +52,7 @@ const MovieReviewForm = ({ tmdbId, title, onclose }: Props) => {
         toast.success("Review added successfully!", {
           position: "top-center",
           autoClose: 2000,
-          theme: "dark",
+          theme: themeMode,
         });
         setMessage("");
         onclose();

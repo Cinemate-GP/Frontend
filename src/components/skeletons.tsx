@@ -257,7 +257,7 @@ export function FeedCardSkelton() {
           </div>
 
           {/* Content */}
-          <div className="bg-[#1a1a1a] p-4 rounded-lg mt-2">
+          <div className="bg-secondaryBg p-4 rounded-lg mt-2">
             <div className="flex justify-between">
               {/* Left */}
               <div className="flex flex-col gap-2">
@@ -373,7 +373,7 @@ export const FollowItemSkeleton = () => {
   return (
     <div>
       {Array.from({length:5}).map((_,index) => (
-        <div key={index} className="flex justify-between items-center border-b border-gray-700 py-4">
+        <div key={index} className="flex justify-between items-center border-b border-border py-4">
         {/* Left part: image and name */}
         <div className="flex items-center gap-4">
           {/* Profile Picture Skeleton */}

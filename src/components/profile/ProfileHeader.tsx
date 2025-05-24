@@ -27,6 +27,7 @@ const ProfileHeader = ({ userId }: { userId: string }) => {
   const { data: user, loading } = useFetch<UserInfo | null>(
     `/api/Profile/details/${userId}`
   );
+  console.log(user)
   const [follow, setFollow] = useState<boolean>(user?.isFollowing ?? false);
   useEffect(() => {
     setFollowersCount(user?.followersCount ?? 0);
@@ -47,7 +48,7 @@ const ProfileHeader = ({ userId }: { userId: string }) => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ userId: getUserId(), followId: user?.userId }),
+        body: JSON.stringify({ userId: getUserId(), followId: user?.userName }),
       });
 
       if (!res.ok) throw new Error("Failed to toggle follow status");
