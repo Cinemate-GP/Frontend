@@ -5,7 +5,7 @@ import { useCookie } from "@/hooks/useCookie";
 import { authFetch } from "@/lib/api";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import { getUserId } from "@/lib/utils";
+import { getCookie, getUserId } from "@/lib/utils";
 
 interface Props {
   tmdbId: number;
@@ -19,8 +19,7 @@ const MovieReviewForm = ({ tmdbId, title, onclose }: Props) => {
   const [loading, setLoading] = useState(false);
   const {themeMode} = useSelector((state : RootState) => state.theme)
 
-  const { user } = JSON.parse(localStorage.getItem("user") || "{}");
-  const token = useCookie();
+  const token = getCookie('token');
 
   // handle review
   const HandleSubmitReview = async (e: React.FormEvent) => {
