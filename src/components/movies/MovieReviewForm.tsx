@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { useCookie } from "@/hooks/useCookie";
 import { authFetch } from "@/lib/api";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
