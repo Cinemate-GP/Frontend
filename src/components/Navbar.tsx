@@ -1,27 +1,20 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import NavbarSearch from "./Search";
 import Image from "next/image";
 import NotificationDropdown from "@/components/ui/Dropdown";
 import { useUser } from "@/context/UserContext";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { setThemeMode } from "@/redux/slices/themeSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 const Navbar = () => {
   const { isCollapsed } = useSelector((state: RootState) => state.sideNave);
   const { user, refreshUserData } = useUser();
-  const dispatch = useDispatch();
   const router = useRouter();
-  const [isDark, setIsDark] = useState(false);
   const { themeMode } = useSelector((state: RootState) => state.theme);
 
-  const toggleTheme = () => {
-    setIsDark(!isDark);
-    dispatch(setThemeMode(isDark ? "dark" : "light"));
-  };
 
   // Refresh user data when component mounts
   useEffect(() => {
@@ -51,7 +44,7 @@ const Navbar = () => {
         <div className="hidden md:block w-full max-w-2xl">
           <NavbarSearch />
         </div>
-        <div
+        {/* <div
           role="button"
           className={`w-12 h-6 flex items-center bg-gray-400 rounded-full p-1 cursor-pointer ms-auto ${
             isDark ? "!bg-primary" : ""
@@ -63,7 +56,7 @@ const Navbar = () => {
               isDark ? "translate-x-[22px]" : ""
             }`}
           ></div>
-        </div>
+        </div> */}
         <div className="ml-auto flex items-center relative gap-3">
           <NotificationDropdown />
           <motion.div

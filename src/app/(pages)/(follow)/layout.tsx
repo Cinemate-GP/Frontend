@@ -20,14 +20,14 @@ const FollowLayout = ({ children }: { children: React.ReactNode }) => {
   const userId = slug.split("_")[0];
   const { data, loading } = useFetch<User>(`/api/Profile/details/${userId}`);
   return (
-    <div className="mt-24 px-10">
+    <div className="mt-24 px-5 sm:px-10">
       {loading && <ProfileInfoSkeleton />}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-y-6 gap-x-12 md:gap-x-24 items-center mx-auto">
+      <div className="grid grid-cols-12 gap-y-6 md:gap-x-12 items-start mx-auto">
         {!loading && (
-          <div className="flex  gap-4 items-center text-center md:items-start md:text-left">
+          <div className="flex flex-row col-span-12 lg:flex-col lg:col-span-3 gap-4 items-center justify-start text-center md:text-left">
             <Link
               href={`/user/${userId}`}
-              className="border-2 border-primary p-1 rounded-full aspect-square w-full max-w-[120px] sm:max-w-[160px] overflow-hidden mx-auto flex-justify-center items-center"
+              className="border-2 mx-0 border-primary p-1 rounded-full aspect-square w-full max-w-[120px] sm:max-w-[160px] overflow-hidden flex-justify-center items-center"
             >
               {data?.profilePic ? (
                 <Image
@@ -48,10 +48,10 @@ const FollowLayout = ({ children }: { children: React.ReactNode }) => {
               )}
             </Link>
             <div>
-              <h2 className="text-lg sm:text-3xl text-center mx-auto">
+              <h2 className="text-lg sm:text-2xl text-start mb-3 lg:text-center">
                 {data?.fullName || "User Name"}
               </h2>
-              <div className="flex items-center gap-2 flex-wrap justify-center mx-auto">
+              <div className="flex items-center gap-2 flex-wrap justify-start mx-0 ">
                 <p className="flex items-center gap-1">
                   <RiGroupLine />
                   <span className="text-primary">{data?.followersCount}</span>
@@ -66,7 +66,7 @@ const FollowLayout = ({ children }: { children: React.ReactNode }) => {
           </div>
         )}
 
-        <div className="md:col-span-3 w-full max-w-[600px] overflow-y-auto mb-12 md:mb-0">
+        <div className="col-span-12  lg:col-span-9 max-w-full overflow-y-auto mb-12 md:mb-0">
           {children}
         </div>
       </div>

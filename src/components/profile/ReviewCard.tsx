@@ -47,9 +47,9 @@ const ReviewCard = (item: cardProps) => {
       href={`/movies/${item.tmdbId}`}
       className="border-b border-primary py-6"
     >
-      <div className="max-w-xl sm:max-w-3xl md:max-w-4xl  flex gap-4">
+      <div className="max-w-xl sm:max-w-3xl md:max-w-4xl flex-col sm:flex-row  flex gap-4">
         {/* Movie Poster */}
-        <div className="w-[100px] h-[110px] sm:w-[190px] sm:h-[250px] overflow-hidden">
+        <div className="w-full h-full sm:w-[190px] sm:h-[250px] overflow-hidden">
           <img
             src={IMAGEPOSTER + item.poster_path}
             alt="Batman Begins"
@@ -73,7 +73,7 @@ const ReviewCard = (item: cardProps) => {
                 <FaStar
                   key={i}
                   size={14}
-                  className={i < item.stars ? "text-red-500" : "text-zinc-600"}
+                  className={i < item.stars ? "text-primary" : "text-zinc-600"}
                 />
               ))}
             </div>

@@ -30,7 +30,7 @@ export default function MovieStreaming({ image, loading, id }: Props) {
           <span className="text-sm font-semibold tracking-wide">Choose Source</span>
         </div>
 
-        <div className="flex items-center gap-2 overflow-auto max-w-full custom-scrollbar">
+        <div className="flex items-center gap-2 overflow-auto scrollbar-hidden max-w-full">
           {movieSources.map((s) => (
             <button
               key={s.id}

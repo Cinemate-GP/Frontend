@@ -49,7 +49,7 @@ const MovieReviewList = ({movieReviews}:{movieReviews:Review[] | undefined}) => 
                         key={i}
                         size={14}
                         className={
-                          i < review.stars ? "text-red-500" : "text-zinc-600"
+                          i < review.stars ? "text-primary" : "text-zinc-600"
                         }
                       />
                     ))}
