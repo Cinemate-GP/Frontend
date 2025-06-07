@@ -6,7 +6,7 @@ import { FaHeart, FaPlayCircle } from "react-icons/fa";
 import { MdOutlineRateReview } from "react-icons/md";
 import { RiUserFollowLine } from "react-icons/ri";
 import { IMAGEPOSTER } from "@/constants";
-import { capitalizeString, convertToDateTime, extractDigit } from "@/lib/utils";
+import { convertToDateTime, extractDigit } from "@/lib/utils";
 
 interface ActionCardProps {
   id: number;
@@ -80,11 +80,10 @@ const FeedCard: React.FC<ActionCardProps> = ({
           </div>
         );
       case "review":
-        return (
-          <div className="mt-3">
+        return (          <div className="mt-3">
             <div className="bg-secondaryBg border border-border rounded-lg p-3">
               <p className="text-foreground text-sm leading-relaxed break-words">
-                "{description}"
+                &quot;{description}&quot;
               </p>
             </div>
           </div>

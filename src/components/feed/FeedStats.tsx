@@ -1,8 +1,20 @@
 import React from "react";
 import { HiEye, HiHeart, HiStar, HiUsers, HiChatBubbleLeft } from "react-icons/hi2";
 
+interface FeedItem {
+  type: string;
+  id: number;
+  userId: string;
+  profilePic: string;
+  fullName: string;
+  time: string;
+  actionTitle: string;
+  posterPath: string;
+  description: string;
+}
+
 interface FeedStatsProps {
-  feeds?: any[];
+  feeds?: FeedItem[];
 }
 
 const FeedStats: React.FC<FeedStatsProps> = ({ feeds = [] }) => {
