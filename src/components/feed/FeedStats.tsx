@@ -2,15 +2,15 @@ import React from "react";
 import { HiEye, HiHeart, HiStar, HiUsers, HiChatBubbleLeft } from "react-icons/hi2";
 
 interface FeedItem {
+  userId: string;
+  fullName: string;
+  profilePic: string;
   type: string;
   id: number;
-  userId: string;
-  profilePic: string;
-  fullName: string;
-  time: string;
-  actionTitle: string;
   posterPath: string;
+  name: string;
   description: string;
+  createdOn: string;
 }
 
 interface FeedStatsProps {
