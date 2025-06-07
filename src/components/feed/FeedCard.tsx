@@ -14,7 +14,7 @@ interface ActionCardProps {
   userId: string;
   type: string;
   profilePic: string;
-  userName: string;
+  fullName: string;
   time: string;
   actionTitle: string;
   posterPath: string;
@@ -25,7 +25,7 @@ const FeedCard: React.FC<ActionCardProps> = ({
   userId,
   id,
   profilePic,
-  userName,
+  fullName,
   time,
   type,
   actionTitle,
@@ -64,8 +64,9 @@ const FeedCard: React.FC<ActionCardProps> = ({
               className="w-full h-full rounded-full object-cover"
             />
           </Link>
-          <div>
-            <h2 className="text-white font-semibold">{userName}</h2>
+          <div className="flex flex-col">
+            <h2 className="text-foreground font-semibold">{fullName}</h2>
+            <p className="text-textMuted">{userId}</p>
           </div>
         </div>
         {/* Date Time */}

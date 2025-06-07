@@ -5,7 +5,7 @@ import useFetch from "@/hooks/useFetch";
 
 interface Feed {
   userId: string;
-  userName: string;
+  fullName: string;
   profilePic: string;
   type: string;
   id: number;
@@ -25,7 +25,7 @@ const FeedPage = () => {
           key={feed.createdOn}
           id={feed.id}
           userId={feed.userId}
-          userName={feed.userName}
+          fullName={feed.fullName}
           profilePic={feed.profilePic}
           type={feed.type}
           posterPath={feed.posterPath}
