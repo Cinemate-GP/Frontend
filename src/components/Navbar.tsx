@@ -10,7 +10,6 @@ import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 const Navbar = () => {
-  const { isCollapsed } = useSelector((state: RootState) => state.sideNave);
   const { user, refreshUserData } = useUser();
   const router = useRouter();
   const { themeMode } = useSelector((state: RootState) => state.theme);
