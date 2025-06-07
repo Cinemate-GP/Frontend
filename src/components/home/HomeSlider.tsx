@@ -67,16 +67,15 @@ const HomeSlider = () => {
       >
         {loading && HomeSliderSkeleton()}
         {movies?.map((slid) => {
-          return (
-            <SwiperSlide key={slid.tmdbId}>
+          return (            <SwiperSlide key={slid.tmdbId}>
               <div
                 className="w-full relative bg-cover bg-center h-screen"
                 style={{
                   backgroundImage: `url(${IMAGEPOSTER + slid.backdropPath})`,
-                }}
-              >
-                <div className="absolute top-0 left-0 w-full h-full bg-gradient-overlay-30 flex items-start md:items-center pt-48 md:pt-0">
-                  <div className="ml-2 md:ml-12 p-3 md-p-0 flex flex-col gap-3 w-full sm:max-w-xl text-center sm:text-left">
+                }}              >
+                <div className="absolute top-0 left-0 w-full h-full bg-gradient-overlay-30 flex items-start md:items-center pt-32 md:pt-24">
+                  <div className="container mx-auto px-4 sm:px-6 md:px-8">
+                    <div className="flex flex-col gap-3 w-full sm:max-w-xl text-center sm:text-left">
                     {slid?.logoPath ? (
                       <div className="w-full max-w-[300px] md:max-w-[400px] mx-auto sm:mx-0 mb-4">
                         <Image 
@@ -156,9 +155,9 @@ const HomeSlider = () => {
                         aria-label="Add to Watchlist"
                         className="border border-primary text-sm p-3 hidden sm:flex items-center gap-1 rounded-3xl text-white transition-all duration-150 hover:bg-primary hover:text-white h-[40px]  sm:h-auto"
                       >
-                        <FaRegBookmark size={18}/>
-                        Add to Watchlist
+                        <FaRegBookmark size={18}/>                        Add to Watchlist
                       </button>
+                    </div>
                     </div>
                   </div>
                 </div>

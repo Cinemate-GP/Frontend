@@ -12,13 +12,14 @@ const UserPage = () => {
     redirect("/profile");
   }
 
-
   return (
-    <div className="mt-24 px-10">
-     <ProfileHeader userId={userId as string}/>
-      <RecentActivitySection
-        userId={ userId as string}
-      />
+    <div className="min-h-screen bg-mainBg">
+      <div className="container mx-auto px-4 sm:px-6 md:px-8 pt-32 pb-16">
+        <ProfileHeader userId={userId as string}/>
+        <RecentActivitySection
+          userId={ userId as string}
+        />
+      </div>
     </div>
   );
 };

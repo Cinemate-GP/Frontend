@@ -33,12 +33,10 @@ const Geners = () => {
         setLoading(false);
       }
     };
-    fetchData();
-  }, [selected]);
+    fetchData();  }, [selected]);
   const popularGenres = geners.slice(0, 8); // Limit to 8 most popular genres
-
   return (
-    <div className="mx-[1rem] sm:mx-0 mt-48 sm:mt-32">
+    <div>
       <div className="flex flex-col gap-4">
         <SectionTitle title="Discover By Genres" />
         <div className="w-full overflow-x-auto custom-scrollbar">

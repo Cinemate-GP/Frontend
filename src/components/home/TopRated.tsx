@@ -15,7 +15,7 @@ interface Movie {
 const TopRated = () => {
   const {data,loading} = useFetch<Movie[]>('/api/Movie/top-rated')
   return (
-    <div className="">
+    <div>
       <SectionTitle title="Top Rated" />
       <SliderWrapper>
         <MovieSlider sliderType="topRated" movieList={data} loading={loading}/>

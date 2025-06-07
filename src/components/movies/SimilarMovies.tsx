@@ -8,7 +8,7 @@ import useFetch from "@/hooks/useFetch";
 const SimilarMovies = () => {
   const { data, loading } = useFetch<Movie[]>("/api/Movie/top-ten");
   return (
-    <div className="section my-48 sm:my-32">
+    <div>
       <SectionTitle title="You May Like" />
       <SliderWrapper>
         <MovieSlider sliderType="recommended" movieList={data} loading={loading}/>

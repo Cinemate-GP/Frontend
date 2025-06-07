@@ -23,15 +23,11 @@ const Navbar = () => {
 
   const navigateToProfile = () => {
     router.push("/profile");
-  };
-
-  return (
+  };  return (
     <div
-      className={`absolute z-30 w-full ${
-        isCollapsed ? "w-full md:w-[calc(100%-3rem)] right-0" : "w-full left-0"
-      } top-0 px-2`}
+      className="absolute z-30 w-full top-0 py-4 md:py-6"
     >
-      <div className="flex items-center py-2 md:p-4 gap-x-4">
+      <div className="container mx-auto px-4 sm:px-6 md:px-8">        <div className="flex items-center justify-between w-full">
         <div className="block md:hidden w-[60px] h-[60px] sm:w-[100px] sm:h-[100px]">
           <Image
             src="/logo.png"
@@ -56,8 +52,7 @@ const Navbar = () => {
               isDark ? "translate-x-[22px]" : ""
             }`}
           ></div>
-        </div> */}
-        <div className="ml-auto flex items-center relative gap-3">
+        </div> */}        <div className="flex items-center gap-3">
           <NotificationDropdown />
           <motion.div
             className="w-[36px] h-[36px] rounded-full border-2 border-primary overflow-hidden shadow-md cursor-pointer"
@@ -75,7 +70,7 @@ const Navbar = () => {
               priority={true}
             />
           </motion.div>
-        </div>
+        </div></div>
       </div>
     </div>
   );

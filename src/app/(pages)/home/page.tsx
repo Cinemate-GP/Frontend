@@ -12,19 +12,20 @@ export default function Home() {
     <div className="overflow-hidden mb-[70px]">
       <section id="home">
         <HomeSlider />
-      </section>
-      <section>
-        <Top10 />
-      </section>
-      <section className="section">
-        <TopRated />
-      </section>
-      <section className="section">
-        <Recommended />
-      </section>
-      <section className="section">
-        <Geners />
-      </section>
+      </section>      <div className="container mx-auto px-4 sm:px-6 md:px-8">
+        <section className="mt-48 sm:mt-56 lg:mt-64">
+          <Top10 />
+        </section>
+        <section className="mt-24 sm:mt-32 mb-[4rem] md:mb-0">
+          <TopRated />
+        </section>
+        <section className="mt-24 sm:mt-32 mb-[4rem] md:mb-0">
+          <Recommended />
+        </section>
+        <section className="mt-24 sm:mt-32 mb-[4rem] md:mb-0">
+          <Geners />
+        </section>
+      </div>
       <ToastContainer />
     </div>
   );

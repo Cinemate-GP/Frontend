@@ -1,10 +1,12 @@
 "use client";
+import { IoPlay } from "react-icons/io5";
+
 // Loading animation
 export const HomeSliderSkeleton = () => {
   return (
-    <div className="mx-[1rem] relative w-full h-[700px] bg-secondaryBg rounded-lg overflow-hidden">
+    <div className="container mx-auto px-4 sm:px-6 md:px-8 relative w-full h-[700px] bg-secondaryBg rounded-lg overflow-hidden">
       <div className="absolute inset-0"></div>
-      <div className="absolute my-auto bottom-1/2 top-1/3  left-4 md:left-8 w-full">
+      <div className="absolute my-auto bottom-1/2 top-1/3 left-4 md:left-8 w-full">
         {/* Title */}
         <div className="h-8 w-3/4 sm:w-2/5 bg-gray-700 rounded mb-2 animate-pulse"></div>
 
@@ -30,7 +32,7 @@ export const HomeSliderSkeleton = () => {
 
 export const MovieGridSkeleton = () => {
   return (
-    <div className="p-4">
+    <div className="container mx-auto px-4 sm:px-6 md:px-8 py-4">
       {/* Movie grid */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
         {Array.from({ length: 10 }).map((_, index) => (
@@ -110,7 +112,7 @@ export const ActorMoviesSkeleton = () => {
 
 export const SkeletonMovieInfo = () => {
   return (
-    <div className="hidden sm:flex bg-secondary text-white p-6 mt-[5rem] mx-[2rem]">
+    <div className="hidden sm:flex bg-secondary text-white pt-32 px-4 sm:px-6 md:px-8 pb-6 container mx-auto">
       {/* Movie Poster Skeleton */}
       <div className="w-64 h-96 bg-gray-700 animate-pulse rounded-lg hidden lg:block"></div>
 
@@ -131,10 +133,8 @@ export const SkeletonMovieInfo = () => {
           <div className="h-6 w-16 bg-gray-700 rounded animate-pulse"></div>
           <div className="h-6 w-16 bg-gray-700 rounded animate-pulse"></div>
           <div className="h-6 w-16 bg-gray-700 rounded animate-pulse"></div>
-        </div>
-
-        {/* Description */}
-        <div className="h-20 w-fullw-5/6 bg-gray-700 rounded mb-4 animate-pulse"></div>
+        </div>        {/* Description */}
+        <div className="h-20 w-5/6 bg-gray-700 rounded mb-4 animate-pulse"></div>
 
         {/* Buttons */}
         <div className="flex gap-4">
@@ -144,15 +144,12 @@ export const SkeletonMovieInfo = () => {
           <div className="h-10 w-16 bg-gray-700 rounded-xl animate-pulse"></div>
         </div>
       </div>
-    </div>
-  );
+    </div>  );
 };
-
-import { IoPlay } from "react-icons/io5";
 
 export const SkeletonMovieStreaming = () => {
   return (
-    <div className="bg-secondaryBg rounded-lg section p-4">
+    <div className="bg-secondaryBg rounded-lg p-6">
       <div className="relative w-full max-w-[1280px] mx-auto">
         <div className="relative rounded-lg overflow-hidden w-full aspect-video md:aspect-[16/9] max-h-[70vh] bg-gray-700 animate-pulse">
           <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] flex items-center justify-center bg-black bg-opacity-50 py-4 w-20 h-12 rounded-md">
@@ -166,7 +163,7 @@ export const SkeletonMovieStreaming = () => {
 
 export const SkeletonActors = () => {
   return (
-    <div className="bg-secondaryBg rounded-lg p-4 mx-[2rem]">
+    <div className="bg-secondaryBg rounded-lg p-6">
       {/* Title Skeleton */}
       <div className="h-8 w-32 bg-gray-700 rounded mb-4 animate-pulse"></div>
 
@@ -191,7 +188,7 @@ export const SkeletonActors = () => {
 
 export const ReviewSkeletonCard = () => {
   return (
-    <div className="max-w-xl sm:max-w-3xl md:max-w-4xl flex gap-4 bg-secondaryBg rounded-lg">
+    <div className="max-w-7xl flex gap-4 bg-secondaryBg rounded-lg">
       {/* Movie Poster */}
       <div className="w-[100px] h-[160px] sm:w-[190px] sm:h-[250px] bg-zinc-800 rounded-lg animate-pulse" />
 
@@ -228,7 +225,7 @@ export const ReviewSkeletonCard = () => {
 
 export const SearchResultSkeleton = () => {
   return (
-    <div className="flex flex-1 items-center gap-4 min-w-[140px p-2 rounded-md">
+    <div className="flex flex-1 items-center gap-4 min-w-[140px] p-2 rounded-md">
       <div className={`w-20 h-20 rounded animate-pulse`} />
       <div className="flex-1 flex flex-col gap-2">
         <div className="h-6 rounded w-3/4 animate-pulse" />
@@ -241,7 +238,7 @@ export const SearchResultSkeleton = () => {
 export function FeedCardSkelton() {
   return (
     <div className="min-h-screen bg-mainBg">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-10">
+      <div className="container mx-auto px-4 sm:px-6 md:px-8 pt-32 pb-16">
         {/* Header Skeleton */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">

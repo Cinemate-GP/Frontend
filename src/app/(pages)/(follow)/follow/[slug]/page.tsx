@@ -93,13 +93,13 @@ function FollowTabs() {
       console.error(error);
     }
   };
-
   return (
-    <div className="w-full">
-      <SectionTitle title="Connections" />
+    <div className="min-h-screen bg-mainBg">
+      <div className="container mx-auto px-4 sm:px-6 md:px-8 pt-8 pb-20">
+        <div className="bg-secondaryBg rounded-lg p-6">          <SectionTitle title="Connections" />
 
-      {/* Tabs */}
-      <div className="flex gap-4 mb-6">
+          {/* Tabs */}
+          <div className="flex gap-4 mb-8 mt-6">
         {["followers", "following"].map((tab) => (
           <button
             key={tab}
@@ -107,8 +107,7 @@ function FollowTabs() {
             className={`px-4 py-2 rounded-md border ${
               activeTab === tab
                 ? "bg-primary text-white border-primary"
-                : "bg-secondaryBg text-foreground border-border"
-            }`}
+                : "bg-secondaryBg text-foreground border-border"            }`}
           >
             {tab.charAt(0).toUpperCase() + tab.slice(1)}
           </button>
@@ -126,14 +125,12 @@ function FollowTabs() {
                 ? followedUsers[user.userId]
                 : user.isFollow;
 
-            return (
-              <div
+            return (              <div
                 key={user.userId}
-                className="flex justify-between items-center border-b border-border"
-              >
-                <Link
+                className="flex justify-between items-center border-b border-border pb-4 last:border-b-0"
+              >                <Link
                   href={`/user/${user.userId}`}
-                  className="flex items-center gap-4 p-4 px-0"
+                  className="flex items-center gap-4 py-2"
                 >
                   <Image
                     src={user.profilePic || "/user-placeholder.jpg"}
@@ -155,9 +152,10 @@ function FollowTabs() {
                 )}
               </div>
             );
-          })}
-        </div>
+          })}        </div>
       )}
+        </div>
+      </div>
     </div>
   );
 }

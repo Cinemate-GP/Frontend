@@ -31,9 +31,9 @@ const FeedPage = () => {
   };
 
   if (loading) return <FeedCardSkelton />;
-
   return (
-    <div className="min-h-screen bg-mainBg">      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-10">
+    <div className="min-h-screen bg-mainBg">
+      <div className="container mx-auto px-4 sm:px-6 md:px-8 pt-32 pb-16">
         <FeedHeader onFilterChange={handleFilterChange} />
         
         {feeds?.length === 0 ? (

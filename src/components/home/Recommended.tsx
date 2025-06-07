@@ -13,7 +13,7 @@ interface Movie {
 const Recommended = () => {
   const { data , loading} = useFetch<Movie[]>("/api/Movie/top-ten");
   return (
-    <div className="mx-[1rem] sm:mx-0 mt-48 sm:mt-32">
+    <div>
       <SectionTitle title="Recommended For You" />
       <SliderWrapper>
         <MovieSlider
