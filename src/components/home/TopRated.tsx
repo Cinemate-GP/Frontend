@@ -1,11 +1,12 @@
-'use client'
+"use client";
+
 import useFetch from "@/hooks/useFetch";
 import SectionTitle from "../SectionTitle";
 import MovieSlider from "../SliderCards";
 import SliderWrapper from "../SliderWrapper";
 
 interface Movie {
-  id:number;
+  id: number;
   tmdbId: number;
   title: string;
   imdbRating: string;
@@ -13,12 +14,13 @@ interface Movie {
 }
 
 const TopRated = () => {
-  const {data,loading} = useFetch<Movie[]>('/api/Movie/top-rated')
+  const { data, loading } = useFetch<Movie[]>('/api/Movie/top-rated');
+  
   return (
-    <div>
+    <div className="space-y-6">
       <SectionTitle title="Top Rated" />
       <SliderWrapper>
-        <MovieSlider sliderType="topRated" movieList={data} loading={loading}/>
+        <MovieSlider sliderType="topRated" movieList={data} loading={loading} />
       </SliderWrapper>
     </div>
   );
