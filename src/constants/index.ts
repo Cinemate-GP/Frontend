@@ -89,7 +89,6 @@ export const Geners = [
   { Id: 2, Name: "Drama" },
   { Id: 3, Name: "Adventure" },
   { Id: 4, Name: "Romance" },
-  { Id: 5, Name: "Sci-Fi" },
   { Id: 6, Name: "Horror" },
   { Id: 7, Name: "Thriller" },
   { Id: 8, Name: "Animation" },

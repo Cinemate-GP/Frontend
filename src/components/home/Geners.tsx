@@ -54,7 +54,7 @@ const Geners = () => {
             className={`flex-shrink-0 px-6 py-3 rounded-xl font-medium transition-all duration-200 ${
               selected === "Geners"
                 ? "bg-primary text-white shadow-lg"
-                : "bg-white/5 text-white/70 hover:bg-white/10 hover:text-white"
+                : "bg-white/5 text-textMuted hover:bg-white/10 hover:text-foreground"
             }`}
           >
             All
@@ -67,7 +67,7 @@ const Geners = () => {
               className={`flex-shrink-0 px-6 py-3 rounded-xl font-medium transition-all duration-200 ${
                 selected === gen.Name
                   ? "bg-primary text-white shadow-lg"
-                  : "bg-white/5 text-white/70 hover:bg-white/10 hover:text-white"
+                  : "bg-white/5 text-textMuted hover:bg-white/10 hover:text-foreground"
               }`}
             >
               {gen.Name}

@@ -55,7 +55,7 @@ export default function NotificationDropdown() {
         className="relative p-2 transition"
       >
         <div className="w-8 h-8 text-foreground rounded-full flex items-center justify-center text-xl">
-          <IoNotificationsOutline />
+          <IoNotificationsOutline className="text-gray-500"/>
         </div>
         {notifications.some((n) => !n.read) && (
           <span className="absolute top-2 right-[21px] w-[6px] h-[6px] bg-primary rounded-full animate-ping"></span>

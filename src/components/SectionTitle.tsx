@@ -9,7 +9,7 @@ const SectionTitle = ({ title }: { title: string }) => {
       <span className='w-1 h-8 bg-primary rounded-full' />
       
       {/* Clean title */}
-      <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white">
+      <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-textMuted">
         {title}
       </h1>
       
