@@ -70,20 +70,20 @@ const FeedCard: React.FC<ActionCardProps> = ({
           </div>
         </div>
         {/* Date Time */}
-        <div className="text-gray-400 text-xs">{convertToDateTime(time)}</div>
+        <div className="text-gray-500 text-xs">{convertToDateTime(time)}</div>
       </div>
 
       {/* content */}
-      <div className="bg-[#3f3d3d60] py-0 sm:py-2 px-4 rounded-lg mt-2">
+      <div className="bg-hoverBg py-0 sm:py-2 px-4 rounded-lg mt-2">
         <div className="flex justify-between">
           {/* left */}
           <div>
-            <p className="text-white mt-2">
+            <p className="text-foreground mt-2">
               <span className="text-primary">{capitalizeString(type)}:</span>{" "}
               {actionTitle}
             </p>
             {type === "rate" && (
-              <div className="flex gap-1 mt-2 bg-black rounded-full w-fit justify-center px-4 py-2">
+              <div className="flex gap-1 mt-2 bg-secondaryBg rounded-full w-fit justify-center px-4 py-2">
                 {[...Array(extractDigit(description))].map((_, index) => (
                   <FiStar key={index} className="text-primary" />
                 ))}

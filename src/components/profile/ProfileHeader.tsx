@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import {useEffect, useState } from "react";
 import { useUser } from "@/context/UserContext";
 import Link from "next/link";
 import ProfileImageViewer from "./ProfileImageViewer";
@@ -18,8 +18,11 @@ interface UserInfo extends User {
 }
 
 const ProfileHeader = ({ userId }: { userId: string }) => {
+
+
   const router = useRouter();
   const { refreshUserData } = useUser();
+
   const [followersCount, setFollowersCount] = useState<number>(0);
   const [showImageViewer, setShowImageViewer] = useState(false);
   const [followingLoading, setFollowingLoading] = useState(false);
@@ -27,7 +30,6 @@ const ProfileHeader = ({ userId }: { userId: string }) => {
   const { data: user, loading } = useFetch<UserInfo | null>(
     `/api/Profile/details/${userId}`
   );
-  console.log(user)
   const [follow, setFollow] = useState<boolean>(user?.isFollowing ?? false);
   useEffect(() => {
     setFollowersCount(user?.followersCount ?? 0);
@@ -35,6 +37,7 @@ const ProfileHeader = ({ userId }: { userId: string }) => {
   }, [user?.isFollowing, user?.followersCount]);
 
   const toggleFollow = async () => {
+  
     try {
       setFollowingLoading(true);
       const endpoint = follow

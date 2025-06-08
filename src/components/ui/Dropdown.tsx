@@ -1,9 +1,11 @@
 "use client";
+import { useUser } from "@/context/UserContext";
 import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
 import { IoNotificationsOutline } from "react-icons/io5";
 export default function NotificationDropdown() {
   const [isOpen, setIsOpen] = useState(false);
+  const { socket } = useUser();
   const [notifications, setNotifications] = useState([
     {
       id: 1,
@@ -24,6 +26,13 @@ export default function NotificationDropdown() {
       read: true,
     },
   ]);
+
+  useEffect(() => {
+    socket?.on("getNotification", (data) => {
+      console.log("Notification received:", data.text);
+      
+    });
+  }, [socket]);
 
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
@@ -118,5 +127,3 @@ export default function NotificationDropdown() {
     </div>
   );
 }
-
-

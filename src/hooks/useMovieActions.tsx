@@ -5,6 +5,7 @@ import { getUserId } from "@/lib/utils";
 import { useCallback, useEffect, useState } from "react";
 import { useCookie } from "./useCookie";
 import { authFetch } from "@/lib/api";
+import { useUser } from "@/context/UserContext";
 
 interface MovieInfoProps {
   tmdbId: number | undefined;
@@ -14,6 +15,7 @@ interface MovieInfoProps {
 }
 
 export const useMovieInfo = (info: MovieInfoProps) => {
+  const {socket} = useUser();
   console.log(info.isInWatchList)
   // states
   const [liked, setLiked] = useState<boolean | null>(info.isLiked ?? null);
@@ -40,6 +42,7 @@ export const useMovieInfo = (info: MovieInfoProps) => {
     addUrl: string,
     deleteUrl: string
   ) => {
+    
     if (!token || !postedData.tmdbId || !postedData.userId || type === null) {
       console.warn("Request canceled: Missing token or data");
       return;
@@ -70,6 +73,12 @@ export const useMovieInfo = (info: MovieInfoProps) => {
 
   // Toggle like
   const toggleLike = useCallback(() => {
+    socket?.emit("sendNotification", {
+      senderName: getUserId(),
+      receiverName: "mmk1996",
+      text: `${getUserId()} liked the Rock movie`,
+
+    })
     setLiked((prev) => (prev !== null ? !prev : true));
   }, []);
 

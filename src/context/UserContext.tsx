@@ -1,8 +1,10 @@
 // context/UserContext.tsx
 "use client";
 
-import { createContext, useContext, useState, useEffect, useCallback } from "react";
 
+import { getUserId } from "@/lib/utils";
+import { createContext, useContext, useState, useEffect, useCallback } from "react";
+import {io, Socket} from "socket.io-client";
 interface User {
   userId?: string;
   fullName?: string;
@@ -16,8 +18,12 @@ interface UserContextType {
   setUser: (user: User) => void;
   isLoading: boolean;
   refreshUserData: () => void;
+  socket: Socket | null; // Add socket to the context type
 }
 
+
+
+// Create a context for user dataz
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
@@ -27,6 +33,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     email: "",
     profilePic: "",
   });
+  const [socket, setSocket] = useState<Socket | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   // Function to load user data from localStorage
@@ -74,12 +81,29 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     loadUserFromStorage();
   }, [loadUserFromStorage]);
 
+  // Initialize socket connection
+  useEffect(() => {
+    
+    const newSocket = io("http://localhost:5000", {
+      transports: ["websocket"],
+      autoConnect: true,
+    });
+    setSocket(newSocket);
+    },[]);
+  
+  useEffect(() => {
+    socket?.emit("addUser", getUserId());
+  },[socket, user.userId]);
+
+
   return (
     <UserContext.Provider value={{ 
       user, 
       setUser: updateUser, 
       isLoading,
-      refreshUserData 
+      refreshUserData,
+      socket: socket || null, // Provide the socket connection
+
     }}>
       {children}
     </UserContext.Provider>
