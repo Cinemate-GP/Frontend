@@ -1,13 +1,32 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoShieldCheckmark } from "react-icons/io5";
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 import SwitchButton from "../ui/SwitchButton";
+import { authFetch } from "@/lib/api";
 
 const PrivacyAndSecurity = () => {
-  const [privateProfile, setPrivateProfile] = useState(false);
-  const [hideWatchHistory, setHideWatchHistory] = useState(false);
-  const [hideActivity, setHideActivity] = useState(false);
+  const [privateProfile, setPrivateProfile] = useState<boolean>(false);
+  const [hideActivity, setHideActivity] = useState<boolean>(false);
+
+  // load initial status settings from API
+  useEffect(() => {
+    const fetchSettings = async () => {
+      try {
+        const response = await authFetch("/api/Profile/privacy");
+        if (!response.ok) {
+          throw new Error("Failed to fetch settings");
+        }
+        const data = await response.json();
+        console.log("Fetched settings:", data);
+        setPrivateProfile(data.isEnableFollowerAndFollowing);
+        setHideActivity(data.isEnableRecentActivity);
+      } catch (error) {
+        console.error("Error fetching settings:", error);
+      }
+    };
+    fetchSettings();
+  },[]);
   
   return (
     <div className="bg-secondaryBg p-4 sm:p-6 rounded-xl shadow-md">
@@ -25,10 +44,10 @@ const PrivacyAndSecurity = () => {
               <p className="text-xs text-gray-400">Only followers can see your activity</p>
             </div>
           </div>
-          <SwitchButton status={privateProfile} setStatus={setPrivateProfile} />
+          <SwitchButton status={privateProfile} setStatus={setPrivateProfile} statusType="toggle-following" />
         </div>
         
-        <div className="flex items-center justify-between py-3 border-b border-border">
+        {/* <div className="flex items-center justify-between py-3 border-b border-border">
           <div className="flex items-start sm:items-center gap-2 sm:gap-3">
             <MdVisibilityOff className="text-gray-400 mt-0.5 sm:mt-0 flex-shrink-0" size={20} />
             <div>
@@ -38,7 +57,7 @@ const PrivacyAndSecurity = () => {
           </div>
           <SwitchButton status={hideWatchHistory} setStatus={setHideWatchHistory} />
         </div>
-        
+         */}
         <div className="flex items-center justify-between py-3 border-b border-border">
           <div className="flex items-start sm:items-center gap-2 sm:gap-3">
             <MdVisibilityOff className="text-gray-400 mt-0.5 sm:mt-0 flex-shrink-0" size={20} />
@@ -47,17 +66,10 @@ const PrivacyAndSecurity = () => {
               <p className="text-xs text-gray-400">Hide your activity from the public feed</p>
             </div>
           </div>
-          <SwitchButton status={hideActivity} setStatus={setHideActivity} />
+          <SwitchButton status={hideActivity} setStatus={setHideActivity} statusType='toggle-recent' />
         </div>
         
 
-        <div className="pt-4 mt-2">
-          <button
-            className="w-full py-2.5 sm:py-3  bg-primary text-white rounded-lg transition-colors flex items-center justify-center text-sm sm:text-base"
-          >
-            Save Privacy Settings
-          </button>
-        </div>
       </div>
     </div>
   );

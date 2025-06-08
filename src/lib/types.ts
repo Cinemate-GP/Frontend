@@ -50,11 +50,12 @@ export type Movie = {
 };
 export type Review = {
   userId: number;
+  userName: string;
   tmdbId: number;
   fullName: string;
   profilePic: string;
   stars: number;
-  reviewId: string;
+  reviewId: number;
   reviewBody: string;
   reviewedOn: string;
 };
