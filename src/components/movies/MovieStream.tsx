@@ -18,9 +18,8 @@ export default function MovieStreaming({ image, loading, id }: Props) {
   const playerRef = useRef<HTMLDivElement>(null);
 
   if (loading) return <SkeletonMovieStreaming />;
-
   return (
-    <section className="relative w-full mx-auto bg-secondaryBg backdrop-blur-xl rounded-2xl shadow-2xl overflow-hidden p-4 space-y-6">
+    <section className="relative w-full bg-secondaryBg backdrop-blur-xl rounded-2xl shadow-2xl overflow-hidden p-6 space-y-6">
       
       {/* Header: Source Selector */}
       <div className="flex flex-col lg:flex-row items-center justify-between gap-4 p-4 rounded-xl bg-sideNavBg text-foreground">

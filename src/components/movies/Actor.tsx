@@ -39,10 +39,9 @@ export default function SingleActor() {
       {loading ? (
         <ActorMoviesSkeleton />
       ) : (
-        <>
-          <div className="hidden sm:flex h-screen gap-4 bg-background">
+        <>          <div className="hidden sm:flex gap-4 bg-background rounded-lg">
             {/* Left section (Movies Grid) */}
-            <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 p-[1rem] overflow-y-auto custom-scrollbar bg-secondaryBg mx-4">
+            <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 p-6 overflow-y-auto custom-scrollbar bg-secondaryBg rounded-lg">
               {actorData?.movies.map((movie) => (
                 <MovieCard
                   key={movie.tmdbId}
@@ -81,12 +80,10 @@ export default function SingleActor() {
                 )}
               </p>
             </aside>
-          </div>
-
-          {/* for mobile */}
-          <div className="h-screen bg-secondary text-white sm:hidden flex flex-col">
+          </div>          {/* for mobile */}
+          <div className="bg-secondaryBg text-foreground sm:hidden flex flex-col rounded-lg">
             {/* Actor Info Section */}
-            <div className="flex flex-col items-center p-4 sticky">
+            <div className="flex flex-col items-center p-6 sticky">
               <Image
                 src={
                   actorData?.profilePath
@@ -112,10 +109,8 @@ export default function SingleActor() {
                   {isExpanded ? " Show Less" : " Show More"}
                 </button>
               </p>
-            </div>
-
-            {/* Scrollable Movies Section */}
-            <div className="grid grid-cols-3 gap-4 overflow-y-auto custom-scrollbar p-4">
+            </div>            {/* Scrollable Movies Section */}
+            <div className="grid grid-cols-3 gap-4 overflow-y-auto custom-scrollbar p-6">
               {actorData?.movies.map((movie) => (
                 <div key={movie.title} className="">
                   <MovieCard

@@ -4,11 +4,10 @@ import Tabs from "@/components/profile/Tabs";
 import { getUserId } from "@/lib/utils";
 
 const ProfileLayout = ({ children }: { children: React.ReactNode }) => {
-  const userId = getUserId()
+  const userId = getUserId();
   return (
-    <div className="relative pt-24 pb-16 px-4 sm:px-6 md:px-8">
-  
-      <div className="max-w-7xl mx-auto">
+    <div className="relative">
+      <div className="container mx-auto px-4 sm:px-6 md:px-8 pt-32 pb-16">
         <ProfileHeader userId={userId} />
         <Tabs />
         <div className="mt-6">{children}</div>

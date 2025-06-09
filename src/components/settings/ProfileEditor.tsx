@@ -10,6 +10,7 @@ import {
 } from "react-icons/fa";
 import { MdPhotoCamera } from "react-icons/md";
 import Image from "next/image";
+import { authFetch } from "@/lib/api";
 
 export default function ProfileEditor({
   modal = false,
@@ -85,7 +86,7 @@ export default function ProfileEditor({
       if (user.bio) formData.append("bio", user.bio);
       if (file) formData.append("profile_Image", file);
       try {
-        const res = await fetch("/api/Profile/UpdateAccount", {
+        const res = await authFetch("/api/Profile/UpdateAccount", {
           method: "PUT",
           headers: { Authorization: `Bearer ${getCookie("token")}` },
           body: formData,

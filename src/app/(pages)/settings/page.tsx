@@ -36,9 +36,8 @@ export default function Settings() {
       icon: <IoNotifications size={18} />,
     },
   ];
-
   return (
-    <div className="px-4 sm:px-6 text-foreground max-w-7xl mx-auto mt-[7rem] mb-20">
+    <div className="container mx-auto px-4 sm:px-6 md:px-8 pt-32 pb-20 text-foreground">
       <h1 className="text-2xl sm:text-3xl text-foreground font-bold mb-6 sm:mb-8">
         Settings
       </h1>

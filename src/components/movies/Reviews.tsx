@@ -9,9 +9,8 @@ import MovieReviewList from "./MovieReviewList";
 export default function Reviews({movieReviews}:{movieReviews:Review[] | undefined}) {
   
   
-
   return (
-    <div className="bg-secondaryBg p-4 rounded-lg mb-[4rem] section">
+    <div className="bg-secondaryBg p-6 rounded-lg">
       <SectionTitle title="Reviews" />
 
       <div className="mt-4 flex flex-col lg:flex-row">

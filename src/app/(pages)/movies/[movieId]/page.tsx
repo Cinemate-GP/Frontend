@@ -44,19 +44,34 @@ const MovieDetails = () => {
     trailer: data?.trailer,
     streamingLink: data?.tmdbId.toString(),
   };
-
   return (
-    <div>
-      {/* Movie Info */}
+    <div className="min-h-screen bg-mainBg">
+      {/* Movie Info - Full width background section */}
       <MovieInfo info={info!} loading={loading}/>
-      {/* Movie Streaming */}
-      <MovieStreaming image={data?.backdropPath} loading={loading} id={data?.tmdbId.toString()} />
-      {/*Actors*/}
-      <Actors actors={data?.actors} loading={loading}/>
-      {/*Reviews*/}
-      <Reviews movieReviews={data?.movieReviews}/>
-      {/*Similar Movies*/}
-      <SimilarMovies />
+      
+      {/* Container for all other sections with proper margins and padding */}
+      <div className="container mx-auto px-4 sm:px-6 md:px-8 pt-8 pb-20">
+        {/* Movie Streaming */}
+        <section className="mb-16 sm:mb-20">
+          <MovieStreaming image={data?.backdropPath} loading={loading} id={data?.tmdbId.toString()} />
+        </section>
+        
+        {/* Actors */}
+        <section className="mb-16 sm:mb-20">
+          <Actors actors={data?.actors} loading={loading}/>
+        </section>
+        
+        {/* Reviews */}
+        <section className="mb-16 sm:mb-20">
+          <Reviews movieReviews={data?.movieReviews}/>
+        </section>
+        
+        {/* Similar Movies */}
+        <section className="mb-16 sm:mb-20">
+          <SimilarMovies />
+        </section>
+      </div>
+      
       <ToastContainer />
     </div>
   );

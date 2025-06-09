@@ -1,9 +1,11 @@
 "use client";
+
 import React, { useEffect } from "react";
 import SectionTitle from "../SectionTitle";
 import SliderWrapper from "../SliderWrapper";
 import MovieSlider from "../SliderCards";
 import { Geners as geners } from "@/constants";
+
 interface Movie {
   id: number;
   tmdbId: number;
@@ -11,10 +13,12 @@ interface Movie {
   title: string;
   posterPath: string;
 }
+
 const Geners = () => {
   const [selected, setSelected] = React.useState("Geners");
   const [loading, setLoading] = React.useState(true);
   const [filteredData, setFilteredData] = React.useState<Movie[] | null>(null);
+  
   useEffect(() => {
     const fetchData = async () => {
       const url =
@@ -35,46 +39,43 @@ const Geners = () => {
     };
     fetchData();
   }, [selected]);
-  const popularGenres = geners.slice(0, 8); // Limit to 8 most popular genres
-
+  
+  const popularGenres = geners.slice(0, 8);
+  
   return (
-    <div className="mx-[1rem] sm:mx-0 mt-48 sm:mt-32">
-      <div className="flex flex-col gap-4">
-        <SectionTitle title="Discover By Genres" />
-        <div className="w-full overflow-x-auto custom-scrollbar">
-          <div className="flex gap-4 pb-2 min-w-max">
+    <div className="space-y-6">
+      <SectionTitle title="Discover By Genres" />
+      
+      {/* Clean Genre Filter */}
+      <div className="bg-secondaryBg/50 backdrop-blur-sm border border-white/10 rounded-2xl p-4">
+        <div className="flex gap-2 overflow-x-auto scrollbar-hide">
+          <button
+            onClick={() => setSelected("Geners")}
+            className={`flex-shrink-0 px-6 py-3 rounded-xl font-medium transition-all duration-200 ${
+              selected === "Geners"
+                ? "bg-primary text-white shadow-lg"
+                : "bg-white/5 text-textMuted hover:bg-white/10 hover:text-foreground"
+            }`}
+          >
+            All
+          </button>
+          
+          {popularGenres.map((gen) => (
             <button
-              onClick={() => setSelected("Geners")}
-              className={`px-4 py-2 text-sm transition-all duration-300 relative group ${
-                selected === "Geners"
-                  ? "text-primary"
-                  : "text-textMuted hover:text-primary"
+              key={gen.Id}
+              onClick={() => setSelected(gen.Name)}
+              className={`flex-shrink-0 px-6 py-3 rounded-xl font-medium transition-all duration-200 ${
+                selected === gen.Name
+                  ? "bg-primary text-white shadow-lg"
+                  : "bg-white/5 text-textMuted hover:bg-white/10 hover:text-foreground"
               }`}
             >
-              All
-              <span className={`absolute -bottom-[2px] left-0 w-full h-[2px] transition-all duration-300 ${
-                selected === "Geners" ? "bg-primary w-full" : "bg-primary/0 w-0 group-hover:w-full"
-              }`}></span>
+              {gen.Name}
             </button>
-            {popularGenres.map((gen) => (
-              <button
-                key={gen.Id}
-                onClick={() => setSelected(gen.Name)}
-                className={`px-4 py-2 text-sm transition-all duration-300 relative group ${
-                  selected === gen.Name
-                    ? "text-primary"
-                    : "text-textMuted hover:text-primary"
-                }`}
-              >
-                {gen.Name}
-                <span className={`absolute -bottom-[2px] left-0 w-full h-[2px] transition-all duration-300 ${
-                  selected === gen.Name ? "bg-primary w-full" : "bg-primary/0 w-0 group-hover:w-full"
-                }`}></span>
-              </button>
-            ))}
-          </div>
+          ))}
         </div>
       </div>
+      
       <SliderWrapper>
         <MovieSlider
           sliderType="geners"

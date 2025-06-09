@@ -5,7 +5,7 @@ import { getUserId } from "@/lib/utils";
 import { useCallback, useEffect, useState } from "react";
 import { useCookie } from "./useCookie";
 import { authFetch } from "@/lib/api";
-import { useUser } from "@/context/UserContext";
+// import { useUser } from "@/context/UserContext";
 
 interface MovieInfoProps {
   tmdbId: number | undefined;
@@ -15,7 +15,7 @@ interface MovieInfoProps {
 }
 
 export const useMovieInfo = (info: MovieInfoProps) => {
-  const {socket} = useUser();
+  // const {socket} = useUser();
   console.log(info.isInWatchList)
   // states
   const [liked, setLiked] = useState<boolean | null>(info.isLiked ?? null);
@@ -73,12 +73,12 @@ export const useMovieInfo = (info: MovieInfoProps) => {
 
   // Toggle like
   const toggleLike = useCallback(() => {
-    socket?.emit("sendNotification", {
-      senderName: getUserId(),
-      receiverName: "mmk1996",
-      text: `${getUserId()} liked the Rock movie`,
+    // socket?.emit("sendNotification", {
+    //   senderName: getUserId(),
+    //   receiverName: "mmk1996",
+    //   text: `${getUserId()} liked the Rock movie`,
 
-    })
+    // })
     setLiked((prev) => (prev !== null ? !prev : true));
   }, []);
 

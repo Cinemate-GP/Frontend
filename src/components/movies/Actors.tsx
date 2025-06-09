@@ -20,9 +20,8 @@ export default function Actors({
   loading: boolean;
 }) {
   const [selected, setSelected] = useState("all");
-  if (loading) return <SkeletonActors />;
-  return (
-    <div className="bg-secondaryBg mb-[4rem] mt-32 section p-4">
+  if (loading) return <SkeletonActors />;  return (
+    <div className="bg-secondaryBg rounded-lg p-6">
       <SectionTitle title="Staff" />
       <div className="flex gap-3 my-3 rounded bg-sideNavBg p-4 ">
         <button

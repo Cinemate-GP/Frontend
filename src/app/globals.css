@@ -2,8 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Import modern effects and animations */
+@import '../styles/modern-effects.css';
+
 :root {
   --primary: #e62e2d;
+  --primary-rgb: 230, 46, 45;
+  --primary-light: #ff4444;
   --main-bg: #000000;
   --secondary-bg: #0a0a0a;
   --text: #ffffff;
