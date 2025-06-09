@@ -8,6 +8,8 @@ import {
   useCallback,
 } from "react";
 import * as signalR from "@microsoft/signalr";
+import { getCookie } from "@/lib/utils";
+import { authFetch } from "@/lib/api";
 
 interface User {
   userId?: string;
@@ -17,8 +19,11 @@ interface User {
   profilePic?: string;
 }
 
-interface Notification {
-  id: string;
+export interface Notification {
+  id: number;
+  actionUserId: string;
+  isRead: boolean;
+  notificationType: string;
   message: string;
   profilePic: string;
   fullName: string;
@@ -44,7 +49,9 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   });
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [connection, setConnection] = useState<signalR.HubConnection | null>(null);
+  const [connection, setConnection] = useState<signalR.HubConnection | null>(
+    null
+  );
 
   const loadUserFromStorage = useCallback(() => {
     setIsLoading(true);
@@ -81,6 +88,27 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   useEffect(() => {
+    (async () => {
+      try {
+        const res = await authFetch("/api/Notification", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${getCookie("token") || ""}`, // Ensure a string is always returned
+          },
+        });
+        if (!res.ok) {
+          throw new Error("Failed to fetch notifications");
+        }
+        const data = await res.json();
+        setNotifications(data.items || []);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, []);
+
+  useEffect(() => {
     loadUserFromStorage();
   }, [loadUserFromStorage]);
 
@@ -93,6 +121,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     const newConnection = new signalR.HubConnectionBuilder()
       .withUrl("http://cinemate.runasp.net/notificationHub", {
         withCredentials: true,
+        accessTokenFactory: () => getCookie("token") || "", // Ensure a string is always returned
       })
       .withAutomaticReconnect()
       .configureLogging(signalR.LogLevel.Information)
@@ -101,6 +130,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     setConnection(newConnection);
   }, []);
 
+  // Start SignalR connection and listen for notifications
   useEffect(() => {
     if (!connection) return;
 
@@ -116,7 +146,8 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
     // Listen once
     connection.on("ReceiveNotification", (notification: Notification) => {
-      console.log("📩 New notification:", notification);
+      console.log("📬 Notification received:", notification);
+      setNotifications((prev) => [...prev, notification]);
     });
 
     startConnection();
@@ -134,7 +165,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         setUser: updateUser,
         isLoading,
         refreshUserData,
-        notifications, // Optional: expose if components need it
+        notifications,
       }}
     >
       {children}
