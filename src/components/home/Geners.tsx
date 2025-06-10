@@ -23,14 +23,11 @@ const Geners = () => {
   const buttonRefs = useRef<{ [key: string]: HTMLButtonElement | null }>({});
   
   const popularGenres = geners;
-    const scrollToSelectedGenre = (genreName: string) => {
+  const scrollToSelectedGenre = (genreName: string) => {
     const selectedButton = buttonRefs.current[genreName];
     const container = scrollContainerRef.current;
     
     if (selectedButton && container) {
-      const containerRect = container.getBoundingClientRect();
-      const buttonRect = selectedButton.getBoundingClientRect();
-      
       // Calculate the scroll position to center the button
       const scrollLeft = selectedButton.offsetLeft - (container.clientWidth / 2) + (selectedButton.clientWidth / 2);
       
