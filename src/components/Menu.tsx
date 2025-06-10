@@ -47,19 +47,18 @@ const Menu = ({
       icon: modernIcons.Profile,
       description: "Your account"
     },
-  ];return (
-    <div className="flex flex-col h-full">
-      {/* User Info Section - No Image, Just Text */}
+  ];  return (
+    <div className="flex flex-col h-full bg-sideNavBg">      {/* User Info Section - No Image, Just Text */}
       <motion.div 
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
-        className="text-center py-6 border-b border-gray-700/50"
+        className="text-center py-6 border-b border-border"
       >
-        <h3 className="text-white font-semibold text-lg">{user?.fullName}</h3>
-        <p className="text-gray-400 text-sm">@{user?.userName}</p>
-        <p className="text-gray-500 text-xs">{user?.email}</p>
-      </motion.div>      {/* Menu Items - 2x2 Grid */}
+        <h3 className="text-foreground font-semibold text-lg">{user?.fullName}</h3>
+        <p className="text-textMuted text-sm">@{user?.userName}</p>
+        <p className="text-textMuted text-xs opacity-75">{user?.email}</p>
+      </motion.div>{/* Menu Items - 2x2 Grid */}
       <div className="flex-1 py-4">
         <motion.div 
           initial={{ opacity: 0 }}
@@ -74,38 +73,35 @@ const Menu = ({
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.3, delay: index * 0.05 }}
               className="relative"
-            >
-              <Link
+            >              <Link
                 href={item.href}
                 onClick={() => setIsOpen(false)}
-                className="flex items-center justify-center gap-2 p-4 hover:bg-gray-800/50 transition-colors duration-200 rounded-lg border border-gray-700/30 hover:border-gray-600/50 bg-gray-800/20"
+                className="flex items-center justify-center gap-2 p-4 hover:bg-hoverBg transition-colors duration-200 rounded-lg border border-border hover:border-primary/50 bg-secondaryBg/50"
               >
                 {React.createElement(item.icon as React.ComponentType<React.SVGProps<SVGSVGElement>>, {
-                  className: "w-5 h-5 text-gray-400",
+                  className: "w-5 h-5 text-textMuted",
                   "aria-hidden": "true",
                 })}
-                <span className="text-white font-medium text-sm">{item.name}</span>
+                <span className="text-foreground font-medium text-sm">{item.name}</span>
               </Link>
               
               {/* Decorative corner accent */}
-              <div className="absolute top-2 right-2 w-1 h-1 bg-gray-600/50 rounded-full"></div>
+              <div className="absolute top-2 right-2 w-1 h-1 bg-border rounded-full"></div>
             </motion.div>
           ))}
         </motion.div>
-      </div>
-
-      {/* Logout Button - Clean and Prominent */}
+      </div>      {/* Logout Button - Clean and Prominent */}
       <motion.div 
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3, delay: 0.2 }}
-        className="border-t border-gray-700/50 p-4"
+        className="border-t border-border p-4"
       >
         <motion.button
           onClick={handleLogout}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
-          className="w-full flex items-center justify-center gap-3 px-4 py-3 bg-red-600/10 hover:bg-red-600/20 text-red-400 hover:text-red-300 rounded-lg transition-colors duration-200"
+          className="w-full flex items-center justify-center gap-3 px-4 py-3 bg-primary/10 hover:bg-primary/20 text-primary hover:text-primary transition-colors duration-200 rounded-lg"
         >
           {React.createElement(modernIcons.Logout as React.ComponentType<React.SVGProps<SVGSVGElement>>, {
             className: "w-5 h-5",

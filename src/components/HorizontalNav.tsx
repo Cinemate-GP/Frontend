@@ -147,7 +147,7 @@ const HorizontalNav = ({ pathname: propPathname }: { pathname: string }) => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-x-0 bottom-[60px] z-[99] bg-[#111111] border-t border-[#222222] p-4 max-h-[70vh] overflow-y-auto rounded-t-xl shadow-xl block md:hidden"
+            className="fixed inset-x-0 bottom-[60px] z-[99] bg-sideNavBg border-t border-border p-4 max-h-[70vh] overflow-y-auto rounded-t-xl shadow-xl"
           >
             <Menu setIsOpen={setIsOpen} />
           </motion.div>
