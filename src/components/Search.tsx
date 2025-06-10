@@ -45,10 +45,15 @@ export const Search = ({
         setLoading(true);
         const res = await authFetch(`/api/Movie/search?SearchValue=${trimmed}`);
         if (!res.ok) throw new Error("Failed to fetch data");
-        const data = await res.json();
-
-        if (selectedVal === "all") {
-          setValues(data.value || []);
+        const data = await res.json();        if (selectedVal === "all") {
+          // Sort results by type priority: User, Movie, Actor
+          const sortedResults = (data.value || []).sort((a: SearchValue, b: SearchValue) => {
+            const typePriority = { User: 0, Movie: 1, Actor: 2 };
+            const aPriority = typePriority[a.type as keyof typeof typePriority] ?? 3;
+            const bPriority = typePriority[b.type as keyof typeof typePriority] ?? 3;
+            return aPriority - bPriority;
+          });
+          setValues(sortedResults);
         } else {
           setValues(
             data.value.filter(
