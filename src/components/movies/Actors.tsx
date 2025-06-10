@@ -49,7 +49,7 @@ export default function Actors({
           Crew
         </button>
       </div>
-      <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 bg-secondaryBg p-[1rem] rounded-xl max-h-[600px] overflow-auto custom-scrollbar">
+      <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 bg-secondaryBg p-[1rem] rounded-xl max-h-[600px] overflow-auto custom-scrollbar">
         {actors?.length === 0 && <p>No Actors Found</p>}
         {(selected === "all"
           ? actors

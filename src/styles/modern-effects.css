@@ -60,9 +60,9 @@
   position: relative;
 }
 
-/* Swiper Navigation Button Improvements */
-.swiper-button-next,
-.swiper-button-prev {
+/* Hero Slider Navigation (specific to hero slider only) */
+.hero-slider .swiper-button-next,
+.hero-slider .swiper-button-prev {
   color: white !important;
   background: rgba(0, 0, 0, 0.5) !important;
   backdrop-filter: blur(10px) !important;
@@ -77,15 +77,15 @@
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
 }
 
-.swiper-button-next:hover,
-.swiper-button-prev:hover {
+.hero-slider .swiper-button-next:hover,
+.hero-slider .swiper-button-prev:hover {
   background: var(--primary) !important;
   transform: translateY(-50%) scale(1.1) !important;
   box-shadow: 0 12px 40px rgba(var(--primary-rgb), 0.4) !important;
 }
 
-.swiper-button-next::after,
-.swiper-button-prev::after {
+.hero-slider .swiper-button-next::after,
+.hero-slider .swiper-button-prev::after {
   font-size: 16px !important;
   font-weight: bold !important;
 }

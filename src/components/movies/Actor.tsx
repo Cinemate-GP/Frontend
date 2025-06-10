@@ -41,7 +41,7 @@ export default function SingleActor() {
       ) : (
         <>          <div className="hidden sm:flex gap-4 bg-background rounded-lg">
             {/* Left section (Movies Grid) */}
-            <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 p-6 overflow-y-auto custom-scrollbar bg-secondaryBg rounded-lg">
+            <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-6 overflow-y-auto custom-scrollbar bg-secondaryBg rounded-lg">
               {actorData?.movies.map((movie) => (
                 <MovieCard
                   key={movie.tmdbId}
