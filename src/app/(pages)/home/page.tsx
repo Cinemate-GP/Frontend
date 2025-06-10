@@ -13,7 +13,7 @@ import "swiper/css/effect-fade";
 
 export default function Home() {
   return (
-    <div className="overflow-hidden mb-[70px] relative">
+    <div className="overflow-hidden relative">
       {/* Simple background */}
       <div className="fixed inset-0 bg-mainBg pointer-events-none z-0" />
       

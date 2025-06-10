@@ -35,7 +35,9 @@ interface UserContextType {
   setUser: (user: User) => void;
   isLoading: boolean;
   refreshUserData: () => void;
-  notifications: Notification[]; // Optional: expose notifications if needed
+  notifications: Notification[];
+  setNotifications: (notifications: Notification[]) => void;
+  refreshNotifications: () => Promise<void>;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -86,27 +88,28 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       console.error("Error updating user in localStorage:", error);
     }
   }, []);
+  const refreshNotifications = useCallback(async () => {
+    try {
+      const res = await authFetch("/api/Notification", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getCookie("token") || ""}`,
+        },
+      });
+      if (!res.ok) {
+        throw new Error("Failed to fetch notifications");
+      }
+      const data = await res.json();
+      setNotifications(data.items || []);
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
 
   useEffect(() => {
-    (async () => {
-      try {
-        const res = await authFetch("/api/Notification", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${getCookie("token") || ""}`, // Ensure a string is always returned
-          },
-        });
-        if (!res.ok) {
-          throw new Error("Failed to fetch notifications");
-        }
-        const data = await res.json();
-        setNotifications(data.items || []);
-      } catch (error) {
-        console.log(error);
-      }
-    })();
-  }, []);
+    refreshNotifications();
+  }, [refreshNotifications]);
 
   useEffect(() => {
     loadUserFromStorage();
@@ -157,7 +160,6 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       console.log("🔌 SignalR disconnected");
     };
   }, [connection]);
-
   return (
     <UserContext.Provider
       value={{
@@ -166,6 +168,8 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         isLoading,
         refreshUserData,
         notifications,
+        setNotifications,
+        refreshNotifications,
       }}
     >
       {children}

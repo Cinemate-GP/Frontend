@@ -1,5 +1,6 @@
 import Sidenav from "@/components/Sidenav";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/ui/Footer";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import MainContent from "@/components/MainContent";
@@ -22,6 +23,7 @@ export default async function RootLayout({
         <MainContent>
           <Navbar />
           {children}
+          <Footer />
         </MainContent>
       </SearchProvider>
     </>

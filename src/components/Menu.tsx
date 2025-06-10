@@ -4,7 +4,6 @@ import Link from "next/link";
 import { modernIcons } from "@/constants";
 import { motion } from "framer-motion";
 import { useUser } from "@/context/UserContext";
-import Image from "next/image";
 import React from "react";
 import { logout } from "@/lib/utils";
 
@@ -20,8 +19,7 @@ const Menu = ({
     logout("/");
     setIsOpen(false);
   };
-
-  // Categories of menu items
+  // Categories of menu items - Remove Feed since it's in horizontal nav
   const libraryItems = [
     {
       name: "Watchlist",
@@ -33,136 +31,86 @@ const Menu = ({
       name: "Liked",
       href: "/profile/liked",
       icon: modernIcons.Likes,
-      description: "Favorite movies"
-    },
+      description: "Favorite movies"    },
   ];
-
-  const browseItems = [
-    {
-      name: "Movies",
-      href: "/movies",
-      icon: modernIcons.Movies,
-      description: "Explore all movies"
-    },
-    {
-      name: "Feed",
-      href: "/feed",
-      icon: modernIcons.Feeds,
-      description: "Latest updates"
-    },
-  ];
-
+  
   const accountItems = [
-    {
-      name: "Profile",
-      href: "/profile",
-      icon: modernIcons.Profile,
-      description: "Your account"
-    },
     {
       name: "Settings",
       href: "/settings",
       icon: modernIcons.Settings,
       description: "Preferences"
     },
-  ];
-
-  return (
-    <div className="flex flex-col gap-6">
-      {/* User Profile Section */}
-      <div className="flex items-center gap-3 mb-2 px-2 py-3 bg-[#1a1a1a] rounded-lg">
-        <div className="w-12 h-12 rounded-full border-2 border-primary overflow-hidden">
-          <Image
-            src={user?.profilePic || "/user-placeholder.jpg"}
-            alt="Profile"
-            width={48}
-            height={48}
-            className="w-full h-full object-cover"
-          />
-        </div>
-        <div className="flex-1">
-          <h3 className="text-white font-medium">{user?.fullName || "User"}</h3>
-          <p className="text-xs text-gray-400">{user?.email || ""}</p>
-        </div>
+    {
+      name: "Profile",
+      href: "/profile",
+      icon: modernIcons.Profile,
+      description: "Your account"
+    },
+  ];  return (
+    <div className="flex flex-col h-full bg-sideNavBg">      {/* User Info Section - No Image, Just Text */}
+      <motion.div 
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
+        className="text-center py-6 border-b border-border"
+      >
+        <h3 className="text-foreground font-semibold text-lg">{user?.fullName}</h3>
+        <p className="text-textMuted text-sm">@{user?.userName}</p>
+        <p className="text-textMuted text-xs opacity-75">{user?.email}</p>
+      </motion.div>{/* Menu Items - 2x2 Grid */}
+      <div className="flex-1 py-4">
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.4, delay: 0.1 }}
+          className="grid grid-cols-2 gap-4 px-4"
+        >
+          {[...libraryItems, ...accountItems].map((item, index) => (
+            <motion.div
+              key={item.name}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3, delay: index * 0.05 }}
+              className="relative"
+            >              <Link
+                href={item.href}
+                onClick={() => setIsOpen(false)}
+                className="flex items-center justify-center gap-2 p-4 hover:bg-hoverBg transition-colors duration-200 rounded-lg border border-border hover:border-primary/50 bg-secondaryBg/50"
+              >
+                {React.createElement(item.icon as React.ComponentType<React.SVGProps<SVGSVGElement>>, {
+                  className: "w-5 h-5 text-textMuted",
+                  "aria-hidden": "true",
+                })}
+                <span className="text-foreground font-medium text-sm">{item.name}</span>
+              </Link>
+              
+              {/* Decorative corner accent */}
+              <div className="absolute top-2 right-2 w-1 h-1 bg-border rounded-full"></div>
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>      {/* Logout Button - Clean and Prominent */}
+      <motion.div 
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, delay: 0.2 }}
+        className="border-t border-border p-4"
+      >
         <motion.button
           onClick={handleLogout}
-          className="p-2.5 bg-[#252525] text-gray-400 hover:text-red-500 rounded-full"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          aria-label="Logout"
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          className="w-full flex items-center justify-center gap-3 px-4 py-3 bg-primary/10 hover:bg-primary/20 text-primary hover:text-primary transition-colors duration-200 rounded-lg"
         >
           {React.createElement(modernIcons.Logout as React.ComponentType<React.SVGProps<SVGSVGElement>>, {
             className: "w-5 h-5",
             "aria-hidden": "true",
           })}
+          <span className="font-medium">Sign Out</span>
         </motion.button>
-      </div>
-
-      {/* Menu Categories */}
-      <div>
-        <h3 className="text-xs font-medium text-gray-500 uppercase mb-2 px-2">Your Library</h3>
-        <div className="grid grid-cols-2 gap-2">
-          {libraryItems.map((item) => (
-            <MenuGridItem key={item.name} item={item} setIsOpen={setIsOpen} />
-          ))}
-        </div>
-      </div>
-
-      <div>
-        <h3 className="text-xs font-medium text-gray-500 uppercase mb-2 px-2">Browse</h3>
-        <div className="grid grid-cols-2 gap-2">
-          {browseItems.map((item) => (
-            <MenuGridItem key={item.name} item={item} setIsOpen={setIsOpen} />
-          ))}
-        </div>
-      </div>
-
-      <div>
-        <h3 className="text-xs font-medium text-gray-500 uppercase mb-2 px-2">Account</h3>
-        <div className="grid grid-cols-2 gap-2">
-          {accountItems.map((item) => (
-            <MenuGridItem key={item.name} item={item} setIsOpen={setIsOpen} />
-          ))}
-        </div>
-      </div>
+      </motion.div>
     </div>
-  );
-};
-
-// Grid item component for menu
-const MenuGridItem = ({ 
-  item, 
-  setIsOpen
-}: { 
-  item: { 
-    name: string; 
-    href: string; 
-    icon: React.ComponentType; 
-    description: string;
-  }; 
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
-  return (
-    <motion.div 
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
-      className="bg-[#1a1a1a] rounded-lg overflow-hidden"
-    >
-      <Link
-        href={item.href}
-        className="flex flex-col p-4 h-full"
-        onClick={() => setIsOpen(false)}
-      >
-        <div className="flex justify-between items-center mb-2">
-          {React.createElement(item.icon as React.ComponentType<React.SVGProps<SVGSVGElement>>, {
-            className: "w-5 h-5 text-gray-400",
-            "aria-hidden": "true",
-          })}
-          <span className="text-sm font-medium text-white">{item.name}</span>
-        </div>
-        <p className="text-xs text-gray-400">{item.description}</p>
-      </Link>
-    </motion.div>
   );
 };
 

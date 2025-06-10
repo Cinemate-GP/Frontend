@@ -1,12 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
-import { IMAGEPOSTER } from "@/constants";
 import { useDebounce } from "@/hooks/useDebounce";
 import React from "react";
 import { CiSearch } from "react-icons/ci";
 import { MovieGridSkeleton } from "../skeletons";
-import MovieCard from "../MovieCard";
-import Link from "next/link";
 
 interface NavbarSearchModalProps {
   onclose: () => void;
@@ -56,27 +53,27 @@ export const SearchModal = ({ onclose }: NavbarSearchModalProps) => {
   return (
     <div
       onClick={onclose}
-      className="fixed inset-0 bg-black/80 z-50 flex justify-center items-start"
+      className="fixed inset-0 bg-black/80 z-50 flex justify-center items-start animate-fadeIn"
     >
       <div
-        className="w-full max-w-5xl bg-gray-900 p-6 rounded-xl shadow-2xl mb-10"
+        className="w-full max-w-5xl bg-background p-6 rounded-2xl shadow-2xl mb-10 border border-border mt-10"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Search Input */}
-        <div className="bg-[#1e2526] rounded-xl flex items-center px-4 py-2 mb-6 sticky top-0 z-50">
-          <CiSearch className="text-white text-xl" />
+        <div className="bg-secondaryBg rounded-xl flex items-center px-4 py-2 mb-6 sticky top-0 z-50 border border-border">
+          <CiSearch className="text-primary text-xl" />
           <input
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
             type="text"
             placeholder="Search movies or actors..."
-            className="ml-3 bg-transparent outline-none text-white w-full placeholder-gray-400"
+            className="ml-3 bg-transparent outline-none text-foreground w-full placeholder-gray-400 text-base"
           />
         </div>
         <div className="flex justify-between sm:gap-6 gap-0 sm:justify-start items-center mb-3">
-          <h2 className="text-white text-lg font-semibold ">Results</h2>
+          <h2 className="text-foreground text-lg font-semibold ">Results</h2>
           <select
-            className="bg-[#1e2526] text-white px-3 py-1 rounded-md w-[150px]"
+            className="bg-secondaryBg text-foreground px-3 py-1 rounded-md w-[150px] border border-border focus:ring-2 focus:ring-primary/30"
             onChange={(e) => setSelectedVal(e.target.value)}
           >
             <option value="Movie">Movies</option>
@@ -86,59 +83,32 @@ export const SearchModal = ({ onclose }: NavbarSearchModalProps) => {
         {/* Results */}
         <div className="flex flex-col gap-4 max-h-[95vh] overflow-auto scrollbar-hidden">
           {loading && <MovieGridSkeleton />}
-
           {!loading &&
             values.length === 0 &&
             debouncedSearch.trim().length >= 2 && (
-              <p className="text-gray-400">
+              <p className="text-textMuted">
                 No results found for &quot;{debouncedSearch}&quot;
               </p>
-            )}          {!loading && (
+            )}
+          {!loading && (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mb-40">
               {values.map((item) => (
-                <>
-                  {selectedVal === "Movie" ? (
-                    <div key={item.id} onClick={onclose} className="w-full">
-                      <MovieCard
-                        imdbRating=""
-                        tmdbid={item.id}
-                        title={item.name}
-                        image={
-                          item.poster
-                            ? IMAGEPOSTER + item.poster
-                            : "/ueser-placeholder.jpg"
-                        }
-                      />
-                    </div>
-                  ) : (
-                    <div key={item.id} onClick={onclose}>
-                      <Link href={`/actors/${item.id}`}>
-                        <div className="relative group overflow-hidden rounded-lg">
-                          <img
-                            src={
-                              item.poster
-                                ? IMAGEPOSTER + item.poster
-                                : "/ueser-placeholder.jpg"
-                            }
-                            alt={item.name}
-                            width={300}
-                            height={450}
-                            loading="lazy"
-                            decoding="async"
-                            className="group-hover:scale-110 transition-all duration-500 ease-in-out h-auto w-[300px] max-h-[450px] object-cover rounded"
-                          />
-                          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-black/40 to-black/90 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                            <div className="flex flex-col justify-end h-full p-4 relative group-hover:top-0 top-[3rem] transition-all duration-500">
-                              <div className="flex items-center justify-between flex-wrap">
-                                <h4>{item.name}</h4>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </Link>
-                    </div>
-                  )}
-                </>
+                <div
+                  key={item.id}
+                  className="bg-background rounded-xl border border-border p-3 flex flex-col items-center shadow-sm"
+                >
+                  <img
+                    src={item.poster}
+                    alt={item.name}
+                    className="w-20 h-20 rounded-lg object-cover mb-2 border border-border"
+                  />
+                  <span className="font-semibold text-foreground text-center truncate w-full">
+                    {item.name}
+                  </span>
+                  <span className="text-xs text-textMuted mt-1">
+                    {item.type}
+                  </span>
+                </div>
               ))}
             </div>
           )}
