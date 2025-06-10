@@ -40,14 +40,9 @@ const Navbar = () => {
           </div>
           <div className="hidden md:block w-full max-w-2xl">
             <NavbarSearch />
-          </div>
-          <div className="flex items-center gap-3">
-            <NotificationDropdown />
-            <motion.div
-              className="w-[36px] h-[36px] rounded-full border-2 border-primary overflow-hidden shadow-md cursor-pointer"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              transition={{ type: "spring", stiffness: 400, damping: 10 }}
+          </div>          <div className="flex items-center gap-2 sm:gap-3">
+            <NotificationDropdown />            <div
+              className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-secondaryBg border border-border hover:border-primary overflow-hidden shadow-sm cursor-pointer transition-colors duration-200"
               onClick={navigateToProfile}
             >
               <Image
@@ -58,7 +53,7 @@ const Navbar = () => {
                 className="w-full h-full object-cover"
                 priority={true}
               />
-            </motion.div>
+            </div>
           </div>
         </div>
       </div>
