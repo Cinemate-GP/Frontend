@@ -94,11 +94,11 @@ export const SearchModal = ({ onclose }: NavbarSearchModalProps) => {
                 No results found for &quot;{debouncedSearch}&quot;
               </p>
             )}          {!loading && (
-            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-4 mb-40">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mb-40">
               {values.map((item) => (
                 <>
                   {selectedVal === "Movie" ? (
-                    <div key={item.id} onClick={onclose}>
+                    <div key={item.id} onClick={onclose} className="w-full">
                       <MovieCard
                         imdbRating=""
                         tmdbid={item.id}

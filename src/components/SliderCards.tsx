@@ -93,27 +93,21 @@ export default function MovieSlider(props: SliderProps) {
       >
         {props.loading ? (
           <CardSkeleton />
-        ) : (
-          <>
+        ) : (          <>
             {props.movieList?.map((movie, i) => (
               <SwiperSlide key={movie.tmdbId} className="movie-slide-modern">
                 <motion.div
-                  initial={{ opacity: 0, y: 50, scale: 0.9 }}
+                  initial={{ opacity: 0, y: 30, scale: 0.95 }}
                   whileInView={{ opacity: 1, y: 0, scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ 
-                    duration: 0.6, 
-                    delay: i * 0.1,
+                    duration: 0.5, 
+                    delay: i * 0.05,
                     ease: "easeOut" 
                   }}
-                  whileHover={{ 
-                    y: -8, 
-                    transition: { duration: 0.3 } 
-                  }}
                   className="h-full"
-                >
-                  <MovieCard
-                    id={isTop10 ? undefined : i+1}
+                >                  <MovieCard
+                    id={isTop10 ? i + 1 : undefined}
                     tmdbid={movie.tmdbId}
                     title={movie.title}
                     image={`https://image.tmdb.org/t/p/original//${movie.posterPath}`}

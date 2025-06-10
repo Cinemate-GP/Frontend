@@ -80,6 +80,8 @@ body {
   width: 100%;
   height: 100%;
   overflow: visible !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
 }
 
 .swiper-slide img {
@@ -89,23 +91,25 @@ body {
   object-fit: cover;
   user-select: none;
 }
-.swiper-button-prev {
+
+/* Hero slider specific navigation */
+.hero-slider .swiper-button-prev {
   left: -40px !important;
   top: 50% !important;
   color: var(--text) !important;
 }
-.swiper-button-next {
+.hero-slider .swiper-button-next {
   right: -40px !important;
   top: 50% !important;
   color: var(--text) !important;
 }
-.swiper-button-prev.swiper-button-disabled,
-.swiper-button-next.swiper-button-disabled {
+.hero-slider .swiper-button-prev.swiper-button-disabled,
+.hero-slider .swiper-button-next.swiper-button-disabled {
   opacity: 0.1 !important;
 }
 @media screen and (max-width: 768px) {
-  .swiper-button-next::after,
-  .swiper-button-prev::after {
+  .hero-slider .swiper-button-next::after,
+  .hero-slider .swiper-button-prev::after {
     font-size: 20px !important;
   }
 }
@@ -162,20 +166,41 @@ body {
 
   .custom-datepicker .react-datepicker__year-option:hover {
     @apply bg-gray-600;
-  }
-  .bg-gradient-overlay-30 {
+  }  .bg-gradient-overlay-30 {
     background: linear-gradient(
       to bottom,
       var(--overlay) 30%,
       black 100%
     );
   }
+  
   .bg-gradient-overlay-50 {
     background: linear-gradient(
       to bottom,
       var(--overlay) 50%,
       var(--main-bg) 100%
     );
+  }
+  
+  /* Standardized Movie Grid Utilities */
+  .movie-grid-standard {
+    @apply grid gap-4;
+  }
+  
+  .movie-grid-2-cols {
+    @apply grid grid-cols-2 gap-4;
+  }
+  
+  .movie-grid-responsive {
+    @apply grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-4;
+  }
+  
+  .movie-grid-profile {
+    @apply grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4;
+  }
+  
+  .movie-grid-actors {
+    @apply grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4;
   }
 }
 
@@ -358,4 +383,22 @@ body {
 
 .custom-spin {
   animation: spin 1s linear infinite;
+}
+
+/* Standardized Movie Grid Spacing */
+.movie-grid {
+  gap: 1rem; /* 16px - equivalent to gap-4 */
+}
+
+.movie-grid-sm {
+  gap: 0.75rem; /* 12px - equivalent to gap-3 */
+}
+
+.movie-grid-lg {
+  gap: 1.5rem; /* 24px - equivalent to gap-6 */
+}
+
+/* Ensure consistent spacing for all movie card containers */
+.movie-cards-container {
+  gap: 1rem; /* 16px - equivalent to gap-4 */
 }

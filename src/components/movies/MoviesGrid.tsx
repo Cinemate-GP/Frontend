@@ -15,16 +15,17 @@ const MoviesGrid = ({
   loading: boolean;
 }) => {
   if (loading) return <MovieGridSkeleton />;  return (
-    <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-4 mt-5 p-4">
-      {movieList?.length === 0 && <p>No Movies Found</p>}
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 mt-5 p-4">
+      {movieList?.length === 0 && <p className="col-span-full text-center text-gray-400 py-8">No Movies Found</p>}
       {movieList?.map((movie) => (
-        <MovieCard
-          key={movie.tmdbId}
-          tmdbid={movie.tmdbId}
-          imdbRating={movie.imdbRating}
-          title={movie.title}
-          image={`https://image.tmdb.org/t/p/original//${movie.posterPath}`}
-        />
+        <div key={movie.tmdbId} className="w-full">
+          <MovieCard
+            tmdbid={movie.tmdbId}
+            imdbRating={movie.imdbRating}
+            title={movie.title}
+            image={`https://image.tmdb.org/t/p/original//${movie.posterPath}`}
+          />
+        </div>
       ))}
     </div>
   );

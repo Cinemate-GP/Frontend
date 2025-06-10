@@ -14,180 +14,208 @@ interface MovieCardProps {
   cardType?: 'top10' | 'default';
 }
 
-const MovieCard = ({ id, tmdbid, title, image, imdbRating, cardType = 'default' }: MovieCardProps) => {
+interface MovieImageProps {
+  src: string;
+  alt: string;
+  isLoaded: boolean;
+  onLoad: () => void;
+  priority?: boolean;
+  className?: string;
+}
+
+interface RatingDisplayProps {
+  rating: string;
+}
+
+// Clean and simple animation variants
+const cardVariants = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+  hover: { 
+    scale: 1.02,
+    transition: { duration: 0.3, ease: "easeOut" }
+  }
+};
+
+const imageVariants = {
+  initial: { scale: 1, filter: "blur(0px)" },
+  hover: { 
+    scale: 1.03,
+    filter: "blur(1px)",
+    transition: { duration: 0.3, ease: "easeOut" }
+  }
+};
+
+// Movie Image component with loading state
+const MovieImage = ({ src, alt, isLoaded, onLoad, priority = false, className = "" }: MovieImageProps) => (
+  <>
+    <Image
+      src={src}
+      alt={alt}
+      width={300}
+      height={450}
+      className={`${className} ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+      onLoad={onLoad}
+      priority={priority}
+    />
+    {/* Loading placeholder */}
+    {!isLoaded && (
+      <div className="absolute inset-0 bg-gray-800 animate-pulse rounded-2xl" />
+    )}
+  </>
+);
+
+// Rating display component with improved styling
+const RatingDisplay = ({ rating }: RatingDisplayProps) => (
+  <motion.div 
+    className="flex items-center gap-1.5 bg-black/50 backdrop-blur-sm px-2.5 py-1 rounded-full w-fit border border-white/10"
+    whileHover={{ scale: 1.05, backgroundColor: "rgba(0,0,0,0.7)" }}
+    transition={{ duration: 0.2 }}
+  >
+    <FaStar className="text-primary text-xs" />
+    <span className="text-xs font-medium text-white">
+      {rating.split("/")[0]}
+    </span>
+  </motion.div>
+);
+
+// Top 10 card variant - shows ranking number with modern styling
+const Top10Card = ({ tmdbid, title, image, id }: Pick<MovieCardProps, 'tmdbid' | 'title' | 'image' | 'id'>) => {
   const [imageLoaded, setImageLoaded] = useState(false);
-  const isTop10 = cardType === 'top10';
-    if (isTop10) {
-    return (
-      <Link href={`/movies/${tmdbid}`} className="block">
-        <motion.div 
-          className="relative flex items-end group cursor-pointer"
-          whileHover={{ scale: 1.02 }}
-          transition={{ duration: 0.3, ease: "easeOut" }}
-        >
-          {/* Enhanced Number with Background */}
-          <motion.div
-            className="absolute -z-10 -bottom-2 md:-bottom-8 -left-10 md:-left-16"
-            whileHover={{
-              scale: 1.1,
-              y: -8,
-            }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
-          >
-            {/* Number Shadow/Glow */}
-            <span
-              className={`absolute text-stroke-primary transition-all duration-500 ease-out select-none
-                ${id === 10 ? 'w-[200px] tracking-[-9px] md:tracking-[-18px]' : ''}
-                text-[90px] lg:text-[128px] opacity-30 blur-sm`}
-              style={{
-                background: 'linear-gradient(45deg, var(--primary), #ff6b6b, var(--primary))',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                filter: 'drop-shadow(0 0 10px rgba(230, 46, 45, 0.3))'
-              }}
-            >
-              {id}
-            </span>
-            
-            {/* Main Number */}
-            <span
-              className={`relative text-stroke-primary transition-all duration-500 ease-out select-none font-black
-                ${id === 10 ? 'w-[200px] tracking-[-9px] md:tracking-[-18px]' : ''}
-                text-[90px] lg:text-[128px] group-hover:text-primary/80`}
-              style={{
-                background: 'linear-gradient(135deg, #ffffff, #f0f0f0, #ffffff)',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                textShadow: '2px 2px 4px rgba(0,0,0,0.3)',
-                WebkitTextStroke: '3px var(--primary)',
-              }}
-            >
-              {id}
-            </span>
-          </motion.div>
-            {/* Movie Poster */}
+
+  return (
+    <Link href={`/movies/${tmdbid}`} className="block">
+      <motion.div 
+        className="relative group cursor-pointer overflow-hidden rounded-xl"
+        initial="initial"
+        animate="animate"
+        whileHover="hover"
+        variants={cardVariants}
+      >
+        <div className="relative aspect-[2/3]">
           <motion.div 
-            className="relative overflow-hidden rounded-2xl"
-            whileHover={{ y: -4 }}
-            transition={{ duration: 0.3 }}
+            variants={imageVariants} 
+            className="w-full h-full overflow-hidden rounded-xl"
           >
-            {/* Ranking Badge */}
-            <motion.div 
-              className="absolute top-3 right-3 z-20 bg-black/80 backdrop-blur-sm border border-primary/50 rounded-lg px-3 py-1"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.2 }}
-              whileHover={{ scale: 1.05 }}
-            >
-              <span className="text-white font-bold text-sm">#{id}</span>
-              <span className="text-primary text-xs ml-1 font-medium">TOP</span>
-            </motion.div>
-            
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
-            
-            <Image
+            <MovieImage
               src={image}
               alt={title}
-              width={300}
-              height={450}
-              className={`transition-all duration-500 ease-out border-2 border-transparent 
-                group-hover:border-primary/30 shadow-xl group-hover:shadow-2xl
-                ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}              onLoad={() => setImageLoaded(true)}
+              isLoaded={imageLoaded}
+              onLoad={() => setImageLoaded(true)}
               priority={Boolean(id && id <= 3)}
+              className="w-full h-full object-cover"
             />
-            
-            {/* Loading placeholder */}
-            {!imageLoaded && (
-              <div className="absolute inset-0 bg-gray-800 animate-pulse rounded-2xl" />
-            )}
-            
-            {/* Glow effect */}
-            <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl" />
           </motion.div>
-        </motion.div>
-      </Link>
-    );
-  }
+          
+          {/* Subtle overlay for better contrast */}
+          <div className="absolute inset-0 bg-gradient-to-br from-black/20 via-transparent to-black/30" />
+          
+          {/* Modern ranking number badge */}
+          <motion.div 
+            className="absolute top-3 left-3 flex items-center justify-center"
+            initial={{ scale: 0, rotate: -45 }}
+            animate={{ scale: 1, rotate: 0 }}
+            transition={{ duration: 0.5, delay: 0.2, type: "spring", bounce: 0.4 }}
+          >
+            <div className="relative">
+              {/* Main number background */}
+              <div className="w-12 h-12 bg-gradient-to-br from-primary/90 to-primary/70 backdrop-blur-sm rounded-full border-2 border-white/20 shadow-lg flex items-center justify-center">
+                <span className="text-white font-bold text-lg leading-none">
+                  {id || 1}
+                </span>
+              </div>
+              
+              {/* Glow effect */}
+              <div className="absolute inset-0 w-12 h-12 bg-primary/30 rounded-full blur-sm -z-10 group-hover:bg-primary/50 transition-colors duration-300" />
+            </div>
+          </motion.div>
+          
+          {/* Movie title on hover */}
+          <motion.div 
+            className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/80 to-transparent"
+            initial={{ opacity: 0, y: 20 }}
+            whileHover={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <h4 className="text-white font-medium text-sm line-clamp-2">
+              {title}
+            </h4>
+          </motion.div>
+          
+          {/* Subtle hover effect */}
+          <motion.div 
+            className="absolute inset-0 bg-primary/5 rounded-xl"
+            initial={{ opacity: 0 }}
+            whileHover={{ opacity: 1 }}
+            transition={{ duration: 0.3 }}
+          />
+        </div>
+      </motion.div>
+    </Link>
+  );
+};
+
+// Default card variant - clean, always shows info
+const DefaultCard = ({ tmdbid, title, image, imdbRating }: Pick<MovieCardProps, 'tmdbid' | 'title' | 'image' | 'imdbRating'>) => {
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   return (
     <Link href={`/movies/${tmdbid}`} className="block h-full">
       <motion.div 
-        className="relative group rounded-2xl overflow-hidden h-full bg-secondaryBg/50 backdrop-blur-sm border border-white/5"
-        whileHover={{ 
-          y: -8,
-          transition: { duration: 0.3, ease: "easeOut" }
-        }}
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
+        className="relative group h-full bg-gray-900/10 backdrop-blur-sm border border-white/5 rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300"
+        variants={cardVariants}
+        initial="initial"
+        animate="animate"
+        whileHover="hover"
       >
         {/* Movie Poster */}
         <div className="relative aspect-[2/3] overflow-hidden">
-          <Image
-            src={image}
-            alt={title}
-            width={300}
-            height={450}
-            className={`w-full h-full object-cover transition-all duration-500 ease-out
-              group-hover:scale-110 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
-            onLoad={() => setImageLoaded(true)}
-          />
-          
-          {/* Loading placeholder */}
-          {!imageLoaded && (
-            <div className="absolute inset-0 bg-gray-800 animate-pulse" />
-          )}
-          
-          {/* Overlay */}
           <motion.div 
-            className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"
-            initial={{ opacity: 0 }}
-            whileHover={{ opacity: 1 }}
-            transition={{ duration: 0.3 }}
+            variants={imageVariants} 
+            className="w-full h-full"
           >
-            {/* Content */}
-            <motion.div 
-              className="absolute bottom-0 left-0 right-0 p-4 text-white"
-              initial={{ y: 20, opacity: 0 }}
-              whileHover={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.3, delay: 0.1 }}
-            >
-              <h4 className="font-semibold text-lg line-clamp-2 mb-2 drop-shadow-lg">
-                {title}
-              </h4>
-              
-              {imdbRating && (
-                <motion.div 
-                  className="flex items-center gap-2 bg-black/50 backdrop-blur-sm px-3 py-1 rounded-full w-fit"
-                  whileHover={{ scale: 1.05 }}
-                >
-                  <FaStar className="text-primary text-sm" />
-                  <span className="text-sm font-medium">
-                    {imdbRating.split("/")[0]}
-                  </span>
-                </motion.div>
-              )}
-            </motion.div>
+            <MovieImage
+              src={image}
+              alt={title}
+              isLoaded={imageLoaded}
+              onLoad={() => setImageLoaded(true)}
+              className="w-full h-full object-cover"
+            />
           </motion.div>
           
-          {/* Glow effect */}
-          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-            <div className="absolute inset-0 bg-gradient-to-t from-primary/10 to-transparent" />
-            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
+          {/* Gentle overlay - always visible, lighter */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+          
+          {/* Content always visible */}
+          <div className="absolute bottom-0 left-0 right-0 p-3 text-white">
+            <h4 className="font-medium text-sm line-clamp-2 mb-2 drop-shadow-sm">
+              {title}
+            </h4>
+            
+            {imdbRating && (
+              <RatingDisplay rating={imdbRating} />
+            )}
           </div>
         </div>
         
-        {/* Bottom border accent */}
+        {/* Subtle accent line */}
         <motion.div 
-          className="h-1 bg-gradient-to-r from-primary/60 to-primary/20"
-          initial={{ scaleX: 0 }}
-          whileHover={{ scaleX: 1 }}
-          transition={{ duration: 0.3 }}
-          style={{ originX: 0 }}
+          className="h-0.5 bg-primary/20 group-hover:bg-primary/50 transition-colors duration-300"
         />
       </motion.div>
     </Link>
   );
-}
+};
+
+// Main MovieCard component
+const MovieCard = ({ id, tmdbid, title, image, imdbRating, cardType = 'default' }: MovieCardProps) => {
+  const isTop10 = cardType === 'top10';
+  
+  if (isTop10) {
+    return <Top10Card tmdbid={tmdbid} title={title} image={image} id={id} />;
+  }
+  
+  return <DefaultCard tmdbid={tmdbid} title={title} image={image} imdbRating={imdbRating} />;
+};
 
 export default MovieCard;
