@@ -4,6 +4,7 @@ import Link from "next/link";
 import { FaStar } from "react-icons/fa6";
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { MPARatingBadge } from "@/components/ui/MPARatingBadge";
 
 interface MovieCardProps {
   id?: number;
@@ -11,6 +12,7 @@ interface MovieCardProps {
   title: string;
   image: string;
   imdbRating?: string;
+  mpaRating?: string;
   cardType?: 'top10' | 'default';
 }
 
@@ -161,7 +163,7 @@ const Top10Card = ({ tmdbid, title, image, id }: Pick<MovieCardProps, 'tmdbid' |
 };
 
 // Default card variant - clean, always shows info
-const DefaultCard = ({ tmdbid, title, image, imdbRating }: Pick<MovieCardProps, 'tmdbid' | 'title' | 'image' | 'imdbRating'>) => {
+const DefaultCard = ({ tmdbid, title, image, imdbRating, mpaRating }: Pick<MovieCardProps, 'tmdbid' | 'title' | 'image' | 'imdbRating' | 'mpaRating'>) => {
   const [imageLoaded, setImageLoaded] = useState(false);
 
   return (
@@ -189,13 +191,19 @@ const DefaultCard = ({ tmdbid, title, image, imdbRating }: Pick<MovieCardProps, 
           
           {/* Gentle overlay - always visible, lighter */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-          
-          {/* Rating - always visible */}
-          {imdbRating && (
-            <div className="absolute bottom-3 left-3 z-10">
+            {/* Ratings - always visible */}
+          <div className="absolute bottom-3 left-3 right-3 z-10 flex justify-between items-end">
+            {imdbRating && (
               <RatingDisplay rating={imdbRating} />
-            </div>
-          )}          {/* Movie title on hover - appears in bottom area */}
+            )}            {mpaRating && (
+              <MPARatingBadge 
+                rating={mpaRating}
+                size="small"
+                showTooltip={false}
+                variant="default"
+              />
+            )}
+          </div>{/* Movie title on hover - appears in bottom area */}
           <motion.div 
             className="absolute bottom-16 left-3 right-3"
             variants={titleVariants}
@@ -217,14 +225,14 @@ const DefaultCard = ({ tmdbid, title, image, imdbRating }: Pick<MovieCardProps, 
 };
 
 // Main MovieCard component
-const MovieCard = ({ id, tmdbid, title, image, imdbRating, cardType = 'default' }: MovieCardProps) => {
+const MovieCard = ({ id, tmdbid, title, image, imdbRating, mpaRating, cardType = 'default' }: MovieCardProps) => {
   const isTop10 = cardType === 'top10';
   
   if (isTop10) {
     return <Top10Card tmdbid={tmdbid} title={title} image={image} id={id} />;
   }
   
-  return <DefaultCard tmdbid={tmdbid} title={title} image={image} imdbRating={imdbRating} />;
+  return <DefaultCard tmdbid={tmdbid} title={title} image={image} imdbRating={imdbRating} mpaRating={mpaRating} />;
 };
 
 export default MovieCard;

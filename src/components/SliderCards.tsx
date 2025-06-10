@@ -22,6 +22,7 @@ interface SliderProps {
         tmdbId: number;
         title: string;
         posterPath: string;
+        mpa?: string; // Add MPA rating field
       }[]
     | null;
   sliderType: string;
@@ -113,6 +114,7 @@ export default function MovieSlider(props: SliderProps) {
                     image={`https://image.tmdb.org/t/p/original//${movie.posterPath}`}
                     cardType={isTop10 ? "top10" : "default"}
                     imdbRating={movie.imdbRating}
+                    mpaRating={movie.mpa}
                   />
                 </motion.div>
               </SwiperSlide>
