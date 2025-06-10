@@ -37,6 +37,11 @@ const cardVariants = {
   }
 };
 
+const titleVariants = {
+  initial: { opacity: 0, scale: 0.9 },
+  hover: { opacity: 1, scale: 1 }
+};
+
 const imageVariants = {
   initial: { scale: 1, filter: "blur(0px)" },
   hover: { 
@@ -128,16 +133,16 @@ const Top10Card = ({ tmdbid, title, image, id }: Pick<MovieCardProps, 'tmdbid' |
               {/* Glow effect */}
               <div className="absolute inset-0 w-12 h-12 bg-primary/30 rounded-full blur-sm -z-10 group-hover:bg-primary/50 transition-colors duration-300" />
             </div>
-          </motion.div>
-          
-          {/* Movie title on hover */}
+          </motion.div>            {/* Movie title on hover */}
           <motion.div 
-            className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/80 to-transparent"
-            initial={{ opacity: 0, y: 20 }}
-            whileHover={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
+            className="absolute bottom-0 left-0 right-0 p-4 backdrop-blur-sm"
+            variants={{
+              initial: { opacity: 0, y: 20 },
+              hover: { opacity: 1, y: 0 }
+            }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
           >
-            <h4 className="text-white font-medium text-sm line-clamp-2">
+            <h4 className="text-white font-semibold text-sm line-clamp-2 drop-shadow-lg">
               {title}
             </h4>
           </motion.div>
@@ -180,22 +185,26 @@ const DefaultCard = ({ tmdbid, title, image, imdbRating }: Pick<MovieCardProps, 
               isLoaded={imageLoaded}
               onLoad={() => setImageLoaded(true)}
               className="w-full h-full object-cover"
-            />
-          </motion.div>
+            />          </motion.div>
           
           {/* Gentle overlay - always visible, lighter */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
           
-          {/* Content always visible */}
-          <div className="absolute bottom-0 left-0 right-0 p-3 text-white">
-            <h4 className="font-medium text-sm line-clamp-2 mb-2 drop-shadow-sm">
+          {/* Rating - always visible */}
+          {imdbRating && (
+            <div className="absolute bottom-3 left-3 z-10">
+              <RatingDisplay rating={imdbRating} />
+            </div>
+          )}          {/* Movie title on hover - appears in bottom area */}
+          <motion.div 
+            className="absolute bottom-16 left-3 right-3"
+            variants={titleVariants}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+          >
+            <h4 className="text-white font-semibold text-xs text-center line-clamp-2 drop-shadow-lg">
               {title}
             </h4>
-            
-            {imdbRating && (
-              <RatingDisplay rating={imdbRating} />
-            )}
-          </div>
+          </motion.div>
         </div>
         
         {/* Subtle accent line */}
