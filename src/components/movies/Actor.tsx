@@ -40,13 +40,13 @@ export default function SingleActor() {
         <ActorMoviesSkeleton />
       ) : (
         <>          <div className="hidden sm:flex gap-4 bg-background rounded-lg">
-            {/* Left section (Movies Grid) */}
-            <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-6 overflow-y-auto custom-scrollbar bg-secondaryBg rounded-lg">
+            {/* Left section (Movies Grid) */}            <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-6 overflow-y-auto custom-scrollbar bg-secondaryBg rounded-lg">
               {actorData?.movies.map((movie) => (
                 <MovieCard
                   key={movie.tmdbId}
                   tmdbid={movie.tmdbId}
                   imdbRating={movie.imdbRating}
+                  mpaRating={movie.mpa}
                   title={movie.title}
                   image={IMAGEPOSTER + movie.posterPath}
                 />
@@ -109,14 +109,14 @@ export default function SingleActor() {
                   {isExpanded ? " Show Less" : " Show More"}
                 </button>
               </p>
-            </div>            {/* Scrollable Movies Section */}
-            <div className="grid grid-cols-3 gap-4 overflow-y-auto custom-scrollbar p-6">
+            </div>            {/* Scrollable Movies Section */}            <div className="grid grid-cols-3 gap-4 overflow-y-auto custom-scrollbar p-6">
               {actorData?.movies.map((movie) => (
                 <div key={movie.title} className="">
                   <MovieCard
                     key={movie.tmdbId}
                     tmdbid={movie.tmdbId}
                     imdbRating={movie.imdbRating}
+                    mpaRating={movie.mpa}
                     title={movie.title}
                     image={`https://image.tmdb.org/t/p/original//${movie.posterPath}`}
                   />

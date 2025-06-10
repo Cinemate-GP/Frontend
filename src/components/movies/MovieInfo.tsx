@@ -4,6 +4,7 @@ import { MovieGenres } from "./MovieGeners";
 import { MovieActions } from "./MovieActions";
 import RatingModal from "../modals/RatingModal";
 import { formatDuration } from "@/lib/utils";
+import { MPARatingBadge } from "@/components/ui/MPARatingBadge";
 import { GoStarFill } from "react-icons/go";
 import { LuCalendarClock } from "react-icons/lu";
 import { SkeletonMovieInfo } from "../skeletons";
@@ -77,14 +78,17 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ info, loading }) => {
             )}
             {/* movie meta info */}
 
-            <p className="text-white">{info.tagline}</p>
-            {/* meta info */}
-            <div className="flex flex-wrap justify-center gap-4 gap-y-0 text-lg text-white">
-              <span className="flex items-center gap-1 text-[16px]">
+            <p className="text-white">{info.tagline}</p>            {/* meta info */}
+            <div className="flex flex-wrap justify-center gap-4 gap-y-2 text-lg text-white">              <span className="flex items-center gap-1 text-[16px]">
                 <LuCalendarClock />
                 {info.releaseDate}
-              </span>
-              <span className="text-[16px]">{info.mpa}</span>
+              </span>              {info.mpa && (
+                <MPARatingBadge 
+                  rating={info.mpa}
+                  size="medium"
+                  showTooltip={true}
+                />
+              )}
               <span className="flex items-center gap-1 text-[16px]">
                 <GoStarFill color="gold" />
                 {info.imdbRating}

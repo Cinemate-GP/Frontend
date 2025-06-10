@@ -1,3 +1,4 @@
+import { MPARatingUtils } from "./mpaUtils";
 
 export const capitalizeString = (str: string) => {
   if (!str) return "";
@@ -27,7 +28,6 @@ export const FormatDate = (date: string | Date) => {
     year: "numeric",
   });
 };
-
 
 export const truncateText = (
   str: string,
@@ -174,4 +174,18 @@ export function logout(redirectPath?: string) {
   
   return false;
 }
+
+// MPA Rating utilities - using the centralized MPA utils
+export const displayMPARating = (mpaRating: string | undefined | null): string => {
+  return MPARatingUtils.normalize(mpaRating);
+};
+
+export const getMPADescription = (mpaCategory: string): string => {
+  return MPARatingUtils.getDescription(mpaCategory);
+};
+
+// Helper function to normalize and get simplified MPA rating with fallback
+export const normalizeAndDisplayMPA = (originalRating: string | undefined | null): string => {
+  return MPARatingUtils.normalize(originalRating);
+};
 
