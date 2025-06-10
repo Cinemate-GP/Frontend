@@ -6,7 +6,6 @@ import Image from "next/image";
 import NotificationDropdown from "@/components/ui/Dropdown";
 import { useUser } from "@/context/UserContext";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 const Navbar = () => {
@@ -37,19 +36,18 @@ const Navbar = () => {
                 themeMode === "light" ? "invert" : ""
               }`}
             />
-          </div>
-          <div className="hidden md:block w-full max-w-2xl">
-            <NavbarSearch />
+          </div>          <div className="hidden md:block w-full max-w-2xl">
+            <NavbarSearch isNavbar={true} />
           </div>          <div className="flex items-center gap-2 sm:gap-3">
             <NotificationDropdown />            <div
-              className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-secondaryBg border border-border hover:border-primary overflow-hidden shadow-sm cursor-pointer transition-colors duration-200"
+              className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-secondaryBg border border-border hover:border-primary overflow-hidden shadow-sm cursor-pointer transition-colors duration-200"
               onClick={navigateToProfile}
             >
               <Image
                 src={user?.profilePic || "/user-placeholder.jpg"}
                 alt="Profile"
-                width={36}
-                height={36}
+                width={44}
+                height={44}
                 className="w-full h-full object-cover"
                 priority={true}
               />

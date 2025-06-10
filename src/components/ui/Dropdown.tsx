@@ -10,7 +10,7 @@ import Link from "next/link";
 
 export default function NotificationDropdown() {
   const [isOpen, setIsOpen] = useState(false);
-  const { notifications, setNotifications, refreshNotifications } = useUser();
+  const { notifications, setNotifications } = useUser();
   const [newNotifications, setNewNotifications] =
     useState<Notification[]>(notifications);
 
@@ -102,11 +102,10 @@ export default function NotificationDropdown() {
   };
 
   return (
-    <div className="relative" ref={dropdownRef}>
-      {/* Modern Notification Button */}
+    <div className="relative" ref={dropdownRef}>      {/* Modern Notification Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="relative h-10 w-10 rounded-xl bg-secondaryBg border border-border hover:border-primary transition-colors duration-200 flex items-center justify-center group"
+        className="relative h-10 w-10 sm:h-11 sm:w-11 rounded-xl bg-secondaryBg border border-border hover:border-primary transition-colors duration-200 flex items-center justify-center group"
       >
         {newNotifications.some((n) => !n.isRead) ? (
           <HiBell className="w-5 h-5 text-primary" />
@@ -211,7 +210,7 @@ export default function NotificationDropdown() {
               <div className="p-8 text-center">
                 <HiOutlineBell className="w-12 h-12 text-gray-400 mx-auto mb-3" />
                 <p className="text-gray-400 text-sm">No notifications yet</p>
-                <p className="text-gray-500 text-xs mt-1">We'll notify you when something happens</p>
+                <p className="text-gray-500 text-xs mt-1">We&apos;ll notify you when something happens</p>
               </div>
             )}
           </div>

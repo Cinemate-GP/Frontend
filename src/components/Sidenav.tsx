@@ -10,7 +10,6 @@ import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleSidenave } from "@/redux/slices/sidebarSlice";
 import { IoIosArrowBack } from "react-icons/io";
-import { useSearch } from "@/context/SearchContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { logout } from "@/lib/utils";
 import { RootState } from "@/redux/store";
@@ -19,7 +18,6 @@ export default function Sidenav() {
   const pathname = usePathname();
   const [isCollapsed, setIsCollapsed] = useState(false);
   const { themeMode } = useSelector((state: RootState) => state.theme);
-  const { setSearch } = useSearch();
   const dispatch = useDispatch();
 
   const toggleSidebar = () => {
@@ -54,9 +52,8 @@ export default function Sidenav() {
   };
 
   return (
-    <>
-      <motion.aside
-        onClick={() => setSearch("")}
+    <>      <motion.aside
+        data-sidebar="true"
         className="h-screen bg-sideNavBg fixed z-50
            flex-col border-r border-border shadow-xl
           md:flex hidden"

@@ -12,7 +12,6 @@ export default function SearchComponent({handleFilterValue}: Props) {
   const debouncedSearchTerm = useDebounce(searchTerm, 1000);
 
   useEffect(() => {
-    
     if (debouncedSearchTerm !== lastSearched && 
         (debouncedSearchTerm.length >= 3 || debouncedSearchTerm === '')) {
       handleFilterValue("search", debouncedSearchTerm);
@@ -21,7 +20,6 @@ export default function SearchComponent({handleFilterValue}: Props) {
   }, [debouncedSearchTerm, handleFilterValue, lastSearched]);
 
   const handleBlur = () => {
-    // On blur, if term is at least 3 chars and different from last search, trigger immediately
     if (searchTerm !== lastSearched && 
         (searchTerm.length >= 3 || searchTerm === '')) {
       handleFilterValue("search", searchTerm);
@@ -32,8 +30,6 @@ export default function SearchComponent({handleFilterValue}: Props) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchTerm(value);
-    
-    // If user clears the input, reset the search immediately
     if (value === '') {
       handleFilterValue("search", '');
       setLastSearched('');
@@ -44,7 +40,7 @@ export default function SearchComponent({handleFilterValue}: Props) {
     <input
       type="text"
       placeholder="Search..."
-      className="col-span-2 lg:col-span-1 border border-border bg-background text-foreground px-4 py-2 rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
+      className="col-span-2 lg:col-span-1 border border-border bg-background text-foreground px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30 shadow-sm transition-all duration-200"
       onChange={handleChange}
       onBlur={handleBlur}
       value={searchTerm}

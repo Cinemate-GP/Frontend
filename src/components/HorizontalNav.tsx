@@ -2,22 +2,20 @@
 import Link from "next/link";
 import { useState, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FiHome, FiRss } from "react-icons/fi";
+import { FiHome, FiRss, FiFilm } from "react-icons/fi";
 import { IoExitOutline } from "react-icons/io5";
 import { usePathname as useNextPathname } from "next/navigation";
 import Menu from "./Menu";
 import { Search } from "./Search";
 import { useUser } from "@/context/UserContext";
-import Image from "next/image";
 import { logout } from "@/lib/utils";
 
 const HorizontalNav = ({ pathname: propPathname }: { pathname: string }) => {
   const pathFromRouter = useNextPathname();
   const pathname = propPathname || pathFromRouter;
-  
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isLogoutConfirm, setIsLogoutConfirm] = useState<boolean>(false);
-  const { user, refreshUserData } = useUser();
+  const { refreshUserData } = useUser();
 
   // Refresh user data when component mounts
   useEffect(() => {
@@ -51,10 +49,10 @@ const HorizontalNav = ({ pathname: propPathname }: { pathname: string }) => {
       return () => clearTimeout(timer);
     }
   }, [isLogoutConfirm]);
-
-  // Updated mobile nav items with Home, Feed, and Search
+  // Updated mobile nav items with Home, Movies, Feed, and Search
   const mobileNavItems = [
     { name: "Home", href: "/home", icon: FiHome },
+    { name: "Movies", href: "/movies", icon: FiFilm },
     { name: "Feed", href: "/feed", icon: FiRss },
   ];
 
@@ -68,7 +66,7 @@ const HorizontalNav = ({ pathname: propPathname }: { pathname: string }) => {
         className="w-full h-[60px] fixed z-[100] left-0 bottom-0 block md:hidden border-t border-border bg-sideNavBg backdrop-blur-md shadow-lg"
       >
         <ul className="flex items-center justify-between h-full px-2">
-          {/* Main Navigation Items - Home and Feed */}
+          {/* Main Navigation Items - Home, Movies, and Feed */}
           {mobileNavItems.map((item) => (
             <li key={item.name} className="flex-1">
               <Link
@@ -109,10 +107,8 @@ const HorizontalNav = ({ pathname: propPathname }: { pathname: string }) => {
                   <IoExitOutline className="w-5 h-5 mb-1" aria-hidden="true" />
                   <span className="text-[10px]">Confirm</span>
                 </button>
-              </motion.li>
-            ) : (
-              <motion.li 
-                key="profile" 
+              </motion.li>            ) : (              <motion.li 
+                key="menu" 
                 className="flex-1"
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -124,25 +120,26 @@ const HorizontalNav = ({ pathname: propPathname }: { pathname: string }) => {
                   }`}
                   onClick={toggleMenu}
                 >
-                  <div className="relative w-6 h-6 mb-1 rounded-full border border-primary overflow-hidden">
-                    <Image
-                      src={user?.profilePic || "/user-placeholder.jpg"}
-                      alt="Profile"
-                      width={24}
-                      height={24}
-                      className="w-full h-full object-cover"
-                      priority={true}
+                  <svg 
+                    className="w-5 h-5 mb-1" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24"
+                  >
+                    <path 
+                      strokeLinecap="round" 
+                      strokeLinejoin="round" 
+                      strokeWidth={2} 
+                      d="M4 6h16M4 12h16M4 18h16" 
                     />
-                  </div>
-                  <span className="text-[10px]">profile</span>
+                  </svg>
+                  <span className="text-[10px]">Menu</span>
                 </button>
               </motion.li>
             )}
           </AnimatePresence>
         </ul>
-      </motion.div>
-
-      {/* Mobile Menu Popup */}
+      </motion.div>      {/* Mobile Menu Popup */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -150,7 +147,7 @@ const HorizontalNav = ({ pathname: propPathname }: { pathname: string }) => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-x-0 bottom-[60px] z-[99] bg-[#111111] border-t border-[#222222] p-4 max-h-[70vh] overflow-y-auto rounded-t-xl shadow-xl"
+            className="fixed inset-x-0 bottom-[60px] z-[99] bg-[#111111] border-t border-[#222222] p-4 max-h-[70vh] overflow-y-auto rounded-t-xl shadow-xl block md:hidden"
           >
             <Menu setIsOpen={setIsOpen} />
           </motion.div>

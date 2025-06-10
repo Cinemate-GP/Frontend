@@ -225,11 +225,11 @@ export const ReviewSkeletonCard = () => {
 
 export const SearchResultSkeleton = () => {
   return (
-    <div className="flex flex-1 items-center gap-4 min-w-[140px] p-2 rounded-md">
-      <div className={`w-20 h-20 rounded animate-pulse`} />
+    <div className="flex flex-1 items-center gap-4 min-w-[140px] p-3 rounded-xl bg-background border border-border animate-pulse">
+      <div className="w-12 h-12 rounded-lg bg-gray-200 dark:bg-gray-700" />
       <div className="flex-1 flex flex-col gap-2">
-        <div className="h-6 rounded w-3/4 animate-pulse" />
-        <div className="h-8 rounded w-1/4 animate-pulse" />
+        <div className="h-5 rounded w-3/4 bg-gray-200 dark:bg-gray-700" />
+        <div className="h-4 rounded w-1/4 bg-gray-200 dark:bg-gray-700" />
       </div>
     </div>
   );
