@@ -20,14 +20,20 @@ export function Input({
 }: inputProps) {
   return (
     <div className="text-sm w-full">
-      <label className={`text-white font-semibold`}>{label}</label>
-      <input
+      <label className={`text-white font-semibold`}>{label}</label>      <input
         name={name}
         {...register}
         type={type}
         placeholder={placeholder}
         className={`w-full bg-transparent text-sm mt-3 p-4 border 
-           'border-white text-white rounded-lg focus:border focus:border-subMain`}
+           'border-white text-white rounded-lg focus:border focus:border-subMain focus:outline-none focus:ring-0`}
+        style={{
+          outline: 'none !important',
+          boxShadow: 'none !important',
+          WebkitAppearance: 'none',
+          MozAppearance: 'none',
+          appearance: 'none'
+        }}
       />
     </div>
   );
