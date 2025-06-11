@@ -133,13 +133,13 @@ const SearchInput = ({
               />
             )}
           </button>          {isDropdownOpen && (
-            <div className={`absolute -top-2 flex flex-row gap-2 rounded-xl shadow-xl border border-border z-50 overflow-hidden bg-secondaryBg animate-fadeInDropdown px-2 py-2 ${isNavbar ? 'left-full ml-2' : 'right-full mr-2'} ${isMobile ? 'min-w-[280px]' : 'min-w-[220px]'}`}>
+            <div className={`absolute top-full mt-2 left-0 right-0 flex flex-col gap-1 rounded-xl shadow-xl border border-border z-[60] overflow-hidden bg-secondaryBg animate-fadeInDropdown p-2 ${isMobile ? 'min-w-[120px]' : 'min-w-[100px]'}`}>
               {filterOptions.map((option) => (
                 <button
                   key={option.value}
                   onClick={() => {
                     setSelectedVal(option.value);
-                  }}                  className={`flex-1 text-center px-3 py-2 rounded-lg transition-colors duration-150 font-medium whitespace-nowrap
+                  }}                  className={`w-full text-left px-3 py-2 rounded-lg transition-colors duration-150 font-medium whitespace-nowrap
                     ${selectedVal === option.value ? 'bg-primary/10 text-primary shadow' : 'text-foreground hover:bg-primary/5'}
                     ${isMobile ? 'text-base py-3' : 'text-sm'}
                   `}
