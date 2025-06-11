@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import {useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useUser } from "@/context/UserContext";
 import Link from "next/link";
 import ProfileImageViewer from "./ProfileImageViewer";
@@ -10,17 +10,17 @@ import useFetch from "@/hooks/useFetch";
 import { ProfileHeaderSkeleton } from "../skeletons";
 import { authFetch } from "@/lib/api";
 import { getCookie, getUserId } from "@/lib/utils";
+import { FaRegEdit } from "react-icons/fa";
 interface UserInfo extends User {
   numberOfMovie: number;
   followingCount: number;
   followersCount: number;
   sameUser: boolean;
+  bio?: string;
   isFollowing: boolean;
 }
 
 const ProfileHeader = ({ userId }: { userId: string }) => {
-
-
   const router = useRouter();
   const { refreshUserData } = useUser();
 
@@ -38,7 +38,6 @@ const ProfileHeader = ({ userId }: { userId: string }) => {
   }, [user?.isFollowing, user?.followersCount]);
 
   const toggleFollow = async () => {
-  
     try {
       setFollowingLoading(true);
       const endpoint = follow
@@ -83,7 +82,7 @@ const ProfileHeader = ({ userId }: { userId: string }) => {
   return (
     <>
       <header className="backdrop-blur-sm bg-secondaryBg rounded-xl shadow-md p-6">
-        <div className="flex flex-col sm:flex-row gap-6 justify-between">
+        <div className="flex flex-col lg:flex-row gap-6 justify-between">
           <div className="flex flex-row items-center gap-6">
             {/* Profile image - with click handler */}
             <div
@@ -102,51 +101,51 @@ const ProfileHeader = ({ userId }: { userId: string }) => {
 
             {/* Profile information */}
             <div className="flex-1 sm:text-left">
-              <h2 className="text-lg sm:text-2xl font-bold text-foreground mb-1">
-                {user?.fullName || "User Name"}
-              </h2>
-              <p className="text-sm text-gray-500">{user?.userName}</p>
+              <div className="flex gap-3 items-center justify-between">
+                <h2 className="text-sm sm:text-2xl font-bold text-foreground">
+                  {user?.fullName || "User Name"}
+                </h2>
+                {user?.sameUser ? (
+                  <button
+                    onClick={handleNavigateToSettings}
+                    className="bg-background hover:bg-hoverBg text-foreground px-4 py-1.5 rounded-md transition-all duration-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-zinc-600"
+                  >
+                    <span className="hidden sm:block">Edit Profile</span>
+                    <span className="block sm:hidden"><FaRegEdit/></span>
+                  </button>
+                ) : (
+                  <button
+                    disabled={followingLoading}
+                    onClick={toggleFollow}
+                    className={`rounded-lg px-3 py-1 border  border-primary text-sm mt-2 ${
+                      follow ? "bg-primary text-white" : "text-foreground"
+                    }`}
+                  >
+                    {follow ? "Followed" : "Follow"}
+                  </button>
+                )}
+              </div>
 
-              {user?.sameUser ? (
-                <button
-                  onClick={handleNavigateToSettings}
-                  className="bg-background hover:bg-hoverBg text-foreground mt-2 px-4 py-1.5 rounded-md transition-all duration-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-zinc-600"
-                >
-                  Edit Profile
-                </button>
-              ) : (
-                <button
-                  disabled={followingLoading}
-                  onClick={toggleFollow}
-                  className={`rounded-lg px-3 py-1 border  border-primary text-sm mt-2 ${
-                    follow ? "bg-primary text-white" : "text-foreground"
-                  }`}
-                >
-                  {follow ? "Followed" : "Follow"}
-                </button>
-              )}
+              <p className="text-sm text-textMuted mb-1">{user?.userName}</p>
+              <p className="text-sm text-gray-500">{user?.bio}</p>
             </div>
           </div>
 
           {/* Stats row - moved to the right */}
-          <div className="flex gap-6 mt-4 sm:mt-0">
+          <div className="flex gap-6 mt-4 sm:mt-0 border-t border-border pt-4 lg:border-none">
             <div className="text-center">
-              <span className="block text-xl font-bold">{user?.numberOfMovie}</span>
+              <span className="block text-xl font-bold">
+                {user?.numberOfMovie}
+              </span>
               <span className="text-sm text-gray-500">Films</span>
-            </div>            <Link
-              href={`/${userId}/followers`}
-              className="text-center group"
-            >
+            </div>{" "}
+            <Link href={`/${userId}/followers`} className="text-center group">
               <span className="block text-xl font-bold">{followersCount}</span>
               <span className="text-sm text-gray-500 group-hover:text-foreground transition-colors">
                 Followers
               </span>
             </Link>
-
-            <Link
-              href={`/${userId}/following`}
-              className="text-center group"
-            >
+            <Link href={`/${userId}/following`} className="text-center group">
               <span className="block text-xl font-bold">
                 {user?.followingCount}
               </span>

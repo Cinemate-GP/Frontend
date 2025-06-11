@@ -15,12 +15,20 @@ import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { validatePasswords } from "@/lib/validation";
+import { authFetch } from "@/lib/api";
+
+interface ErrorOptions {
+  UserName?: string[];
+  email?: string;
+  password?: string;
+}
 
 const AccountSettings = () => {
   const { setUser: setContextUser, refreshUserData } = useUser();
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showNewPasswordConfirm, setShowNewPasswordConfirm] = useState(false);
   const { themeMode } = useSelector((state: RootState) => state.theme);
+  const [errors, setErrors] = useState<ErrorOptions | null>(null);
   const [user, setUser] = useState<User>({
     fullName: "",
     userName: "",
@@ -52,9 +60,8 @@ const AccountSettings = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    
     try {
-      if(showPasswordFields){
+      if (showPasswordFields) {
         validatePasswords(user.newPassword!, user.confirmPassword!);
       }
       setLoading(true);
@@ -62,7 +69,7 @@ const AccountSettings = () => {
       formData.append("userName", user.userName);
       formData.append("email", user.email);
       formData.append("password", user.newPassword || "");
-      const res = await fetch("/api/Profile/UpdateAccount", {
+      const res = await authFetch("/api/Profile/UpdateAccount", {
         method: "PUT",
         headers: { Authorization: `Bearer ${getCookie("token")}` },
         body: formData,
@@ -70,10 +77,13 @@ const AccountSettings = () => {
 
       if (!res.ok) {
         // Get more detailed error information if available
-        let errorDetail = "Failed to update profile";
         const errorData = await res.json();
-        errorDetail = errorData.message || errorData.error || errorDetail;
-        console.error("Profile update failed:", errorDetail);
+        console.log(errorData.errors);
+        setErrors({
+          UserName: errorData.errors?.UserName || [],
+          email: errorData.errors?.email || [],
+          password: errorData.errors?.password || "",
+        });
         return;
       }
 
@@ -93,9 +103,12 @@ const AccountSettings = () => {
       refreshUserData();
     } catch (error) {
       if (error instanceof Error) {
-        toast.error(error.message,{theme: themeMode , autoClose: 3000});
+        toast.error(error.message, { theme: themeMode, autoClose: 3000 });
       } else {
-        toast.error("An unexpected error occurred.",{theme: themeMode , autoClose: 3000});
+        toast.error("An unexpected error occurred.", {
+          theme: themeMode,
+          autoClose: 3000,
+        });
       }
     } finally {
       setLoading(false);
@@ -133,6 +146,7 @@ const AccountSettings = () => {
                 placeholder="Change username"
               />
             </div>
+            <p className="text-red-400">{errors?.UserName![0]}</p>
           </div>
 
           <div>

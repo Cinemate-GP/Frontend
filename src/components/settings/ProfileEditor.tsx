@@ -250,63 +250,7 @@ export default function ProfileEditor({
             />
           </div>
 
-          {/* Social Media */}
-          {/* <div className="py-3 space-y-4">
-            <h3 className="text-gray-300 mb-3 flex items-center gap-2">
-              <svg className="text-gray-400" width="20" height="20" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
-              </svg>
-              Social Media Links
-            </h3>
 
-            <div className="flex flex-col py-2">
-              <div className="flex items-center gap-3 mb-2">
-                <FaInstagram className="text-gray-400" size={20} />
-                <label htmlFor="instagram" className="text-gray-300">Instagram</label>
-              </div>
-              <input
-                type="text"
-                id="instagram"
-                name="socialMedia.instagram"
-                value={user.socialMedia?.instagram || ""}
-                onChange={handleUserChange}
-                className="bg-zinc-800 text-white border border-zinc-700 rounded-lg px-4 py-2 w-full focus:outline-none focus:border-primary"
-                placeholder="Username"
-              />
-            </div>
-
-            <div className="flex flex-col py-2">
-              <div className="flex items-center gap-3 mb-2">
-                <FaTwitter className="text-gray-400" size={20} />
-                <label htmlFor="twitter" className="text-gray-300">Twitter</label>
-              </div>
-              <input
-                type="text"
-                id="twitter"
-                name="socialMedia.twitter"
-                value={user.socialMedia?.twitter || ""}
-                onChange={handleUserChange}
-                className="bg-zinc-800 text-white border border-zinc-700 rounded-lg px-4 py-2 w-full focus:outline-none focus:border-primary"
-                placeholder="Username"
-              />
-            </div>
-
-            <div className="flex flex-col py-2">
-              <div className="flex items-center gap-3 mb-2">
-                <FaLinkedin className="text-gray-400" size={20} />
-                <label htmlFor="linkedin" className="text-gray-300">LinkedIn</label>
-              </div>
-              <input
-                type="text"
-                id="linkedin"
-                name="socialMedia.linkedin"
-                value={user.socialMedia?.linkedin || ""}
-                onChange={handleUserChange}
-                className="bg-zinc-800 text-white border border-zinc-700 rounded-lg px-4 py-2 w-full focus:outline-none focus:border-primary"
-                placeholder="Username"
-              />
-            </div>
-          </div> */}
 
           {/* Error Message */}
           {errorMessage && (
