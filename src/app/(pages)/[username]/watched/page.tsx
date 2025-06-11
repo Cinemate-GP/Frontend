@@ -1,7 +1,10 @@
 "use client";
+import { useParams, redirect } from "next/navigation";
+import { getUserId } from "@/lib/utils";
 import Card from "@/components/profile/Card";
 import SectionTitle from "@/components/SectionTitle";
 import { CardSkeleton } from "@/components/skeletons";
+import { IMAGEPOSTER } from "@/constants";
 import { withProfileContainer } from "@/hoc/withProfileContainer";
 import { ProfileCard } from "@/lib/types";
 
@@ -11,22 +14,31 @@ interface ComponentProps {
   onDelete: (movieId: number) => void;
 }
 
-const UserWatchList = ({resources,loading,onDelete}:ComponentProps) => {
- 
+const Watched = ({ resources, loading, onDelete }: ComponentProps) => {
+  const params = useParams();
+  const username = params.username as string;
+  const currentUserId = getUserId();
+  
+  // Only allow access to own profile for this functionality
+  if (username !== currentUserId) {
+    redirect(`/${username}`);
+  }
+
   return (
     <div className="mt-5">
-      <SectionTitle title="Watchlist Movies" />
+      <SectionTitle title="Watched Movies" />
       {loading && <CardSkeleton />}
-      {resources?.length === 0 && <p>Thre is no wathlist movies yet</p>}
+      {resources?.length === 0 && <p>There is no Watched Movies yet</p>}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 p-6 rounded-lg">
         {resources?.map((movie) => (
           <Card
             key={movie.tmdbId}
             tmdbid={movie.tmdbId}
-            type="Watchlist"
             title={movie.title}
+            type="Watched"
+            image={`${IMAGEPOSTER}${movie.poster_path}`}
+            imdbRating={movie.imdbRating}
             onDelete={onDelete}
-            image={`https://image.tmdb.org/t/p/original//${movie.poster_path}`}
           />
         ))}
       </div>
@@ -35,6 +47,6 @@ const UserWatchList = ({resources,loading,onDelete}:ComponentProps) => {
 };
 
 export default withProfileContainer<ProfileCard>(
-  UserWatchList,
-  "/api/Profile/WatchlistMovies"
+  Watched,
+  "/api/Profile/WatchedMovies"
 );

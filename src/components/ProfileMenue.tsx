@@ -13,9 +13,8 @@ export default function ProfileMenu() {
   const { user } = useUser();
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
-
   const menuItems = [
-    { name: "Profile", href: "/profile", icon: LuUserRound },
+    { name: "Profile", href: `/${user?.userName}`, icon: LuUserRound },
     { name: "Settings", href: "/settings", icon: IoSettingsOutline },
   ];
 

@@ -1,43 +1,47 @@
 "use client";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter, usePathname, useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { capitalizeString } from "@/lib/utils";
+import { capitalizeString, getUserId } from "@/lib/utils";
 
 const Tabs = () => {
   const tabs = ["Profile", "Watched", "Liked", "Watchlist", "Reviews", "Rated", "Recommended"];
   const router = useRouter();
   const pathname = usePathname();
+  const params = useParams();
   const [activeTab, setActiveTab] = useState<string>("Profile")
+  
+  const username = params.username as string || getUserId();
   
   function clickHandler(name: string) {
     setActiveTab(name);
     switch (name) {
       case "Liked":
-        router.push("/profile/liked");
+        router.push(`/${username}/liked`);
         break;
       case "Watched":
-        router.push("/profile/watched");
+        router.push(`/${username}/watched`);
         break;
       case "Watchlist":
-        router.push("/profile/watchlist");
+        router.push(`/${username}/watchlist`);
         break;
       case "Reviews":
-        router.push("/profile/reviews");
+        router.push(`/${username}/reviews`);
         break;
       case "Rated":
-        router.push("/profile/rated");
+        router.push(`/${username}/rated`);
         break;
       case "Recommended":
-        router.push("/profile/recommended");
+        router.push(`/${username}/recommended`);
         break;
       default:
-        router.push("/profile");
+        router.push(`/${username}`);
     }
   }
-  
-  useEffect(() => {
-    const path = pathname.split("/")[2];
-    setActiveTab(capitalizeString(path ?  pathname.split("/")[2] ? path : pathname.split("/")[2] : "profile"));
+    useEffect(() => {
+    const pathParts = pathname.split("/");
+    // For /username or /username/subpage
+    const subPage = pathParts[2]; // This will be undefined for just /username, or the subpage name
+    setActiveTab(capitalizeString(subPage || "profile"));
   }, [activeTab, pathname]);
        
   return (

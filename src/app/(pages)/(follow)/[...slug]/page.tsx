@@ -223,9 +223,8 @@ function FollowTabs() {
                   <div
                     key={user.userId}
                     className="flex justify-between items-center border-b border-border pb-4 last:border-b-0"
-                  >
-                    <Link
-                      href={`/user/${user.userId}`}
+                  >                    <Link
+                      href={`/${user.userId}`}
                       className="flex items-center gap-4 py-2"
                     >
                       <Image
