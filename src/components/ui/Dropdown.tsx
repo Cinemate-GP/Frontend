@@ -1,17 +1,87 @@
 "use client";
-import { Notification, useUser } from "@/context/UserContext";
 import { authFetch } from "@/lib/api";
 import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
 import { IoCheckmarkDone } from "react-icons/io5";
 import { HiOutlineBell, HiBell } from "react-icons/hi";
 import Link from "next/link";
+import * as signalR from "@microsoft/signalr";
+import { getCookie } from "@/lib/utils";
+
+export interface Notification {
+  id: number;
+  actionUserId: string;
+  isRead: boolean;
+  notificationType: string;
+  message: string;
+  pic: string;
+  fullName: string;
+  createdAt: string;
+}
 
 export default function NotificationDropdown() {
   const [isOpen, setIsOpen] = useState(false);
-  const { notifications } = useUser();
-  const [newNotifications, setNewNotifications] =
-    useState<Notification[]>(notifications);
+  const [connection, setConnection] = useState<signalR.HubConnection | null>(
+    null
+  );
+  const [newNotifications, setNewNotifications] = useState<Notification[]>([]);
+
+  // Fetch notifications from the server
+  useEffect(() => {
+    (async() => {
+      try {
+        const res = await authFetch("/api/Notification");
+        if (!res.ok) {
+          throw new Error("Failed to fetch notifications");
+        }
+        const data= await res.json();
+        setNewNotifications(data.items);
+      } catch (error) {
+        console.error("Error fetching notifications:", error);
+      }
+    })()
+  },[])
+
+  useEffect(() => {
+    const newConnection = new signalR.HubConnectionBuilder()
+      .withUrl("http://cinemate.runasp.net/notificationHub", {
+        withCredentials: true,
+        accessTokenFactory: () => getCookie("token") || "", // Ensure a string is always returned
+      })
+      .withAutomaticReconnect()
+      .configureLogging(signalR.LogLevel.Information)
+      .build();
+
+    setConnection(newConnection);
+  }, []);
+
+  // Start SignalR connection and listen for notifications
+  useEffect(() => {
+    if (!connection) return;
+
+    const startConnection = async () => {
+      try {
+        await connection.start();
+        console.log("✅ SignalR connected");
+      } catch (err) {
+        console.error("❌ SignalR connection error:", err);
+        setTimeout(startConnection, 5000); // Retry after 5s
+      }
+    };
+
+    // Listen once
+    connection.on("ReceiveNotification", (notification: Notification) => {
+      console.log("📬 Notification received:", notification);
+      setNewNotifications((prev) => [...prev, notification]);
+    });
+
+    startConnection();
+
+    return () => {
+      connection.stop();
+      console.log("🔌 SignalR disconnected");
+    };
+  }, [connection]);
 
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
@@ -29,22 +99,11 @@ export default function NotificationDropdown() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Update notifications when the context changes
-  useEffect(() => {
-    setNewNotifications(
-      notifications
-        .slice()
-        .sort(
-          (a, b) =>
-            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-        )
-    );
-  }, [notifications]);
 
   const markAsRead = async (id: number) => {
     try {
       const res = await authFetch(`/api/Notification/${id}/mark-read`, {
-        method: "PATCH",
+        method: "PUT",
       });
       if (!res.ok) {
         throw new Error("Failed to mark notification as read");
@@ -61,7 +120,7 @@ export default function NotificationDropdown() {
   const markAllAsRead = async () => {
     try {
       await authFetch("/api/Notification/mark-all-read", {
-        method: "PATCH",
+        method: "PUT",
       });
       // Update local state
       setNewNotifications((prev) => prev.map((n) => ({ ...n, isRead: true })));
@@ -73,6 +132,7 @@ export default function NotificationDropdown() {
   const cellAllNotifications = async () => {
     setNewNotifications([]);
   };
+
   const getNotificationPath = (notification: Notification) => {
     const notificationType = notification.notificationType.toLowerCase();
     if (notificationType === "follow") {
@@ -85,12 +145,12 @@ export default function NotificationDropdown() {
 
   const getNotificationImage = (notification: Notification) => {
     const notificationType = notification.notificationType.toLowerCase();
-    if (notificationType === "newrelease" && notification.profilePic) {
+    if (notificationType === "newrelease" && notification.pic) {
       // For new releases, treat profilePic as movie poster path
-      return `https://image.tmdb.org/t/p/original${notification.profilePic}`;
+      return `https://image.tmdb.org/t/p/original${notification.pic}`;
     }
     // For other types (like follows), use profilePic as user profile picture
-    return notification.profilePic || "/user-placeholder.jpg";
+    return notification.pic || "/user-placeholder.jpg";
   };
 
   const handleLinkClick = (notification: Notification) => {
