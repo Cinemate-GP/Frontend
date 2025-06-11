@@ -17,8 +17,8 @@ interface User {
 
 const FollowLayout = ({ children }: { children: React.ReactNode }) => {
   const params = useParams();
-  const slug = params.slug as string;
-  const userId = slug.split("_")[0];
+  const slug = params.slug as string[];
+  const userId = slug[0];
   const { data, loading } = useFetch<User>(`/api/Profile/details/${userId}`);
   
 console.log(data?.followersCount)
@@ -42,9 +42,8 @@ console.log(data?.followersCount)
                       height={160}
                       className="w-full h-full object-cover rounded-full"
                     />
-                  ) : (
-                    <Image
-                      src="/ueser-placeholder.jpg"
+                  ) : (                    <Image
+                      src="/user-placeholder.jpg"
                       alt="user profile"
                       width={100}
                       height={100}
