@@ -25,7 +25,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/api/:path*",
-        destination: "http://cinemate.runasp.net/api/:path*", // Proxy API requests
+        destination: "https://cinemate.runasp.net/api/:path*", // Proxy API requests
       },
     ];
   },
