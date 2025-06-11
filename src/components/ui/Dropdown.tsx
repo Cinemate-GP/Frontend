@@ -130,7 +130,15 @@ export default function NotificationDropdown() {
   };
 
   const cellAllNotifications = async () => {
-    setNewNotifications([]);
+    try {
+      await authFetch("/api/Notification", {
+        method: "DELETE",
+      });
+      // Clear local state
+      setNewNotifications([]);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const getNotificationPath = (notification: Notification) => {
