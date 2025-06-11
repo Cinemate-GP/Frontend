@@ -133,10 +133,8 @@ const ProfileHeader = ({ userId }: { userId: string }) => {
             <div className="text-center">
               <span className="block text-xl font-bold">{user?.numberOfMovie}</span>
               <span className="text-sm text-gray-500">Films</span>
-            </div>
-
-            <Link
-              href={`/follow/${userId}_followers`}
+            </div>            <Link
+              href={`/${userId}/followers`}
               className="text-center group"
             >
               <span className="block text-xl font-bold">{followersCount}</span>
@@ -146,7 +144,7 @@ const ProfileHeader = ({ userId }: { userId: string }) => {
             </Link>
 
             <Link
-              href={`/follow/${userId}_following`}
+              href={`/${userId}/following`}
               className="text-center group"
             >
               <span className="block text-xl font-bold">
