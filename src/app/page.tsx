@@ -65,9 +65,7 @@ const Page = () => {
                     themeMode === "light" ? "invert" : ""
                   }`}
                 />
-                <h1 className="text-3xl font-bold text-foreground">
-                  Cine<span className="text-primary">Mate</span>
-                </h1>
+                <h1 className="text-3xl font-bold text-foreground">CineMate</h1>
               </motion.div>
 
               {/* Hero Text */}
