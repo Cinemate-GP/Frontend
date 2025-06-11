@@ -44,7 +44,7 @@ export default function NotificationDropdown() {
 
   useEffect(() => {
     const newConnection = new signalR.HubConnectionBuilder()
-      .withUrl("http://cinemate.runasp.net/notificationHub", {
+      .withUrl("https://cinemate.runasp.net/notificationHub", {
         withCredentials: true,
         accessTokenFactory: () => getCookie("token") || "", // Ensure a string is always returned
       })
