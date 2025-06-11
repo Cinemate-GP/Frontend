@@ -1,30 +1,30 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoMdNotifications } from "react-icons/io";
 import { MdMovie, MdFavorite } from "react-icons/md";
 import SwitchButton from "../ui/SwitchButton";
+import { authFetch } from "@/lib/api";
 
 const NotificationSettings = () => {
   const [newReleases, setNewReleases] = useState(true);
-  const [friendActivity, setFriendActivity] = useState(true);
+  const [follow, setFollow] = useState(true);
 
-  // useEffect(() => {
-  //   const fetchSettings = async () => {
-  //     try {
-  //       const response = await authFetch("/api/Profile/Notification");
-  //       if (!response.ok) {
-  //         throw new Error("Failed to fetch settings");
-  //       }
-  //       const data = await response.json();
-  //       setNewReleases(data.isNotifyNewRelease);
-  //       setFriendActivity(data.isNotifyFollowing);
-
-  //     } catch (error) {
-  //       console.error("Error fetching settings:", error);
-  //     }
-  //   };
-  //   fetchSettings();
-  // }, []);
+  useEffect(() => {
+    const fetchSettings = async () => {
+      try {
+        const response = await authFetch("/api/Profile/notify-privacy");
+        if (!response.ok) {
+          throw new Error("Failed to fetch settings");
+        }
+        const data = await response.json();
+        setNewReleases(data.IsEnableNotificationNewRelease);
+        setFollow(data.isEnableNotificationFollowing);
+      } catch (error) {
+        console.error("Error fetching settings:", error);
+      }
+    };
+    fetchSettings();
+  }, []);
 
   return (
     <div className="bg-secondaryBg p-4 sm:p-6 rounded-xl shadow-md">
@@ -73,8 +73,8 @@ const NotificationSettings = () => {
                 </div>
               </div>
               <SwitchButton
-                status={friendActivity}
-                setStatus={setFriendActivity}
+                status={follow}
+                setStatus={setFollow}
                 statusType="toggle-notify-following"
               />
             </div>
