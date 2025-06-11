@@ -24,7 +24,7 @@ const Navbar = () => {
   return (
     <div className="absolute z-30 w-full top-0 py-4 md:py-6">
       <div className="container mx-auto px-4 sm:px-6 md:px-8">
-        {" "}
+  
         <div className="flex items-center justify-between w-full">
           <div className="block md:hidden w-[60px] h-[60px] sm:w-[100px] sm:h-[100px]">
             <Image
@@ -36,10 +36,13 @@ const Navbar = () => {
                 themeMode === "light" ? "invert" : ""
               }`}
             />
-          </div>          <div className="hidden md:block w-full max-w-2xl">
+          </div>
+          <div className="hidden md:block w-full max-w-2xl mr-4">
             <NavbarSearch isNavbar={true} />
-          </div>          <div className="flex items-center gap-2 sm:gap-3">
-            <NotificationDropdown />            <div
+          </div>
+          <div className="flex items-center gap-2 sm:gap-3">
+            <NotificationDropdown />
+            <div
               className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-secondaryBg border border-border hover:border-primary overflow-hidden shadow-sm cursor-pointer transition-colors duration-200"
               onClick={navigateToProfile}
             >
