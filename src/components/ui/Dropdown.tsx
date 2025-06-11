@@ -9,7 +9,7 @@ import Link from "next/link";
 
 export default function NotificationDropdown() {
   const [isOpen, setIsOpen] = useState(false);
-  const { notifications, setNotifications } = useUser();
+  const { notifications } = useUser();
   const [newNotifications, setNewNotifications] =
     useState<Notification[]>(notifications);
 
@@ -31,7 +31,14 @@ export default function NotificationDropdown() {
 
   // Update notifications when the context changes
   useEffect(() => {
-    setNewNotifications(notifications);
+    setNewNotifications(
+      notifications
+        .slice()
+        .sort(
+          (a, b) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        )
+    );
   }, [notifications]);
 
   const markAsRead = async (id: number) => {
@@ -42,19 +49,9 @@ export default function NotificationDropdown() {
       if (!res.ok) {
         throw new Error("Failed to mark notification as read");
       }
-
       // Update local state
       setNewNotifications((prev) =>
-        prev.map((n) =>
-          String(n.id) === String(id) ? { ...n, isRead: true } : n
-        )
-      );
-
-      // Update context state
-      setNotifications(
-        notifications.map((n) =>
-          String(n.id) === String(id) ? { ...n, isRead: true } : n
-        )
+        prev.map((n) => (n.id === id ? { ...n, isRead: true } : n))
       );
     } catch (error) {
       console.log(error);
@@ -63,13 +60,11 @@ export default function NotificationDropdown() {
 
   const markAllAsRead = async () => {
     try {
-      await authFetch(`/api/Notification/mark-all-read`, {
+      await authFetch("/api/Notification/mark-all-read", {
         method: "PATCH",
       });
       // Update local state
-      setNewNotifications((prev) =>
-        [...prev].map((n) => ({ ...n, isRead: true }))
-      );
+      setNewNotifications((prev) => prev.map((n) => ({ ...n, isRead: true })));
     } catch (error) {
       console.log(error);
     }
@@ -147,15 +142,16 @@ export default function NotificationDropdown() {
                   mark all as read
                 </button>
               )}
-              {newNotifications.every((n) => n.isRead) && newNotifications.length > 0 && (
-                <button
-                  onClick={cellAllNotifications}
-                  className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-primary hover:bg-primary/10 rounded-lg transition-colors"
-                >
-                  <IoCheckmarkDone className="w-3.5 h-3.5" />
-                  clear all
-                </button>
-              )}
+              {newNotifications.every((n) => n.isRead) &&
+                newNotifications.length > 0 && (
+                  <button
+                    onClick={cellAllNotifications}
+                    className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-primary hover:bg-primary/10 rounded-lg transition-colors"
+                  >
+                    <IoCheckmarkDone className="w-3.5 h-3.5" />
+                    clear all
+                  </button>
+                )}
             </div>
           </div>
 
@@ -168,9 +164,7 @@ export default function NotificationDropdown() {
                     <Link
                       href={getNotificationPath(n)}
                       onClick={() => handleLinkClick(n)}
-                      className={`block p-4 hover:bg-hoverBg transition-colors ${
-                        !n.isRead ? "bg-primary/5" : ""
-                      }`}
+                      className={`block p-4 hover:bg-hoverBg transition-colors `}
                     >
                       <div className="flex items-start gap-3">
                         {/* Profile Image */}
