@@ -1,33 +1,41 @@
 "use client";
+import { useParams, redirect } from "next/navigation";
+import { getUserId } from "@/lib/utils";
 import Card from "@/components/profile/Card";
 import SectionTitle from "@/components/SectionTitle";
 import { CardSkeleton } from "@/components/skeletons";
-import { IMAGEPOSTER } from "@/constants";
 import { withProfileContainer } from "@/hoc/withProfileContainer";
 import { ProfileCard } from "@/lib/types";
-interface RatedCard extends ProfileCard {
-  stars?: number;
-}
+
 interface ComponentProps {
-  resources: RatedCard[] | null;
+  resources: ProfileCard[] | null;
   loading: boolean;
   onDelete: (movieId: number) => void;
 }
-const Rated = ({ resources, loading, onDelete }: ComponentProps) => {
+
+const Liked = ({ resources, loading, onDelete }: ComponentProps) => {
+  const params = useParams();
+  const username = params.username as string;
+  const currentUserId = getUserId();
+  
+  // Only allow access to own profile for this functionality
+  if (username !== currentUserId) {
+    redirect(`/${username}`);
+  }
+
   return (
     <div className="mt-5">
-      <SectionTitle title="Rated Movies" />
+      <SectionTitle title="Liked Movies" />
       {loading && <CardSkeleton />}
-      {resources?.length === 0 && <p>There is no Rated Movies yet</p>}
+      {!loading && resources?.length === 0 && <p>There are no Liked Movies</p>}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 p-6 rounded-lg">
         {resources?.map((movie) => (
           <Card
             key={movie.tmdbId}
             tmdbid={movie.tmdbId}
             title={movie.title}
-            stars={movie.stars}
-            type="Rate"
-            image={`${IMAGEPOSTER}${movie.poster_path}`}
+            image={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}
+            type="Like"
             onDelete={onDelete}
           />
         ))}
@@ -37,6 +45,6 @@ const Rated = ({ resources, loading, onDelete }: ComponentProps) => {
 };
 
 export default withProfileContainer<ProfileCard>(
-  Rated,
-  "/api/Profile/RatedMovies"
+  Liked,
+  "/api/Profile/LikedMovies"
 );

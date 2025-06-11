@@ -4,7 +4,7 @@ import { useState, useCallback } from "react";
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { NavLink, navCategories, modernIcons } from "@/constants";
+import { modernIcons } from "@/constants";
 import HorizontalNav from "./HorizontalNav";
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,11 +13,13 @@ import { IoIosArrowBack } from "react-icons/io";
 import { motion, AnimatePresence } from "framer-motion";
 import { logout } from "@/lib/utils";
 import { RootState } from "@/redux/store";
+import { useUser } from "@/context/UserContext";
 
 export default function Sidenav() {
   const pathname = usePathname();
   const [isCollapsed, setIsCollapsed] = useState(false);
   const { themeMode } = useSelector((state: RootState) => state.theme);
+  const { user } = useUser();
   const dispatch = useDispatch();
 
   const toggleSidebar = () => {
@@ -30,6 +32,23 @@ export default function Sidenav() {
     logout("/");
     // Router will be handled by the logout function
   }, []);
+
+  // Dynamic navigation categories
+  const navCategories = {
+    browse: [
+      { name: "Home", href: "/home", icon: "Home" as keyof typeof modernIcons },
+      { name: "Movies", href: "/movies", icon: "Movies" as keyof typeof modernIcons },
+      { name: "Feed", href: "/feed", icon: "Feeds" as keyof typeof modernIcons },
+    ],
+    library: [
+      { name: "Watchlist", href: `/${user?.userName}/watchlist`, icon: "Watchlist" as keyof typeof modernIcons },
+      { name: "Liked", href: `/${user?.userName}/liked`, icon: "Likes" as keyof typeof modernIcons },
+    ],
+    account: [
+      { name: "Profile", href: `/${user?.userName}`, icon: "Profile" as keyof typeof modernIcons },
+      { name: "Settings", href: "/settings", icon: "Settings" as keyof typeof modernIcons },
+    ],
+  };
 
   // Sidebar animation variants
   const sidebarVariants = {
@@ -203,11 +222,10 @@ export default function Sidenav() {
             {navCategories.account.map((link) => (
               <NavItem
                 key={link.name}
-                link={link}
-                isActive={
-                  pathname === link.href ||
-                  // Only consider it active if it's exactly the profile path, not subpaths
-                  (link.href === "/profile" && pathname === "/profile")
+                link={link}                isActive={
+                  pathname === (link.name === "Profile" ? `/${user?.userName}` : link.href) ||
+                  // Only consider profile active if it's exactly the username path, not subpaths
+                  (link.name === "Profile" && pathname === `/${user?.userName}`)
                 }
                 isCollapsed={isCollapsed}
               />
@@ -319,7 +337,7 @@ const NavItem = ({
   isActive,
   isCollapsed,
 }: {
-  link: NavLink;
+  link: { name: string; href: string; icon: keyof typeof modernIcons };
   isActive: boolean;
   isCollapsed: boolean;
 }) => {
