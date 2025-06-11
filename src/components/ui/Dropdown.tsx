@@ -61,14 +61,23 @@ export default function NotificationDropdown() {
     }
   };
 
-  const clearAllNotfictions = async () => {
+  const markAllAsRead = async () => {
     try {
-      await authFetch(`/api/Notification/mark-all-read`);
+      await authFetch(`/api/Notification/mark-all-read`, {
+        method: "PATCH",
+      });
+      // Update local state
+      setNewNotifications((prev) =>
+        [...prev].map((n) => ({ ...n, isRead: true }))
+      );
     } catch (error) {
       console.log(error);
     }
   };
 
+  const cellAllNotifications = async () => {
+    setNewNotifications([]);
+  };
   const getNotificationPath = (notification: Notification) => {
     const notificationType = notification.notificationType.toLowerCase();
     if (notificationType === "follow") {
@@ -131,11 +140,20 @@ export default function NotificationDropdown() {
               </h3>
               {newNotifications.some((n) => !n.isRead) && (
                 <button
-                  onClick={clearAllNotfictions}
+                  onClick={markAllAsRead}
                   className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-primary hover:bg-primary/10 rounded-lg transition-colors"
                 >
                   <IoCheckmarkDone className="w-3.5 h-3.5" />
                   mark all as read
+                </button>
+              )}
+              {newNotifications.every((n) => n.isRead) && newNotifications.length > 0 && (
+                <button
+                  onClick={cellAllNotifications}
+                  className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-primary hover:bg-primary/10 rounded-lg transition-colors"
+                >
+                  <IoCheckmarkDone className="w-3.5 h-3.5" />
+                  clear all
                 </button>
               )}
             </div>

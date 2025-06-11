@@ -38,7 +38,7 @@ const Navbar = () => {
             />
           </div>
           <div className="hidden md:block w-full max-w-2xl mr-4">
-            <NavbarSearch isNavbar={true} />
+            <NavbarSearch />
           </div>
           <div className="flex items-center gap-2 sm:gap-3">
             <NotificationDropdown />
