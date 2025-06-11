@@ -161,7 +161,7 @@ const AccountSettings = () => {
           <div className="pt-2">
             <button
               type="button"
-              className="text-primary hover:text-red-400 text-sm font-medium flex items-center gap-1"
+              className="text-textMuted hover:text-primary text-sm font-medium flex items-center gap-1 transition-all duration-150"
               onClick={() => setShowPasswordFields(!showPasswordFields)}
             >
               <IoLockClosed className="h-3.5 w-3.5" />

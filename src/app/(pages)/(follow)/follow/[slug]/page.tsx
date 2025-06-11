@@ -183,7 +183,7 @@ function FollowTabs() {
                       <h2 className="text-lg">{user.fullName}</h2>
                     </Link>
 
-                    <div>
+                    <div className="flex gap-2 ">
                       {getUserId() !== user.userId && (
                         <button
                           onClick={() => toggleFollow(user.userId)}

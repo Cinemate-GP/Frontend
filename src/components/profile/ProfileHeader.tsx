@@ -11,6 +11,7 @@ import { ProfileHeaderSkeleton } from "../skeletons";
 import { authFetch } from "@/lib/api";
 import { getCookie, getUserId } from "@/lib/utils";
 interface UserInfo extends User {
+  numberOfMovie: number;
   followingCount: number;
   followersCount: number;
   sameUser: boolean;
@@ -130,7 +131,7 @@ const ProfileHeader = ({ userId }: { userId: string }) => {
           {/* Stats row - moved to the right */}
           <div className="flex gap-6 mt-4 sm:mt-0">
             <div className="text-center">
-              <span className="block text-xl font-bold">80</span>
+              <span className="block text-xl font-bold">{user?.numberOfMovie}</span>
               <span className="text-sm text-gray-500">Films</span>
             </div>
 
