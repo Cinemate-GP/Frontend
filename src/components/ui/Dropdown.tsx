@@ -136,7 +136,7 @@ export default function NotificationDropdown() {
   const getNotificationPath = (notification: Notification) => {
     const notificationType = notification.notificationType.toLowerCase();
     if (notificationType === "follow") {
-      return `/user/${notification.actionUserId}`;
+      return `/${notification.actionUserId}`;
     } else if (notificationType === "newrelease") {
       return `/movies/${notification.actionUserId}`;
     }

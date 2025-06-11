@@ -320,13 +320,11 @@ export const navCategories: {
     { name: "Home", href: "/home", icon: "Home" },
     { name: "Movies", href: "/movies", icon: "Movies" },
     { name: "Feed", href: "/feed", icon: "Feeds" },
-  ],
-  library: [
-    { name: "Watchlist", href: "/profile/watchlist", icon: "Watchlist" },
-    { name: "Liked", href: "/profile/liked", icon: "Likes" },
-  ],
-  account: [
-    { name: "Profile", href: "/profile", icon: "Profile" },
+  ],  library: [
+    { name: "Watchlist", href: "/watchlist", icon: "Watchlist" },
+    { name: "Liked", href: "/liked", icon: "Likes" },
+  ],  account: [
+    { name: "Profile", href: "/profile", icon: "Profile" }, // This will be dynamically set to /${username}
     { name: "Settings", href: "/settings", icon: "Settings" },
   ],
 };
@@ -335,13 +333,13 @@ export const navCategories: {
 export const mainLinks: NavLink[] = [
   { name: "Home", href: "/home", icon: "Home" },
   { name: "Movies", href: "/movies", icon: "Movies" },
-  { name: "Watchlist", href: "/profile/watchlist", icon: "Watchlist" },
-  { name: "Liked", href: "/profile/liked", icon: "Likes" },
+  { name: "Watchlist", href: "/watchlist", icon: "Watchlist" }, // Will be dynamically set to /${username}/watchlist
+  { name: "Liked", href: "/liked", icon: "Likes" }, // Will be dynamically set to /${username}/liked
   { name: "Feed", href: "/feed", icon: "Feeds" },
 ];
 
 export const userLinks: NavLink[] = [
-  { name: "Profile", href: "/profile", icon: "Profile" },
+  { name: "Profile", href: "/profile", icon: "Profile" }, // Will be dynamically set to /${username}
   { name: "Settings", href: "/settings", icon: "Settings" },
 ];
 

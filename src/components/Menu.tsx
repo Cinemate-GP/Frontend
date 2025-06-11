@@ -18,18 +18,17 @@ const Menu = ({
     // Use centralized logout function
     logout("/");
     setIsOpen(false);
-  };
-  // Categories of menu items - Remove Feed since it's in horizontal nav
+  };  // Categories of menu items - Remove Feed since it's in horizontal nav
   const libraryItems = [
     {
       name: "Watchlist",
-      href: "/profile/watchlist",
+      href: `/${user?.userName}/watchlist`,
       icon: modernIcons.Watchlist,
       description: "Movies to watch"
     },
     {
       name: "Liked",
-      href: "/profile/liked",
+      href: `/${user?.userName}/liked`,
       icon: modernIcons.Likes,
       description: "Favorite movies"    },
   ];
@@ -43,11 +42,11 @@ const Menu = ({
     },
     {
       name: "Profile",
-      href: "/profile",
+      href: `/${user?.userName}`,
       icon: modernIcons.Profile,
       description: "Your account"
     },
-  ];  return (
+  ];return (
     <div className="flex flex-col h-full bg-sideNavBg">      {/* User Info Section - No Image, Just Text */}
       <motion.div 
         initial={{ opacity: 0, y: -10 }}

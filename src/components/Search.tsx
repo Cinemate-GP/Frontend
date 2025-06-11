@@ -26,7 +26,7 @@ const getImageUrl = (item: SearchValue) => {
 const getItemLink = (item: SearchValue) => {
   switch (item.type) {
     case "User":
-      return `/user/${item.id}`;
+      return `/${item.id}`;
     case "Movie":
       return `/movies/${item.id}`;
     case "Actor":

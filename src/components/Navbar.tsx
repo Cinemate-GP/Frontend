@@ -17,9 +17,8 @@ const Navbar = () => {
   useEffect(() => {
     refreshUserData();
   }, [refreshUserData]);
-
   const navigateToProfile = () => {
-    router.push("/profile");
+    router.push(`/${user?.userName}`);
   };
   return (
     <div className="absolute z-30 w-full top-0 py-4 md:py-6">
