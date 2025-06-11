@@ -48,7 +48,6 @@ function FollowTabs() {
       });
 
       const result = await res.json();
-      console.log(result);
 
       if (Array.isArray(result)) {
         setData(result);
