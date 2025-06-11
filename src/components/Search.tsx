@@ -37,6 +37,17 @@ const getItemLink = (item: SearchValue) => {
 };
 
 // Mobile search modal extracted
+interface MobileSearchModalProps {
+  search: string;
+  setSearch: (search: string) => void;
+  selectedVal: string;
+  setSelectedVal: (val: string) => void;
+  setShowResults: (show: boolean) => void;
+  loading: boolean;
+  values: SearchValue[];
+  setShowMobileSearch: (show: boolean) => void;
+}
+
 const MobileSearchModal = ({
   search,
   setSearch,
@@ -46,76 +57,84 @@ const MobileSearchModal = ({
   loading,
   values,
   setShowMobileSearch,
-}: any) =>
+}: MobileSearchModalProps) =>
   typeof document !== "undefined" &&
-  createPortal(
-    <div className="fixed inset-0 bg-black/90 z-[110] flex flex-col">
+  createPortal(    <div className="fixed inset-0 bg-black/90 z-[110] flex flex-col">
       <div className="p-4 pt-8">
-        <div className="flex items-center mb-4">
+        {/* Mobile Header with X button */}
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-white text-lg font-semibold">Search</h2>
           <button
             onClick={() => setShowMobileSearch(false)}
-            className="mr-4 text-white"
+            className="text-white hover:text-gray-300 transition-colors p-2"
+            aria-label="Close search"
           >
-            Cancel
+            <svg width="24" height="24" fill="none" viewBox="0 0 24 24">
+              <path d="M6 18L18 6M6 6l12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
           </button>
-          <div className="flex-1">
-            <SearchInput
-              search={search}
-              setSearch={setSearch}
-              selectedVal={selectedVal}
-              setSelectedVal={setSelectedVal}
-              setShowResults={setShowResults}
-            />
-          </div>
         </div>
-        {search.trim().length >= 2 && (
-          <div className="bg-secondaryBg rounded-xl overflow-hidden flex-1 max-h-[340px]">
+        
+        {/* Search Input - Full Width */}
+        <div className="mb-4">
+          <SearchInput
+            search={search}
+            setSearch={setSearch}
+            selectedVal={selectedVal}
+            setSelectedVal={setSelectedVal}
+            setShowResults={setShowResults}
+            showFilter={true}
+          />
+        </div>{search.trim().length >= 2 && (
+          <div className="bg-secondaryBg rounded-xl overflow-hidden flex-1 max-h-[70vh] border border-border">
             {loading ? (
-              <div className="overflow-y-auto max-h-[340px]">
-                {[1, 2, 3, 4].map((n) => (
+              <div className="overflow-y-auto max-h-[70vh] p-2">
+                {[1, 2, 3, 4, 5].map((n) => (
                   <div
                     key={n}
-                    className="flex items-center p-3 border-b border-gray-800/50 animate-pulse"
+                    className="flex items-center p-4 border-b border-gray-800/50 animate-pulse last:border-b-0"
                   >
-                    <div className="h-12 w-12 flex-shrink-0 rounded bg-gray-800"></div>
-                    <div className="ml-3 flex-1">
-                      <div className="h-3 bg-gray-800 rounded w-3/4 mb-2"></div>
-                      <div className="h-2 bg-gray-800 rounded w-1/4"></div>
+                    <div className="h-14 w-14 flex-shrink-0 rounded-lg bg-gray-800"></div>
+                    <div className="ml-4 flex-1">
+                      <div className="h-4 bg-gray-800 rounded w-3/4 mb-2"></div>
+                      <div className="h-3 bg-gray-800 rounded w-1/2"></div>
                     </div>
                   </div>
                 ))}
               </div>
             ) : values.length === 0 ? (
-              <div className="p-4 text-center text-gray-400">
-                No results found for &quot;{search}&quot;
+              <div className="p-6 text-center text-gray-400">
+                <FiSearch className="w-8 h-8 mx-auto mb-2 opacity-50" />
+                <p className="text-base">No results found</p>
+                <p className="text-sm mt-1">Try searching for &quot;{search}&quot;</p>
               </div>
             ) : (
-              <div className="overflow-y-auto max-h-[340px]">
+              <div className="overflow-y-auto max-h-[70vh] custom-scrollbar">
                 {values.map((item: SearchValue, index: number) => (
                   <Link
                     href={getItemLink(item)}
                     key={`${item.id}-${item.type}`}
                     onClick={() => setShowMobileSearch(false)}
-                    className={`flex items-center p-3 hover:bg-[#252525] transition-colors ${
+                    className={`flex items-center p-4 hover:bg-[#252525] active:bg-[#2a2a2a] transition-colors ${
                       index < values.length - 1 ? "border-b border-gray-800/50" : ""
                     }`}
                   >
-                    <div className="h-12 w-12 flex-shrink-0 overflow-hidden rounded bg-gray-800">
+                    <div className="h-14 w-14 flex-shrink-0 overflow-hidden rounded-lg bg-gray-800">
                       <Image
                         src={getImageUrl(item)}
                         alt={item.name}
-                        width={48}
-                        height={48}
+                        width={56}
+                        height={56}
                         className="h-full w-full object-cover"
                       />
                     </div>
-                    <div className="ml-3 flex-1">
-                      <p className="text-white text-sm font-medium truncate">
+                    <div className="ml-4 flex-1 min-w-0">
+                      <p className="text-white text-base font-medium truncate">
                         {item.name}
                       </p>
-                      <div className="flex items-center mt-1">
+                      <div className="flex items-center mt-2">
                         <span
-                          className={`text-xs px-1.5 py-0.5 rounded-sm ${
+                          className={`text-xs px-2 py-1 rounded-md font-medium ${
                             item.type === "Movie"
                               ? "bg-blue-900/50 text-blue-300"
                               : item.type === "Actor"
@@ -126,6 +145,11 @@ const MobileSearchModal = ({
                           {item.type}
                         </span>
                       </div>
+                    </div>
+                    <div className="ml-2 text-gray-400">
+                      <svg width="16" height="16" fill="none" viewBox="0 0 24 24">
+                        <path d="M9 18l6-6-6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
                     </div>
                   </Link>
                 ))}
@@ -139,13 +163,21 @@ const MobileSearchModal = ({
   );
 
 // Desktop search results extracted
+interface DesktopSearchResultsProps {
+  showResults: boolean;
+  search: string;
+  loading: boolean;
+  values: SearchValue[];
+  setShowResults: (show: boolean) => void;
+}
+
 const DesktopSearchResults = ({
   showResults,
   search,
   loading,
   values,
   setShowResults,
-}: any) =>
+}: DesktopSearchResultsProps) =>
   showResults && search.trim().length >= 2 && (
     <div className="absolute top-full left-0 right-0 mt-1.5 bg-secondaryBg rounded-xl shadow-2xl border border-border z-50 max-h-[340px] overflow-hidden">
       <div className="py-1">
@@ -202,10 +234,8 @@ const DesktopSearchResults = ({
   );
 
 export const Search = ({
-  border,
   isMobile = false,
 }: {
-  border?: boolean;
   isMobile?: boolean;
 }) => {
   const { setSearch, search } = useSearch();
@@ -296,7 +326,6 @@ export const Search = ({
       </>
     );
   }
-
   return (
     <div className="relative w-full" ref={searchContainerRef}>
       <SearchInput
@@ -305,7 +334,6 @@ export const Search = ({
         selectedVal={selectedVal}
         setSelectedVal={setSelectedVal}
         setShowResults={setShowResults}
-        border={border}
         showFilter={true}
       />
       <DesktopSearchResults
@@ -320,44 +348,6 @@ export const Search = ({
 };
 
 // Sub-components for SearchInput
-const SearchIcon = () => (
-  <FiSearch className="text-gray-400 text-xl flex-shrink-0" />
-);
-
-const SearchInputField = ({
-  value,
-  placeholder,
-  onFocus,
-  onChange,
-}: {
-  value: string;
-  placeholder: string;
-  onFocus: () => void;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-}) => (
-  <input
-    value={value}
-    onFocus={onFocus}
-    onChange={onChange}
-    type="text"
-    placeholder={placeholder}
-    className="bg-transparent outline-none flex-1 mx-3 py-2.5 text-sm text-foreground placeholder:text-gray-400"
-    aria-label="Search input"
-  />
-);
-
-const DropdownIcon = () => (
-  <span className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 group-hover:text-primary transition-all duration-200 group-focus-within:rotate-180">
-    <svg width="14" height="14" fill="none" viewBox="0 0 24 24" className="transition-transform duration-200">
-      <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-    </svg>
-  </span>
-);
-
-const GlowEffect = () => (
-  <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-primary/0 via-primary/5 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
-);
-
 const SearchFilter = ({
   selectedVal,
   setSelectedVal,
@@ -405,7 +395,6 @@ const SearchInput = ({
   selectedVal,
   setSelectedVal,
   setShowResults,
-  border = false,
   showFilter = false,
 }: {
   search: string;
@@ -413,7 +402,6 @@ const SearchInput = ({
   selectedVal: string;
   setSelectedVal: (v: string) => void;
   setShowResults: (show: boolean) => void;
-  border?: boolean;
   showFilter?: boolean;
 }) => {
   const filterOptions = [
