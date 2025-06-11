@@ -102,10 +102,9 @@ export default function NotificationDropdown() {
   };
 
   return (
-    <div className="relative" ref={dropdownRef}>      {/* Modern Notification Button */}
-      <button
+    <div className="relative" ref={dropdownRef}>      {/* Modern Notification Button */}      <button
         onClick={() => setIsOpen(!isOpen)}
-        className="relative h-10 w-10 sm:h-11 sm:w-11 rounded-xl bg-secondaryBg border border-border hover:border-primary transition-colors duration-200 flex items-center justify-center group"
+        className="relative h-10 w-10 sm:h-11 sm:w-11 rounded-full bg-secondaryBg border border-border hover:border-primary transition-colors duration-200 flex items-center justify-center group"
       >
         {newNotifications.some((n) => !n.isRead) ? (
           <HiBell className="w-5 h-5 text-primary" />

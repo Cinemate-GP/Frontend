@@ -45,10 +45,17 @@ const titleVariants = {
 };
 
 const imageVariants = {
-  initial: { scale: 1, filter: "blur(0px)" },
+  initial: { scale: 1 },
   hover: { 
     scale: 1.03,
-    filter: "blur(1px)",
+    transition: { duration: 0.3, ease: "easeOut" }
+  }
+};
+
+const overlayVariants = {
+  initial: { opacity: 0 },
+  hover: { 
+    opacity: 1,
     transition: { duration: 0.3, ease: "easeOut" }
   }
 };
@@ -77,10 +84,9 @@ const RatingDisplay = ({ rating }: RatingDisplayProps) => (
   <motion.div 
     className="flex items-center gap-1.5 bg-black/50 backdrop-blur-sm px-2.5 py-1 rounded-full w-fit border border-white/10"
     whileHover={{ scale: 1.05, backgroundColor: "rgba(0,0,0,0.7)" }}
-    transition={{ duration: 0.2 }}
-  >
-    <FaStar className="text-primary text-xs" />
-    <span className="text-xs font-medium text-white">
+    transition={{ duration: 0.2 }}  >
+    <FaStar className="text-primary text-sm" />
+    <span className="text-sm font-medium text-white">
       {rating.split("/")[0]}
     </span>
   </motion.div>
@@ -98,8 +104,7 @@ const Top10Card = ({ tmdbid, title, image, id }: Pick<MovieCardProps, 'tmdbid' |
         animate="animate"
         whileHover="hover"
         variants={cardVariants}
-      >
-        <div className="relative aspect-[2/3]">
+      >        <div className="relative aspect-[2/3]">
           <motion.div 
             variants={imageVariants} 
             className="w-full h-full overflow-hidden rounded-xl"
@@ -116,6 +121,12 @@ const Top10Card = ({ tmdbid, title, image, id }: Pick<MovieCardProps, 'tmdbid' |
           
           {/* Subtle overlay for better contrast */}
           <div className="absolute inset-0 bg-gradient-to-br from-black/20 via-transparent to-black/30" />
+          
+          {/* Black overlay on hover */}
+          <motion.div 
+            className="absolute inset-0 bg-black/40 rounded-xl"
+            variants={overlayVariants}
+          />
           
           {/* Modern ranking number badge */}
           <motion.div 
@@ -141,10 +152,9 @@ const Top10Card = ({ tmdbid, title, image, id }: Pick<MovieCardProps, 'tmdbid' |
             variants={{
               initial: { opacity: 0, y: 20 },
               hover: { opacity: 1, y: 0 }
-            }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
+            }}            transition={{ duration: 0.3, ease: "easeOut" }}
           >
-            <h4 className="text-white font-semibold text-sm line-clamp-2 drop-shadow-lg">
+            <h4 className="text-white font-semibold text-base line-clamp-2 drop-shadow-lg">
               {title}
             </h4>
           </motion.div>
@@ -174,8 +184,7 @@ const DefaultCard = ({ tmdbid, title, image, imdbRating, mpaRating }: Pick<Movie
         initial="initial"
         animate="animate"
         whileHover="hover"
-      >
-        {/* Movie Poster */}
+      >        {/* Movie Poster */}
         <div className="relative aspect-[2/3] overflow-hidden">
           <motion.div 
             variants={imageVariants} 
@@ -187,10 +196,17 @@ const DefaultCard = ({ tmdbid, title, image, imdbRating, mpaRating }: Pick<Movie
               isLoaded={imageLoaded}
               onLoad={() => setImageLoaded(true)}
               className="w-full h-full object-cover"
-            />          </motion.div>
+            />
+          </motion.div>
           
           {/* Gentle overlay - always visible, lighter */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+          
+          {/* Black overlay on hover */}
+          <motion.div 
+            className="absolute inset-0 bg-black/40"
+            variants={overlayVariants}
+          />
             {/* Ratings - always visible */}
           <div className="absolute bottom-3 left-3 right-3 z-10 flex justify-between items-end">
             {imdbRating && (
@@ -206,10 +222,9 @@ const DefaultCard = ({ tmdbid, title, image, imdbRating, mpaRating }: Pick<Movie
           </div>{/* Movie title on hover - appears in bottom area */}
           <motion.div 
             className="absolute bottom-16 left-3 right-3"
-            variants={titleVariants}
-            transition={{ duration: 0.3, ease: "easeOut" }}
+            variants={titleVariants}            transition={{ duration: 0.3, ease: "easeOut" }}
           >
-            <h4 className="text-white font-semibold text-xs text-center line-clamp-2 drop-shadow-lg">
+            <h4 className="text-white font-semibold text-sm text-center line-clamp-2 drop-shadow-lg">
               {title}
             </h4>
           </motion.div>
