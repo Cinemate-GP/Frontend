@@ -153,15 +153,14 @@ export const Search = ({ border, isMobile = false, isNavbar = false }: SearchPro
             onClick={() => {
               setShowResults(false);
               setShowMobileSearch(false);
-            }}
-            className={`
+            }}            className={`
               flex items-center gap-3 transition-all duration-150 group rounded-lg
               ${isMobile ? 'p-4' : 'p-3'}
               ${isNavbar 
                 ? 'hover:bg-white/5 active:bg-white/10' 
                 : 'hover:bg-primary/5 active:bg-primary/10'
               }
-              focus:outline-none focus:ring-2 focus:ring-primary/20
+              focus:outline-none
               ${isMobile ? 'min-h-[60px]' : ''}
             `}
           >            <div className="relative flex-shrink-0">

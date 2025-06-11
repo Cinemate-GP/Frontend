@@ -36,22 +36,32 @@ const SearchInput = ({
   ];
 
   const selectedOption = filterOptions.find(option => option.value === selectedVal);
-    return (
-    <div className={`
-      flex items-center w-full transition-all duration-300 ease-in-out
-      bg-background border border-border rounded-xl
-      ${isFocused ? 'ring-2 ring-primary/20 border-primary' : ''}
-      ${showFilter ? (isMobile ? 'pl-4 pr-2 py-3' : 'pl-4 pr-2 py-2') : (isMobile ? 'px-4 py-4' : 'px-4 py-3')}
-      will-change-transform
-      shadow-sm
-      gap-2
-    `}>
+
+  return (
+    <div      className={`
+        flex items-center w-full transition-all duration-300 ease-in-out
+        bg-background border border-border rounded-xl
+        ${isFocused ? 'border-primary/50' : ''}
+        ${showFilter ? (isMobile ? 'pl-4 pr-2 py-3' : 'pl-4 pr-2 py-2') : (isMobile ? 'px-4 py-4' : 'px-4 py-3')}
+        will-change-transform
+        shadow-sm
+        gap-2
+        focus-within:border-primary/50 focus-within:shadow-none
+      `}
+      style={{
+        // Explicitly override any browser defaults
+        outline: 'none !important',
+        WebkitAppearance: 'none',
+        MozAppearance: 'none',
+        boxShadow: 'none !important',
+        borderColor: isFocused ? 'rgb(230 46 45 / 0.5)' : 'var(--border)'
+      }}
+    >
       <div className="flex items-center flex-1 min-w-0">        <FiSearch 
           className={`mr-3 flex-shrink-0 text-gray-400 dark:text-gray-500 ${isFocused ? 'text-primary' : ''}`}
           size={isMobile ? 20 : 18}
           data-search-icon="true"
-        />
-        <input
+        />        <input
           type="text"
           placeholder="Search movies, actors, users..."
           value={search}
@@ -60,12 +70,27 @@ const SearchInput = ({
             setShowResults(true);
             setIsFocused(true);
           }}
-          onBlur={() => setIsFocused(false)}          className={`
+          onBlur={() => setIsFocused(false)}
+          className={`
             bg-transparent outline-none flex-1 min-w-0 font-medium
             text-foreground placeholder-gray-400 dark:placeholder-gray-500
             transition-all duration-200 ease-in-out
+            focus:outline-none focus:ring-0 focus:border-transparent
+            focus:shadow-none focus:border-none
             ${isMobile ? 'text-base py-2' : 'text-sm py-2'}
-          `}
+          `}          style={{
+            outline: 'none !important',
+            border: 'none !important',
+            boxShadow: 'none !important',
+            WebkitAppearance: 'none',
+            MozAppearance: 'none',
+            appearance: 'none',
+            borderColor: 'transparent !important',
+            backgroundColor: 'transparent !important',
+            color: 'inherit'
+          }}
+          autoComplete="off"
+          spellCheck="false"
         />
         {search && (
           <button
@@ -78,17 +103,24 @@ const SearchInput = ({
         )}
       </div>
       {showFilter && (
-        <div className="relative ml-2">
-          <button
-            type="button"            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            onBlur={() => {
+        <div className="relative ml-2">          <button
+            type="button"
+            onClick={() => setIsDropdownOpen(!isDropdownOpen)}            onBlur={() => {
               setTimeout(() => setIsDropdownOpen(false), 150);
             }}
-            className={`flex items-center justify-center px-3 py-2 pr-8 rounded-lg font-medium cursor-pointer transition-all duration-200 focus:outline-none focus:ring-2 min-w-[80px] bg-secondaryBg border border-border text-foreground hover:border-primary/50 focus:border-primary focus:ring-primary/20 relative ${isMobile ? 'text-base py-3' : 'text-sm'}`}
+            className={`flex items-center justify-center px-3 py-2 pr-8 rounded-lg font-medium cursor-pointer transition-all duration-200 focus:outline-none min-w-[80px] bg-secondaryBg border border-border text-foreground hover:border-primary/50 relative ${isMobile ? 'text-base py-3' : 'text-sm'}`}
             data-dropdown="custom-filter"
             aria-haspopup="listbox"
-            aria-expanded={isDropdownOpen}
-          >            <span className="w-full text-center">{selectedOption?.label}</span>
+            aria-expanded={isDropdownOpen}            style={{
+              outline: 'none !important',
+              boxShadow: 'none !important',
+              WebkitAppearance: 'none',
+              MozAppearance: 'none',
+              appearance: 'none',
+              borderColor: 'var(--border)',
+              backgroundColor: 'var(--secondary-bg)'
+            }}
+          ><span className="w-full text-center">{selectedOption?.label}</span>
             {isNavbar ? (
               <FiChevronLeft 
                 className={`absolute right-2 top-1/2 transform -translate-y-1/2 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''} text-gray-400`}
