@@ -40,7 +40,7 @@ const Navbar = () => {
             <NavbarSearch isNavbar={true} />
           </div>          <div className="flex items-center gap-2 sm:gap-3">
             <NotificationDropdown />            <div
-              className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-secondaryBg border border-border hover:border-primary overflow-hidden shadow-sm cursor-pointer transition-colors duration-200"
+              className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-secondaryBg border border-border hover:border-primary overflow-hidden shadow-sm cursor-pointer transition-colors duration-200"
               onClick={navigateToProfile}
             >
               <Image
