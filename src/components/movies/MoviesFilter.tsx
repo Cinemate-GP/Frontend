@@ -21,18 +21,6 @@ const MoviesFilter = ({ handleFilterValue }: Props) => {
       </select>
       <select
         className="border border-border bg-background text-gray-400 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all duration-200"
-        onChange={(e) => handleFilterValue("rate", e.target.value)}
-      >
-        <option value={""}>Rating</option>
-        <option value={"0"}>0 - poor</option>
-        <option value={"2"}>1 - Bad </option>
-        <option value={"2"}>2 - Okay</option>
-        <option value={"3"}>3 - Good</option>
-        <option value={"4"}>4 - Very Good</option>
-        <option value={"5"}>5 - Exellent</option>
-      </select>
-      <select
-        className="border border-border bg-background text-gray-400 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all duration-200"
         onChange={(e) => handleFilterValue("popularity", e.target.value)}
       >
         <option value={""}>Popular</option>

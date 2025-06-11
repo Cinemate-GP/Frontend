@@ -42,7 +42,7 @@ const DeleteAccount = () => {
         <div className="bg-red-900/20 border border-red-800 rounded-lg p-3 sm:p-4 mb-5 sm:mb-6">
           <div className="flex items-start gap-2 sm:gap-3">
             <div className="p-1.5 sm:p-2 bg-red-800/40 rounded-full mt-1">
-              <IoWarning className="text-primary" size={16} />
+              <IoWarning className="text-red-400" size={16} />
             </div>
             <div>
               <h3 className="text-red-400 text-xs sm:text-sm font-medium mb-1">Warning: Permanent Action</h3>

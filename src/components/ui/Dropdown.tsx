@@ -1,7 +1,6 @@
 "use client";
 import { Notification, useUser } from "@/context/UserContext";
 import { authFetch } from "@/lib/api";
-import { IMAGEPOSTER } from "@/constants";
 import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
 import { IoCheckmarkDone } from "react-icons/io5";
@@ -85,7 +84,7 @@ export default function NotificationDropdown() {
     const notificationType = notification.notificationType.toLowerCase();
     if (notificationType === "newrelease" && notification.profilePic) {
       // For new releases, treat profilePic as movie poster path
-      return IMAGEPOSTER + notification.profilePic;
+      return `https://image.tmdb.org/t/p/original${notification.profilePic}`;
     }
     // For other types (like follows), use profilePic as user profile picture
     return notification.profilePic || "/user-placeholder.jpg";
