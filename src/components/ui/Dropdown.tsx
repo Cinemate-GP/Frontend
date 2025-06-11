@@ -37,20 +37,20 @@ export default function NotificationDropdown() {
 
   const markAsRead = async (id: number) => {
     try {
-      const res = await authFetch(`/api/Notification/${id}`, {
-        method: "DELETE",
+      const res = await authFetch(`/api/Notification/${id}/mark-read`, {
+        method: "PATCH",
       });
       if (!res.ok) {
         throw new Error("Failed to mark notification as read");
       }
-      
+
       // Update local state
       setNewNotifications((prev) =>
         prev.map((n) =>
           String(n.id) === String(id) ? { ...n, isRead: true } : n
         )
       );
-      
+
       // Update context state
       setNotifications(
         notifications.map((n) =>
@@ -63,11 +63,10 @@ export default function NotificationDropdown() {
   };
 
   const clearAllNotfictions = async () => {
-    const unreadNotifications = newNotifications.filter((n) => !n.isRead);
-    
-    // Mark all unread notifications as read
-    for (const notification of unreadNotifications) {
-      await markAsRead(notification.id);
+    try {
+      await authFetch(`/api/Notification/mark-all-read`);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -96,13 +95,16 @@ export default function NotificationDropdown() {
     if (!notification.isRead) {
       markAsRead(notification.id);
     }
-    
+
     // Close dropdown
     setIsOpen(false);
   };
 
   return (
-    <div className="relative" ref={dropdownRef}>      {/* Modern Notification Button */}      <button
+    <div className="relative" ref={dropdownRef}>
+      {" "}
+      {/* Modern Notification Button */}{" "}
+      <button
         onClick={() => setIsOpen(!isOpen)}
         className="relative h-10 w-10 sm:h-11 sm:w-11 rounded-full bg-secondaryBg border border-border hover:border-primary transition-colors duration-200 flex items-center justify-center group"
       >
@@ -111,7 +113,7 @@ export default function NotificationDropdown() {
         ) : (
           <HiOutlineBell className="w-5 h-5 text-gray-400 group-hover:text-primary transition-colors" />
         )}
-        
+
         {/* Notification Count Badge */}
         {newNotifications.filter((n) => !n.isRead).length > 0 && (
           <span className="absolute -top-1 -right-1 bg-primary text-white text-xs font-medium rounded-full min-w-[18px] h-[18px] flex items-center justify-center px-1">
@@ -119,21 +121,22 @@ export default function NotificationDropdown() {
           </span>
         )}
       </button>
-
       {/* Modern Dropdown */}
       {isOpen && (
         <div className="absolute right-0 mt-2 w-72 sm:w-80 lg:w-96 bg-secondaryBg border border-border rounded-xl shadow-2xl z-50 overflow-hidden max-w-[calc(100vw-2rem)]">
           {/* Header */}
           <div className="px-4 py-3 border-b border-border bg-background/50 backdrop-blur-sm">
             <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold text-foreground">Notifications</h3>
+              <h3 className="text-lg font-semibold text-foreground">
+                Notifications
+              </h3>
               {newNotifications.some((n) => !n.isRead) && (
                 <button
                   onClick={clearAllNotfictions}
                   className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-primary hover:bg-primary/10 rounded-lg transition-colors"
                 >
                   <IoCheckmarkDone className="w-3.5 h-3.5" />
-                  Clear all
+                  mark all as read
                 </button>
               )}
             </div>
@@ -163,7 +166,7 @@ export default function NotificationDropdown() {
                             className="w-10 h-10 rounded-lg object-cover border border-border"
                           />
                         </div>
-                        
+
                         {/* Content */}
                         <div className="flex-1 min-w-0">
                           <p className="text-sm text-foreground leading-relaxed">
@@ -174,7 +177,7 @@ export default function NotificationDropdown() {
                               by {n.fullName}
                             </p>
                           )}
-                          
+
                           {/* Read/Unread indicator */}
                           <div className="flex items-center justify-between mt-2">
                             <div className="flex items-center gap-2">
@@ -185,7 +188,7 @@ export default function NotificationDropdown() {
                                 {!n.isRead ? "New" : "Read"}
                               </span>
                             </div>
-                            
+
                             {!n.isRead && (
                               <button
                                 onClick={(e) => {
@@ -209,7 +212,9 @@ export default function NotificationDropdown() {
               <div className="p-8 text-center">
                 <HiOutlineBell className="w-12 h-12 text-gray-400 mx-auto mb-3" />
                 <p className="text-gray-400 text-sm">No notifications yet</p>
-                <p className="text-gray-500 text-xs mt-1">We&apos;ll notify you when something happens</p>
+                <p className="text-gray-500 text-xs mt-1">
+                  We&apos;ll notify you when something happens
+                </p>
               </div>
             )}
           </div>
