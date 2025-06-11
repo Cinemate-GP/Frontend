@@ -8,22 +8,22 @@ export default {
   theme: {
     extend: {
       colors: {
-      background: "var(--main-bg)",
-      secondaryBg: "var(--secondary-bg)",
-      sideNavBg: "var(--side-nav-bg)",
+        background: "var(--main-bg)",
+        secondaryBg: "var(--secondary-bg)",
+        sideNavBg: "var(--side-nav-bg)",
 
-      foreground: "var(--text)",
-      textMuted: "var(--text-muted)",
+        foreground: "var(--text)",
+        textMuted: "var(--text-muted)",
 
-      primary: "var(--primary)",
-      primaryHover: "var(--primary-hover)",
+        primary: "var(--primary)",
+        primaryHover: "var(--primary-hover)",
 
-      hoverBg: "var(--hover-bg)",
-      hoverText: "var(--hover-text)",
+        hoverBg: "var(--hover-bg)",
+        hoverText: "var(--hover-text)",
 
-      border: "var(--border)",
-      overlay: "var(--overlay)",
-    },
+        border: "var(--border)",
+        overlay: "var(--overlay)",
+      },
     },
     keyframes: {
       shimmer: {

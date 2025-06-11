@@ -88,6 +88,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       console.error("Error updating user in localStorage:", error);
     }
   }, []);
+  
   const refreshNotifications = useCallback(async () => {
     try {
       const res = await authFetch("/api/Notification", {
