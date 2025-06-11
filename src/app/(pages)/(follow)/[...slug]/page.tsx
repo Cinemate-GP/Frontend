@@ -6,7 +6,7 @@ import { authFetch } from "@/lib/api";
 import { getCookie, getUserId } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 
 interface User {
@@ -16,21 +16,44 @@ interface User {
   isFollow: boolean;
 }
 
+/**
+ * FollowTabs Component
+ * 
+ * Handles different scenarios:
+ * 1. Own Profile - Followers Tab: Show Follow/Unfollow + Remove buttons
+ * 2. Own Profile - Following Tab: Show Follow/Unfollow buttons (unfollow own following)
+ * 3. Other's Profile - Followers Tab: Show Follow/Unfollow buttons only
+ * 4. Other's Profile - Following Tab: Show Follow/Unfollow buttons only
+ */
+
 function FollowTabs() {
   const params = useParams();
-  const slug = params.slug as string;
-  const userId = slug.split("_")[0];
-  const type = slug.split("_")[1] as "followers" | "following";
+  const router = useRouter();
+  const slug = params.slug as string[];
+  const userId = slug[0];
+  const type = slug[1] as "followers" | "following";
   const token = getCookie("token");
+  const currentUserId = getUserId();
+  const isOwnProfile = currentUserId === userId;
 
+  const handleTabChange = (newTab: "followers" | "following") => {
+    const newSlug = `${userId}/${newTab}`;
+    router.push(`/${newSlug}`);
+  };
   const [activeTab, setActiveTab] = useState<"followers" | "following">(type);
   const [followedUsers, setFollowedUsers] = useState<Record<string, boolean>>(
     {}
   );
   const [data, setData] = useState<User[] | null>(null);
   const [loading, setLoading] = useState(true);
+  const [loadingActions, setLoadingActions] = useState<Record<string, boolean>>({});
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const { setFollowersCount, followersCount } = useProfile();
+
+  // Update activeTab when the route changes
+  useEffect(() => {
+    setActiveTab(type);
+  }, [type]);
 
   const fetchUsers = useCallback(async () => {
     setLoading(true);
@@ -73,6 +96,8 @@ function FollowTabs() {
 
   const toggleFollow = async (followId: string) => {
     try {
+      setLoadingActions(prev => ({ ...prev, [`follow_${followId}`]: true }));
+      
       const currentIsFollow =
         followedUsers[followId] !== undefined
           ? followedUsers[followId]
@@ -89,7 +114,7 @@ function FollowTabs() {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ userId: getUserId(), followId }),
+        body: JSON.stringify({ userId: currentUserId, followId }),
       });
 
       if (!res.ok) throw new Error("Failed to toggle follow status");
@@ -98,12 +123,28 @@ function FollowTabs() {
         ...prev,
         [followId]: !currentIsFollow,
       }));
+
+      // Update followers count if we're on the current user's profile and affecting followers
+      if (isOwnProfile && activeTab === "followers") {
+        setFollowersCount(followersCount + (currentIsFollow ? -1 : 1));
+      }
     } catch (error) {
-      console.error(error);
+      console.error("Error toggling follow:", error);
+      alert("Failed to update follow status. Please try again.");
+    } finally {
+      setLoadingActions(prev => ({ ...prev, [`follow_${followId}`]: false }));
     }
   };
-  const removeFollower = async (followerId: string) => {
+
+  const removeFollower = async (followerId: string, followerName: string) => {
+    // Confirm removal
+    if (!window.confirm(`Are you sure you want to remove ${followerName} from your followers?`)) {
+      return;
+    }
+
     try {
+      setLoadingActions(prev => ({ ...prev, [`remove_${followerId}`]: true }));
+      
       const res = await authFetch("/api/UserFollow/remove-follower", {
         method: "DELETE",
         headers: {
@@ -115,12 +156,20 @@ function FollowTabs() {
 
       if (!res.ok) throw new Error("Failed to remove follower");
 
+      // Remove from data array
       setData(
         (prev) => prev?.filter((user) => user.userId !== followerId) || []
       );
-      setFollowersCount(followersCount - 1);
+      
+      // Update followers count only if on own profile
+      if (isOwnProfile) {
+        setFollowersCount(followersCount - 1);
+      }
     } catch (error) {
-      console.error(error);
+      console.error("Error removing follower:", error);
+      alert("Failed to remove follower. Please try again.");
+    } finally {
+      setLoadingActions(prev => ({ ...prev, [`remove_${followerId}`]: false }));
     }
   };
 
@@ -128,18 +177,18 @@ function FollowTabs() {
     <div className="min-h-screen bg-mainBg">
       <div className="container mx-auto px-4 sm:px-6 md:px-8 pt-8 pb-20">
         <div className="bg-secondaryBg rounded-lg p-6">
-          <SectionTitle title="Connections" />
+          <SectionTitle title={isOwnProfile ? "Your Connections" : "Connections"} />
 
           {/* Tabs */}
           <div className="flex gap-4 mb-8 mt-6">
             {["followers", "following"].map((tab) => (
               <button
                 key={tab}
-                onClick={() => setActiveTab(tab as "followers" | "following")}
-                className={`px-4 py-2 rounded-md border ${
+                onClick={() => handleTabChange(tab as "followers" | "following")}
+                className={`px-4 py-2 rounded-md border transition-all duration-200 ${
                   activeTab === tab
                     ? "bg-primary text-white border-primary"
-                    : "bg-secondaryBg text-foreground border-border"
+                    : "bg-secondaryBg text-foreground border-border hover:border-primary"
                 }`}
               >
                 {tab.charAt(0).toUpperCase() + tab.slice(1)}
@@ -152,8 +201,14 @@ function FollowTabs() {
           {!loading && errorMessage && (
             <p className="text-textMuted text-sm mb-4">{errorMessage}</p>
           )}
+
           {!loading && !errorMessage && data?.length === 0 && (
-            <p>No {activeTab} found.</p>
+            <p className="text-center text-textMuted py-8">
+              {isOwnProfile 
+                ? `You have no ${activeTab} yet.` 
+                : `This user has no ${activeTab} yet.`
+              }
+            </p>
           )}
           {!loading && !errorMessage && data && (
             <div className="flex flex-col gap-4 w-full">
@@ -167,9 +222,8 @@ function FollowTabs() {
                   <div
                     key={user.userId}
                     className="flex justify-between items-center border-b border-border pb-4 last:border-b-0"
-                  >
-                    <Link
-                      href={`/user/${user.userId}`}
+                  >                    <Link
+                      href={`/${user.userId}`}
                       className="flex items-center gap-4 py-2"
                     >
                       <Image
@@ -179,29 +233,38 @@ function FollowTabs() {
                         height={100}
                         className="w-16 h-16 rounded-full object-cover"
                       />
-                      <h2 className="text-lg">{user.fullName}</h2>
+                      <div>
+                        <h2 className="text-lg">{user.fullName}</h2>
+                        {currentUserId === user.userId && (
+                          <span className="text-sm text-primary">You</span>
+                        )}
+                      </div>
                     </Link>
 
                     <div className="flex gap-2 ">
-                      {getUserId() !== user.userId && (
+                      {/* Show Follow/Unfollow button for users that are not the current user */}
+                      {currentUserId !== user.userId && (
                         <button
                           onClick={() => toggleFollow(user.userId)}
-                          className="rounded-lg px-3 py-1 border border-primary text-sm ml-3 text-foreground hover:text-white transition-all duration-200 hover:bg-primary"
+                          disabled={loadingActions[`follow_${user.userId}`]}
+                          className="rounded-lg px-3 py-1 border border-primary text-sm ml-3 text-foreground hover:text-white transition-all duration-200 hover:bg-primary disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                          {isCurrentlyFollowing ? "Unfollow" : "Follow"}
+                          {loadingActions[`follow_${user.userId}`] 
+                            ? "..." 
+                            : (isCurrentlyFollowing ? "Unfollow" : "Follow")
+                          }
                         </button>
                       )}
-                      {getUserId() !== user.userId &&
-                        activeTab === "followers" && (
-                          <button>
-                            <button
-                              onClick={() => removeFollower(user.userId)}
-                              className="rounded-lg px-3 py-1 border border-primary text-sm ml-3 text-foreground hover:text-white transition-all duration-200 hover:bg-primary"
-                            >
-                              Remove
-                            </button>
-                          </button>
-                        )}
+                      {/* Show Remove button only on own profile's followers tab */}
+                      {isOwnProfile && activeTab === "followers" && currentUserId !== user.userId && (
+                        <button
+                          onClick={() => removeFollower(user.userId, user.fullName)}
+                          disabled={loadingActions[`remove_${user.userId}`]}
+                          className="rounded-lg px-3 py-1 border border-red-500 text-sm text-red-500 hover:text-white transition-all duration-200 hover:bg-red-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                          {loadingActions[`remove_${user.userId}`] ? "..." : "Remove"}
+                        </button>
+                      )}
                     </div>
                   </div>
                 );

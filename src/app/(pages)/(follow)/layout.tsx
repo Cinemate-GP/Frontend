@@ -17,8 +17,8 @@ interface User {
 
 const FollowLayout = ({ children }: { children: React.ReactNode }) => {
   const params = useParams();
-  const slug = params.slug as string;
-  const userId = slug.split("_")[0];
+  const slug = params.slug as string[];
+  const userId = slug[0];
   const { data, loading } = useFetch<User>(`/api/Profile/details/${userId}`);
   
 console.log(data?.followersCount)
@@ -29,9 +29,8 @@ console.log(data?.followersCount)
           {loading && <ProfileInfoSkeleton />}
           <div className="grid grid-cols-12 gap-y-6 md:gap-x-12 items-start">
             {!loading && (
-              <div className="flex flex-row col-span-12 lg:flex-col lg:col-span-3 gap-4 items-center justify-start text-center md:text-left">
-                <Link
-                  href={`/user/${userId}`}
+              <div className="flex flex-row col-span-12 lg:flex-col lg:col-span-3 gap-4 items-center justify-start text-center md:text-left">                <Link
+                  href={`/${userId}`}
                   className="border-2 mx-0 border-primary p-1 rounded-full aspect-square w-full max-w-[120px] sm:max-w-[160px] overflow-hidden flex-justify-center items-center"
                 >
                   {data?.profilePic ? (
@@ -42,9 +41,8 @@ console.log(data?.followersCount)
                       height={160}
                       className="w-full h-full object-cover rounded-full"
                     />
-                  ) : (
-                    <Image
-                      src="/ueser-placeholder.jpg"
+                  ) : (                    <Image
+                      src="/user-placeholder.jpg"
                       alt="user profile"
                       width={100}
                       height={100}

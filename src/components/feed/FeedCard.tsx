@@ -107,10 +107,9 @@ const FeedCard: React.FC<ActionCardProps> = ({
         <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-primary/10" />
       </div>
       
-      <div className="relative flex gap-4">
-        {/* Profile Section */}
+      <div className="relative flex gap-4">        {/* Profile Section */}
         <Link
-          href={`/user/${userId}`}
+          href={`/${userId}`}
           className="flex-shrink-0 group/profile transition-all duration-200"
         >
           <div className="relative">
@@ -136,9 +135,8 @@ const FeedCard: React.FC<ActionCardProps> = ({
           {/* Header */}
           <div className="flex items-start justify-between gap-3 mb-1">
             <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2 flex-wrap mb-1">
-                <Link
-                  href={`/user/${userId}`}
+              <div className="flex items-center gap-2 flex-wrap mb-1">                <Link
+                  href={`/${userId}`}
                   className="font-semibold text-foreground hover:text-primary 
                            transition-colors text-sm group-hover:text-primary/90"
                 >
@@ -146,9 +144,8 @@ const FeedCard: React.FC<ActionCardProps> = ({
                 </Link>
                 <span className="text-textMuted/70 text-xs font-medium">
                   {getActionText(type)}
-                </span>
-                <Link
-                  href={`/${type === "follow" ? "user" : "movies"}/${id}`}
+                </span>                <Link
+                  href={`/${type === "follow" ? "" : "movies/"}${id}`}
                   className="font-medium text-primary hover:text-primary/80 
                            transition-colors text-sm truncate max-w-[200px]"
                 >
@@ -161,13 +158,11 @@ const FeedCard: React.FC<ActionCardProps> = ({
                 <time>{convertToDateTime(time)}</time>
               </div>
               {renderActionContent()}
-            </div>
-
-            {/* Poster */}
+            </div>            {/* Poster */}
             <Link
-              href={`/${type === "follow" ? "user" : "movies"}/${id}`}
+              href={`/${type === "follow" ? "" : "movies/"}${id}`}
               className="flex-shrink-0 group/poster"
-            >              <div className="relative overflow-hidden rounded-lg 
+            ><div className="relative overflow-hidden rounded-lg 
                              shadow-md hover:shadow-lg transition-all duration-300 
                              bg-gradient-to-br from-secondaryBg/10 to-secondaryBg/5">
                 <Image
