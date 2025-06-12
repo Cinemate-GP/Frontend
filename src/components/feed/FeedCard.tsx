@@ -18,6 +18,7 @@ interface ActionCardProps {
   time: string;
   actionTitle: string;
   posterPath: string;
+  backdropPath?: string;
   description: string;
 }
 
@@ -30,188 +31,197 @@ const FeedCard: React.FC<ActionCardProps> = ({
   type,
   actionTitle,
   posterPath,
+  backdropPath,
   description,
-}) => {  
-  const getActionText = (type: string) => {
+}) => {
+  const getActionVerb = (type: string) => {
     switch (type) {
-      case "like":
-        return "liked";
-      case "Watched":
-        return "watched";
-      case "review":
-        return "reviewed";
-      case "rate":
-        return "rated";
-      case "follow":
-        return "followed";
-      default:
-        return type;    }
+      case "like": return "liked";
+      case "Watched": return "watched";
+      case "review": return "reviewed";
+      case "rate": return "rated";
+      case "follow": return "followed";
+      default: return type;
+    }
   };
 
-  const renderActionContent = () => {
+  const getActionBadge = () => {
+    let bgColor = "";
+    let textColor = "";
+    let label = "";
+    let icon = null;
     
+    switch (type) {
+      case "like":
+        bgColor = "bg-red-500";
+        textColor = "text-white";
+        label = "Liked";
+        icon = <FaHeart className="w-3.5 h-3.5" />;
+        break;
+      case "Watched":
+        bgColor = "bg-emerald-500";
+        textColor = "text-white";
+        label = "Watched";
+        icon = <FaPlayCircle className="w-3.5 h-3.5" />;
+        break;
+      case "review":
+        bgColor = "bg-blue-500";
+        textColor = "text-white";
+        label = "Review";
+        icon = <MdOutlineRateReview className="w-3.5 h-3.5" />;
+        break;
+      case "rate":
+        bgColor = "bg-amber-500";
+        textColor = "text-white";
+        label = "Rating";
+        icon = <FiStar className="w-3.5 h-3.5" />;
+        break;
+      case "follow":
+        bgColor = "bg-violet-500";
+        textColor = "text-white";
+        label = "Follow";
+        icon = <RiUserFollowLine className="w-3.5 h-3.5" />;
+        break;
+    }
+      return (
+      <span className={`${bgColor} ${textColor} text-xs font-semibold px-2 py-1 rounded-full flex items-center gap-1.5`}>
+        {icon}
+        {label}
+      </span>
+    );
+  };
+
+  const renderRatingStars = (rating: number) => {
+    return (
+      <div className="flex items-center gap-1">
+        {[...Array(5)].map((_, i) => (          <FiStar 
+            key={i} 
+            className={`w-4 h-4 ${i < rating ? 'text-amber-400 fill-current' : 'text-textMuted/30'}`} 
+          />
+        ))}
+        <span className="ml-1 text-sm font-medium">{rating}/5</span>
+      </div>
+    );
+  };
+  const renderActionContent = () => {
     switch (type) {
       case "rate":
         return (
-          <div className="mt-3">
-            <div className="flex items-center gap-3 p-3 bg-mainBg/50 border border-border/50 rounded-lg">
-              <div className="flex items-center gap-1">
-                {[...Array(extractDigit(description))].map((_, index) => (
-                  <FiStar key={index} className="w-4 h-4 text-amber-500 fill-current" />
-                ))}
-              </div>
-              <span className="text-sm font-medium text-foreground">
-                Rated {extractDigit(description)}/5
-              </span>
-            </div>
+          <div className="flex items-center mt-3">
+            {renderRatingStars(extractDigit(description) || 0)}
           </div>
-        );
-      case "review":
+        );      case "review":
         return (
           <div className="mt-3">
-            <div className="p-4 bg-mainBg/50 border border-border/50 rounded-lg">
-              <div className="flex items-start gap-3">
-                <MdOutlineRateReview className="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0" />
-                <div className="flex-1">
-                  <div className="text-xs text-textMuted/70 mb-1 font-medium">Review</div>
-                  <p className="text-textMuted text-sm leading-relaxed line-clamp-3 italic">
-                    &quot;{description}&quot;
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        );
-      case "like":
-        return (
-          <div className="mt-3">
-            <div className="flex items-center gap-2 p-2 bg-red-500/10 border border-red-500/20 rounded-lg">
-              <FaHeart className="w-3 h-3 text-red-500" />
-              <span className="text-xs font-medium text-red-600 dark:text-red-400">Liked this movie</span>
-            </div>
-          </div>
-        );
-      case "Watched":
-        return (
-          <div className="mt-3">
-            <div className="flex items-center gap-2 p-2 bg-emerald-500/10 border border-emerald-500/20 rounded-lg">
-              <FaPlayCircle className="w-3 h-3 text-emerald-500" />
-              <span className="text-xs font-medium text-emerald-600 dark:text-emerald-400">Watched this movie</span>
-            </div>
-          </div>
-        );
-      case "follow":
-        return (
-          <div className="mt-3">
-            <div className="flex items-center gap-2 p-2 bg-violet-500/10 border border-violet-500/20 rounded-lg">
-              <RiUserFollowLine className="w-3 h-3 text-violet-500" />
-              <span className="text-xs font-medium text-violet-600 dark:text-violet-400">Started following</span>
+            <div className="relative pl-4 pr-4 py-3 bg-mainBg rounded-lg">
+              <div className="absolute left-0 top-0 bottom-0 w-1 bg-blue-500 rounded-l-lg"></div>              <p className="text-sm leading-relaxed line-clamp-3 italic text-foreground/90">
+                &quot;{description}&quot;
+              </p>
             </div>
           </div>
         );
       default:
         return null;
     }
-  };return (
-    <motion.article 
-      className="bg-secondaryBg border border-border rounded-lg p-6 hover:border-border/80 
-                 transition-all duration-200 group relative"
+  };
+  return (
+    <motion.div
+      className="bg-secondaryBg rounded-xl shadow-sm hover:shadow-md 
+                transition duration-300 overflow-hidden"
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      whileHover={{ y: -1 }}
-    >
-      <div className="flex gap-4">
-        {/* Profile Section - GitHub style */}
-        <Link
-          href={`/${userId}`}
-          className="flex-shrink-0 group/profile"
-        >
-          <motion.div 
-            className="w-12 h-12 rounded-full overflow-hidden border-2 border-border/50 
-                       hover:border-primary/50 transition-colors duration-200"
-            whileHover={{ scale: 1.05 }}
-            transition={{ duration: 0.2 }}
-          >
-            <Image
-              src={profilePic || "/user-placeholder.jpg"}
-              alt={`${fullName}'s profile`}
-              width={48}
-              height={48}
-              className="w-full h-full object-cover"
-            />
-          </motion.div>
-        </Link>
-
-        {/* Content */}
-        <div className="flex-1 min-w-0">
-          {/* Header - GitHub style */}
-          <div className="flex items-center gap-2 mb-3">
-            <Link
+    >      {/* Card Header with Profile & Action Badge */}      <div className="px-4 pt-4 pb-3 flex items-center justify-between border-b dark:border-[#2e2e2e] border-[#e0e0e0]">
+        <div className="flex items-center gap-3">
+          <Link href={`/${userId}`}>
+            <div className="relative">              <Image
+                src={profilePic || "/user-placeholder.jpg"}
+                alt={fullName}
+                width={40}
+                height={40}
+                className="rounded-full w-10 h-10 object-cover border-2 border-mainBg"
+              />
+            </div>
+          </Link>
+          
+          <div>            <Link 
               href={`/${userId}`}
-              className="font-semibold text-foreground hover:text-primary 
-                       transition-colors text-sm"
+              className="font-semibold text-foreground hover:text-primary transition-colors text-sm block"
             >
               {fullName}
             </Link>
-            <span className="text-textMuted/70 text-sm">
-              {getActionText(type)}
-            </span>
-            <Link
-              href={`/${type === "follow" ? "" : "movies/"}${id}`}
-              className="font-medium text-primary hover:underline text-sm truncate max-w-[200px]"
-            >
-              {actionTitle}
-            </Link>
-            <span className="text-textMuted/60 text-xs ml-auto">
+            <div className="text-textMuted text-xs">
               {convertToDateTime(time)}
-            </span>
-          </div>
-
-          {/* Action Content */}
-          <div className="flex gap-4">
-            <div className="flex-1">
-              {renderActionContent()}
             </div>
-
-            {/* Movie Poster - Improved styling */}
-            <Link
-              href={`/${type === "follow" ? "" : "movies/"}${id}`}
-              className="flex-shrink-0 group/poster"
-            >
-              <motion.div 
-                className="relative overflow-hidden rounded-md border border-border/50 
-                           hover:border-border/80 transition-colors duration-200"
-                whileHover={{ scale: 1.02 }}
-                transition={{ duration: 0.2 }}
-              >
-                <Image
-                  src={
-                    posterPath
-                      ? type === "follow"
-                        ? posterPath
-                        : IMAGEPOSTER + posterPath
-                      : "/image-placeholder.png"
-                  }
-                  alt={actionTitle}
-                  width={60}
-                  height={90}
-                  className="w-15 h-22 object-cover"
-                />
-                
-                {/* Simple overlay for movies */}
-                {type !== "follow" && (
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/poster:opacity-100 
-                                 transition-opacity duration-200 flex items-center justify-center">
-                    <FaPlayCircle className="w-4 h-4 text-white" />
-                  </div>
-                )}
-              </motion.div>
-            </Link>
           </div>
         </div>
+        
+        {getActionBadge()}
       </div>
-    </motion.article>
+      
+      {/* Content Area */}      <div className="px-4 py-3">        {/* Action Text and Movie Link */}
+        <div className="flex items-center gap-1.5 flex-wrap">
+          <span className="text-sm text-textMuted">
+            {getActionVerb(type)}
+          </span>
+          <Link
+            href={`/${type === "follow" ? "" : "movies/"}${id}`}
+            className="text-sm font-medium text-primary hover:underline"
+          >
+            {actionTitle}
+          </Link>
+        </div>
+        
+        {/* Action-Specific Content (ratings, review, etc) */}
+        {renderActionContent()}
+      </div>
+      
+      {/* Movie Poster Area for non-follow actions */}      {type !== "follow" && (
+        <Link
+          href={`/movies/${id}`}
+          className="block relative w-full h-48 mt-2 bg-mainBg overflow-hidden group"
+        >          <Image
+            src={backdropPath ? IMAGEPOSTER + backdropPath : posterPath ? IMAGEPOSTER + posterPath : "/image-placeholder.png"}
+            alt={actionTitle}
+            fill
+            className="object-cover group-hover:scale-105 transition-transform duration-300"
+          /><div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
+            <div className="p-4 w-full">
+              <div className="flex items-center justify-between">
+                <h3 className="text-white text-lg font-semibold line-clamp-1 flex-1">{actionTitle}</h3>
+                {/* Trailer play button */}
+                <div className="bg-black/40 hover:bg-black/60 transition p-1.5 rounded-full ml-3">
+                  <FaPlayCircle className="w-5 h-5 text-white" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </Link>
+      )}
+        {/* Follow action special layout */}
+      {type === "follow" && (
+        <div className="px-4 pb-4 mt-1">
+          <Link 
+            href={`/${id}`}
+            className="flex items-center gap-3 hover:bg-hoverBg/30 p-2 -m-2 rounded-lg transition-colors"
+          >
+            <Image
+              src={posterPath || "/user-placeholder.jpg"}
+              alt={actionTitle}
+              width={50}
+              height={50}
+              className="rounded-full w-12 h-12 object-cover border-2 border-mainBg"
+            />
+            <div>
+              <span className="font-medium text-foreground hover:text-primary transition-colors text-sm block">
+                {actionTitle}
+              </span>
+              <span className="text-xs text-textMuted">@{id}</span>
+            </div>
+          </Link>
+        </div>
+      )}
+    </motion.div>
   );
 };
 

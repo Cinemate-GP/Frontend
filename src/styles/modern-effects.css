@@ -626,3 +626,60 @@ html {
     0 20px 40px rgba(0, 0, 0, 0.15),
     0 10px 20px rgba(var(--primary-rgb), 0.1);
 }
+
+/* Feed Card Animation Effects */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s ease-out forwards;
+}
+
+/* Glass Effect for Feed Cards */
+.glass-effect {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+/* Soft Glow Effect for Rating Stars */
+.glow-effect {
+  filter: drop-shadow(0 0 3px var(--primary-light));
+}
+
+/* Modern Card Hover Effect */
+.modern-card-hover {
+  transition: all 0.3s ease;
+}
+
+.modern-card-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 20px -10px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive Feed Layout - Mobile First */
+@media (max-width: 640px) {
+  .feed-card-mobile {
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .feed-content-mobile {
+    flex-direction: column;
+  }
+  
+  .feed-poster-mobile {
+    margin-bottom: 0.75rem;
+    align-self: center;
+  }
+}
