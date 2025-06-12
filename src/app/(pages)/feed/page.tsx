@@ -26,14 +26,16 @@ const FeedPage = () => {
     return feeds.filter(feed => activeFilters.includes(feed.type));
   }, [feeds, activeFilters]);
 
+
   const handleFilterChange = (filters: string[]) => {
     setActiveFilters(filters);
   };
 
   if (loading) return <FeedCardSkelton />;
+
   return (
     <div className="min-h-screen bg-mainBg">
-      <div className="container mx-auto px-4 sm:px-6 md:px-8 pt-32 pb-16">
+      <div className="container mx-auto px-4 sm:px-6 md:px-8 pt-24 pb-16">
         <FeedHeader onFilterChange={handleFilterChange} />
         
         {feeds?.length === 0 ? (
@@ -43,30 +45,43 @@ const FeedPage = () => {
             <FeedStats feeds={filteredFeeds || []} />
             
             {filteredFeeds?.length === 0 ? (
-              <div className="text-center py-12">
-                <p className="text-textMuted">No activities match your current filters.</p>
-                <button
-                  onClick={() => setActiveFilters([])}
-                  className="mt-2 text-primary hover:text-primaryHover text-sm"
-                >
-                  Clear filters to see all activities
-                </button>
+              <div className="flex flex-col items-center justify-center py-16 px-4">
+                <div className="text-center max-w-md bg-secondaryBg/50 border border-border/50 rounded-xl p-8 shadow-lg">
+                  <div className="w-16 h-16 mx-auto mb-4 bg-primary/10 rounded-full flex items-center justify-center">
+                    <svg className="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.707A1 1 0 013 7V4z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-lg font-semibold text-foreground mb-2">No matching activities</h3>
+                  <p className="text-textMuted mb-6">We couldn&apos;t find any activities that match your current filters.</p>
+                  <button
+                    onClick={() => setActiveFilters([])}
+                    className="px-6 py-2 bg-primary hover:bg-primary/90 text-white rounded-lg transition-colors duration-200 font-medium"
+                  >
+                    Clear All Filters
+                  </button>
+                </div>
               </div>
             ) : (
-              <div className="space-y-6">
-                {filteredFeeds?.map((feed) => (
-                  <FeedCard
+              <div className="space-y-4">
+                {filteredFeeds?.map((feed, index) => (
+                  <div 
                     key={`${feed.userId}-${feed.createdOn}`}
-                    id={feed.id}
-                    userId={feed.userId}
-                    fullName={feed.fullName}
-                    profilePic={feed.profilePic}
-                    type={feed.type}
-                    posterPath={feed.posterPath}
-                    actionTitle={feed.name}
-                    description={feed.description}
-                    time={feed.createdOn}
-                  />
+                    className="opacity-0 animate-fade-in-up"
+                    style={{ animationDelay: `${index * 0.05}s`, animationFillMode: 'forwards' }}
+                  >
+                    <FeedCard
+                      id={feed.id}
+                      userId={feed.userId}
+                      fullName={feed.fullName}
+                      profilePic={feed.profilePic}
+                      type={feed.type}
+                      posterPath={feed.posterPath}
+                      actionTitle={feed.name}
+                      description={feed.description}
+                      time={feed.createdOn}
+                    />
+                  </div>
                 ))}
               </div>
             )}

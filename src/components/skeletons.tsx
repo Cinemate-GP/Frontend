@@ -238,55 +238,47 @@ export const SearchResultSkeleton = () => {
 export function FeedCardSkelton() {
   return (
     <div className="min-h-screen bg-mainBg">
-      <div className="container mx-auto px-4 sm:px-6 md:px-8 pt-32 pb-16">
+      <div className="container mx-auto px-4 sm:px-6 md:px-8 pt-24 pb-16">
         {/* Header Skeleton */}
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-secondaryBg rounded-full animate-pulse"></div>
+            <div className="w-8 h-8 bg-secondaryBg rounded-lg animate-pulse"></div>
             <div>
-              <div className="h-6 w-24 bg-secondaryBg rounded animate-pulse mb-2"></div>
-              <div className="h-4 w-40 bg-secondaryBg rounded animate-pulse"></div>
+              <div className="h-5 w-16 bg-secondaryBg rounded animate-pulse mb-1"></div>
+              <div className="h-3 w-32 bg-secondaryBg rounded animate-pulse"></div>
             </div>
           </div>
-          <div className="h-9 w-20 bg-secondaryBg rounded-lg animate-pulse"></div>
+          <div className="h-8 w-16 bg-secondaryBg rounded-lg animate-pulse"></div>
         </div>
 
         {/* Feed Cards Skeleton */}
-        <div className="space-y-6">
-          {Array.from({ length: 3 }, (_, i) => i).map((i) => (
-            <article key={i} className="bg-secondaryBg border border-border rounded-xl p-6">
-              {/* Card Header */}
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-3">
-                  <div className="relative">
-                    <div className="w-12 h-12 bg-mainBg rounded-full animate-pulse"></div>
-                    <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-mainBg rounded-full animate-pulse"></div>
-                  </div>
-                  <div>
-                    <div className="h-4 w-24 bg-mainBg rounded animate-pulse mb-2"></div>
+        <div className="space-y-4">
+          {Array.from({ length: 4 }, (_, i) => i).map((i) => (
+            <div key={i} className="bg-secondaryBg border border-border rounded-lg p-6">
+              <div className="flex gap-4">
+                {/* Profile */}
+                <div className="w-12 h-12 bg-mainBg rounded-full animate-pulse flex-shrink-0"></div>
+                
+                {/* Content */}
+                <div className="flex-1">
+                  {/* Header */}
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="h-3 w-20 bg-mainBg rounded animate-pulse"></div>
                     <div className="h-3 w-16 bg-mainBg rounded animate-pulse"></div>
+                    <div className="h-3 w-24 bg-mainBg rounded animate-pulse"></div>
+                    <div className="h-3 w-12 bg-mainBg rounded animate-pulse ml-auto"></div>
+                  </div>
+                  
+                  {/* Action content */}
+                  <div className="flex gap-4">
+                    <div className="flex-1">
+                      <div className="h-12 w-full bg-mainBg/50 rounded-lg animate-pulse"></div>
+                    </div>
+                    <div className="w-15 h-22 bg-mainBg rounded-md animate-pulse flex-shrink-0"></div>
                   </div>
                 </div>
-                <div className="h-3 w-16 bg-mainBg rounded-md animate-pulse"></div>
               </div>
-
-              {/* Card Content */}
-              <div className="bg-mainBg/50 rounded-lg p-4 border border-border/50">
-                <div className="flex justify-between items-start gap-4">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-2">
-                      <div className="w-4 h-4 bg-secondaryBg rounded animate-pulse"></div>
-                      <div className="h-4 w-32 bg-secondaryBg rounded animate-pulse"></div>
-                    </div>
-                    <div className="space-y-2">
-                      <div className="h-3 w-full bg-secondaryBg rounded animate-pulse"></div>
-                      <div className="h-3 w-3/4 bg-secondaryBg rounded animate-pulse"></div>
-                    </div>
-                  </div>
-                  <div className="w-20 h-30 bg-secondaryBg rounded-lg animate-pulse"></div>
-                </div>
-              </div>
-            </article>
+            </div>
           ))}
         </div>
       </div>
