@@ -31,8 +31,7 @@ const FeedCard: React.FC<ActionCardProps> = ({
   type,
   actionTitle,
   posterPath,
-  backdropPath,
-  description,
+  backdropPath,  description,
 }) => {
   const getActionVerb = (type: string) => {
     switch (type) {
@@ -175,37 +174,48 @@ const FeedCard: React.FC<ActionCardProps> = ({
         {/* Action-Specific Content (ratings, review, etc) */}
         {renderActionContent()}
       </div>
-      
-      {/* Movie Poster Area for non-follow actions */}      {type !== "follow" && (
+        {/* Movie Poster Area for non-follow actions */}      {type !== "follow" && (
         <Link
           href={`/movies/${id}`}
           className="block relative w-full h-48 mt-2 bg-mainBg overflow-hidden group"
-        >          <Image
+        >
+          {/* Blurred Backdrop */}
+          <Image
             src={backdropPath ? IMAGEPOSTER + backdropPath : posterPath ? IMAGEPOSTER + posterPath : "/image-placeholder.png"}
             alt={actionTitle}
             fill
-            className="object-cover group-hover:scale-105 transition-transform duration-300"
-          /><div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
-            <div className="p-4 w-full">
-              <div className="flex items-center justify-between">
-                <h3 className="text-white text-lg font-semibold line-clamp-1 flex-1">{actionTitle}</h3>
+            className="object-cover group-hover:scale-105 transition-transform duration-300 blur-sm"
+          />          {/* Poster Container */}
+          <div className="absolute inset-0 flex items-center justify-start pl-6">
+            <div className="flex flex-col items-start gap-3">              <div className="relative w-20 h-28 rounded-lg overflow-hidden shadow-lg border-2 border-white/20 group-hover:scale-110 transition-transform duration-300">
+                <Image
+                  src={posterPath ? IMAGEPOSTER + posterPath : "/image-placeholder.png"}
+                  alt={actionTitle}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+            </div>
+          </div>
+          
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
+            <div className="p-4 w-full flex justify-end">
+              <div className="flex items-center">
                 {/* Trailer play button */}
-                <div className="bg-black/40 hover:bg-black/60 transition p-1.5 rounded-full ml-3">
+                <div className="bg-black/40 hover:bg-black/60 transition p-1.5 rounded-full">
                   <FaPlayCircle className="w-5 h-5 text-white" />
                 </div>
               </div>
             </div>
           </div>
         </Link>
-      )}
-        {/* Follow action special layout */}
+      )}{/* Follow action special layout */}
       {type === "follow" && (
         <div className="px-4 pb-4 mt-1">
           <Link 
             href={`/${id}`}
             className="flex items-center gap-3 hover:bg-hoverBg/30 p-2 -m-2 rounded-lg transition-colors"
-          >
-            <Image
+          >            <Image
               src={posterPath || "/user-placeholder.jpg"}
               alt={actionTitle}
               width={50}
