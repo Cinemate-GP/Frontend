@@ -77,16 +77,27 @@ const ITEMS_PER_PAGE = 6;
 
 export default function RecentActivitySection({ userId }: { userId?: string }) {
   const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
   const [loading, setLoading] = useState(true);
   const token = getCookie("token");
   const validUserId = userId || getUserId();
   const [recenActivities, setRecentActivities] = useState<Activity[] | null>(
     null
   );
-
   const handleLoadMore = () => {
     setVisibleCount((prev) => prev + ITEMS_PER_PAGE);
+  };
+
+  const toggleExpanded = (itemKey: string) => {
+    setExpandedItems((prev) => {
+      const newSet = new Set(prev);
+      if (newSet.has(itemKey)) {
+        newSet.delete(itemKey);
+      } else {
+        newSet.add(itemKey);
+      }
+      return newSet;
+    });
   };
 
   useEffect(() => {
@@ -121,11 +132,14 @@ export default function RecentActivitySection({ userId }: { userId?: string }) {
       {recenActivities?.length === 0 && (
         <p className="text-center text-gray-500 py-8">No activities yet</p>
       )}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 px-0 rounded-lg">
-        {recenActivities?.slice(0, visibleCount).map((item) => (
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 px-0 rounded-lg">        {recenActivities?.slice(0, visibleCount).map((item, index) => {
+          const itemKey = `${item.tmdbId}-${item.createdOn}-${index}`;
+          const isExpanded = expandedItems.has(itemKey);
+          
+          return (
           <Link
             href={"/movies/" + item.tmdbId}
-            key={item.createdOn}
+            key={itemKey}
             className="group flex-col sm:flex-row flex bg-secondaryBg rounded-xl overflow-hidden border border-border shadow-lg hover:shadow-red-900/20 transition-all duration-300 hover:-translate-y-1"
           >
             <div className="relative w-full sm:max-w-[200px] md:w-[280px] overflow-hidden">
@@ -137,51 +151,55 @@ export default function RecentActivitySection({ userId }: { userId?: string }) {
               />
             </div>
 
-            <div className="p-4 flex-1 flex flex-col justify-between">
-              <div>
+            <div className="p-4 flex-1 flex flex-col justify-between">              <div>
                 <h3 className="text-base sm:text-lg font-bold text-foreground mb-2 group-hover:text-primary transition-colors duration-300">
                   {item.name}
                 </h3>
 
                 {/* Activity type with icon */}
-                {getIcon(item.type)}
-              </div>
-              {/* Rating if exists */}
-              {item.stars > 0 && (
-                <div className="flex items-center space-x-1">
-                  {[...Array(5)].map((_, i) => (
-                    <FaStar
-                      key={i}
-                      size={14}
-                      className={
-                        i < item.stars! ? "text-primary" : "text-zinc-700"
-                      }
-                    />
-                  ))}
-                </div>
-              )}
-
-              <div className="mt-3 space-y-3">
-                {/* Review message if exists */}
+                {getIcon(item.type)}                {/* Review message if exists - moved higher */}
                 {item.description && item.type === "review" && (
-                  <div className="bg-background shadow-md rounded-lg p-3 border-l-2 border-primary">
-                    <p className="text-gray-500 text-sm italic">
-                      {truncateText(item.description!, isExpanded, 80)}
-                      {item.description.length > 80 && (
+                  <div className="bg-background shadow-md rounded-lg p-4 border-l-4 border-primary mt-3">
+                    <div className="flex items-start gap-2 mb-2">
+                      <MdRateReview className="text-primary text-lg mt-0.5 flex-shrink-0" />
+                      <span className="text-textMuted text-sm font-medium">Review</span>
+                    </div>
+                    <div className="text-foreground text-sm leading-relaxed">
+                      <p className="whitespace-pre-wrap break-words">
+                        {truncateText(item.description, isExpanded, 120)}
+                      </p>
+                      {item.description.length > 120 && (
                         <button
                           onClick={(e) => {
                             e.preventDefault();
-                            setIsExpanded(!isExpanded);
+                            e.stopPropagation();
+                            toggleExpanded(itemKey);
                           }}
-                          className="text-primary text-sm font-medium ml-1"
+                          className="inline-flex items-center text-primary text-sm font-medium mt-2 hover:underline transition-colors"
                         >
-                          {isExpanded ? "Read Less" : "Read More"}
+                          {isExpanded ? "Show Less" : "Show More"}
                         </button>
                       )}
-                    </p>
+                    </div>
                   </div>
                 )}
 
+                {/* Rating if exists - moved higher */}
+                {item.stars > 0 && (
+                  <div className="flex items-center space-x-1 mt-3">
+                    {[...Array(5)].map((_, i) => (
+                      <FaStar
+                        key={i}
+                        size={14}
+                        className={
+                          i < item.stars! ? "text-primary" : "text-zinc-700"
+                        }
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>              
+              <div className="mt-3 space-y-3">
                 {/* Date created at */}
                 <div className="flex items-center gap-2 text-xs text-gray-400">
                   <FaClock className="text-gray-500" />
@@ -190,7 +208,8 @@ export default function RecentActivitySection({ userId }: { userId?: string }) {
               </div>
             </div>
           </Link>
-        ))}
+        )
+        })}
       </div>
 
       {/* Load more button with improved styling */}
