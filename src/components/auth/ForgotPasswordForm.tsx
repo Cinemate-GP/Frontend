@@ -100,7 +100,7 @@ const ForgotPasswordForm = () => {
             <div className="relative h-full w-full flex items-center justify-center rounded-full border border-gray-700/50 bg-gray-900/70">
               <svg 
                 xmlns="http://www.w3.org/2000/svg" 
-                className="h-7 w-7 text-red-500" // Reduced icon size
+                className="h-7 w-7 text-primary" // Reduced icon size
                 viewBox="0 0 24 24" 
                 fill="none" 
                 stroke="currentColor" 
@@ -114,7 +114,7 @@ const ForgotPasswordForm = () => {
             </div>
           </motion.div>
           
-          <h1 className="text-xl font-bold mb-0.5 bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-100 to-gray-300">
+          <h1 className="text-xl font-bold mb-0.5 bg-clip-text text-textMuted">
             Forgot Password
           </h1>
           <p className="text-gray-400 text-xs max-w-xs mx-auto">
@@ -153,7 +153,7 @@ const ForgotPasswordForm = () => {
             variants={fadeInUp}
             custom={2}
             type="submit"
-            className="w-full relative text-white group overflow-hidden bg-gradient-to-r from-red-700 to-red-600 hover:from-red-600 hover:to-red-500
+            className="w-full relative text-white group overflow-hidden bg-primary rounded-md
                      transition-all duration-300 rourended-lg px-6 py-2.5 font-medium 
                      focus:ring-2 focus:ring-red-500/50 focus:outline-none
                      shadow-lg shadow-red-700/20
@@ -179,7 +179,7 @@ const ForgotPasswordForm = () => {
             className="text-center text-xs text-gray-400 pt-1" // Reduced text size and padding
           >
             Remember your password?{" "}
-            <Link href="/login" className="text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-red-600 font-medium hover:from-red-500 hover:to-red-400 transition-all duration-300">
+            <Link href="/login" className="text-transparent bg-clip-text bg-primary transition-all duration-300">
               Back to Sign In
             </Link>
           </motion.p>

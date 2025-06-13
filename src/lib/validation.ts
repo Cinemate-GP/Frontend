@@ -8,10 +8,10 @@ export const LoginSchema = yup.object().shape({
     .min(8, "Password must be at least 8 characters long")
     .test(
       "password-strength",
-      "Password must be at least 8 characters, include uppercase, lowercase, number, and special character",
+      "Password must include uppercase, lowercase, number, and special character",
       (value) =>
         !!value &&
-        /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(
+        /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+{}[\]|:;"'<>,.?/~`])/.test(
           value
         )
     ),
@@ -36,10 +36,10 @@ export const RegisterSchema = yup.object().shape({
     .min(8, "Password must be at least 8 characters long")
     .test(
       "password-strength",
-      "Password must be at least 8 characters, include uppercase, lowercase, number, and special character",
+      "Password must include uppercase, lowercase, number, and special character",
       (value) =>
         !!value &&
-        /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(
+        /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+{}[\]|:;"'<>,.?/~`])/.test(
           value
         )
     ),
@@ -54,7 +54,7 @@ export const validatePasswords = (
 ) => {
   if (
     password &&
-    !/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/.test(
+    !/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+{}[\]|:;"'<>,.?/~`]{8,})/.test(
       password
     )
   ) {

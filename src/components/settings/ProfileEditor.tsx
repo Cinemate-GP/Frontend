@@ -245,7 +245,7 @@ export default function ProfileEditor({
               value={user.bio || ""}
               onChange={handleUserChange}
               rows={4}
-              className="bg-background text-white border border-border rounded-lg px-4 py-2 w-full focus:outline-none focus:border-primary"
+              className="bg-background text-foreground border border-border rounded-lg px-4 py-2 w-full focus:outline-none focus:border-primary"
               placeholder="Write a short bio about yourself..."
             />
           </div>

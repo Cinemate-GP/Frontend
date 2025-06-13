@@ -127,7 +127,7 @@ const ProfileHeader = ({ userId }: { userId: string }) => {
               </div>
 
               <p className="text-sm text-textMuted mb-1">{user?.userName}</p>
-              <p className="text-sm text-gray-500">{user?.bio}</p>
+              <p className="text-sm text-gray-400">{user?.bio}</p>
             </div>
           </div>
 

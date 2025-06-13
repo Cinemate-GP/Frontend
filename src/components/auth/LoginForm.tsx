@@ -99,10 +99,10 @@ const LoginForm = () => {
           variants={fadeInUp}
           custom={0}
         >
-          <h1 className="text-xl font-bold mb-0.5 bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-300">
+          <h1 className="text-xl font-bold mb-0.5 bg-clip-text text-textMuted ">
             Welcome Back
           </h1>
-          <p className="text-gray-400 text-xs">
+          <p className="text-gray-400 text-xs mb-12">
             Sign in to continue to your account
           </p>
         </motion.div>
@@ -140,7 +140,7 @@ const LoginForm = () => {
             
             <Link
               href="/forgot-password"
-              className="text-xs font-medium text-gray-300 hover:text-primary transition-all duration-200 w-fit block ml-auto"
+              className="text-xs font-medium text-textMuted hover:text-primary transition-all duration-200 w-fit block ml-auto"
             >
               Forgot Password?
             </Link>
@@ -149,7 +149,7 @@ const LoginForm = () => {
           <motion.div variants={fadeInUp} custom={3}>
             <button
               type="submit"
-              className="w-full relative group overflow-hidden bg-gradient-to-r from-red-700 to-red-600 hover:from-red-600 hover:to-red-500 text-white
+              className="w-full relative group overflow-hidden bg-primary text-white
                         transition-all duration-300 rounded-lg px-6 py-2.5 font-medium mt-1
                         focus:ring-2 focus:ring-primary/50 focus:outline-none
                         disabled:opacity-70 disabled:cursor-not-allowed"
@@ -175,7 +175,7 @@ const LoginForm = () => {
             className="text-center text-xs text-gray-400 pt-1"
           >
             Don&apos;t have an account?{" "}
-            <Link href="/signup" className="text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-red-600 font-medium hover:from-red-500 hover:to-red-400 transition-all duration-300">
+            <Link href="/signup" className="text-transparent bg-clip-text bg-primary transition-all duration-300">
               Create an account
             </Link>
           </motion.p>

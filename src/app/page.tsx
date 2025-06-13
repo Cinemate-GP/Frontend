@@ -167,8 +167,8 @@ const Page = () => {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.6 }}
-                className="relative bg-secondaryBg/80 backdrop-blur-md rounded-2xl p-5 
-                         border border-border/10 shadow-2xl hover:shadow-primary/5 
+                className="relative bg-secondaryBg backdrop-blur-md rounded-2xl p-5 
+                         border border-border/10 shadow-2xl hover:shadow-primary 
                          transition-all duration-500 group w-full"
               >
                 <div className="flex items-center gap-4 mb-4">

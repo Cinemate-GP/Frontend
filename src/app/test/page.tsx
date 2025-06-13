@@ -53,12 +53,12 @@ const MovieRating = () => {
       {isSkipped && (
         <div className="h-screen w-full flex items-center justify-center px-4">
           <div className="text-center max-w-xl">
-            <h1 className="text-2xl sm:text-3xl font-bold mb-4 text-white drop-shadow-md text-shdow-glow">
+            <h1 className="text-2xl sm:text-3xl font-bold mb-4 text-foreground">
               Find Movies That Match Your Taste
             </h1>
-            <p className="text-gray-300 leading-relaxed text-xs sm:text-lg">
+            <p className="text-textMuted leading-relaxed text-xs sm:text-lg">
               Rate at least{" "}
-              <span className="font-semibold text-red-400">5 movies </span>
+              <span className="font-semibold text-primary">5 movies </span>
               to receive tailored recommendations. If you haven&apos;t seen a
               movie, simply skip it. Start now and explore your next favorite
               film!
@@ -67,15 +67,15 @@ const MovieRating = () => {
             <div className="mt-6 flex items-center justify-center gap-4 sm:gap-6">
               <button
                 onClick={() => setIsSkipped(false)}
-                className="bg-gradient-to-r from-primary to-red-500 rounded-3xl hover:translate-y-[-3px] shadow-lg hover:shadow-red-500/50 transition-all duration-300 px-3 sm:px-6 py-2 sm:py-3 text-xs sm:text-sm"
+                className="bg-primary hover:translate-y-[-3px] shadow-lg hover:shadow-primary transition-all duration-300 px-3 sm:px-6 py-2 sm:py-3 text-xs sm:text-sm rounded-lg text-white/100"
               >
                 Start Test
               </button>
 
               <button
                 onClick={() => router.push("/login")}
-                className="py-2 sm:py-3 px-3 sm:px-6 text-xs sm:text-sm border border-gray-300 text-white font-semibold 
-                         rounded-full hover:bg-gray-800 hover:border-gray-500 
+                className="py-2 sm:py-3 px-3 sm:px-6 text-xs sm:text-sm border border-gray-300 text-foreground font-semibold 
+                         rounded-lg hover:bg-gray-800 hover:border-gray-500 hover:text-white 
                          transition-all duration-300"
               >
                 Skip Test
