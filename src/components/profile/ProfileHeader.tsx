@@ -11,6 +11,7 @@ import { ProfileHeaderSkeleton } from "../skeletons";
 import { authFetch } from "@/lib/api";
 import { getCookie, getUserId } from "@/lib/utils";
 import { FaRegEdit } from "react-icons/fa";
+import { useFilterWatched } from "@/context/ProfileContext";
 interface UserInfo extends User {
   numberOfMovie: number;
   followingCount: number;
@@ -27,7 +28,9 @@ const ProfileHeader = ({ userId }: { userId: string }) => {
   const [followersCount, setFollowersCount] = useState<number>(0);
   const [showImageViewer, setShowImageViewer] = useState(false);
   const [followingLoading, setFollowingLoading] = useState(false);
+  const {flag, setFlag } = useFilterWatched();
   const token = getCookie("token") as string;
+
   const { data: user, loading } = useFetch<UserInfo | null>(
     `/api/Profile/details/${userId}`
   );
@@ -78,6 +81,14 @@ const ProfileHeader = ({ userId }: { userId: string }) => {
     router.push("/settings");
   };
 
+  const handleClickFilm = () => {
+    if (user?.sameUser) {
+      router.push(`/${getUserId()}/watched`);
+    } else {
+      setFlag(!flag);
+    }
+  };
+
   if (loading) return <ProfileHeaderSkeleton />;
   return (
     <>
@@ -111,7 +122,9 @@ const ProfileHeader = ({ userId }: { userId: string }) => {
                     className="bg-background hover:bg-hoverBg text-foreground px-4 py-1.5 rounded-md transition-all duration-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-zinc-600"
                   >
                     <span className="hidden sm:block">Edit Profile</span>
-                    <span className="block sm:hidden"><FaRegEdit/></span>
+                    <span className="block sm:hidden">
+                      <FaRegEdit />
+                    </span>
                   </button>
                 ) : (
                   <button
@@ -132,13 +145,15 @@ const ProfileHeader = ({ userId }: { userId: string }) => {
           </div>
 
           {/* Stats row - moved to the right */}
-          <div className="flex gap-6 mt-4 sm:mt-0 border-t border-border pt-4 lg:border-none">
-            <div className="text-center">
+          <div className="flex gap-6 items-center mt-4 sm:mt-0 border-t border-border pt-4 lg:border-none">
+            <button onClick={handleClickFilm} className="text-center group">
               <span className="block text-xl font-bold">
                 {user?.numberOfMovie}
               </span>
-              <span className="text-sm text-gray-500">Films</span>
-            </div>{" "}
+              <span className="text-sm text-gray-500 group-hover:text-foreground transition-colors">
+                Films
+              </span>
+            </button>{" "}
             <Link href={`/${userId}/followers`} className="text-center group">
               <span className="block text-xl font-bold">{followersCount}</span>
               <span className="text-sm text-gray-500 group-hover:text-foreground transition-colors">

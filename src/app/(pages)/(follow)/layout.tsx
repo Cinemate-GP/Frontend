@@ -1,7 +1,7 @@
 "use client";
 import DisplayFollowersCount from "@/components/profile/DisplayFollowersCount";
 import { ProfileInfoSkeleton } from "@/components/skeletons";
-import { ProfileProvider } from "@/context/FollowersContext";
+import { FollowProvider } from "@/context/FollowersContext";
 import useFetch from "@/hooks/useFetch";
 import Image from "next/image";
 import Link from "next/link";
@@ -23,7 +23,7 @@ const FollowLayout = ({ children }: { children: React.ReactNode }) => {
   
 console.log(data?.followersCount)
   return (
-    <ProfileProvider  key={data?.followersCount} initialFollowers={data?.followersCount || 0}>
+    <FollowProvider  key={data?.followersCount} initialFollowers={data?.followersCount || 0}>
       <div className="min-h-screen bg-mainBg">
         <div className="container mx-auto px-4 sm:px-6 md:px-8 pt-32 pb-16">
           {loading && <ProfileInfoSkeleton />}
@@ -73,7 +73,7 @@ console.log(data?.followersCount)
           </div>
         </div>
       </div>
-    </ProfileProvider>
+    </FollowProvider>
   );
 };
 

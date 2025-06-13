@@ -6,9 +6,10 @@ export const HomeSliderSkeleton = () => {
   return (
     <div className="container mx-auto px-4 sm:px-6 md:px-8 relative w-full h-[700px] bg-secondaryBg rounded-lg overflow-hidden">
       <div className="absolute inset-0"></div>
-      <div className="absolute my-auto bottom-1/2 top-1/3 left-4 md:left-8 w-full">        {/* Title */}
+      <div className="absolute my-auto bottom-1/2 top-1/3 left-4 md:left-8 w-full">
+        {" "}
+        {/* Title */}
         <div className="h-8 w-3/4 sm:w-2/5 bg-mainBg/70 rounded mb-2 animate-pulse"></div>
-
         {/* info */}
         <div className="flex items-center gap-2 my-3">
           <span className="h-6 w-8 bg-mainBg/70 rounded-3xl animate-pulse"></span>
@@ -17,7 +18,6 @@ export const HomeSliderSkeleton = () => {
         </div>
         {/* Description */}
         <div className="mt-4 h-20 w-5/6 sm:w-1/2 bg-mainBg/70 rounded animate-pulse"></div>
-
         {/* Buttons */}
         <div className="mt-4 flex space-x-4 items-center w-1/2">
           <div className="h-7 md:h-10 w-16 md:w-32 bg-mainBg/70 rounded-3xl animate-pulse"></div>
@@ -47,7 +47,9 @@ export const MovieGridSkeleton = () => {
 
 export const CardSkeleton = () => {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">      <div className="w-full h-[400px] bg-mainBg animate-pulse rounded-lg"></div>
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      {" "}
+      <div className="w-full h-[400px] bg-mainBg animate-pulse rounded-lg"></div>
       <div className="w-full h-[400px] bg-mainBg animate-pulse rounded-lg hidden sm:block"></div>
       <div className="w-full h-[400px] bg-mainBg animate-pulse rounded-lg hidden md:block"></div>
       <div className="w-full h-[400px] bg-mainBg animate-pulse rounded-lg hidden lg:block"></div>
@@ -84,7 +86,9 @@ export const ActorMoviesSkeleton = () => {
       {/* Mobile Layout */}
       <div className="sm:hidden flex flex-col h-screen bg-secondaryBg text-white">
         {/* Actor Info */}
-        <div className="flex flex-col items-center p-4 space-y-2">          <div className="w-32 h-32 bg-mainBg/80 rounded-full animate-pulse" />
+        <div className="flex flex-col items-center p-4 space-y-2">
+          {" "}
+          <div className="w-32 h-32 bg-mainBg/80 rounded-full animate-pulse" />
           <div className="h-4 w-24 bg-mainBg/80 rounded animate-pulse" />
           <div className="space-y-1 text-center">
             <div className="h-3 w-40 bg-mainBg/80 rounded mx-auto animate-pulse" />
@@ -115,23 +119,22 @@ export const SkeletonMovieInfo = () => {
 
       {/* Movie Details Skeleton */}
       <div className="ml-0 lg:ml-8 flex flex-col flex-grow justify-center">
-        {/* Title */}        <div className="h-10 w-full md:w-3/4 bg-mainBg/80 rounded mb-4 animate-pulse"></div>
-
+        {/* Title */}{" "}
+        <div className="h-10 w-full md:w-3/4 bg-mainBg/80 rounded mb-4 animate-pulse"></div>
         {/* Meta Info (Date, Rating, Duration) */}
         <div className="flex items-center gap-4 mb-4">
           <div className="h-6 w-16 md:w-24 bg-mainBg/80 rounded animate-pulse"></div>
           <div className="h-6 w-12 bg-mainBg/80 rounded animate-pulse"></div>
           <div className="h-6 w-16 bg-mainBg/80 rounded animate-pulse"></div>
         </div>
-
         {/* Genres */}
         <div className="flex flex-wrap gap-2 mb-4">
           <div className="h-6 w-16 bg-mainBg/80 rounded animate-pulse"></div>
           <div className="h-6 w-16 bg-mainBg/80 rounded animate-pulse"></div>
           <div className="h-6 w-16 bg-mainBg/80 rounded animate-pulse"></div>
-        </div>        {/* Description */}
+        </div>{" "}
+        {/* Description */}
         <div className="h-20 w-5/6 bg-mainBg/80 rounded mb-4 animate-pulse"></div>
-
         {/* Buttons */}
         <div className="flex gap-4">
           <div className="h-10 w-16 bg-mainBg/80 rounded-xl animate-pulse"></div>
@@ -140,7 +143,8 @@ export const SkeletonMovieInfo = () => {
           <div className="h-10 w-16 bg-mainBg/80 rounded-xl animate-pulse"></div>
         </div>
       </div>
-    </div>  );
+    </div>
+  );
 };
 
 export const SkeletonMovieStreaming = () => {
@@ -167,8 +171,8 @@ export const SkeletonActors = () => {
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {Array.from({ length: 8 }).map((_, index) => (
           <div key={index} className="flex items-center space-x-4">
-            {/* Circular Image Placeholder */}            <div className="w-12 h-12 bg-mainBg/80 rounded-full animate-pulse"></div>
-
+            {/* Circular Image Placeholder */}{" "}
+            <div className="w-12 h-12 bg-mainBg/80 rounded-full animate-pulse"></div>
             {/* Text Skeletons */}
             <div className="flex flex-col">
               <div className="h-4 w-32 bg-mainBg/80 rounded animate-pulse mb-1"></div>
@@ -232,56 +236,48 @@ export const SearchResultSkeleton = () => {
 
 export const FeedCardSkelton = () => {
   return (
-    <div className="min-h-screen bg-mainBg">
+    <div className="min-h-screen">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-32">
         <div className="max-w-4xl mx-auto">
-          {/* Header skeleton */}
+          {/* Header Skelton*/}
           <div className="bg-secondaryBg rounded-xl shadow-sm p-4 sm:p-6 mb-6">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-              {/* Title area */}
-              <div className="flex items-center gap-3">                <div className="p-2.5 bg-mainBg/80 rounded-xl w-11 h-11"></div>
+              <div className="flex items-center gap-3">
+                <div className="p-2.5 bg-mainBg rounded-xl w-11 h-11 animate-pulse" />
                 <div>
-                  <div className="h-7 w-40 bg-mainBg/80 rounded-md mb-2"></div>
-                  <div className="h-4 w-56 bg-mainBg/80 rounded-md"></div>
+                  <div className="h-6 w-40 bg-mainBg rounded-md mb-1 animate-pulse" />
+                  <div className="h-4 w-32 bg-mainBg rounded-md animate-pulse" />
                 </div>
               </div>
-              
-              {/* Controls area */}
-              <div className="flex items-center gap-3 w-full sm:w-auto">                <div className="h-10 w-24 bg-mainBg/80 rounded-lg flex-1 sm:flex-none"></div>
-                <div className="h-10 w-10 bg-mainBg/80 rounded-lg"></div>
+              <div className="flex items-center gap-3 w-full sm:w-auto">
+                <div className="h-10 w-24 bg-mainBg/80 rounded-lg animate-pulse" />
+                <div className="h-10 w-10 bg-mainBg/80 rounded-lg animate-pulse" />
               </div>
             </div>
           </div>
-          
-          {/* Feed card skeletons */}
-          <div className="space-y-4">
-            {[...Array(4)].map((_, index) => (
-              <div 
-                key={index}
-                className="bg-secondaryBg rounded-xl shadow-sm animate-pulse"
-              >
-                {/* Header */}
-                <div className="px-4 pt-4 pb-3 flex items-center justify-between border-b border-border/20">
-                  <div className="flex items-center gap-3">                    <div className="w-10 h-10 rounded-full bg-mainBg/80"></div>
+
+          {/* Feed skeletons */}
+          <div className="space-y-5">
+            {[1, 2].map((_, i) => (
+              <div key={i} className="bg-secondaryBg rounded-xl shadow-sm">
+                {/* Card Header */}
+                <div className="flex items-center justify-between px-4 pt-4 pb-2 border-b border-border">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full animate-pulse bg-mainBg/80" />
                     <div>
-                      <div className="h-4 w-24 bg-mainBg/80 rounded-md mb-2"></div>
-                      <div className="h-3 w-16 bg-mainBg/80 rounded-md"></div>
+                      <div className="h-4 w-24 animate-pulse rounded mb-1 bg-mainBg" />
+                      <div className="h-3 w-32 animate-pulse rounded bg-mainBg" />
                     </div>
                   </div>
-                  <div className="h-6 w-16 bg-mainBg/80 rounded-full"></div>
-                </div>                
-                {/* Content */}
-                <div className="px-4 py-3">
-                  <div className="flex items-center gap-2 mb-3">                    <div className="h-4 w-8 bg-mainBg/80 rounded-md"></div>
-                    <div className="h-4 w-32 bg-mainBg/80 rounded-md"></div>
-                  </div>
-                  
-                  {/* Action content */}
-                  <div className="h-12 bg-mainBg/80 rounded-md"></div>
+                  <div className="h-6 w-16 animate-pulse rounded-full bg-mainBg/80" />
                 </div>
-                
-                {/* Poster area */}
-                <div className="w-full h-48 bg-mainBg/80 mt-2"></div>
+
+                {/* Action Description */}
+                <div className="px-4 py-3 space-y-3">
+                  <div className="h-4 w-32 animate-pulse rounded bg-mainBg" />
+                  <div className="h-5 w-20 animate-pulse rounded bg-mainBg" />
+                  <div className="h-48 animate-pulse rounded bg-mainBg" />
+                </div>
               </div>
             ))}
           </div>
@@ -289,7 +285,7 @@ export const FeedCardSkelton = () => {
       </div>
     </div>
   );
-}
+};
 
 export function ActivityCardSkeleton() {
   return (
@@ -369,7 +365,6 @@ export function ProfileHeaderSkeleton() {
 
 export function ProfileInfoSkeleton() {
   return (
-    
     <div className="flex flex-col gap-4 items-center justify-start">
       {/* Profile Image Skeleton */}
       <div className="border-2 border-primary p-1 rounded-full  sm:mx-0">
@@ -384,24 +379,26 @@ export function ProfileInfoSkeleton() {
   );
 }
 
-
 export const FollowItemSkeleton = () => {
   return (
     <div>
-      {Array.from({length:5}).map((_,index) => (
-        <div key={index} className="flex justify-between items-center border-b border-border py-4">
-        {/* Left part: image and name */}
-        <div className="flex items-center gap-4">
-          {/* Profile Picture Skeleton */}
-          <div className="w-16 h-16 rounded-full animate-pulse" />
-  
-          {/* Name Skeleton */}
-          <div className="h-4 w-32 animate-pulse rounded" />
+      {Array.from({ length: 5 }).map((_, index) => (
+        <div
+          key={index}
+          className="flex justify-between items-center border-b border-border py-4"
+        >
+          {/* Left part: image and name */}
+          <div className="flex items-center gap-4">
+            {/* Profile Picture Skeleton */}
+            <div className="w-16 h-16 rounded-full animate-pulse" />
+
+            {/* Name Skeleton */}
+            <div className="h-4 w-32 animate-pulse rounded" />
+          </div>
+
+          {/* Button Skeleton */}
+          <div className="w-20 h-8 rounded-md animate-pulse" />
         </div>
-  
-        {/* Button Skeleton */}
-        <div className="w-20 h-8 rounded-md animate-pulse" />
-      </div>
       ))}
     </div>
   );

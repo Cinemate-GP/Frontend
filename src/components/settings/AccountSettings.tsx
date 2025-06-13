@@ -55,18 +55,6 @@ const AccountSettings = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     // validate user name value to not be any of the pages name
-    if (name === "userName") {
-      if (["home", "movies", "feed", "settings", "movie", "profile"].includes( value.toLowerCase())) 
-        {
-        setErrors((prev) => ({
-          ...prev,
-          UserName: ["Username cannot be a reserved page name."],
-        }));
-        return;
-      }else {
-        setErrors((prev) => ({ ...prev, UserName: [] }));
-      }
-    }
     setUser((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -74,6 +62,19 @@ const AccountSettings = () => {
     e.preventDefault();
 
     try {
+      if (
+        ["home", "movies", "feed", "settings", "profile"].includes(
+          user.userName.toLowerCase()
+        )
+      ) {
+        setErrors((prev) => ({
+          ...prev,
+          UserName: ["Username cannot be a reserved page name."],
+        }));
+        return;
+      } else {
+        setErrors((prev) => ({ ...prev, UserName: [] }));
+      }
       if (showPasswordFields) {
         validatePasswords(user.newPassword!, user.confirmPassword!);
       }
