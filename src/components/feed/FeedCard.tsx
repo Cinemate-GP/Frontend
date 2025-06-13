@@ -30,9 +30,21 @@ const FeedCard: React.FC<ActionCardProps> = ({
   time,
   type,
   actionTitle,
-  posterPath,
-  backdropPath,  description,
-}) => {  const getActionVerb = (type: string) => {
+  posterPath,  backdropPath,  description,
+}) => {  // Helper function to get the correct image URL
+  const getImageUrl = (imagePath: string | undefined) => {
+    if (!imagePath) return "/image-placeholder.png";
+    
+    // If it's already a full URL (starts with http), use it directly
+    if (imagePath.startsWith('http')) {
+      return imagePath;
+    }
+    
+    // Otherwise, prefix with IMAGEPOSTER
+    return IMAGEPOSTER + imagePath;
+  };
+
+  const getActionVerb = (type: string) => {
     switch (type) {
       case "like": return "liked";
       case "Watched":
@@ -178,18 +190,17 @@ const FeedCard: React.FC<ActionCardProps> = ({
         <Link
           href={`/movies/${id}`}
           className="block relative w-full h-48 mt-2 bg-mainBg overflow-hidden group"
-        >
-          {/* Blurred Backdrop */}
+        >          {/* Blurred Backdrop */}
           <Image
-            src={backdropPath ? IMAGEPOSTER + backdropPath : posterPath ? IMAGEPOSTER + posterPath : "/image-placeholder.png"}
+            src={getImageUrl(backdropPath || posterPath)}
             alt={actionTitle}
             fill
             className="object-cover group-hover:scale-105 transition-transform duration-300 blur-sm"
-          />          {/* Poster Container */}
+          />{/* Poster Container */}
           <div className="absolute inset-0 flex items-center justify-start pl-6">
             <div className="flex flex-col items-start gap-3">              <div className="relative w-20 h-28 rounded-lg overflow-hidden shadow-lg border-2 border-white/20 group-hover:scale-110 transition-transform duration-300">
                 <Image
-                  src={posterPath ? IMAGEPOSTER + posterPath : "/image-placeholder.png"}
+                  src={getImageUrl(posterPath)}
                   alt={actionTitle}
                   fill
                   className="object-cover"

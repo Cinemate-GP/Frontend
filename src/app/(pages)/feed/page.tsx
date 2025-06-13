@@ -12,6 +12,7 @@ interface Feed {
   type: string;
   id: number;
   posterPath: string;
+  backdropPath?: string;
   name: string;
   description: string;
   createdOn: string;
@@ -72,14 +73,14 @@ const FeedPage = () => {
                       key={`${feed.userId}-${feed.createdOn}`}
                       className="opacity-0 animate-fade-in-up"
                       style={{ animationDelay: `${index * 0.05}s`, animationFillMode: 'forwards' }}
-                    >
-                      <FeedCard
+                    >                      <FeedCard
                         id={feed.id}
                         userId={feed.userId}
                         fullName={feed.fullName}
                         profilePic={feed.profilePic}
                         type={feed.type}
                         posterPath={feed.posterPath}
+                        backdropPath={feed.backdropPath}
                         actionTitle={feed.name}
                         description={feed.description}
                         time={feed.createdOn}
