@@ -294,7 +294,7 @@ body {
 }
 
 .react-datepicker__day--selected {
-  background-color: #d32f2f !important; /* Red to match your button */
+  background-color: var(--primary) !important; /* Red to match your button */
   color: #fff !important;
 }
 

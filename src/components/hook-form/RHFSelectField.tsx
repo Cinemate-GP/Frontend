@@ -29,7 +29,7 @@ const RHFSelectField: React.FC<CustomSelectProps> = ({
               <option
                 key={option}
                 value={option}
-                className="p-3 cursor-pointer transition text-black"
+                className="p-3 cursor-pointer transition text-foreground hover:bg-primary hover:text-foreground"
               >
                 {option}
               </option>
