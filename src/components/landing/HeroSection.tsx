@@ -72,7 +72,7 @@ const HeroSection = ({ trending }: HeroSectionProps) => {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="container px-3 sm:px-0 left-0 right-0 flex top-6 mx-auto z-50 absolute items-center gap-3 sm:gap-4 lg:gap-6 w-full"
+        className="container px-4 sm:px-6 lg:px-8 left-0 right-0 flex top-6 mx-auto z-50 absolute items-center gap-3 sm:gap-4 lg:gap-6 w-full"
       >
         <Image
           src="/logo.png"
