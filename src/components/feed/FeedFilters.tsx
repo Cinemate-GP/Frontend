@@ -11,10 +11,9 @@ interface FeedFiltersProps {
 
 const FeedFilters: React.FC<FeedFiltersProps> = ({ onFilterChange }) => {
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
-  const [isOpen, setIsOpen] = useState(false);
-  const filterOptions = [
+  const [isOpen, setIsOpen] = useState(false);  const filterOptions = [
     { id: "like", label: "Likes", icon: FaHeart, color: "text-red-500", bgColor: "bg-red-500/10" },
-    { id: "Watched", label: "Watched", icon: FaPlayCircle, color: "text-emerald-500", bgColor: "bg-emerald-500/10" },
+    { id: "watched", label: "Watched", icon: FaPlayCircle, color: "text-emerald-500", bgColor: "bg-emerald-500/10" },
     { id: "review", label: "Reviews", icon: MdOutlineRateReview, color: "text-blue-500", bgColor: "bg-blue-500/10" },
     { id: "rate", label: "Ratings", icon: FaStar, color: "text-amber-500", bgColor: "bg-amber-500/10" },
     { id: "follow", label: "Follows", icon: RiUserFollowLine, color: "text-violet-500", bgColor: "bg-violet-500/10" },

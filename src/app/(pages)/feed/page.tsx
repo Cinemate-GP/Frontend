@@ -20,10 +20,13 @@ interface Feed {
 const FeedPage = () => {
   const { data: feeds, loading } = useFetch<Feed[] | null>("/api/Profile/feed");
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
-
   const filteredFeeds = useMemo(() => {
     if (!feeds || activeFilters.length === 0) return feeds;
-    return feeds.filter(feed => activeFilters.includes(feed.type));
+    return feeds.filter(feed => 
+      activeFilters.some(filter => 
+        filter.toLowerCase() === feed.type.toLowerCase()
+      )
+    );
   }, [feeds, activeFilters]);
 
   const handleFilterChange = (filters: string[]) => {

@@ -32,11 +32,11 @@ const FeedCard: React.FC<ActionCardProps> = ({
   actionTitle,
   posterPath,
   backdropPath,  description,
-}) => {
-  const getActionVerb = (type: string) => {
+}) => {  const getActionVerb = (type: string) => {
     switch (type) {
       case "like": return "liked";
-      case "Watched": return "watched";
+      case "Watched":
+      case "watched": return "watched";
       case "review": return "reviewed";
       case "rate": return "rated";
       case "follow": return "followed";
@@ -50,14 +50,14 @@ const FeedCard: React.FC<ActionCardProps> = ({
     let label = "";
     let icon = null;
     
-    switch (type) {
-      case "like":
+    switch (type) {      case "like":
         bgColor = "bg-red-500";
         textColor = "text-white";
         label = "Liked";
         icon = <FaHeart className="w-3.5 h-3.5" />;
         break;
       case "Watched":
+      case "watched":
         bgColor = "bg-emerald-500";
         textColor = "text-white";
         label = "Watched";
@@ -78,11 +78,11 @@ const FeedCard: React.FC<ActionCardProps> = ({
       case "follow":
         bgColor = "bg-violet-500";
         textColor = "text-white";
-        label = "Follow";
-        icon = <RiUserFollowLine className="w-3.5 h-3.5" />;
+        label = "Follow";        icon = <RiUserFollowLine className="w-3.5 h-3.5" />;
         break;
     }
-      return (
+    
+    return (
       <span className={`${bgColor} ${textColor} text-xs font-semibold px-2 py-1 rounded-full flex items-center gap-1.5`}>
         {icon}
         {label}
