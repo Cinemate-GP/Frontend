@@ -156,7 +156,7 @@ export default function RecentActivitySection({ userId }: { userId?: string }) {
             <Link
               href={"/movies/" + item.tmdbId}
               key={itemKey}
-              className="group flex-col sm:flex-row flex bg-secondaryBg rounded-xl overflow-hidden border border-border shadow-lg hover:shadow-red-900/20 transition-all duration-300 hover:-translate-y-1"
+              className="group flex-col sm:flex-row flex bg-secondaryBg rounded-xl overflow-hidden border border-border transition-all duration-300 hover:-translate-y-1"
             >
               <div className="relative w-full sm:max-w-[200px] md:w-[280px] overflow-hidden">
                 <img
