@@ -190,7 +190,7 @@ const FeedCard: React.FC<ActionCardProps> = ({
         <Link
           href={`/movies/${id}`}
           className="block relative w-full h-48 mt-2 bg-mainBg overflow-hidden group"
-        >          {/* Blurred Backdrop */}
+        >          {/* Backdrop */}
           <Image
             src={getImageUrl(backdropPath || posterPath)}
             alt={actionTitle}
