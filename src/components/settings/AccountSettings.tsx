@@ -56,7 +56,7 @@ const AccountSettings = () => {
     const { name, value } = e.target;
     // validate user name value to not be any of the pages name
     if (name === "userName") {
-      if (["home", "movies", "feed", "settings", "movie", "profile"].includes( value.toLowerCase())) 
+      if (["home", "movies", "feed", "settings", "profile"].includes( value.toLowerCase())) 
         {
         setErrors((prev) => ({
           ...prev,
