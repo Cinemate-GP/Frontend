@@ -11,7 +11,7 @@ const Page = () => {
   return (
     <div className="relative min-h-screen w-screen overflow-x-hidden">
       {/* Fullscreen background image */}
-      <div className="fixed inset-0 -z-10 bg-mainBg bg-[url('/main-img.png')] bg-cover bg-center bg-no-repeat" />
+      <div className="fixed inset-0 -z-10  bg-[url('/main-img.png')] bg-cover bg-center bg-no-repeat" />
       {/* Page content */}
       <div className="relative z-10">
         <HeroSection trending={trending || []} />
