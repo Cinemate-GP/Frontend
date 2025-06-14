@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import { FaStar } from "react-icons/fa6";
@@ -13,7 +13,7 @@ interface MovieCardProps {
   image: string;
   imdbRating?: string;
   mpaRating?: string;
-  cardType?: 'top10' | 'default';
+  cardType?: "top10" | "default";
 }
 
 interface MovieImageProps {
@@ -33,42 +33,49 @@ interface RatingDisplayProps {
 const cardVariants = {
   initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0 },
-  hover: { 
+  hover: {
     scale: 1.02,
-    transition: { duration: 0.3, ease: "easeOut" }
-  }
+    transition: { duration: 0.3, ease: "easeOut" },
+  },
 };
 
 const titleVariants = {
   initial: { opacity: 0, scale: 0.9 },
-  hover: { opacity: 1, scale: 1 }
+  hover: { opacity: 1, scale: 1 },
 };
 
 const imageVariants = {
   initial: { scale: 1 },
-  hover: { 
+  hover: {
     scale: 1.03,
-    transition: { duration: 0.3, ease: "easeOut" }
-  }
+    transition: { duration: 0.3, ease: "easeOut" },
+  },
 };
 
 const overlayVariants = {
   initial: { opacity: 0 },
-  hover: { 
+  hover: {
     opacity: 1,
-    transition: { duration: 0.3, ease: "easeOut" }
-  }
+    transition: { duration: 0.3, ease: "easeOut" },
+  },
 };
 
 // Movie Image component with loading state
-const MovieImage = ({ src, alt, isLoaded, onLoad, priority = false, className = "" }: MovieImageProps) => (
+const MovieImage = ({
+  src,
+  alt,
+  isLoaded,
+  onLoad,
+  priority = false,
+  className = "",
+}: MovieImageProps) => (
   <>
     <Image
       src={src}
       alt={alt}
       width={300}
       height={450}
-      className={`${className} ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+      className={`${className} ${isLoaded ? "opacity-100" : "opacity-0"}`}
       onLoad={onLoad}
       priority={priority}
     />
@@ -81,10 +88,11 @@ const MovieImage = ({ src, alt, isLoaded, onLoad, priority = false, className = 
 
 // Rating display component with improved styling
 const RatingDisplay = ({ rating }: RatingDisplayProps) => (
-  <motion.div 
+  <motion.div
     className="flex items-center gap-1.5 bg-black/50 backdrop-blur-sm px-2.5 py-1 rounded-full w-fit border border-white/10"
     whileHover={{ scale: 1.05, backgroundColor: "rgba(0,0,0,0.7)" }}
-    transition={{ duration: 0.2 }}  >
+    transition={{ duration: 0.2 }}
+  >
     <FaStar className="text-primary text-sm" />
     <span className="text-sm font-medium text-white">
       {rating.split("/")[0]}
@@ -93,20 +101,27 @@ const RatingDisplay = ({ rating }: RatingDisplayProps) => (
 );
 
 // Top 10 card variant - shows ranking number with modern styling
-const Top10Card = ({ tmdbid, title, image, id }: Pick<MovieCardProps, 'tmdbid' | 'title' | 'image' | 'id'>) => {
+const Top10Card = ({
+  tmdbid,
+  title,
+  image,
+  id,
+}: Pick<MovieCardProps, "tmdbid" | "title" | "image" | "id">) => {
   const [imageLoaded, setImageLoaded] = useState(false);
 
   return (
     <Link href={`/movies/${tmdbid}`} className="block">
-      <motion.div 
+      <motion.div
         className="relative group cursor-pointer overflow-hidden rounded-xl"
         initial="initial"
         animate="animate"
         whileHover="hover"
         variants={cardVariants}
-      >        <div className="relative aspect-[2/3]">
-          <motion.div 
-            variants={imageVariants} 
+      >
+        {" "}
+        <div className="relative aspect-[2/3]">
+          <motion.div
+            variants={imageVariants}
             className="w-full h-full overflow-hidden rounded-xl"
           >
             <MovieImage
@@ -118,22 +133,24 @@ const Top10Card = ({ tmdbid, title, image, id }: Pick<MovieCardProps, 'tmdbid' |
               className="w-full h-full object-cover"
             />
           </motion.div>
-          
           {/* Subtle overlay for better contrast */}
           <div className="absolute inset-0 bg-gradient-to-br from-black/20 via-transparent to-black/30" />
-          
           {/* Black overlay on hover */}
-          <motion.div 
+          <motion.div
             className="absolute inset-0 bg-black/40 rounded-xl"
             variants={overlayVariants}
           />
-          
           {/* Modern ranking number badge */}
-          <motion.div 
+          <motion.div
             className="absolute top-3 left-3 flex items-center justify-center"
             initial={{ scale: 0, rotate: -45 }}
             animate={{ scale: 1, rotate: 0 }}
-            transition={{ duration: 0.5, delay: 0.2, type: "spring", bounce: 0.4 }}
+            transition={{
+              duration: 0.5,
+              delay: 0.2,
+              type: "spring",
+              bounce: 0.4,
+            }}
           >
             <div className="relative">
               {/* Main number background */}
@@ -142,25 +159,26 @@ const Top10Card = ({ tmdbid, title, image, id }: Pick<MovieCardProps, 'tmdbid' |
                   {id || 1}
                 </span>
               </div>
-              
+
               {/* Glow effect */}
               <div className="absolute inset-0 w-12 h-12 bg-primary/30 rounded-full blur-sm -z-10 group-hover:bg-primary/50 transition-colors duration-300" />
             </div>
-          </motion.div>            {/* Movie title on hover */}
-          <motion.div 
+          </motion.div>{" "}
+          {/* Movie title on hover */}
+          <motion.div
             className="absolute bottom-0 left-0 right-0 p-4 backdrop-blur-sm"
             variants={{
               initial: { opacity: 0, y: 20 },
-              hover: { opacity: 1, y: 0 }
-            }}            transition={{ duration: 0.3, ease: "easeOut" }}
+              hover: { opacity: 1, y: 0 },
+            }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
           >
             <h4 className="text-white font-semibold text-base line-clamp-2 drop-shadow-lg">
               {title}
             </h4>
           </motion.div>
-          
           {/* Subtle hover effect */}
-          <motion.div 
+          <motion.div
             className="absolute inset-0 bg-primary/5 rounded-xl"
             initial={{ opacity: 0 }}
             whileHover={{ opacity: 1 }}
@@ -173,23 +191,31 @@ const Top10Card = ({ tmdbid, title, image, id }: Pick<MovieCardProps, 'tmdbid' |
 };
 
 // Default card variant - clean, always shows info
-const DefaultCard = ({ tmdbid, title, image, imdbRating, mpaRating }: Pick<MovieCardProps, 'tmdbid' | 'title' | 'image' | 'imdbRating' | 'mpaRating'>) => {
+const DefaultCard = ({
+  tmdbid,
+  title,
+  image,
+  imdbRating,
+  mpaRating,
+}: Pick<
+  MovieCardProps,
+  "tmdbid" | "title" | "image" | "imdbRating" | "mpaRating"
+>) => {
   const [imageLoaded, setImageLoaded] = useState(false);
 
   return (
     <Link href={`/movies/${tmdbid}`} className="block h-full">
-      <motion.div 
+      <motion.div
         className="relative group h-full bg-gray-900/10 backdrop-blur-sm border border-white/5 rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300"
         variants={cardVariants}
         initial="initial"
         animate="animate"
         whileHover="hover"
-      >        {/* Movie Poster */}
+      >
+        {" "}
+        {/* Movie Poster */}
         <div className="relative aspect-[2/3] overflow-hidden">
-          <motion.div 
-            variants={imageVariants} 
-            className="w-full h-full"
-          >
+          <motion.div variants={imageVariants} className="w-full h-full">
             <MovieImage
               src={image}
               alt={title}
@@ -198,56 +224,69 @@ const DefaultCard = ({ tmdbid, title, image, imdbRating, mpaRating }: Pick<Movie
               className="w-full h-full object-cover"
             />
           </motion.div>
-          
+
           {/* Gentle overlay - always visible, lighter */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-          
+
           {/* Black overlay on hover */}
-          <motion.div 
+          <motion.div
             className="absolute inset-0 bg-black/40"
             variants={overlayVariants}
           />
-            {/* Ratings - always visible */}
+          {/* Ratings - always visible */}
           <div className="absolute bottom-3 left-3 right-3 z-10 flex justify-between items-end">
-            {imdbRating && (
-              <RatingDisplay rating={imdbRating} />
-            )}            {mpaRating && (
-              <MPARatingBadge 
+            {imdbRating && <RatingDisplay rating={imdbRating} />}{" "}
+            {mpaRating && (
+              <MPARatingBadge
                 rating={mpaRating}
                 size="small"
                 showTooltip={false}
                 variant="default"
               />
             )}
-          </div>{/* Movie title on hover - appears in bottom area */}
-          <motion.div 
+          </div>
+          {/* Movie title on hover - appears in bottom area */}
+          <motion.div
             className="absolute bottom-16 left-3 right-3"
-            variants={titleVariants}            transition={{ duration: 0.3, ease: "easeOut" }}
+            variants={titleVariants}
+            transition={{ duration: 0.3, ease: "easeOut" }}
           >
             <h4 className="text-white font-semibold text-sm text-center line-clamp-2 drop-shadow-lg">
               {title}
             </h4>
           </motion.div>
         </div>
-        
         {/* Subtle accent line */}
-        <motion.div 
-          className="h-0.5 bg-primary/20 group-hover:bg-primary/50 transition-colors duration-300"
-        />
       </motion.div>
     </Link>
   );
 };
 
 // Main MovieCard component
-const MovieCard = ({ id, tmdbid, title, image, imdbRating, mpaRating, cardType = 'default' }: MovieCardProps) => {
-  const isTop10 = cardType === 'top10';
-  
+const MovieCard = ({
+  id,
+  tmdbid,
+  title,
+  image,
+  imdbRating,
+  mpaRating,
+  cardType = "default",
+}: MovieCardProps) => {
+  const isTop10 = cardType === "top10";
+
   if (isTop10) {
     return <Top10Card tmdbid={tmdbid} title={title} image={image} id={id} />;
   }
-  
-  return <DefaultCard tmdbid={tmdbid} title={title} image={image} imdbRating={imdbRating} mpaRating={mpaRating} />;
+
+  return (
+    <DefaultCard
+      tmdbid={tmdbid}
+      title={title}
+      image={image}
+      imdbRating={imdbRating}
+      mpaRating={mpaRating}
+    />
+  );
 };
 
 export default MovieCard;

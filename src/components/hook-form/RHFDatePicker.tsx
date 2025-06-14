@@ -14,13 +14,14 @@ const RHFDatePicker: React.FC<RHFDatePickerProps> = ({ label, name }) => {
 
   return (
     <div>
-      <label className="block mb-2">{label}</label>
+      <label className="block mb-2 text-textMuted">{label}</label>
       <Controller
         name={name}
         control={control}
         render={({ field }) => (
           <DatePicker
             {...field}
+          
             showYearDropdown
             scrollableYearDropdown
             yearDropdownItemNumber={50}
@@ -28,7 +29,7 @@ const RHFDatePicker: React.FC<RHFDatePickerProps> = ({ label, name }) => {
             maxDate={new Date(2030, 11, 31)}
             selected={field.value}
             onChange={(date) => field.onChange(date)}
-            className="w-full border rounded-lg bg-transparent p-4 outline-none border-gray-800 custom-datepicker"
+            className="bg-background rounded-lg text-foreground w-full text-sm p-4 outline-none border border-border"
             placeholderText="Select a date"
           />
         )}

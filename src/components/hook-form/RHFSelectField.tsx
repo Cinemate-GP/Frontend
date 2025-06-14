@@ -19,17 +19,17 @@ const RHFSelectField: React.FC<CustomSelectProps> = ({
       control={control}
       render={({ field }) => (
         <div>
-          <label className="block mb-2">{label}</label>
+          <label className="block mb-2 text-textMuted">{label}</label>
           <select
             {...field}
             {...other}
-            className="bg-transparent border border-gray-800 w-full p-4 outline-none"
+            className="bg-background rounded-lg text-foreground w-full text-sm p-4 outline-none border border-border"
           >
             {options.map((option) => (
               <option
                 key={option}
                 value={option}
-                className="p-3 cursor-pointer transition text-black"
+                className="p-3 cursor-pointer transition text-foreground hover:bg-primary hover:text-foreground"
               >
                 {option}
               </option>

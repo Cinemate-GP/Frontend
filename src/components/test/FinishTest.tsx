@@ -20,7 +20,7 @@ const FinishTest = ({
           <Link
             href="/login"
             onClick={handleFinish}
-            className="relative -mt-2 px-6 py-2 bg-primary hover:bg-red-600 transition rounded-full w-full text-white"
+            className="relative bg-primary -mt-2 px-6 py-2 bg-primar transition rounded-lg w-full text-white"
           >
             Finish
           </Link>

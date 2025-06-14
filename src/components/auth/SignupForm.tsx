@@ -96,8 +96,8 @@ const SignupForm = () => {
           variants={fadeInUp}
           custom={0}
         >
-          <h1 className="text-2xl font-bold mb-1 bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-300">Create Account</h1>
-          <p className="text-gray-400 text-sm">Join our community today</p>
+          <h1 className="text-2xl font-bold mb-1 bg-clip-text text-textMuted ">Create Account</h1>
+          <p className="text-gray-400 text-sm mb-12">Join our community today</p>
         </motion.div>
 
         {serverError && (
@@ -143,7 +143,7 @@ const SignupForm = () => {
           <motion.div variants={fadeInUp} custom={5}>
             <button
               type="submit"
-              className="w-full relative group overflow-hidden bg-gradient-to-r from-red-700 to-red-600 hover:from-red-600 hover:to-red-500
+              className="w-full relative group overflow-hidden bg-primary hover:from-red-600 hover:to-red-500
                         transition-all duration-300 rounded-lg px-6 py-3.5 font-medium mt-2
                         text-white
                         focus:ring-2 focus:ring-primary/50 focus:outline-none
@@ -170,7 +170,7 @@ const SignupForm = () => {
             className="text-center text-sm text-gray-400 pt-2"
           >
             Already have an account?{' '}
-            <Link href="/login" className="text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-red-600 font-medium hover:from-red-500 hover:to-red-400 transition-all duration-300">
+            <Link href="/login" className="text-transparent bg-clip-text bg-primary font-medium hover:from-red-500 hover:to-red-400 transition-all duration-300">
               Sign in
             </Link>
           </motion.p>

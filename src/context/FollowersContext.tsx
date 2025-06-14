@@ -14,7 +14,7 @@ export const useProfile = () => {
   }
   return context;
 };
-export const ProfileProvider = ({
+export const FollowProvider = ({
   children,
   initialFollowers,
 }: {
@@ -22,7 +22,6 @@ export const ProfileProvider = ({
   initialFollowers: number;
 }) => {
   const [followersCount, setFollowersCount] = useState(initialFollowers);
-  console.log(followersCount)
   const value = useMemo(() => ({ followersCount, setFollowersCount }), [followersCount]);
 
   return (

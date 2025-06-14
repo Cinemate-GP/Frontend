@@ -5,6 +5,7 @@ import { FiStar } from "react-icons/fi";
 import { FaHeart, FaPlayCircle } from "react-icons/fa";
 import { MdOutlineRateReview } from "react-icons/md";
 import { RiUserFollowLine } from "react-icons/ri";
+import { motion } from "framer-motion";
 import { IMAGEPOSTER } from "@/constants";
 import { convertToDateTime, extractDigit } from "@/lib/utils";
 
@@ -17,6 +18,7 @@ interface ActionCardProps {
   time: string;
   actionTitle: string;
   posterPath: string;
+  backdropPath?: string;
   description: string;
 }
 
@@ -28,165 +30,219 @@ const FeedCard: React.FC<ActionCardProps> = ({
   time,
   type,
   actionTitle,
-  posterPath,
-  description,
-}) => {  const getIcon = (type: string) => {
-    const iconClass = "w-3.5 h-3.5";
+  posterPath,  backdropPath,  description,
+}) => {  // Helper function to get the correct image URL
+  const getImageUrl = (imagePath: string | undefined) => {
+    if (!imagePath) return "/image-placeholder.png";
+    
+    // If it's already a full URL (starts with http), use it directly
+    if (imagePath.startsWith('http')) {
+      return imagePath;
+    }
+    
+    // Otherwise, prefix with IMAGEPOSTER
+    return IMAGEPOSTER + imagePath;
+  };
+
+  const getActionVerb = (type: string) => {
     switch (type) {
-      case "like":
-        return <FaHeart className={`${iconClass} text-red-500 drop-shadow-sm`} />;
+      case "like": return "liked";
       case "Watched":
-        return <FaPlayCircle className={`${iconClass} text-emerald-500 drop-shadow-sm`} />;
+      case "watched": return "watched";
+      case "review": return "reviewed";
+      case "rate": return "rated";
+      case "follow": return "followed";
+      default: return type;
+    }
+  };
+
+  const getActionBadge = () => {
+    let bgColor = "";
+    let textColor = "";
+    let label = "";
+    let icon = null;
+    
+    switch (type) {      case "like":
+        bgColor = "bg-red-500";
+        textColor = "text-white";
+        label = "Liked";
+        icon = <FaHeart className="w-3.5 h-3.5" />;
+        break;
+      case "Watched":
+      case "watched":
+        bgColor = "bg-emerald-500";
+        textColor = "text-white";
+        label = "Watched";
+        icon = <FaPlayCircle className="w-3.5 h-3.5" />;
+        break;
       case "review":
-        return <MdOutlineRateReview className={`${iconClass} text-blue-500 drop-shadow-sm`} />;
+        bgColor = "bg-blue-500";
+        textColor = "text-white";
+        label = "Review";
+        icon = <MdOutlineRateReview className="w-3.5 h-3.5" />;
+        break;
       case "rate":
-        return <FiStar className={`${iconClass} text-amber-500 drop-shadow-sm`} />;
+        bgColor = "bg-amber-500";
+        textColor = "text-white";
+        label = "Rating";
+        icon = <FiStar className="w-3.5 h-3.5" />;
+        break;
       case "follow":
-        return <RiUserFollowLine className={`${iconClass} text-violet-500 drop-shadow-sm`} />;
+        bgColor = "bg-violet-500";
+        textColor = "text-white";
+        label = "Follow";        icon = <RiUserFollowLine className="w-3.5 h-3.5" />;
+        break;
+    }
+    
+    return (
+      <span className={`${bgColor} ${textColor} text-xs font-semibold px-2 py-1 rounded-full flex items-center gap-1.5`}>
+        {icon}
+        {label}
+      </span>
+    );
+  };
+
+  const renderRatingStars = (rating: number) => {
+    return (
+      <div className="flex items-center gap-1">
+        {[...Array(5)].map((_, i) => (          <FiStar 
+            key={i} 
+            className={`w-4 h-4 ${i < rating ? 'text-amber-400 fill-current' : 'text-textMuted/30'}`} 
+          />
+        ))}
+        <span className="ml-1 text-sm font-medium">{rating}/5</span>
+      </div>
+    );
+  };
+  const renderActionContent = () => {
+    switch (type) {
+      case "rate":
+        return (
+          <div className="flex items-center mt-3">
+            {renderRatingStars(extractDigit(description) || 0)}
+          </div>
+        );      case "review":
+        return (
+          <div className="mt-3">
+            <div className="relative pl-4 pr-4 py-3 bg-mainBg rounded-lg">
+              <div className="absolute left-0 top-0 bottom-0 w-1 bg-blue-500 rounded-l-lg"></div>              <p className="text-sm leading-relaxed line-clamp-3 italic text-foreground/90">
+                &quot;{description}&quot;
+              </p>
+            </div>
+          </div>
+        );
       default:
         return null;
     }
   };
-
-  const getActionText = (type: string) => {
-    switch (type) {
-      case "like":
-        return "liked";
-      case "Watched":
-        return "watched";
-      case "review":
-        return "reviewed";
-      case "rate":
-        return "rated";
-      case "follow":
-        return "followed";
-      default:
-        return type;
-    }
-  };  const renderActionContent = () => {
-    switch (type) {
-      case "rate":
-        return (
-          <div className="flex items-center gap-2 mt-3">            <div className="flex items-center gap-1 bg-gradient-to-r from-amber-500/10 to-orange-500/10 
-                           backdrop-blur-sm rounded-lg px-3 py-1.5">
-              <div className="flex gap-0.5">
-                {[...Array(extractDigit(description))].map((_, index) => (
-                  <FiStar key={index} className="w-3 h-3 text-amber-500 fill-current drop-shadow-sm" />
-                ))}
-              </div>
-              <span className="ml-1.5 text-xs text-amber-600 dark:text-amber-400 font-semibold">
-                {extractDigit(description)}/5
-              </span>
+  return (
+    <motion.div
+      className="bg-secondaryBg rounded-xl shadow-sm hover:shadow-md 
+                transition duration-300 overflow-hidden"
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+    >      {/* Card Header with Profile & Action Badge */}      <div className="px-4 pt-4 pb-3 flex items-center justify-between border-b dark:border-[#2e2e2e] border-[#e0e0e0]">
+        <div className="flex items-center gap-3">
+          <Link href={`/${userId}`}>
+            <div className="relative">              <Image
+                src={profilePic || "/user-placeholder.jpg"}
+                alt={fullName}
+                width={40}
+                height={40}
+                className="rounded-full w-10 h-10 object-cover border-2 border-mainBg"
+              />
+            </div>
+          </Link>
+          
+          <div>            <Link 
+              href={`/${userId}`}
+              className="font-semibold text-foreground hover:text-primary transition-colors text-sm block"
+            >
+              {fullName}
+            </Link>
+            <div className="text-textMuted text-xs">
+              {convertToDateTime(time)}
             </div>
           </div>
-        );
-      case "review":
-        return (
-          <div className="mt-3">            <div className="bg-gradient-to-br from-secondaryBg/40 to-secondaryBg/20 backdrop-blur-sm 
-                           rounded-lg p-3 shadow-sm">
-              <div className="flex items-start gap-2">
-                <MdOutlineRateReview className="w-3 h-3 text-blue-500 mt-0.5 flex-shrink-0" />
-                <p className="text-textMuted text-xs leading-relaxed break-words line-clamp-3 italic">
-                  &quot;{description}&quot;
-                </p>
-              </div>
-            </div>
-          </div>
-        );
-      default:
-        return null;
-    }
-  };  return (    <article className="bg-gradient-to-br from-secondaryBg to-secondaryBg/80 
-                       rounded-xl p-5 
-                       hover:shadow-lg hover:shadow-black/5
-                       transition-all duration-300 ease-out group 
-                       backdrop-blur-sm relative overflow-hidden">
-      
-      {/* Subtle background pattern */}
-      <div className="absolute inset-0 opacity-[0.02] pointer-events-none">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-primary/10" />
+        </div>
+        
+        {getActionBadge()}
       </div>
       
-      <div className="relative flex gap-4">        {/* Profile Section */}
+      {/* Content Area */}      <div className="px-4 py-3">        {/* Action Text and Movie Link */}
+        <div className="flex items-center gap-1.5 flex-wrap">
+          <span className="text-sm text-textMuted">
+            {getActionVerb(type)}
+          </span>
+          <Link
+            href={`/${type === "follow" ? "" : "movies/"}${id}`}
+            className="text-sm font-medium text-primary hover:underline"
+          >
+            {actionTitle}
+          </Link>
+        </div>
+        
+        {/* Action-Specific Content (ratings, review, etc) */}
+        {renderActionContent()}
+      </div>
+        {/* Movie Poster Area for non-follow actions */}      {type !== "follow" && (
         <Link
-          href={`/${userId}`}
-          className="flex-shrink-0 group/profile transition-all duration-200"
-        >
-          <div className="relative">
-            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary/20 to-primary/5 
-                           p-0.5 group-hover/profile:from-primary/30 group-hover/profile:to-primary/10 
-                           transition-all duration-200">
-              <Image
-                src={profilePic || "/user-placeholder.jpg"}
-                alt={`${fullName}'s profile`}
-                width={48}
-                height={48}
-                className="w-full h-full rounded-full object-cover"
-              />
-            </div>            <div className="absolute -bottom-1 -right-1 bg-secondaryBg/90 
-                           rounded-full p-1 shadow-lg backdrop-blur-sm">
-              {getIcon(type)}
+          href={`/movies/${id}`}
+          className="block relative w-full h-48 mt-2 bg-mainBg overflow-hidden group"
+        >          {/* Backdrop */}
+          <Image
+            src={getImageUrl(backdropPath || posterPath)}
+            alt={actionTitle}
+            fill
+            className="object-cover group-hover:scale-105 transition-transform duration-300 blur-sm"
+          />{/* Poster Container */}
+          <div className="absolute inset-0 flex items-center justify-start pl-6">
+            <div className="flex flex-col items-start gap-3">              <div className="relative w-20 h-28 rounded-lg overflow-hidden shadow-lg border-2 border-white/20 group-hover:scale-110 transition-transform duration-300">
+                <Image
+                  src={getImageUrl(posterPath)}
+                  alt={actionTitle}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+            </div>
+          </div>
+          
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
+            <div className="p-4 w-full flex justify-end">
+              <div className="flex items-center">
+                {/* Trailer play button */}
+                <div className="bg-black/40 hover:bg-black/60 transition p-1.5 rounded-full">
+                  <FaPlayCircle className="w-5 h-5 text-white" />
+                </div>
+              </div>
             </div>
           </div>
         </Link>
-
-        {/* Content */}
-        <div className="flex-1 min-w-0">
-          {/* Header */}
-          <div className="flex items-start justify-between gap-3 mb-1">
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2 flex-wrap mb-1">                <Link
-                  href={`/${userId}`}
-                  className="font-semibold text-foreground hover:text-primary 
-                           transition-colors text-sm group-hover:text-primary/90"
-                >
-                  {fullName}
-                </Link>
-                <span className="text-textMuted/70 text-xs font-medium">
-                  {getActionText(type)}
-                </span>                <Link
-                  href={`/${type === "follow" ? "" : "movies/"}${id}`}
-                  className="font-medium text-primary hover:text-primary/80 
-                           transition-colors text-sm truncate max-w-[200px]"
-                >
-                  {actionTitle}
-                </Link>
-              </div>
-              <div className="flex items-center gap-2 text-xs text-textMuted/60">
-                <span>@{userId}</span>
-                <span>•</span>
-                <time>{convertToDateTime(time)}</time>
-              </div>
-              {renderActionContent()}
-            </div>            {/* Poster */}
-            <Link
-              href={`/${type === "follow" ? "" : "movies/"}${id}`}
-              className="flex-shrink-0 group/poster"
-            ><div className="relative overflow-hidden rounded-lg 
-                             shadow-md hover:shadow-lg transition-all duration-300 
-                             bg-gradient-to-br from-secondaryBg/10 to-secondaryBg/5">
-                <Image
-                  src={
-                    posterPath
-                      ? type === "follow"
-                        ? posterPath
-                        : IMAGEPOSTER + posterPath
-                      : "/image-placeholder.png"
-                  }
-                  alt={actionTitle}
-                  width={64}
-                  height={96}
-                  className="w-16 h-24 object-cover group-hover/poster:scale-105 
-                           transition-transform duration-500 ease-out"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent 
-                               opacity-0 group-hover/poster:opacity-100 transition-opacity duration-300" />
-              </div>
-            </Link>
-          </div>
+      )}{/* Follow action special layout */}
+      {type === "follow" && (
+        <div className="px-4 pb-4 mt-1">
+          <Link 
+            href={`/${id}`}
+            className="flex items-center gap-3 hover:bg-hoverBg/30 p-2 -m-2 rounded-lg transition-colors"
+          >            <Image
+              src={posterPath || "/user-placeholder.jpg"}
+              alt={actionTitle}
+              width={50}
+              height={50}
+              className="rounded-full w-12 h-12 object-cover border-2 border-mainBg"
+            />
+            <div>
+              <span className="font-medium text-foreground hover:text-primary transition-colors text-sm block">
+                {actionTitle}
+              </span>
+              <span className="text-xs text-textMuted">@{id}</span>
+            </div>
+          </Link>
         </div>
-      </div>
-    </article>
+      )}
+    </motion.div>
   );
 };
 

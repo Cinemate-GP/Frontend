@@ -500,3 +500,186 @@
   75% { background: linear-gradient(315deg, var(--primary), transparent, var(--primary)); }
   100% { background: linear-gradient(45deg, var(--primary), transparent, var(--primary)); }
 }
+
+/* Feed Page Animations */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.6s ease-out forwards;
+  opacity: 0;
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s ease-out forwards;
+  opacity: 0;
+}
+
+/* Feed Card Hover Effects */
+.feed-card-glow {
+  position: relative;
+  overflow: hidden;
+}
+
+.feed-card-glow::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(var(--primary-rgb), 0.1),
+    transparent
+  );
+  transition: left 0.6s ease;
+}
+
+.feed-card-glow:hover::before {
+  left: 100%;
+}
+
+/* Profile Image Glow */
+.profile-glow {
+  position: relative;
+}
+
+.profile-glow::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(45deg, var(--primary), transparent, var(--primary));
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.profile-glow:hover::after {
+  opacity: 0.5;
+}
+
+/* Staggered Animation for Feed Items */
+.feed-item-1 { animation-delay: 0.1s; }
+.feed-item-2 { animation-delay: 0.2s; }
+.feed-item-3 { animation-delay: 0.3s; }
+.feed-item-4 { animation-delay: 0.4s; }
+.feed-item-5 { animation-delay: 0.5s; }
+
+/* Enhanced Backdrop Blur */
+.backdrop-blur-strong {
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+}
+
+/* Pulse Animation for Action Icons */
+@keyframes pulse-glow {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+}
+
+.pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Smooth Scroll Behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Enhanced Shadow Effects for Feed */
+.feed-shadow {
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.1),
+    0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.feed-shadow-hover {
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.15),
+    0 10px 20px rgba(var(--primary-rgb), 0.1);
+}
+
+/* Feed Card Animation Effects */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s ease-out forwards;
+}
+
+/* Glass Effect for Feed Cards */
+.glass-effect {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+/* Soft Glow Effect for Rating Stars */
+.glow-effect {
+  filter: drop-shadow(0 0 3px var(--primary-light));
+}
+
+/* Modern Card Hover Effect */
+.modern-card-hover {
+  transition: all 0.3s ease;
+}
+
+.modern-card-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 20px -10px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive Feed Layout - Mobile First */
+@media (max-width: 640px) {
+  .feed-card-mobile {
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .feed-content-mobile {
+    flex-direction: column;
+  }
+  
+  .feed-poster-mobile {
+    margin-bottom: 0.75rem;
+    align-self: center;
+  }
+}
