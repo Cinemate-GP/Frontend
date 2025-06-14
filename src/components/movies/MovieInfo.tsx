@@ -12,6 +12,7 @@ import { useState } from "react";
 import { IMAGEPOSTER } from "@/constants";
 import { FaClock } from "react-icons/fa6";
 import Image from "next/image";
+import TrailerModal from "../modals/TrailerModal";
 
 interface MovieInfoProps {
   info: {
@@ -39,9 +40,12 @@ interface MovieInfoProps {
   loading: boolean;
 }
 
+
 const MovieInfo: React.FC<MovieInfoProps> = ({ info, loading }) => {
   // Rated movie modal state
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [isTrailerOpen,setIsTrailerOpen] = useState(false)
   // render selecton during waiting for data comming form backend
   if (loading) return <SkeletonMovieInfo />;
 
@@ -51,11 +55,13 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ info, loading }) => {
       style={{ backgroundImage: `url(${IMAGEPOSTER}${info.backdropPath})` }}
     >
       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 via-10% to-black/40">
-        <div className="absolute h-full  w-full flex flex-col lg:flex-row justify-around items-center top-[50%] -translate-y-1/2 px-5 xl:px-16">
-          <MoviePoster 
-            poster_path={info.posterPath!} 
-            title={info.title} 
-          />
+        <div className="absolute h-full  w-full flex flex-col lg:flex-row justify-center lg:justify-end gap-6 lg:gap-0 items-center top-[50%] -translate-y-1/2 px-5 xl:px-16">
+          <div className="flex flex-col items-center gap-4 w-full order-2 lg:-order-1">
+            <MoviePoster poster_path={info.posterPath!} title={info.title} />
+            <button onClick={() => setIsTrailerOpen(true)} className="text-white border border-primary hover:bg-primary transition-all duration-300 rounded-lg p-3 max-w-[250px] md:max-w-[280px] lg:max-w-[300px] w-full">
+              Watch Trailer
+            </button> 
+          </div>
 
           {/* movie details */}
           <div className="flex flex-col items-center text-center gap-3 max-w-3xl">
@@ -77,13 +83,15 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ info, loading }) => {
               </div>
             )}
             {/* movie meta info */}
-
-            <p className="text-white">{info.tagline}</p>            {/* meta info */}
-            <div className="flex flex-wrap justify-center gap-4 gap-y-2 text-lg text-white">              <span className="flex items-center gap-1 text-[16px]">
+            <p className="text-white">{info.tagline}</p> {/* meta info */}
+            <div className="flex flex-wrap justify-center gap-4 gap-y-2 text-lg text-white">
+              {" "}
+              <span className="flex items-center gap-1 text-[16px]">
                 <LuCalendarClock />
                 {info.releaseDate}
-              </span>              {info.mpa && (
-                <MPARatingBadge 
+              </span>{" "}
+              {info.mpa && (
+                <MPARatingBadge
                   rating={info.mpa}
                   size="medium"
                   showTooltip={true}
@@ -104,7 +112,6 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ info, loading }) => {
                   {info.rottenTomatoesRating}
                 </span>
               )}
-
               {info.metacriticRating && (
                 <span className="flex items-center gap-1 text-[16px]">
                   <Image
@@ -119,10 +126,9 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ info, loading }) => {
               )}
               <span className="flex items-center gap-1 text-[16px]">
                 <FaClock size={14} />
-                {formatDuration(info.runtime)} 
+                {formatDuration(info.runtime)}
               </span>
             </div>
-
             <MovieGenres genres={info.geners || []} />
             {info.overview && (
               <p className="w-full md:max-w-[60%] text-[14px] sm:text-[16px] text-white">
@@ -150,6 +156,7 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ info, loading }) => {
           onclose={() => setIsModalOpen(false)}
         />
       )}
+      {isTrailerOpen && <TrailerModal setIsOpen={setIsTrailerOpen} trailer={info.trailer!} />}
     </div>
   );
 };
