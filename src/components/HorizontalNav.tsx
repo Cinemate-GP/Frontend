@@ -13,7 +13,7 @@ import { logout } from "@/lib/utils";
 const HorizontalNav = ({ pathname: propPathname }: { pathname: string }) => {
   const pathFromRouter = useNextPathname();
   const pathname = propPathname || pathFromRouter;
-    const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isLogoutConfirm, setIsLogoutConfirm] = useState<boolean>(false);
   const { refreshUserData } = useUser();
 
@@ -34,7 +34,7 @@ const HorizontalNav = ({ pathname: propPathname }: { pathname: string }) => {
       setIsLogoutConfirm(true);
       return;
     }
-    
+
     logout("/");
     setIsLogoutConfirm(false);
   }, [isLogoutConfirm]);
@@ -45,7 +45,7 @@ const HorizontalNav = ({ pathname: propPathname }: { pathname: string }) => {
       const timer = setTimeout(() => {
         setIsLogoutConfirm(false);
       }, 3000);
-      
+
       return () => clearTimeout(timer);
     }
   }, [isLogoutConfirm]);
@@ -59,7 +59,7 @@ const HorizontalNav = ({ pathname: propPathname }: { pathname: string }) => {
   return (
     <>
       {/* Mobile Bottom Navigation Bar */}
-      <motion.div 
+      <motion.div
         initial={{ y: 100 }}
         animate={{ y: 0 }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
@@ -72,11 +72,11 @@ const HorizontalNav = ({ pathname: propPathname }: { pathname: string }) => {
               <Link
                 href={item.href}
                 onClick={() => setIsOpen(false)}
-                className={`flex flex-col items-center justify-center h-full ${
+                className={`flex flex-col items-center justify-center max-w-16 hover:text-primary ${
                   pathname === item.href ? "text-primary" : "text-gray-400"
                 }`}
               >
-                <item.icon className="w-5 h-5 mb-1" aria-hidden="true" />
+                <item.icon className="w-5 h-5 mb-1 " aria-hidden="true" />
                 <span className="text-[10px]">{item.name}</span>
               </Link>
             </li>
@@ -84,7 +84,7 @@ const HorizontalNav = ({ pathname: propPathname }: { pathname: string }) => {
 
           {/* Search Button */}
           <li className="flex-1" onClick={() => setIsOpen(false)}>
-            <div className="flex flex-col items-center justify-center h-full">
+            <div className="flex flex-col items-center justify-center h-full hover:text-primary">
               <Search isMobile={true} />
             </div>
           </li>
@@ -92,7 +92,7 @@ const HorizontalNav = ({ pathname: propPathname }: { pathname: string }) => {
           {/* Profile Button (opens menu) */}
           <AnimatePresence mode="wait">
             {isLogoutConfirm ? (
-              <motion.li 
+              <motion.li
                 key="logout-confirm"
                 className="flex-1"
                 initial={{ opacity: 0, scale: 0.8 }}
@@ -107,30 +107,32 @@ const HorizontalNav = ({ pathname: propPathname }: { pathname: string }) => {
                   <IoExitOutline className="w-5 h-5 mb-1" aria-hidden="true" />
                   <span className="text-[10px]">Confirm</span>
                 </button>
-              </motion.li>            ) : (              <motion.li 
-                key="menu" 
+              </motion.li>
+            ) : (
+              <motion.li
+                key="menu"
                 className="flex-1"
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.8 }}
               >
                 <button
-                  className={`flex flex-col items-center justify-center h-full w-full ${
+                  className={`flex flex-col items-center justify-center h-full w-full hover:text-primary ${
                     isOpen ? "text-primary" : "text-gray-400"
                   }`}
                   onClick={toggleMenu}
                 >
-                  <svg 
-                    className="w-5 h-5 mb-1" 
-                    fill="none" 
-                    stroke="currentColor" 
+                  <svg
+                    className="w-5 h-5 mb-1"
+                    fill="none"
+                    stroke="currentColor"
                     viewBox="0 0 24 24"
                   >
-                    <path 
-                      strokeLinecap="round" 
-                      strokeLinejoin="round" 
-                      strokeWidth={2} 
-                      d="M4 6h16M4 12h16M4 18h16" 
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M4 6h16M4 12h16M4 18h16"
                     />
                   </svg>
                   <span className="text-[10px]">Menu</span>
@@ -139,7 +141,8 @@ const HorizontalNav = ({ pathname: propPathname }: { pathname: string }) => {
             )}
           </AnimatePresence>
         </ul>
-      </motion.div>      {/* Mobile Menu Popup */}
+      </motion.div>{" "}
+      {/* Mobile Menu Popup */}
       <AnimatePresence>
         {isOpen && (
           <motion.div

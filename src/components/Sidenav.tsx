@@ -37,16 +37,40 @@ export default function Sidenav() {
   const navCategories = {
     browse: [
       { name: "Home", href: "/home", icon: "Home" as keyof typeof modernIcons },
-      { name: "Movies", href: "/movies", icon: "Movies" as keyof typeof modernIcons },
-      { name: "Feed", href: "/feed", icon: "Feeds" as keyof typeof modernIcons },
+      {
+        name: "Movies",
+        href: "/movies",
+        icon: "Movies" as keyof typeof modernIcons,
+      },
+      {
+        name: "Feed",
+        href: "/feed",
+        icon: "Feeds" as keyof typeof modernIcons,
+      },
     ],
     library: [
-      { name: "Watchlist", href: `/${user?.userName}/watchlist`, icon: "Watchlist" as keyof typeof modernIcons },
-      { name: "Liked", href: `/${user?.userName}/liked`, icon: "Likes" as keyof typeof modernIcons },
+      {
+        name: "Watchlist",
+        href: `/${user?.userName}/watchlist`,
+        icon: "Watchlist" as keyof typeof modernIcons,
+      },
+      {
+        name: "Liked",
+        href: `/${user?.userName}/liked`,
+        icon: "Likes" as keyof typeof modernIcons,
+      },
     ],
     account: [
-      { name: "Profile", href: `/${user?.userName}`, icon: "Profile" as keyof typeof modernIcons },
-      { name: "Settings", href: "/settings", icon: "Settings" as keyof typeof modernIcons },
+      {
+        name: "Profile",
+        href: `/${user?.userName}`,
+        icon: "Profile" as keyof typeof modernIcons,
+      },
+      {
+        name: "Settings",
+        href: "/settings",
+        icon: "Settings" as keyof typeof modernIcons,
+      },
     ],
   };
 
@@ -71,7 +95,9 @@ export default function Sidenav() {
   };
 
   return (
-    <>      <motion.aside
+    <>
+      {" "}
+      <motion.aside
         data-sidebar="true"
         className="h-screen bg-sideNavBg fixed z-50
            flex-col border-r border-border shadow-xl
@@ -94,7 +120,8 @@ export default function Sidenav() {
               height={36}
               priority
               alt="CineMate logo"
-              className={`${themeMode === "light" ? "invert" : ""
+              className={`${
+                themeMode === "light" ? "invert" : ""
               } filter object-contain min-w-[36px]`}
             />
             <AnimatePresence>
@@ -222,8 +249,12 @@ export default function Sidenav() {
             {navCategories.account.map((link) => (
               <NavItem
                 key={link.name}
-                link={link}                isActive={
-                  pathname === (link.name === "Profile" ? `/${user?.userName}` : link.href) ||
+                link={link}
+                isActive={
+                  pathname ===
+                    (link.name === "Profile"
+                      ? `/${user?.userName}`
+                      : link.href) ||
                   // Only consider profile active if it's exactly the username path, not subpaths
                   (link.name === "Profile" && pathname === `/${user?.userName}`)
                 }
@@ -291,7 +322,6 @@ export default function Sidenav() {
           </motion.button>
         </div>
       </motion.aside>
-
       {/* Expand Button - Only shown when sidebar is collapsed and positioned outside */}
       <AnimatePresence>
         {isCollapsed && (
@@ -326,7 +356,6 @@ export default function Sidenav() {
           </motion.button>
         )}
       </AnimatePresence>
-
       <HorizontalNav pathname={pathname} />
     </>
   );

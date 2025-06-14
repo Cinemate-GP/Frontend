@@ -10,7 +10,13 @@ import { AiFillStar } from "react-icons/ai";
 import { FaRegPlayCircle } from "react-icons/fa";
 import { BsExclamationCircle } from "react-icons/bs";
 
-import { Navigation, Pagination, Autoplay, EffectFade, Parallax } from "swiper/modules";
+import {
+  Navigation,
+  Pagination,
+  Autoplay,
+  EffectFade,
+  Parallax,
+} from "swiper/modules";
 import Link from "next/link";
 import { useState } from "react";
 import TrailerModal from "../modals/TrailerModal";
@@ -24,9 +30,7 @@ import { motion } from "framer-motion";
 const HomeSlider = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [trailer, setTrailer] = useState("");
-  const { data: movies, loading } = useFetch<Movie[]>(
-    "/api/Movie/trending",
-  );
+  const { data: movies, loading } = useFetch<Movie[]>("/api/Movie/trending");
   return (
     <>
       <div className="relative">
@@ -38,7 +42,9 @@ const HomeSlider = () => {
           autoplay={{
             delay: 6000,
             disableOnInteraction: false,
-          }}          speed={1500}          loop={true}
+          }}
+          speed={1500}
+          loop={true}
           className="hero-slider h-screen"
         >
           {loading && HomeSliderSkeleton()}
@@ -50,18 +56,20 @@ const HomeSlider = () => {
                   <div
                     className="absolute inset-0 w-full h-full bg-cover bg-center scale-110 transition-transform duration-[6000ms] ease-out"
                     style={{
-                      backgroundImage: `url(${IMAGEPOSTER + slid.backdropPath})`,
+                      backgroundImage: `url(${
+                        IMAGEPOSTER + slid.backdropPath
+                      })`,
                     }}
                     data-swiper-parallax="-300"
                   />
-                  
+
                   {/* Enhanced Gradient Overlay */}
                   <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30" />
-                    {/* Animated Content */}
+                  {/* Animated Content */}
                   <div className="absolute inset-0 flex items-center pb-20">
                     <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
-                      <motion.div 
+                      <motion.div
                         initial={{ opacity: 0, y: 100 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 1, delay: index * 0.2 }}
@@ -70,13 +78,13 @@ const HomeSlider = () => {
                       >
                         {/* Movie Logo/Title */}
                         {slid?.logoPath ? (
-                          <motion.div 
+                          <motion.div
                             initial={{ opacity: 0, scale: 0.8 }}
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ duration: 0.8, delay: 0.3 }}
                             className="w-full max-w-[350px] md:max-w-[450px] mx-auto sm:mx-0 mb-4"
                           >
-                            <Image 
+                            <Image
                               width={450}
                               height={225}
                               src={IMAGEPOSTER + slid.logoPath}
@@ -86,7 +94,7 @@ const HomeSlider = () => {
                             />
                           </motion.div>
                         ) : (
-                          <motion.h1 
+                          <motion.h1
                             initial={{ opacity: 0, x: -50 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ duration: 0.8, delay: 0.3 }}
@@ -95,9 +103,8 @@ const HomeSlider = () => {
                             {slid.title}
                           </motion.h1>
                         )}
-
                         {/* Movie Info */}
-                        <motion.div 
+                        <motion.div
                           initial={{ opacity: 0, y: 30 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ duration: 0.6, delay: 0.5 }}
@@ -108,15 +115,16 @@ const HomeSlider = () => {
                           </span>
                           <div className="flex items-center gap-2 bg-black/30 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10">
                             <AiFillStar className="text-primary text-lg" />
-                            <span className="text-white font-semibold">{slid.imdbRating.split("/")[0]}</span>
+                            <span className="text-white font-semibold">
+                              {slid.imdbRating.split("/")[0]}
+                            </span>
                           </div>
                           <span className="text-white/90 bg-black/30 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10">
                             {slid.releaseDate}
                           </span>
                         </motion.div>
-
                         {/* Genres */}
-                        <motion.div 
+                        <motion.div
                           initial={{ opacity: 0, y: 30 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ duration: 0.6, delay: 0.6 }}
@@ -131,17 +139,17 @@ const HomeSlider = () => {
                             </span>
                           ))}
                         </motion.div>
-
                         {/* Tagline */}
-                        <motion.p 
+                        <motion.p
                           initial={{ opacity: 0, y: 30 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ duration: 0.6, delay: 0.7 }}
                           className="text-lg sm:text-xl text-white/90 leading-relaxed drop-shadow-lg max-w-xl"
                         >
                           {slid.tagline}
-                        </motion.p>                        {/* Action Buttons */}
-                        <motion.div 
+                        </motion.p>{" "}
+                        {/* Action Buttons */}
+                        <motion.div
                           initial={{ opacity: 0, y: 30 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ duration: 0.6, delay: 0.8 }}
@@ -165,15 +173,17 @@ const HomeSlider = () => {
                             <BsExclamationCircle size={20} />
                             More Info
                           </Link>
-                        </motion.div>                      </motion.div>
+                        </motion.div>{" "}
+                      </motion.div>
                     </div>
                   </div>
                 </div>
               </SwiperSlide>
             );
-          })}        </Swiper>
+          })}{" "}
+        </Swiper>
       </div>
-      
+
       {isOpen && <TrailerModal setIsOpen={setIsOpen} trailer={trailer} />}
     </>
   );

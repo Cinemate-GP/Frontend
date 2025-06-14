@@ -306,7 +306,7 @@ export const Search = ({
             e.preventDefault();
             setShowMobileSearch(true);
           }}
-          className="flex flex-col items-center justify-center h-full text-gray-400 hover:text-white transition-colors"
+          className="flex flex-col items-center justify-center h-full text-gray-400 hover:text-primary transition-colors"
         >
           <FiSearch className="w-5 h-5 mb-1" aria-hidden="true" />
           <span className="text-[10px]">Search</span>
