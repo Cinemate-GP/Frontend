@@ -11,7 +11,6 @@ import withAuth from "@/hoc/withAuthContainer";
 import { MdOutlineMovie } from "react-icons/md";
 import { SlReload } from "react-icons/sl";
 import { authFetch } from "@/lib/api";
-import { useCookie } from "@/hooks/useCookie";
 import { getCookie, getUserId } from "@/lib/utils";
 
 

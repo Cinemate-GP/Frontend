@@ -6,7 +6,6 @@ interface Result {
 
 const FinishTest = ({
   hideButtons,
-  result,
 }: {
   hideButtons: boolean;
   result: Result;
