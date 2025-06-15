@@ -11,7 +11,7 @@ export const MoviePoster = ({
   if (!poster_path) return null;
 
   return (
-      <div className="relative group w-full hidden lg:block max-w-[250px] md:max-w-[280px] lg:max-w-[300px]">
+      <div className="relative group w-full hidden lg:block max-w-[250px] md:max-w-[280px] lg:max-w-[350px]">
         <img
           src={`${IMAGEPOSTER}${poster_path}`}
           alt={title || "Movie poster"}

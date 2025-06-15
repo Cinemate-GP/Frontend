@@ -53,18 +53,17 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ info, loading }) => {
     <div
       className="relative w-full h-screen overflow-auto bg-cover bg-top"
       style={{ backgroundImage: `url(${IMAGEPOSTER}${info.backdropPath})` }}
-    >
-      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 via-10% to-black/40">
-        <div className="absolute h-full  w-full flex flex-col lg:flex-row justify-center lg:justify-end gap-6 lg:gap-0 items-center top-[50%] -translate-y-1/2 px-5 xl:px-16">
-          <div className="flex flex-col items-center gap-4 w-full order-2 lg:-order-1">
+    >      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 via-10% to-black/40">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 h-full flex flex-col lg:flex-row justify-center lg:justify-around gap-6 lg:gap-0 items-center">
+          <div className="flex flex-col items-center gap-4 w-full max-w-lg order-2 lg:-order-1">
             <MoviePoster poster_path={info.posterPath!} title={info.title} />
-            <button onClick={() => setIsTrailerOpen(true)} className="text-white border border-primary hover:bg-primary transition-all duration-300 rounded-lg p-3 max-w-[250px] md:max-w-[280px] lg:max-w-[300px] w-full">
+            <button onClick={() => setIsTrailerOpen(true)} className="text-white border border-primary hover:bg-primary transition-all duration-300 rounded-lg p-3 max-w-[250px] md:max-w-[280px] lg:max-w-[350px] w-full">
               Watch Trailer
             </button> 
           </div>
 
           {/* movie details */}
-          <div className="flex flex-col items-center text-center gap-3 max-w-3xl">
+          <div className="flex flex-col items-center text-center gap-3 w-full">
             {/* title */}
             {!info.logoPath && (
               <h2 className="tracking-widest text-white text-2xl md:text-4xl xl:text-5xl font-bold">
@@ -72,7 +71,7 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ info, loading }) => {
               </h2>
             )}
             {info.logoPath && (
-              <div className="w-full max-w-[150px] sm:max-w-xs xl:max-w-[280px] mx-auto sm:mx-0">
+              <div className="w-full max-w-[150px] sm:max-w-xs xl:max-w-[350px] mx-auto sm:mx-0">
                 <Image
                   src={IMAGEPOSTER + info.logoPath}
                   width={200}
@@ -83,7 +82,7 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ info, loading }) => {
               </div>
             )}
             {/* movie meta info */}
-            <p className="text-white">{info.tagline}</p> {/* meta info */}
+            <p className="text-white text-base lg:text-xl">{info.tagline}</p> {/* meta info */}
             <div className="flex flex-wrap justify-center gap-4 gap-y-2 text-lg text-white">
               {" "}
               <span className="flex items-center gap-1 text-[16px]">
@@ -131,7 +130,7 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ info, loading }) => {
             </div>
             <MovieGenres genres={info.geners || []} />
             {info.overview && (
-              <p className="w-full md:max-w-[60%] text-[14px] sm:text-[16px] text-white">
+              <p className="max-w-xl text-[14px] sm:text-[16px] lg:text-lg text-white">
                 {info.overview}
               </p>
             )}
