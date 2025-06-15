@@ -291,56 +291,56 @@ export const recommendedMoviesData = [
 
 export const moviesRates = [
   {
-    id: 1,
+    tmdbId: 1,
     title: "the matrix",
     poster:
       "https://image.tmdb.org/t/p/original//d8Ryb8AunYAuycVKDp5HpdWPKgC.jpg",
     year:'2022'
   },
   {
-    id: 2,
+    tmdbId: 2,
     title: "the batman",
     poster:
       "https://image.tmdb.org/t/p/original//3L3l6LsiLGHkTG4RFB2aBA6BttB.jpg",
     year:'2022'
   },
   {
-    id: 3,
+    tmdbId: 3,
     title: "movie star",
     poster:
       "https://image.tmdb.org/t/p/original//aosm8NMQ3UyoBVpSxyimorCQykC.jpg",
     year:'2022'
   },
   {
-    id: 4,
+    tmdbId: 4,
     title: "Star Wars",
     poster:
       "https://image.tmdb.org/t/p/original//d8Ryb8AunYAuycVKDp5HpdWPKgC.jpg",
     year:'2022'
   },
   {
-    id: 5,
+    tmdbId: 5,
     title: "Kill Bill",
     poster:
       "https://image.tmdb.org/t/p/original//3L3l6LsiLGHkTG4RFB2aBA6BttB.jpg",
     year: '2002',
   },
   {
-    id: 6,
+    tmdbId: 6,
     title: "Red Notice",
     poster:
       "https://image.tmdb.org/t/p/original//aosm8NMQ3UyoBVpSxyimorCQykC.jpg",
     year:'2022'
   },
   {
-    id: 1,
+    tmdbId: 1,
     title: "The Professional",
     poster:
       "https://image.tmdb.org/t/p/original//d8Ryb8AunYAuycVKDp5HpdWPKgC.jpg",
     year:'2022'
   },
   {
-    id: 2,
+    tmdbId: 2,
     title: "Over the Moon",
     poster:
       "https://image.tmdb.org/t/p/original//3L3l6LsiLGHkTG4RFB2aBA6BttB.jpg",

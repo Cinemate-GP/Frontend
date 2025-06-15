@@ -242,6 +242,24 @@ export const getMPAColor = (mpaCategory: string): string => {
   return colors[mpaCategory] || colors["Unrated"];
 };
 
+export const occupations = [
+  { id: 0, label: "Other" },
+  { id: 1, label: "Academic/Educator" },
+  { id: 2, label: "Artist" },
+  { id: 3, label: "College/Grad Student" },
+  { id: 4, label: "Customer Service" },
+  { id: 5, label: "Doctor/Health Care" },
+  { id: 6, label: "Homemaker" },
+  { id: 7, label: "K-12 Student" },
+  { id: 8, label: "Lawyer" },
+  { id: 9, label: "Programmer" },
+  { id: 10, label: "Sales/Marketing" },
+  { id: 11, label: "Self-Employed" },
+  { id: 12, label: "Technician/Engineer" },
+  { id: 13, label: "Tradesman/Craftsman" },
+  { id: 14, label: "Writer" },
+];
+
 // Helper function to check if content is appropriate for age
 export const isAppropriateForAge = (mpaCategory: string, age: number): boolean => {
   const ageRequirements: Record<string, number> = {

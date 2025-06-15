@@ -46,6 +46,7 @@ export const RegisterSchema = yup.object().shape({
 
   gender: yup.string().required("Gender is required"),
   birthDay: yup.date().required("Birth date is required"),
+  jop:yup.string().required('jop is required')
 });
 
 export const validatePasswords = (

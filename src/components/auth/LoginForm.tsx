@@ -172,7 +172,7 @@ const LoginForm = () => {
           <motion.p 
             variants={fadeInUp} 
             custom={4}
-            className="text-center text-xs text-gray-400 pt-1"
+            className="text-center text-[16] text-gray-400 pt-1"
           >
             Don&apos;t have an account?{" "}
             <Link href="/signup" className="text-transparent bg-clip-text bg-primary transition-all duration-300">

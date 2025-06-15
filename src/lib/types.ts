@@ -56,6 +56,8 @@ export type Review = {
   profilePic: string;
   stars: number;
   reviewId: number;
+  reviewType?:string;
+  reviewConfidence?:number
   reviewBody: string;
   reviewedOn: string;
 };

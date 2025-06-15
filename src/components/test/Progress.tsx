@@ -12,7 +12,7 @@ const Progress = ({
       <p className="text-center text-sm">Calculating your taste...</p>
       <div className="w-full h-1 bg-gray-700 rounded-full mt-1">
         <div
-          className="h-1 bg-red-500 rounded-full"
+          className="h-1 bg-primary rounded-full"
           style={{ width: `${getProgress(ratedCount, minRated)}%` }}
         ></div>
       </div>

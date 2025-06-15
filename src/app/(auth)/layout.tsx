@@ -19,7 +19,7 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
               height={120}
               priority
               alt="logo"
-              className="mx-auto mb-8"
+              className="mx-auto mb-8 w-20 h-20 md:w-28 md:h-28"
             />
           </Link>
 

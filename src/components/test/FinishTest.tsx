@@ -1,29 +1,30 @@
-import Link from "next/link";
-import { useRouter } from "next/navigation";
+interface Result {
+  ratedMovies: { rating: number; movieId: number }[];
+}
 
 const FinishTest = ({
   hideButtons,
   result,
 }: {
   hideButtons: boolean;
-  result: { label: string; movieId: number }[];
+  result: Result;
+  resetTest: () => void;
 }) => {
-  const router = useRouter();
+  // const router = useRouter();
   const handleFinish = () => {
-    router.push("/");
+    // router.push("/");
     console.log(result);
   };
   return (
     <>
       {hideButtons && (
-        <div className="text-center">
-          <Link
-            href="/login"
+        <div className="text-center flex">
+          <button
             onClick={handleFinish}
-            className="relative bg-primary -mt-2 px-6 py-2 bg-primar transition rounded-lg w-full text-white"
+            className="relative bg-primary -mt-2 px-6 py-2 bg-primar transition rounded-lg w-full  text-white"
           >
             Finish
-          </Link>
+          </button>
         </div>
       )}
     </>

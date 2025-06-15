@@ -4,7 +4,7 @@ import { FormatDate, getUserId, truncateText } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { BiTrashAlt } from "react-icons/bi";
+import { BiHappy, BiSad, BiTrashAlt } from "react-icons/bi";
 import { FaStar } from "react-icons/fa6";
 
 const MovieReviewList = ({
@@ -68,7 +68,7 @@ const MovieReviewList = ({
               className="grid grid-cols-10 p-2 md:p-4 rounded-lg gap-4 bg-hoverBg"
             >
               <Link
-                href={`/user/${review.userId}`}
+                href={`/${review.userName}`}
                 className="col-span-10 sm:col-span-2 lg:col-span-1"
               >
                 <Image
@@ -86,14 +86,14 @@ const MovieReviewList = ({
               </Link>
               <div className="col-span-10 sm:col-span-8 lg:col-span-9">
                 <div className="flex gap-3 items-center flex-wrap">
-                  <h4 className="text-textMuted font-bold">
+                  <h4 className="text-textMuted text-lg sm:text-xl font-bold">
                     {review.fullName}
                   </h4>
                   <div className="flex items-center space-x-1">
                     {[...Array(5)].map((_, i) => (
                       <FaStar
                         key={i}
-                        size={14}
+                        size={16}
                         className={
                           i < review.stars ? "text-primary" : "text-zinc-600"
                         }
@@ -111,7 +111,7 @@ const MovieReviewList = ({
                     </button>
                   )}
                 </div>
-                <p className="text-gray-500 text-sm mt-1">
+                <p className="text-gray-500 text-[18px] mt-1">
                   {truncateText(review.reviewBody, isExpanded, 80)}
                   {review.reviewBody.length > 80 && (
                     <button
@@ -122,6 +122,29 @@ const MovieReviewList = ({
                     </button>
                   )}
                 </p>
+                {review.reviewType && (
+                  <div className="flex items-center gap-1 text-sm my-4">
+                    <span
+                      className={`flex text-[16px] items-center gap-1 px-2 py-0.5 rounded-full font-medium ${
+                        review.reviewType === "positive"
+                          ? "bg-green-600/10 text-green-400"
+                          : "bg-red-600/10 text-red-400"
+                      }`}
+                    >
+                      {review.reviewType === "positive" ? (
+                        <BiHappy className="text-green-400 text-sm" />
+                      ) : (
+                        <BiSad className="text-red-400 text-sm" />
+                      )}
+                      {review.reviewType.charAt(0).toUpperCase() +
+                        review.reviewType.slice(1)}
+                    </span>
+                    <span className="text-textMuted text-[16px]">
+                      ({((review?.reviewConfidence ?? 0) * 100).toFixed(1)}%
+                      confidence)
+                    </span>
+                  </div>
+                )}
                 <p className="text-gray-400 text-xs mt-1">
                   {FormatDate(review.reviewedOn)}
                 </p>
