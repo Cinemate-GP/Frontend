@@ -25,7 +25,6 @@ import { Movie } from "@/lib/types";
 import { HomeSliderSkeleton } from "../skeletons";
 import { IMAGEPOSTER } from "@/constants";
 import Image from "next/image";
-import { motion } from "framer-motion";
 
 const HomeSlider = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -46,9 +45,8 @@ const HomeSlider = () => {
           speed={1500}
           loop={true}
           className="hero-slider h-screen"
-        >
-          {loading && HomeSliderSkeleton()}
-          {movies?.map((slid, index) => {
+        >          {loading && HomeSliderSkeleton()}
+          {movies?.map((slid) => {
             return (
               <SwiperSlide key={slid.tmdbId}>
                 <div className="relative w-full h-screen overflow-hidden">
@@ -65,25 +63,16 @@ const HomeSlider = () => {
 
                   {/* Enhanced Gradient Overlay */}
                   <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30" />
-                  {/* Animated Content */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30" />                  {/* Animated Content */}
                   <div className="absolute inset-0 flex items-center pb-20">
                     <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
-                      <motion.div
-                        initial={{ opacity: 0, y: 100 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 1, delay: index * 0.2 }}
+                      <div
                         className="flex flex-col gap-6 w-full max-w-2xl text-center sm:text-left"
                         data-swiper-parallax="-200"
                       >
                         {/* Movie Logo/Title */}
                         {slid?.logoPath ? (
-                          <motion.div
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ duration: 0.8, delay: 0.3 }}
-                            className="w-full max-w-[350px] md:max-w-[450px] mx-auto sm:mx-0 mb-4"
-                          >
+                          <div className="w-full max-w-[350px] md:max-w-[450px] mx-auto sm:mx-0 mb-4">
                             <Image
                               width={450}
                               height={225}
@@ -92,24 +81,14 @@ const HomeSlider = () => {
                               className="w-full h-auto object-contain drop-shadow-2xl"
                               priority
                             />
-                          </motion.div>
+                          </div>
                         ) : (
-                          <motion.h1
-                            initial={{ opacity: 0, x: -50 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.8, delay: 0.3 }}
-                            className="text-4xl sm:text-6xl lg:text-7xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent drop-shadow-2xl"
-                          >
+                          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent drop-shadow-2xl">
                             {slid.title}
-                          </motion.h1>
+                          </h1>
                         )}
                         {/* Movie Info */}
-                        <motion.div
-                          initial={{ opacity: 0, y: 30 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.6, delay: 0.5 }}
-                          className="flex flex-wrap gap-4 justify-center sm:justify-start items-center"
-                        >
+                        <div className="flex flex-wrap gap-4 justify-center sm:justify-start items-center">
                           <span className="bg-primary/90 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-semibold capitalize border border-primary/20">
                             {slid.language}
                           </span>
@@ -122,14 +101,9 @@ const HomeSlider = () => {
                           <span className="text-white/90 bg-black/30 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10">
                             {slid.releaseDate}
                           </span>
-                        </motion.div>
+                        </div>
                         {/* Genres */}
-                        <motion.div
-                          initial={{ opacity: 0, y: 30 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.6, delay: 0.6 }}
-                          className="flex flex-wrap gap-2 justify-center sm:justify-start"
-                        >
+                        <div className="flex flex-wrap gap-2 justify-center sm:justify-start">
                           {slid.genresDetails?.slice(0, 4).map((genre) => (
                             <span
                               key={genre.id}
@@ -138,23 +112,13 @@ const HomeSlider = () => {
                               {genre.name}
                             </span>
                           ))}
-                        </motion.div>
+                        </div>
                         {/* Tagline */}
-                        <motion.p
-                          initial={{ opacity: 0, y: 30 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.6, delay: 0.7 }}
-                          className="text-lg sm:text-xl text-white/90 leading-relaxed drop-shadow-lg max-w-xl"
-                        >
+                        <p className="text-lg sm:text-xl text-white/90 leading-relaxed drop-shadow-lg max-w-xl">
                           {slid.tagline}
-                        </motion.p>{" "}
+                        </p>
                         {/* Action Buttons */}
-                        <motion.div
-                          initial={{ opacity: 0, y: 30 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.6, delay: 0.8 }}
-                          className="flex flex-wrap gap-4 justify-center sm:justify-start"
-                        >
+                        <div className="flex flex-wrap gap-4 justify-center sm:justify-start">
                           <button
                             onClick={() => {
                               setTrailer(slid.trailer);
@@ -173,8 +137,8 @@ const HomeSlider = () => {
                             <BsExclamationCircle size={20} />
                             More Info
                           </Link>
-                        </motion.div>{" "}
-                      </motion.div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
