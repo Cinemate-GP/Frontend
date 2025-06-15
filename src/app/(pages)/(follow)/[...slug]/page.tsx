@@ -184,116 +184,172 @@ function FollowTabs() {
       }));
     }
   };
-
   return (
-    <div className="min-h-screen bg-mainBg">
-      <div className="container mx-auto px-4 sm:px-6 md:px-8 pt-8 pb-20">
-        <div className="bg-secondaryBg rounded-lg p-6">
-          <SectionTitle
-            title={isOwnProfile ? "Your Connections" : "Connections"}
-          />
+    <div className="min-h-screen bg-background">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-6 sm:pt-8 pb-20">        {/* Main Card with Modern Design */}
+        <div className="bg-secondaryBg rounded-2xl shadow-modern-card backdrop-blur-card border-0 overflow-hidden">
+          {/* Header Section */}
+          <div className="p-6 sm:p-8 border-b border-b-border/10 bg-gradient-to-r from-secondaryBg to-secondaryBg/80">
+            <SectionTitle
+              title={isOwnProfile ? "Your Connections" : "Connections"}
+            />
 
-          {/* Tabs */}
-          <div className="flex gap-4 mb-8 mt-6">
-            {["followers", "following"].map((tab) => (
-              <button
-                key={tab}
-                onClick={() =>
-                  handleTabChange(tab as "followers" | "following")
-                }
-                className={`px-4 py-2 rounded-md border transition-all duration-200 ${
-                  activeTab === tab
-                    ? "bg-primary text-white border-primary"
-                    : "bg-secondaryBg text-foreground border-border hover:border-primary"
-                }`}
-              >
-                {tab.charAt(0).toUpperCase() + tab.slice(1)}
-              </button>
-            ))}
+            {/* Modern Tab Navigation */}
+            <div className="flex bg-background/20 rounded-xl p-1 mt-6 backdrop-blur-sm border-0">
+              {["followers", "following"].map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() =>
+                    handleTabChange(tab as "followers" | "following")
+                  }
+                  className={`flex-1 px-4 py-3 rounded-lg text-sm font-medium transition-all duration-300 transform hover:scale-[1.02] border-0 ${
+                    activeTab === tab
+                      ? "bg-primary text-white shadow-lg shadow-primary/25"
+                      : "text-textMuted hover:text-foreground hover:bg-hoverBg/30"
+                  }`}
+                >
+                  {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                </button>
+              ))}
+            </div>
           </div>
 
-          {/* Content */}
-          {loading && <FollowItemSkeleton />}
-          {!loading && errorMessage && (
-            <p className="text-textMuted text-sm mb-4">{errorMessage}</p>
-          )}
+          {/* Content Section */}
+          <div className="p-6 sm:p-8">
+            {/* Loading State */}
+            {loading && (
+              <div className="space-y-4">
+                <FollowItemSkeleton />
+              </div>
+            )}
 
-          {!loading && !errorMessage && data?.length === 0 && (
-            <p className="text-center text-textMuted py-8">
-              {isOwnProfile
-                ? `You have no ${activeTab} yet.`
-                : `This user has no ${activeTab} yet.`}
-            </p>
-          )}
-          {!loading && !errorMessage && data && (
-            <div className="flex flex-col gap-4 w-full">
-              {data.map((user) => {
-                const isCurrentlyFollowing =
-                  followedUsers[user.userId] !== undefined
-                    ? followedUsers[user.userId]
-                    : user.isFollow;
+            {/* Error State */}
+            {!loading && errorMessage && (
+              <div className="text-center py-12">
+                <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-red-500/10 flex items-center justify-center">
+                  <svg className="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <p className="text-textMuted text-sm">{errorMessage}</p>
+              </div>
+            )}
 
-                return (
-                  <div
-                    key={user.userId}
-                    className="flex justify-between items-center border-b border-border pb-4 last:border-b-0"
-                  >
-                    {" "}
-                    <Link
-                      href={`/${user.userId}`}
-                      className="flex items-center gap-4 py-2"
-                    >
-                      <Image
-                        src={user.profilePic || "/user-placeholder.jpg"}
-                        alt="user profile"
-                        width={100}
-                        height={100}
-                        className="w-16 h-16 rounded-full object-cover"
-                      />
-                      <div>
-                        <h2 className="text-lg">{user.fullName}</h2>
-                        {currentUserId === user.userId && (
-                          <span className="text-sm text-primary">You</span>
-                        )}
-                      </div>
-                    </Link>
-                    <div className="flex gap-2 ">
-                      {/* Show Follow/Unfollow button for users that are not the current user */}
-                      {currentUserId !== user.userId && (
-                        <button
-                          onClick={() => toggleFollow(user.userId)}
-                          disabled={loadingActions[`follow_${user.userId}`]}
-                          className="rounded-lg px-3 py-1 border border-primary text-sm ml-3 text-foreground hover:text-white transition-all duration-200 hover:bg-primary disabled:opacity-50 disabled:cursor-not-allowed"
+            {/* Empty State */}
+            {!loading && !errorMessage && data?.length === 0 && (
+              <div className="text-center py-16">
+                <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-primary/10 flex items-center justify-center">
+                  <svg className="w-10 h-10 text-primary/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                  </svg>
+                </div>
+                <h3 className="text-lg font-semibold text-foreground mb-2">
+                  No {activeTab} yet
+                </h3>
+                <p className="text-textMuted text-sm max-w-sm mx-auto">
+                  {isOwnProfile
+                    ? `You haven't ${activeTab === "followers" ? "gained any followers" : "followed anyone"} yet. Start connecting with others!`
+                    : `This user has no ${activeTab} to show.`}
+                </p>
+              </div>
+            )}
+
+            {/* Users List */}
+            {!loading && !errorMessage && data && data.length > 0 && (
+              <div className="space-y-3">
+                {data.map((user, index) => {
+                  const isCurrentlyFollowing =
+                    followedUsers[user.userId] !== undefined
+                      ? followedUsers[user.userId]
+                      : user.isFollow;
+
+                  return (                    <div
+                      key={user.userId}
+                      className="group bg-background/40 hover:bg-background/60 rounded-xl p-4 transition-all duration-300 hover:shadow-modern border-0 animate-fade-in-up"
+                      style={{ animationDelay: `${index * 0.05}s` }}
+                    ><div className="flex items-center justify-between space-x-3">
+                        {/* User Info */}
+                        <Link
+                          href={`/${user.userId}`}
+                          className="flex items-center space-x-3 flex-1 min-w-0 hover:opacity-90 transition-opacity"
                         >
-                          {loadingActions[`follow_${user.userId}`]
-                            ? "..."
-                            : isCurrentlyFollowing
-                            ? "Unfollow"
-                            : "Follow"}
-                        </button>
-                      )}
-                      {/* Show Remove button only on own profile's followers tab */}
-                      {isOwnProfile &&
-                        activeTab === "followers" &&
-                        currentUserId !== user.userId && (
-                          <button
-                            onClick={() =>
-                              removeFollower(user.userId, user.fullName)
-                            }
-                            disabled={loadingActions[`remove_${user.userId}`]}
-                            className="rounded-lg px-3 py-1 border border-red-500 text-sm text-red-500 hover:text-white transition-all duration-200 hover:bg-red-500 disabled:opacity-50 disabled:cursor-not-allowed"
-                          >
-                            {loadingActions[`remove_${user.userId}`]
-                              ? "..."
-                              : "Remove"}
-                          </button>
-                        )}
+                          <div className="relative flex-shrink-0">
+                            <Image
+                              src={user.profilePic || "/user-placeholder.jpg"}
+                              alt={`${user.fullName}'s profile`}
+                              width={48}
+                              height={48}
+                              className="w-10 h-10 sm:w-14 sm:h-14 rounded-full object-cover ring-2 ring-transparent group-hover:ring-primary/20 transition-all duration-300"
+                            />
+                            {currentUserId === user.userId && (
+                              <div className="absolute -top-1 -right-1 w-3 h-3 sm:w-4 sm:h-4 bg-primary rounded-full flex items-center justify-center">
+                                <svg className="w-2 h-2 sm:w-2.5 sm:h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                </svg>
+                              </div>
+                            )}
+                          </div>
+                          
+                          <div className="flex-1 min-w-0">
+                            <h3 className="text-sm sm:text-lg font-medium text-foreground group-hover:text-primary transition-colors leading-tight">
+                              {user.fullName}
+                            </h3>
+                            {currentUserId === user.userId && (
+                              <span className="text-xs sm:text-sm text-primary font-medium">
+                                You
+                              </span>
+                            )}
+                          </div>
+                        </Link>
+
+                        {/* Action Buttons */}
+                        <div className="flex items-center space-x-1 sm:space-x-2 flex-shrink-0">
+                          {/* Follow/Unfollow Button */}
+                          {currentUserId !== user.userId && (
+                            <button
+                              onClick={() => toggleFollow(user.userId)}
+                              disabled={loadingActions[`follow_${user.userId}`]}                              className={`px-2 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-medium transition-all duration-300 transform hover:scale-105 disabled:scale-100 disabled:opacity-50 disabled:cursor-not-allowed min-w-[60px] sm:min-w-[80px] border-0 ${
+                                isCurrentlyFollowing
+                                  ? "bg-background/50 text-textMuted hover:bg-red-500 hover:text-white"
+                                  : "bg-primary text-white hover:bg-primaryHover shadow-lg shadow-primary/25"
+                              }`}
+                            >
+                              {loadingActions[`follow_${user.userId}`] ? (
+                                <div className="w-3 h-3 sm:w-4 sm:h-4 border-2 border-current border-t-transparent rounded-full animate-spin mx-auto"></div>
+                              ) : (
+                                isCurrentlyFollowing ? "Unfollow" : "Follow"
+                              )}
+                            </button>
+                          )}
+
+                          {/* Remove Button (Own Profile Followers Only) */}
+                          {isOwnProfile &&
+                            activeTab === "followers" &&
+                            currentUserId !== user.userId && (
+                              <button
+                                onClick={() =>
+                                  removeFollower(user.userId, user.fullName)
+                                }
+                                disabled={loadingActions[`remove_${user.userId}`]}
+                                className="px-2 py-1.5 sm:px-3 sm:py-2 rounded-lg text-xs sm:text-sm font-medium bg-background/50 text-red-500 hover:bg-red-500 hover:text-white transition-all duration-300 transform hover:scale-105 disabled:scale-100 disabled:opacity-50 disabled:cursor-not-allowed border-0"
+                              >
+                                {loadingActions[`remove_${user.userId}`] ? (
+                                  <div className="w-3 h-3 sm:w-4 sm:h-4 border-2 border-current border-t-transparent rounded-full animate-spin"></div>
+                                ) : (
+                                  <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                  </svg>
+                                )}
+                              </button>
+                            )}
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
+                  );
+                })}
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

@@ -87,14 +87,103 @@ const ProfileHeader = ({ userId }: { userId: string }) => {
     } else {
       setFlag(!flag);
     }
-  };
-
-  if (loading) return <ProfileHeaderSkeleton />;
+  };  if (loading) return <ProfileHeaderSkeleton />;
   return (
     <>
-      <header className="backdrop-blur-sm bg-secondaryBg rounded-xl shadow-md p-6">
-        <div className="flex flex-col lg:flex-row gap-6 justify-between">
-          <div className="flex flex-row items-center gap-6">
+      <header className="backdrop-blur-sm bg-secondaryBg rounded-xl shadow-md p-4 sm:p-6">
+        {/* Mobile layout */}
+        <div className="flex flex-col space-y-4 lg:hidden">
+          {/* Top section: Profile image and basic info */}
+          <div className="flex items-start gap-4">
+            {/* Profile image */}
+            <div
+              onClick={() => setShowImageViewer(true)}
+              className="cursor-pointer transition-transform hover:scale-105 flex-shrink-0"
+            >
+              <Image
+                src={user?.profilePic || "/user-placeholder.jpg"}
+                alt="user profile"
+                width={80}
+                height={80}
+                className="w-20 h-20 rounded-full object-cover shadow-md border border-primary p-[1px]"
+                priority={true}
+              />
+            </div>
+
+            {/* Profile info and action button */}
+            <div className="flex-1 min-w-0">
+              {/* Name and username */}
+              <div className="mb-2">
+                <h2 className="text-lg font-bold text-foreground truncate">
+                  {user?.fullName || "User Name"}
+                </h2>
+                <p className="text-sm text-textMuted">{user?.userName}</p>
+              </div>
+
+              {/* Action button - positioned in mobile layout */}
+              <div>
+                {user?.sameUser ? (
+                  <button
+                    onClick={handleNavigateToSettings}
+                    className="bg-background hover:bg-hoverBg text-foreground px-3 py-1.5 rounded-md transition-all duration-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-zinc-600 flex items-center gap-2"
+                  >
+                    <FaRegEdit className="w-3 h-3" />
+                    Edit Profile
+                  </button>
+                ) : (
+                  <button
+                    disabled={followingLoading}
+                    onClick={toggleFollow}
+                    className={`rounded-lg px-3 py-1.5 border border-primary text-sm transition-all duration-200 ${
+                      follow ? "bg-primary text-white" : "text-foreground hover:bg-primary hover:text-white"
+                    }`}
+                  >
+                    {follow ? "Following" : "Follow"}
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Bio section */}
+          {user?.bio && (
+            <div className="px-1">
+              <p className="text-sm text-gray-400 leading-relaxed">{user.bio}</p>
+            </div>
+          )}
+
+          {/* Stats row - full width on mobile */}
+          <div className="flex justify-around pt-3 border-t border-border">
+            <button onClick={handleClickFilm} className="text-center group flex-1">
+              <span className="block text-lg font-bold text-foreground">
+                {user?.numberOfMovie}
+              </span>
+              <span className="text-xs text-gray-500 group-hover:text-foreground transition-colors">
+                Films
+              </span>
+            </button>
+            
+            <Link href={`/${userId}/followers`} className="text-center group flex-1">
+              <span className="block text-lg font-bold text-foreground">{followersCount}</span>
+              <span className="text-xs text-gray-500 group-hover:text-foreground transition-colors">
+                Followers
+              </span>
+            </Link>
+            
+            <Link href={`/${userId}/following`} className="text-center group flex-1">
+              <span className="block text-lg font-bold text-foreground">
+                {user?.followingCount}
+              </span>
+              <span className="text-xs text-gray-500 group-hover:text-foreground transition-colors">
+                Following
+              </span>
+            </Link>
+          </div>
+        </div>
+
+        {/* Desktop layout - original design */}
+        <div className="hidden lg:flex flex-col lg:flex-row gap-6 justify-between">
+          <div className="flex flex-col md:flex-row items-center gap-6">
             {/* Profile image - with click handler */}
             <div
               onClick={() => setShowImageViewer(true)}
