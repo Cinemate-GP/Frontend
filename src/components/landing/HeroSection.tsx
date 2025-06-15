@@ -1,5 +1,5 @@
-import { useRouter } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { FaPlay } from "react-icons/fa";
 import { getCookie } from "@/lib/utils";
@@ -46,7 +46,6 @@ function useInfiniteScroll(
 }
 
 const HeroSection = ({ trending }: HeroSectionProps) => {
-  const router = useRouter();
   const token = getCookie("token");
   const posterArt =
     trending?.slice(0, 10).map((m) => ({ src: IMAGEPOSTER + m.posterPath })) ||
@@ -105,42 +104,35 @@ const HeroSection = ({ trending }: HeroSectionProps) => {
             <p className="text-base sm:text-lg md:text-xl text-gray-300 leading-relaxed max-w-lg">
               Discover new movies, track your favorites, and connect with a
               community of movie enthusiasts.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 w-full sm:w-auto">
+            </p>            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 w-full sm:w-auto">
               {token ? (
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => router.push("/home")}
+                <Link
+                  href="/home"
                   className="bg-primary hover:bg-primary/90 text-white px-6 sm:px-8 lg:px-10 py-4 sm:py-5 rounded-xl 
                            flex items-center justify-center gap-3 font-medium text-base sm:text-lg transition-all duration-300
                            shadow-lg shadow-primary/20 w-full sm:w-auto min-w-[180px]"
                 >
                   <FaPlay className="text-sm sm:text-xl" />
                   Go to Dashboard
-                </motion.button>
+                </Link>
               ) : (
                 <>
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={() => router.push("/signup")}
+                  <Link
+                    href="/signup"
                     className="bg-primary hover:bg-primary/90 text-white px-6 sm:px-8 lg:px-10 py-4 sm:py-5 rounded-xl 
                              flex items-center justify-center gap-3 font-medium text-base sm:text-lg transition-all duration-300
                              shadow-lg shadow-primary/20 w-full sm:w-auto min-w-[140px]"
                   >
                     Get Started
-                  </motion.button>
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={() => router.push("/login")}
+                  </Link>
+                  <Link
+                    href="/login"
                     className="bg-white/10 hover:bg-white/20 text-white px-6 sm:px-8 lg:px-10 py-4 sm:py-5 rounded-xl 
                              flex items-center justify-center gap-3 font-medium text-base sm:text-lg backdrop-blur-sm 
                              transition-all duration-300 shadow-lg w-full sm:w-auto min-w-[120px]"
                   >
                     Sign In
-                  </motion.button>
+                  </Link>
                 </>
               )}
             </div>
