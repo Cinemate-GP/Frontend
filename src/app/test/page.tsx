@@ -10,6 +10,9 @@ import { useRouter } from "next/navigation";
 import withAuth from "@/hoc/withAuthContainer";
 import { MdOutlineMovie } from "react-icons/md";
 import { SlReload } from "react-icons/sl";
+import { authFetch } from "@/lib/api";
+import { useCookie } from "@/hooks/useCookie";
+import { getCookie, getUserId } from "@/lib/utils";
 
 
 
@@ -20,17 +23,34 @@ const MovieRating = () => {
   const [ratedCount, setRatedCount] = useState(0);
   const [seenCount, setSeenCount] = useState(0);
   const [ratedMovies, setRatedMovies] = useState<
-    { rating:number, movieId: number }[]
+    { rating: number, movieId: number }[]
   >([]);
   const router = useRouter();
 
-  const rateMovie = (rating:number, movieId: number, isSeen: boolean) => {
+  const rateMovie = async (rating: number, movieId: number, isSeen: boolean) => {
     if (isSeen) {
       setRatedMovies((prev) => [...prev, { rating, movieId }]);
       setRatedCount((prev) => prev + 1);
+      try {
+        const res = await authFetch("/api/UserRateMovie/Add", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${getCookie("token")}`,
+          },
+          body: JSON.stringify({
+            tmdbId: movieId,
+            userId: getUserId(),
+            stars: rating,
+          }),
+        });
+        if (!res.ok) throw new Error("Failed to add rating");
+      } catch (error) {
+        console.log(error);
+      }
     }
     setSeenCount((prev) => prev + 1);
-  
+
     if (ratedCount < 4 && currentIndex < movies.length - 1) {
       setCurrentIndex((prev) => prev + 1);
     }
@@ -118,7 +138,6 @@ const MovieRating = () => {
 
             <div className="relative w-full h-[420px] rounded-xl bg-background shadow-sm flex flex-col">
               <MovieCard
-                movies={movies}
                 setLoading={setLoading}
                 currentIndex={currentIndex}
               />

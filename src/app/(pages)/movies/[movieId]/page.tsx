@@ -68,7 +68,7 @@ const MovieDetails = () => {
         
         {/* Similar Movies */}
         <section className="mb-16 sm:mb-20">
-          <SimilarMovies />
+          {info?.tmdbId ? <SimilarMovies tmdbId={info.tmdbId}/> : null}
         </section>
       </div>
       
