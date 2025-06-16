@@ -1,8 +1,8 @@
 const ratings = [
-  { label: "Awful", rating: 0, color: "bg-[#869FB4]" },
-  { label: "Meh", rating: 1, color: "bg-[#99896D]" },
-  { label: "Good", rating: 2, color: "bg-[#F9A11B]" },
-  { label: "Amazing", rating: 3, color: "bg-[#F26522]" },
+  { label: "Terrible", rating: 0, emoji: "😤", color: "from-red-500 to-red-600" },
+  { label: "Meh", rating: 1, emoji: "😐", color: "from-orange-500 to-orange-600" },
+  { label: "Good", rating: 2, emoji: "😊", color: "from-yellow-500 to-yellow-600" },
+  { label: "Amazing", rating: 3, emoji: "🤩", color: "from-green-500 to-green-600" },
 ];
 
 interface RatingButtonsProps {
@@ -17,32 +17,48 @@ const RatingButtons: React.FC<RatingButtonsProps> = ({
   currentIndex,
 }: RatingButtonsProps) => {
   return (
-    <>
-      <div className="flex relative justify-center -mt-10">
-        {ratings.map(
-          (rating: { label: string; rating: number; color: string }, idx) => (
-            <button
-              key={rating.label}
-              className={`w-[60px] h-[60px] md:w-[70px] md:h-[70px] rounded-full text-white font-semibold flex items-center justify-center border-2 border-white text-xs md:text-sm ${
-                rating.color
-              } ${idx === 0 || idx === 3 ? "-mt-3" : ""}`}
-              onClick={() =>
-                rateMovie(rating.rating, movies[currentIndex].tmdbId, true)
-              }
-            >
-              {rating.label}
-            </button>
-          )
-        )}
+    <div className="space-y-4">
+      {/* Rating Title */}
+      <div className="text-center">
+        <h3 className="text-lg font-semibold text-foreground mb-2">
+          How would you rate this movie?
+        </h3>
       </div>
+
+      {/* Rating Buttons Grid */}
+      <div className="grid grid-cols-2 gap-3">
+        {ratings.map((rating) => (
+          <button
+            key={rating.rating}
+            className={`group relative overflow-hidden bg-gradient-to-br ${rating.color} text-white p-4 rounded-xl font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg active:scale-95`}
+            onClick={() =>
+              rateMovie(rating.rating, movies[currentIndex].tmdbId, true)
+            }
+          >
+            <div className="flex items-center justify-center gap-2">
+              <span className="text-2xl">{rating.emoji}</span>
+              <span className="text-sm font-semibold">{rating.label}</span>
+            </div>
+            
+            {/* Hover effect overlay */}
+            <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          </button>
+        ))}
+      </div>
+
       {/* Haven't Seen Button */}
-      <button
-        onClick={() => rateMovie(-1, movies[currentIndex].tmdbId, false)}
-        className="flex w-fit mx-auto justify-center relative top-5 px-6 py-2 bg-gray-800 rounded-md text-white"
-      >
-        <span>Haven&apos;t Seen</span>
-      </button>
-    </>
+      <div className="pt-2">
+        <button
+          onClick={() => rateMovie(-1, movies[currentIndex].tmdbId, false)}
+          className="w-full py-3 px-4 bg-secondaryBg hover:bg-border text-textMuted hover:text-foreground border border-border rounded-xl transition-all duration-300 hover:shadow-md"
+        >
+          <span className="flex items-center justify-center gap-2">
+            <span>👀</span>
+            <span className="font-medium">Haven&apos;t Seen This</span>
+          </span>
+        </button>
+      </div>
+    </div>
   );
 };
 

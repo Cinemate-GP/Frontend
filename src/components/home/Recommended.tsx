@@ -14,7 +14,7 @@ interface Movie {
 }
 
 const Recommended = () => {
-  const { data, loading } = useFetch<Movie[]>("/api/Movie/top-ten");
+  const { data, loading } = useFetch<Movie[]>("/api/Movie/recommender");
   
   return (
     <div className="space-y-6">

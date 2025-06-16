@@ -5,13 +5,15 @@ import MovieCard from "@/components/MovieCard";
 import SectionTitle from "@/components/SectionTitle";
 import { CardSkeleton } from "@/components/skeletons";
 import useFetch from "@/hooks/useFetch";
+import { IMAGEPOSTER } from "@/constants";
+
 
 interface Movie {
   id: number;
   tmdbId: number;
   imdbRating: string;
   title: string;
-  poster_path: string;
+  posterPath: string;
 }
 
 const UserRecommended = () => {
@@ -24,7 +26,7 @@ const UserRecommended = () => {
     redirect(`/${username}`);
   }
 
-  const { data, loading } = useFetch<Movie[]>("/api/Movie/top-ten");
+  const { data, loading } = useFetch<Movie[]>("/api/Movie/recommender");
   
   return (
     <div className="mt-5">
@@ -40,7 +42,7 @@ const UserRecommended = () => {
               imdbRating={movie.imdbRating}
               tmdbid={movie.tmdbId}
               title={movie.title}
-              image={`https://image.tmdb.org/t/p/original//${movie.poster_path}`}
+              image={`${IMAGEPOSTER}${movie.posterPath}`}
             />
           ))}
         </div>
