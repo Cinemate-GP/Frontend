@@ -23,6 +23,7 @@ interface SliderProps {
         title: string;
         posterPath: string;
         mpa?: string; // Add MPA rating field
+        score?: number; // Add score field
       }[]
     | null;
   sliderType: string;
@@ -115,6 +116,7 @@ export default function MovieSlider(props: SliderProps) {
                     cardType={isTop10 ? "top10" : "default"}
                     imdbRating={movie.imdbRating}
                     mpaRating={movie.mpa}
+                    score={movie.score}
                   />
                 </motion.div>
               </SwiperSlide>

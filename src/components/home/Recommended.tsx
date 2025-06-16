@@ -11,6 +11,7 @@ interface Movie {
   imdbRating: string;
   title: string;
   posterPath: string;
+  score: number;
 }
 
 const Recommended = () => {

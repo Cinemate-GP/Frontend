@@ -14,6 +14,7 @@ interface MovieCardProps {
   imdbRating?: string;
   mpaRating?: string;
   cardType?: "top10" | "default";
+  score?: number;
 }
 
 interface MovieImageProps {
@@ -28,6 +29,37 @@ interface MovieImageProps {
 interface RatingDisplayProps {
   rating: string;
 }
+
+interface ScoreBadgeProps {
+  score: number;
+}
+
+// Score badge component - displays percentage in top left corner
+const ScoreBadge = ({ score }: ScoreBadgeProps) => {
+  const percentage = Math.round((score / 5) * 100);
+  
+  return (
+    <motion.div
+      className="absolute top-3 left-3 z-20 flex items-center justify-center"
+      initial={{ scale: 0, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      transition={{ duration: 0.4, delay: 0.1 }}
+      whileHover={{ scale: 1.05 }}
+    >
+      <div className="relative">
+        {/* Main badge background */}
+        <div className="w-12 h-8 bg-green-500/90 backdrop-blur-sm rounded-lg border border-green-400/30 shadow-lg flex items-center justify-center">
+          <span className="text-white font-bold text-xs leading-none">
+            {percentage}%
+          </span>
+        </div>
+        
+        {/* Subtle glow effect */}
+        <div className="absolute inset-0 w-12 h-8 bg-green-400/20 rounded-lg blur-sm -z-10" />
+      </div>
+    </motion.div>
+  );
+};
 
 // Clean and simple animation variants
 const cardVariants = {
@@ -197,9 +229,10 @@ const DefaultCard = ({
   image,
   imdbRating,
   mpaRating,
+  score,
 }: Pick<
   MovieCardProps,
-  "tmdbid" | "title" | "image" | "imdbRating" | "mpaRating"
+  "tmdbid" | "title" | "image" | "imdbRating" | "mpaRating" | "score"
 >) => {
   const [imageLoaded, setImageLoaded] = useState(false);
 
@@ -226,13 +259,15 @@ const DefaultCard = ({
           </motion.div>
 
           {/* Gentle overlay - always visible, lighter */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-
-          {/* Black overlay on hover */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />          {/* Black overlay on hover */}
           <motion.div
             className="absolute inset-0 bg-black/40"
             variants={overlayVariants}
           />
+          
+          {/* Score badge - top left corner */}
+          {score !== undefined && <ScoreBadge score={score} />}
+          
           {/* Ratings - always visible */}
           <div className="absolute bottom-3 left-3 right-3 z-10 flex justify-between items-end">
             {imdbRating && <RatingDisplay rating={imdbRating} />}{" "}
@@ -271,6 +306,7 @@ const MovieCard = ({
   imdbRating,
   mpaRating,
   cardType = "default",
+  score,
 }: MovieCardProps) => {
   const isTop10 = cardType === "top10";
 
@@ -285,6 +321,7 @@ const MovieCard = ({
       image={image}
       imdbRating={imdbRating}
       mpaRating={mpaRating}
+      score={score}
     />
   );
 };

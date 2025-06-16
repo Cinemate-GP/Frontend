@@ -14,6 +14,7 @@ interface Movie {
   imdbRating: string;
   title: string;
   posterPath: string;
+  score: number;
 }
 
 const UserRecommended = () => {
@@ -35,14 +36,14 @@ const UserRecommended = () => {
         <CardSkeleton />
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 p-6 rounded-lg">
-          {data?.length === 0 && <p>There is no Recommend Movies Yet</p>}
-          {data?.map((movie) => (
+          {data?.length === 0 && <p>There is no Recommend Movies Yet</p>}          {data?.map((movie) => (
             <MovieCard
               key={movie.id}
               imdbRating={movie.imdbRating}
               tmdbid={movie.tmdbId}
               title={movie.title}
               image={`${IMAGEPOSTER}${movie.posterPath}`}
+              score={movie.score}
             />
           ))}
         </div>
