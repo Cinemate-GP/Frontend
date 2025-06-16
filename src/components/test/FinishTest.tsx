@@ -30,7 +30,7 @@ const FinishTest = ({
           </div>
           
           <Link
-            href={`/${user?.userName || 'profile'}`}
+            href={`/${user?.userName || '/home'}`}
             className="group w-full bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary text-white py-4 px-6 rounded-xl font-semibold text-lg transition-all duration-300 hover:scale-105 hover:shadow-modern-hover flex items-center justify-center gap-2"
           >
             <span>View My Recommendations</span>
