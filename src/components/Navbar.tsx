@@ -25,11 +25,11 @@ const Navbar = () => {
       <div className="container mx-auto px-4 sm:px-6 md:px-8">
   
         <div className="flex items-center justify-between w-full">
-          <div className="block md:hidden w-50 h-50 sm:w-[60px] sm:h-[60px] lg:w-[100px] lg:h-[100px]">
+          <div className="block md:hidden w-8 h-8 sm:w-10 sm:h-10">
             <Image
               src="/logo.png"
-              width={60}
-              height={60}
+              width={40}
+              height={40}
               alt="logo"
               className={`object-contain w-full h-full filter ${
                 themeMode === "light" ? "invert" : ""
