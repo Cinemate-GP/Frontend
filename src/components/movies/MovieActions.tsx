@@ -12,10 +12,10 @@ import { SignInModal } from "@/components/ui/Modals";
 
 interface MovieActionsProps {
   tmdbId: number;
-  isLiked: boolean;
-  isWatched: boolean;
-  isInWatchList: boolean;
-  stars: number;
+  isLiked?: boolean;
+  isWatched?: boolean;
+  isInWatchList?: boolean;
+  stars?: number;
   onReview: () => void;
 }
 
@@ -82,7 +82,7 @@ export const MovieActions = ({
       label: "Rate",
     },
   ];
-  const [rating, setRating] = useState<number | null>(stars);
+  const [rating, setRating] = useState<number | null>(stars ?? null);
 
   const handleRating = async (i: number) => {
     if (!token) { setShowSignIn(true); return; }
@@ -135,13 +135,13 @@ export const MovieActions = ({
         ))}
       </div>
       <div className="flex gap-2 justify-center mt-3">
-        {Array.from({ length: rating! }, (_, i) => (
+        {Array.from({ length: rating ?? 0 }, (_, i) => (
           <button key={i} onClick={() => handleRating(i + 1)}>
             <FaStar className="text-2xl text-primary" />
           </button>
         ))}
-        {Array.from({ length: 5 - rating! }, (_, i) => (
-          <button key={i} onClick={() => handleRating(rating! + i + 1)}>
+        {Array.from({ length: 5 - (rating ?? 0) }, (_, i) => (
+          <button key={i} onClick={() => handleRating((rating ?? 0) + i + 1)}>
             <FaRegStar className="text-2xl text-primary" />
           </button>
         ))}
