@@ -1,7 +1,7 @@
 import { Controller, useFormContext } from "react-hook-form";
 
 interface CustomSelectProps {
-  label: string;
+  label?: string;
   name: string;
   options: { id: number | string; label: string }[];
 }
@@ -19,13 +19,13 @@ const RHFSelectField: React.FC<CustomSelectProps> = ({
       control={control}
       render={({ field }) => (
         <div>
-          <label className="block mb-2 text-textMuted">{label}</label>
+          {label && <label className="block mb-2 text-textMuted">{label}</label>}
           <select
             {...field}
             {...other}
             className="bg-background rounded-lg text-foreground w-full text-sm p-4 outline-none border border-border"
           >
-            {label === "Job" && (
+            {name === "job" && (
               <option
                 className="p-3 cursor-pointer transition text-foreground hover:bg-primary hover:text-foreground"
                 value={""}

@@ -6,11 +6,11 @@ import { useState } from "react";
 
 interface RHFTextFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
     name: string;
-    label: string;
+    label?: string;
     type: string;
     color?: string;
   }
-  
+
 
 const RHFTextField = ({ name, label, type, ...other }: RHFTextFieldProps) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -20,17 +20,21 @@ const RHFTextField = ({ name, label, type, ...other }: RHFTextFieldProps) => {
       name={name}
       control={control}
       render={({ field, fieldState: { error } }) => (
-        <div className="flex flex-col w-full items-start justify-start relative">
-          <label className="text-gray-500" htmlFor="email">{label}</label>
-          <input
-            {...field}
-            type={type === "password" ? (showPassword ? "text" : "password") : type}
-            {...other}
-            className={`w-full bg-transparent text-foreground text-sm mt-3 p-4 outline-none border ${error ? "border-red-500" :  'border-border'} rounded-lg focus:border `}
-          />
-          {type === "password" && <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-14">
-            {showPassword ? <BsEyeSlash color="gray"/> : <BsEye color="gray" />}
-          </button>}
+        <div className="flex flex-col w-full items-start justify-start">
+          {label && <label className="text-gray-500 mb-1" htmlFor={name}>{label}</label>}
+          <div className="relative w-full">
+            <input
+              {...field}
+              type={type === "password" ? (showPassword ? "text" : "password") : type}
+              {...other}
+              className={`w-full bg-transparent text-foreground text-sm p-4 outline-none border ${error ? "border-red-500" : 'border-border'} rounded-lg focus:border`}
+            />
+            {type === "password" && (
+              <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2">
+                {showPassword ? <BsEyeSlash color="gray"/> : <BsEye color="gray" />}
+              </button>
+            )}
+          </div>
           {error && <p className="text-red-500 mt-1 text-sm">{error.message}</p>}
         </div>
       )}
@@ -39,4 +43,3 @@ const RHFTextField = ({ name, label, type, ...other }: RHFTextFieldProps) => {
 };
 
 export default RHFTextField;
-
