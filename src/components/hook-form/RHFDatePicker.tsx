@@ -4,7 +4,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
 
 interface RHFDatePickerProps {
-  label: string;
+  label?: string;
   name: string;
   control: Control<any>;
 }
@@ -14,7 +14,7 @@ const RHFDatePicker: React.FC<RHFDatePickerProps> = ({ label, name }) => {
 
   return (
     <div>
-      <label className="block mb-2 text-textMuted">{label}</label>
+      {label && <label className="block mb-2 text-textMuted">{label}</label>}
       <Controller
         name={name}
         control={control}
@@ -24,9 +24,9 @@ const RHFDatePicker: React.FC<RHFDatePickerProps> = ({ label, name }) => {
             <DatePicker
               {...field}
               isClearable
-              placeholderText="Select a date"
+              placeholderText="Date of birth"
               selected={field.value ? new Date(field.value) : null}
-              onChange={(date) => field.onChange(date || null)} // ✅ very important
+              onChange={(date) => field.onChange(date || null)}
               className="bg-background rounded-lg text-foreground w-full text-sm p-4 outline-none border border-border"
               showYearDropdown
               scrollableYearDropdown

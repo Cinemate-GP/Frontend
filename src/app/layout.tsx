@@ -13,6 +13,9 @@ const geistSans = Geist({
 export const metadata: Metadata = {
   title: "Cinemate",
   description: "Movie Recommendation system",
+  icons: {
+    icon: "/logo.png",
+  },
 };
 
 export default function RootLayout({
