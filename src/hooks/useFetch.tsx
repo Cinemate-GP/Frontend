@@ -11,13 +11,7 @@ const useFetch = <T,>(url: string) => {
       setLoading(true);
       setError(null);
       try {
-        const response = await authFetch(url,{
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${document.cookie.split("=")[1]}`,
-          },
-        });
+        const response = await authFetch(url, { method: "GET" });
         if (!response.ok) throw new Error("Failed to fetch data");
 
         const json = await response.json();

@@ -1,5 +1,7 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { getCookie } from "@/lib/utils";
 import AccountSettings from "@/components/settings/AccountSettings";
 import AppearanceSettings from "@/components/settings/Appearance";
 import DeleteAccount from "@/components/settings/DeleteAccount";
@@ -15,7 +17,12 @@ import {
 import { MdOutlineColorLens } from "react-icons/md";
 
 export default function Settings() {
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState("profile");
+
+  useEffect(() => {
+    if (!getCookie("token")) router.replace("/login");
+  }, [router]);
 
   const tabs = [
     { id: "profile", label: "Profile", icon: <FaUserCircle size={18} /> },

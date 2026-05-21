@@ -228,6 +228,21 @@ const SignupForm = () => {
               Sign in
             </Link>
           </motion.p>
+
+          <motion.div variants={fadeInUp} custom={7} className="pt-2">
+            <div className="relative flex items-center my-3">
+              <div className="flex-grow border-t border-border" />
+              <span className="mx-3 text-xs text-gray-500 uppercase tracking-wider">or</span>
+              <div className="flex-grow border-t border-border" />
+            </div>
+            <Link
+              href="/home"
+              className="w-full inline-flex items-center justify-center px-6 py-2.5 rounded-lg border border-border
+                text-textMuted hover:text-foreground hover:bg-hoverBg font-medium transition-colors text-sm"
+            >
+              Continue as guest
+            </Link>
+          </motion.div>
         </div>
       </motion.div>
     </FormProvider>

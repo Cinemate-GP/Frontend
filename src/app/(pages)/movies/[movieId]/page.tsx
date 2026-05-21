@@ -7,9 +7,10 @@ import SimilarMovies from "@/components/movies/SimilarMovies";
 import "react-toastify/dist/ReactToastify.css";
 import MovieInfo from "@/components/movies/MovieInfo";
 import { ToastContainer } from "react-toastify";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import useFetch from "@/hooks/useFetch";
 import { Movie } from "@/lib/types";
+import { getCookie } from "@/lib/utils";
 interface MovieDetails extends Movie {
   isLiked: boolean;
   isWatched: boolean;
@@ -19,8 +20,24 @@ interface MovieDetails extends Movie {
 
 const MovieDetails = () => {
   const pathname = usePathname();
+  const router = useRouter();
   const tmdbid = pathname.split("/")[2];
-  const { data,loading } = useFetch<MovieDetails>(`/api/Movie/` + tmdbid);
+  const { data, loading, error } = useFetch<MovieDetails>(`/api/Movie/` + tmdbid);
+
+  if (!loading && error && !getCookie("token")) {
+    return (
+      <div className="min-h-screen bg-mainBg flex flex-col items-center justify-center gap-6 px-4">
+        <div className="text-center max-w-md">
+          <h2 className="text-2xl font-bold text-foreground mb-2">Sign in to view movie details</h2>
+          <p className="text-textMuted mb-6">Create an account or sign in to explore full movie details, ratings, and more.</p>
+          <div className="flex gap-3 justify-center">
+            <button onClick={() => router.push("/login")} className="px-6 py-2.5 bg-primary hover:bg-primary/90 text-white rounded-lg font-medium transition-colors">Sign In</button>
+            <button onClick={() => router.push("/signup")} className="px-6 py-2.5 border border-border hover:bg-hoverBg text-foreground rounded-lg font-medium transition-colors">Sign Up</button>
+          </div>
+        </div>
+      </div>
+    );
+  }
   const info = {
     tmdbId: data?.tmdbId,
     title: data?.title,

@@ -3,6 +3,54 @@
 import { useDebounce } from "@/hooks/useDebounce";
 import React from "react";
 import { CiSearch } from "react-icons/ci";
+import { useRouter } from "next/navigation";
+
+interface SignInModalProps {
+  onClose: () => void;
+  message?: string;
+}
+
+export const SignInModal = ({ onClose, message = "Sign in to save your activity" }: SignInModalProps) => {
+  const router = useRouter();
+  return (
+    <div
+      onClick={onClose}
+      className="fixed inset-0 bg-black/70 z-50 flex justify-center items-center animate-fadeIn"
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="w-full max-w-sm bg-secondaryBg rounded-2xl shadow-2xl border border-border p-8 flex flex-col items-center gap-5"
+      >
+        <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center">
+          <svg className="w-7 h-7 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+          </svg>
+        </div>
+        <div className="text-center">
+          <h2 className="text-lg font-semibold text-foreground mb-1">Sign in required</h2>
+          <p className="text-sm text-textMuted">{message}</p>
+        </div>
+        <div className="flex gap-3 w-full">
+          <button
+            onClick={() => router.push("/login")}
+            className="flex-1 py-2.5 bg-primary hover:bg-primary/90 text-white rounded-lg font-medium transition-colors"
+          >
+            Sign In
+          </button>
+          <button
+            onClick={() => router.push("/signup")}
+            className="flex-1 py-2.5 border border-border hover:bg-hoverBg text-foreground rounded-lg font-medium transition-colors"
+          >
+            Sign Up
+          </button>
+        </div>
+        <button onClick={onClose} className="text-sm text-textMuted hover:text-foreground transition-colors">
+          Continue browsing
+        </button>
+      </div>
+    </div>
+  );
+};
 import { MovieGridSkeleton } from "../skeletons";
 
 interface NavbarSearchModalProps {
