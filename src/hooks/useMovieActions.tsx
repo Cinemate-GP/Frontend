@@ -14,31 +14,20 @@ interface MovieInfoProps {
 }
 
 export const useMovieInfo = (info: MovieInfoProps) => {
-  // states
   const [liked, setLiked] = useState<boolean | null>(info.isLiked ?? null);
-  const [watched, setWatched] = useState<boolean | null>(
-    info.isWatched ?? null
-  );
-  const [watchlist, setWatchlist] = useState<boolean | null>(
-    info.isInWatchList ?? null
-  );
+  const [watched, setWatched] = useState<boolean | null>(info.isWatched ?? null);
+  const [watchlist, setWatchlist] = useState<boolean | null>(info.isInWatchList ?? null);
+  const [showSignIn, setShowSignIn] = useState(false);
 
-  // Get token from cookie hook
   const token = useCookie();
   const userId = getUserId();
 
-  // Post data
   const postedData = {
     tmdbId: info.tmdbId,
     userId: userId,
   };
 
-  // Handle adding or deleting action
-  const addAction = async (
-    type: boolean | null,
-    addUrl: string,
-    deleteUrl: string
-  ) => {
+  const addAction = async (type: boolean | null, addUrl: string, deleteUrl: string) => {
     if (!token || !postedData.tmdbId || !postedData.userId || type === null) {
       console.warn("Request canceled: Missing token or data");
       return;
@@ -58,56 +47,43 @@ export const useMovieInfo = (info: MovieInfoProps) => {
       });
 
       if (!res.ok) {
-        throw new Error(
-          `Failed to ${method === "POST" ? "add" : "remove"} movie`
-        );
+        throw new Error(`Failed to ${method === "POST" ? "add" : "remove"} movie`);
       }
     } catch (error) {
       console.error(error);
     }
   };
 
-  // Toggle like
   const toggleLike = useCallback(() => {
+    if (!token) { setShowSignIn(true); return; }
     setLiked((prev) => (prev !== null ? !prev : true));
-  }, []);
+  }, [token]);
 
-  // Toggle watched
   const toggleWatched = useCallback(() => {
+    if (!token) { setShowSignIn(true); return; }
     setWatched((prev) => (prev !== null ? !prev : true));
-  }, []);
+  }, [token]);
 
-  // Toggle watchlist
   const toggleWatchlist = useCallback(() => {
+    if (!token) { setShowSignIn(true); return; }
     setWatchlist((prev) => (prev !== null ? !prev : true));
-  }, []);
+  }, [token]);
 
-  // Liked effect
   useEffect(() => {
     if (liked !== null) {
       addAction(liked, "/api/UserLikeMovie/Add", "/api/UserLikeMovie/Delete");
     }
   }, [liked]);
 
-  // Watchlist effect
   useEffect(() => {
     if (watchlist !== null) {
-      addAction(
-        watchlist,
-        "/api/UserWatchlistMovie/Add",
-        "/api/UserWatchlistMovie/Delete"
-      );
+      addAction(watchlist, "/api/UserWatchlistMovie/Add", "/api/UserWatchlistMovie/Delete");
     }
   }, [watchlist]);
 
-  // Watched effect
   useEffect(() => {
     if (watched !== null) {
-      addAction(
-        watched,
-        "/api/UserWatchedMovie/Add",
-        "/api/UserWatchedMovie/Delete"
-      );
+      addAction(watched, "/api/UserWatchedMovie/Add", "/api/UserWatchedMovie/Delete");
     }
   }, [watched]);
 
@@ -118,5 +94,7 @@ export const useMovieInfo = (info: MovieInfoProps) => {
     toggleWatched,
     toggleLike,
     toggleWatchlist,
+    showSignIn,
+    setShowSignIn,
   };
 };

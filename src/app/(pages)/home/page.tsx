@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import Link from "next/link";
 import Geners from "@/components/home/Geners";
 import HomeSlider from "@/components/home/HomeSlider";
 import Recommended from "@/components/home/Recommended";
@@ -7,11 +9,18 @@ import Top10 from "@/components/home/Top10";
 import TopRated from "@/components/home/TopRated";
 import ScrollToTopButton from "@/components/ui/ScrollToTopButton";
 import { ToastContainer } from "react-toastify";
+import { getCookie } from "@/lib/utils";
 import "react-toastify/dist/ReactToastify.css";
 import "swiper/css";
 import "swiper/css/effect-fade";
 
 export default function Home() {
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    setIsAuthenticated(!!getCookie("token"));
+  }, []);
+
   return (
     <div className="overflow-hidden relative">
       {/* Simple background */}
@@ -44,6 +53,27 @@ export default function Home() {
               <p className="text-textMuted text-lg max-w-2xl mx-auto">
                 Explore thousands of movies and find your next favorite
               </p>
+              {isAuthenticated === false && (
+                <div className="mt-6 inline-flex flex-col sm:flex-row gap-3 items-center bg-secondaryBg/60 backdrop-blur-sm border border-border rounded-xl px-5 py-4">
+                  <span className="text-sm text-textMuted">
+                    Sign up to save movies, rate, and get personalized recommendations.
+                  </span>
+                  <div className="flex gap-2">
+                    <Link
+                      href="/signup"
+                      className="px-4 py-1.5 bg-primary hover:bg-primary/90 text-white text-sm rounded-lg font-medium transition-colors"
+                    >
+                      Sign Up
+                    </Link>
+                    <Link
+                      href="/login"
+                      className="px-4 py-1.5 border border-border hover:bg-hoverBg text-foreground text-sm rounded-lg font-medium transition-colors"
+                    >
+                      Sign In
+                    </Link>
+                  </div>
+                </div>
+              )}
             </div>            {/* Top 10 Section */}
             <section>
               <Top10 />

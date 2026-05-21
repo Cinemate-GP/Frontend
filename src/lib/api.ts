@@ -10,10 +10,14 @@ export async function authFetch(
   let token = getCookie("token");
   const refreshToken = getCookie("refreshToken");
 
-  const makeHeaders = (token?: string) => {
+  const makeHeaders = (token?: string | null) => {
     const headers = new Headers(options.headers || {});
 
-    if (token) headers.set("Authorization", `Bearer ${token}`);
+    if (token) {
+      headers.set("Authorization", `Bearer ${token}`);
+    } else {
+      headers.delete("Authorization");
+    }
 
     // Set Content-Type only if body is not FormData
     const isFormData = options.body instanceof FormData;

@@ -108,7 +108,7 @@ const HeroSection = ({ trending }: HeroSectionProps) => {
               {token ? (
                 <Link
                   href="/home"
-                  className="bg-primary hover:bg-primary/90 text-white px-6 sm:px-8 lg:px-10 py-4 sm:py-5 rounded-xl 
+                  className="bg-primary hover:bg-primary/90 text-white px-6 sm:px-8 lg:px-10 py-4 sm:py-5 rounded-xl
                            flex items-center justify-center gap-3 font-medium text-base sm:text-lg transition-all duration-300
                            shadow-lg shadow-primary/20 w-full sm:w-auto min-w-[180px]"
                 >
@@ -118,24 +118,33 @@ const HeroSection = ({ trending }: HeroSectionProps) => {
               ) : (
                 <>
                   <Link
-                    href="/signup"
-                    className="bg-primary hover:bg-primary/90 text-white px-6 sm:px-8 lg:px-10 py-4 sm:py-5 rounded-xl 
+                    href="/home"
+                    className="bg-primary hover:bg-primary/90 text-white px-6 sm:px-8 lg:px-10 py-4 sm:py-5 rounded-xl
                              flex items-center justify-center gap-3 font-medium text-base sm:text-lg transition-all duration-300
-                             shadow-lg shadow-primary/20 w-full sm:w-auto min-w-[140px]"
+                             shadow-lg shadow-primary/20 w-full sm:w-auto min-w-[180px]"
                   >
-                    Get Started
+                    <FaPlay className="text-sm sm:text-xl" />
+                    Browse Movies
                   </Link>
                   <Link
-                    href="/login"
-                    className="bg-white/10 hover:bg-white/20 text-white px-6 sm:px-8 lg:px-10 py-4 sm:py-5 rounded-xl 
-                             flex items-center justify-center gap-3 font-medium text-base sm:text-lg backdrop-blur-sm 
+                    href="/signup"
+                    className="bg-white/10 hover:bg-white/20 text-white px-6 sm:px-8 lg:px-10 py-4 sm:py-5 rounded-xl
+                             flex items-center justify-center gap-3 font-medium text-base sm:text-lg backdrop-blur-sm
                              transition-all duration-300 shadow-lg w-full sm:w-auto min-w-[120px]"
                   >
-                    Sign In
+                    Sign Up
                   </Link>
                 </>
               )}
             </div>
+            {!token && (
+              <p className="text-sm text-gray-400 mt-2">
+                Already have an account?{" "}
+                <Link href="/login" className="text-primary hover:underline">
+                  Sign in
+                </Link>
+              </p>
+            )}
           </motion.div>
 
           {/* Mobile: Horizontal sliding row */}

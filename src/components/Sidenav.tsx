@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import React from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { modernIcons } from "@/constants";
 import HorizontalNav from "./HorizontalNav";
 import Image from "next/image";
@@ -11,16 +11,22 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleSidenave } from "@/redux/slices/sidebarSlice";
 import { IoIosArrowBack } from "react-icons/io";
 import { motion, AnimatePresence } from "framer-motion";
-import { logout } from "@/lib/utils";
+import { logout, getCookie } from "@/lib/utils";
 import { RootState } from "@/redux/store";
 import { useUser } from "@/context/UserContext";
 
 export default function Sidenav() {
   const pathname = usePathname();
+  const router = useRouter();
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const { themeMode } = useSelector((state: RootState) => state.theme);
   const { user } = useUser();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    setIsAuthenticated(!!getCookie("token"));
+  }, []);
 
   const toggleSidebar = () => {
     setIsCollapsed(!isCollapsed);
@@ -28,9 +34,7 @@ export default function Sidenav() {
   };
 
   const handleLogout = useCallback(() => {
-    // Use centralized logout function that handles both token and refreshToken
     logout("/");
-    // Router will be handled by the logout function
   }, []);
 
   // Dynamic navigation categories
@@ -264,27 +268,26 @@ export default function Sidenav() {
           </ul>
         </nav>
 
-        {/* User Profile and Logout Section */}
+        {/* User Profile and Logout / Sign In Section */}
         <div className="mt-auto border-t border-border p-3">
           <motion.button
-            onClick={handleLogout}
+            onClick={isAuthenticated ? handleLogout : () => router.push("/login")}
             className={`relative group w-full rounded-lg transition-all duration-200
               ${
                 isCollapsed
                   ? "p-2 flex justify-center"
                   : "p-3 flex items-center"
-              } 
+              }
               text-gray-500 hover:bg-secondaryBg hover:text-textMuted`}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            aria-label="Sign out"
+            aria-label={isAuthenticated ? "Sign out" : "Sign in"}
           >
             <div
               className={`flex items-center ${
                 isCollapsed ? "justify-center" : "w-full"
               }`}
             >
-              {/* Logout icon */}
               <span className="flex-shrink-0">
                 {React.createElement(modernIcons.Logout, {
                   className: "w-[20px] h-[20px]",
@@ -293,7 +296,6 @@ export default function Sidenav() {
               </span>
 
               <AnimatePresence>
-                {/* Logout text - only visible when expanded */}
                 {!isCollapsed && (
                   <motion.span
                     className="ml-3 text-sm font-medium"
@@ -302,12 +304,11 @@ export default function Sidenav() {
                     exit={{ opacity: 0, x: -10 }}
                     transition={{ duration: 0.2 }}
                   >
-                    Sign out
+                    {isAuthenticated ? "Sign out" : "Sign in"}
                   </motion.span>
                 )}
               </AnimatePresence>
 
-              {/* Tooltip for collapsed state */}
               {isCollapsed && (
                 <div
                   className="absolute left-full ml-2 px-2.5 py-1.5 bg-[#1a1a1a] text-gray-200
@@ -315,7 +316,7 @@ export default function Sidenav() {
                   group-hover:translate-x-0 pointer-events-none group-hover:pointer-events-auto
                   border border-[#333333] transition-all duration-200 whitespace-nowrap z-50 shadow-lg"
                 >
-                  Sign out
+                  {isAuthenticated ? "Sign out" : "Sign in"}
                 </div>
               )}
             </div>

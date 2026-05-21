@@ -1,23 +1,21 @@
 'use client'
 import { authFetch } from "@/lib/api";
 import { useState, useEffect } from "react";
-const useFetch = <T,>(url: string) => {
+const useFetch = <T,>(url: string | null) => {
   const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!url) {
+      setLoading(false);
+      return;
+    }
     const fetchData = async () => {
       setLoading(true);
       setError(null);
       try {
-        const response = await authFetch(url,{
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${document.cookie.split("=")[1]}`,
-          },
-        });
+        const response = await authFetch(url, { method: "GET" });
         if (!response.ok) throw new Error("Failed to fetch data");
 
         const json = await response.json();

@@ -8,13 +8,14 @@ import { MdOutlineRateReview } from "react-icons/md";
 import { BsFillEyeFill } from "react-icons/bs";
 import { BsBookmarkPlus } from "react-icons/bs";
 import { BsBookmarkCheckFill } from "react-icons/bs";
+import { SignInModal } from "@/components/ui/Modals";
 
 interface MovieActionsProps {
   tmdbId: number;
-  isLiked: boolean;
-  isWatched: boolean;
-  isInWatchList: boolean;
-  stars: number;
+  isLiked?: boolean;
+  isWatched?: boolean;
+  isInWatchList?: boolean;
+  stars?: number;
   onReview: () => void;
 }
 
@@ -33,8 +34,16 @@ export const MovieActions = ({
     toggleLike,
     toggleWatched,
     toggleWatchlist,
+    showSignIn,
+    setShowSignIn,
   } = useMovieInfo({ tmdbId, isLiked, isWatched, isInWatchList });
   const token = getCookie('token');
+
+  const handleReview = () => {
+    if (!token) { setShowSignIn(true); return; }
+    onReview();
+  };
+
   const buttons = [
     {
       icon: liked ? (
@@ -69,13 +78,14 @@ export const MovieActions = ({
           <MdOutlineRateReview className="group-hover:text-primary transition-all duration-200 animate-heart" />
         </>
       ),
-      onClick: onReview,
+      onClick: handleReview,
       label: "Rate",
     },
   ];
-  const [rating, setRating] = useState<number | null>(stars);
+  const [rating, setRating] = useState<number | null>(stars ?? null);
 
   const handleRating = async (i: number) => {
+    if (!token) { setShowSignIn(true); return; }
     try {
       const res = await authFetch("/api/UserRateMovie/Add", {
         method: "POST",
@@ -98,6 +108,7 @@ export const MovieActions = ({
 
   return (
     <>
+      {showSignIn && <SignInModal onClose={() => setShowSignIn(false)} />}
       <div className="flex items-center gap-6 mt-4 text-white">
         {buttons.map((btn, index) => (
           <div
@@ -124,13 +135,13 @@ export const MovieActions = ({
         ))}
       </div>
       <div className="flex gap-2 justify-center mt-3">
-        {Array.from({ length: rating! }, (_, i) => (
+        {Array.from({ length: rating ?? 0 }, (_, i) => (
           <button key={i} onClick={() => handleRating(i + 1)}>
             <FaStar className="text-2xl text-primary" />
           </button>
         ))}
-        {Array.from({ length: 5 - rating! }, (_, i) => (
-          <button key={i} onClick={() => handleRating(rating! + i + 1)}>
+        {Array.from({ length: 5 - (rating ?? 0) }, (_, i) => (
+          <button key={i} onClick={() => handleRating((rating ?? 0) + i + 1)}>
             <FaRegStar className="text-2xl text-primary" />
           </button>
         ))}
