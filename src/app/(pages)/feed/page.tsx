@@ -1,5 +1,7 @@
 "use client";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { getCookie } from "@/lib/utils";
 import FeedCard from "@/components/feed/FeedCard";
 import { FeedHeader, EmptyFeedState, FeedStats } from "@/components/feed";
 import { FeedCardSkelton } from "@/components/skeletons";
@@ -19,8 +21,13 @@ interface Feed {
 }
 
 const FeedPage = () => {
+  const router = useRouter();
   const { data: feeds, loading } = useFetch<Feed[] | null>("/api/Profile/feed");
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (!getCookie("token")) router.replace("/login");
+  }, [router]);
   const filteredFeeds = useMemo(() => {
     if (!feeds || activeFilters.length === 0) return feeds;
     return feeds.filter((feed) =>
